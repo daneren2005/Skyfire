@@ -22,8 +22,11 @@
 #include "Input.h"
 #include "FrameRate.h"
 
+#include "Thread.h"
+
 class Window
 {
+	friend class Thread;
 public:
 	// Create a window with default width/height
 	Window();
@@ -43,8 +46,8 @@ public:
 
 	// Set the scene to render
 	void setScene(Scene* newScene);
-	// Set the input mapping object
-	void setInput(Input* input);
+
+	Input* getInput();
 private:
 	// Threads continue running while this is false
 	bool terminate;
@@ -60,14 +63,16 @@ private:
 		int videoFlags;
 		SDL_Surface* surface;
 	#endif
-	void initWin();
+
+	static void* initWin(void* arg);
 	void initOpenGL();
 
 	// Render scene, thread, and function
+	pthread_mutex_t glLock;
 	FrameRate frameRate;
 	Scene* renderScene;
-	pthread_t renderThread;
-	static void* renderLoop(void* arg);
+	Thread renderThread;
+	static void* renderFunction(void* arg);
 
 	// Events thread, loop function, and processing function
 	Input* input;
@@ -84,6 +89,7 @@ private:
 		void keyDown(SDL_keysym* keysym);
 		void keyUp(SDL_keysym* keysym);
 	#endif
+	Thread eventThread;
 
 	void resetScreen();
 

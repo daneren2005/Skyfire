@@ -22,6 +22,17 @@ Window::Window()
 	this->resolutionWidth = this->screenWidth;
 	this->resolutionHeight = this->screenHeight;
 	this->resolutionDistance = 100.0f;
+
+	#ifdef WIN32
+		programHandle = NULL;
+		winHandle = NULL;
+		device = NULL;
+		render = NULL;
+	#endif
+
+	pthread_mutex_init(&this->glLock, NULL);
+
+	this->input = new Input();
 }
 
 Window::Window(int width, int height)
@@ -37,74 +48,250 @@ Window::Window(int width, int height)
 	this->resolutionWidth = this->screenWidth;
 	this->resolutionHeight = this->screenHeight;
 	this->resolutionDistance = 100.0f;
+
+	#ifdef WIN32
+		programHandle = NULL;
+		winHandle = NULL;
+		device = NULL;
+		render = NULL;
+	#endif
+
+	pthread_mutex_init(&this->glLock, NULL);
+
+	this->input = new Input();
 }
 
 Window::~Window()
 {
+	pthread_mutex_destroy(&this->glLock);
 	this->quit();
 }
 
-void* Window::renderLoop(void* arg)
+void Window::start(HINSTANCE program)
 {
-	Window* win = (Window*)arg;
-	win->initWin();
-	win->initOpenGL();
+	#ifdef WIN32
+		this->programHandle = program;
+		_defaultCallback = this;
+	#endif
+
+	// Setup render loop
+	eventThread.start(initWin, this);
+	this->initOpenGL();
+
+	// Make sure to wait for window to initialize before start rendering
+	#ifdef WIN32
+		while(this->winHandle == 0) {}
+	#endif
+
+	renderThread.start(renderFunction, NULL, this);
+}
+
+void Window::wait()
+{
+	renderThread.waitFor();
+}
+
+void Window::quit()
+{
+	this->terminate = true;
 
 	#ifdef WIN32
+		wglMakeCurrent(this->device, NULL);
+		wglDeleteContext(this->render);
+	#endif
+	#ifdef __linux__
+		delete this->surface;
+		SDL_Quit();
+	#endif
+}
+
+void* Window::initWin(void* arg)
+{
+	Thread* thread = (Thread*)arg;
+	Window* win = (Window*)thread->arg;
+
+	#ifdef WIN32
+		// The window structure instance
+		WNDCLASSEX winStruct;
+
+		// Size of structure
+		winStruct.cbSize        = sizeof(WNDCLASSEX);
+		// Window Style
+		winStruct.style         = CS_OWNDC;
+		// Windows Callback procedure
+		winStruct.lpfnWndProc   = Window::WndProc;
+		// Extra memory allocation for this class
+		winStruct.cbClsExtra    = 0;
+		// Extra memory allocation per window
+		winStruct.cbWndExtra    = 0;
+		// Handle for window instance
+		winStruct.hInstance     = win->programHandle;
+		// Icon displayed for alt + tab
+		winStruct.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
+		// Mouse cursor
+		winStruct.hCursor       = LoadCursor(NULL, IDC_ARROW);
+		// Color of background
+		winStruct.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
+		// Name of menu resource
+		winStruct.lpszMenuName  = NULL;
+		// Name to identify structure instance by
+		winStruct.lpszClassName =	TEXT("test");
+		// Icon displayed top left cornor of window and taskbar
+		winStruct.hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
+
+		// Register the window instance
+		if(!RegisterClassEx(&winStruct))
+		{
+			MessageBox(0, TEXT("Error Registering Class!"), TEXT("Error!"), MB_ICONSTOP | MB_OK);
+			exit(0);
+		}
+
+		// Create the actual window and pass paramaters in
+		win->winHandle = CreateWindowEx(WS_EX_STATICEDGE, TEXT("test"), TEXT("Test Form"), 
+			WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT, win->screenWidth, win->screenHeight, NULL, NULL, win->programHandle, NULL);
+		if(win->winHandle == NULL)
+		{
+			MessageBox(0, TEXT("Error Creating Window!"), TEXT("Error!"), MB_ICONSTOP | MB_OK);
+			exit(0);
+		}
+
+		/// Enable opengl rendering
+		// Get Device Context for window
+		win->device = GetDC(win->winHandle);
+		if(win->device == NULL)
+		{
+			MessageBox(NULL, TEXT("ERROR: Could not create device context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
+			exit(0);
+		}
+
+		// Set Pixel Format
+		PIXELFORMATDESCRIPTOR pixelFormat;
+		pixelFormat.nSize = sizeof(pixelFormat);
+		pixelFormat.nVersion = 1;
+		pixelFormat.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+		pixelFormat.iPixelType = PFD_TYPE_RGBA;
+		pixelFormat.cColorBits = 24;
+		pixelFormat.cDepthBits = 16;
+		pixelFormat.iLayerType = PFD_MAIN_PLANE;
+		int actualFormat = ChoosePixelFormat(win->device, &pixelFormat);
+		SetPixelFormat(win->device, actualFormat, &pixelFormat);
+		// Initialize rendering context
+		win->render = wglCreateContext(win->device);
+		if(win->render == NULL)
+		{
+			MessageBox(NULL, TEXT("ERROR: Could not create rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
+		}
+		// Activate as current drawing window
+		if(!wglMakeCurrent(win->device, win->render))
+		{
+			MessageBox(NULL, TEXT("ERROR: Could not activate rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
+		}
+
+		ShowWindow(win->winHandle, 1);
+		UpdateWindow(win->winHandle);
+	#endif
+
+	#ifdef __linux__
+		// Setup SDL
+		if(SDL_Init(SDL_INIT_VIDEO) < 0)
+		{
+			std::cout << "Video Initialization failed" << std::endl;
+			exit(1);
+		}
+
+		// Setup SDL flags
+		const SDL_VideoInfo* videoInfo;
+		videoInfo = SDL_GetVideoInfo();
+		if(!videoInfo)
+		{
+			std::cout << "Video Query failed" << std::endl;
+			exit(1);
+		}
+		videoFlags = SDL_OPENGL;
+		videoFlags |= SDL_GL_DOUBLEBUFFER;
+		videoFlags |= SDL_HWPALETTE;
+		videoFlags |= SDL_RESIZABLE;
+		if(videoInfo->hw_available)
+			videoFlags |= SDL_HWSURFACE;
+		else
+			videoFlags |= SDL_SWSURFACE;
+		if(videoInfo->blit_hw)
+			videoFlags |= SDL_HWACCEL;
+		// videoFlags |= SDL_FULLSCREEN;
+
+		// Setup SDL surface
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		this->surface = SDL_SetVideoMode(this->screenWidth, this->screenHeight, 24, videoFlags);
+		if(!this->surface)
+		{
+			std::cout << "Video Mode Set failed" << std::endl;
+			exit(1);
+		}
+	#endif
+
+	// Proccess events
+	#ifdef WIN32
 		MSG msg;
+		while(GetMessage(&msg, NULL, 0, 0))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
 	#endif
 	#ifdef __linux__
 		SDL_Event event;
+		while(SDL_PollEvent(&event))
+		{
+			win->processEvent(&event);
+		}
+	#endif
+}
+
+void Window::initOpenGL()
+{
+	glShadeModel(GL_SMOOTH);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearDepth(1.0f);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+	this->resetScreen();
+}
+
+void* Window::renderFunction(void* arg)
+{
+	Thread* thread = (Thread*)arg;
+	Window* win = thread->win;
+
+	// render screen
+	// Start to draw
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	if(win->renderScene != NULL)
+		win->renderScene->render();
+	
+	// Update screen
+	glFlush();
+
+	#ifdef WIN32
+		SwapBuffers(thread->device);
+	#endif
+	#ifdef __linux__
+		SDL_GL_SwapBuffers();
 	#endif
 
-	while(win->terminate == false)
-	{
-		// Look for events
-		#ifdef WIN32
-			if(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-		#endif
-		#ifdef __linux__
-			if(SDL_PollEvent(&event))
-			{
-				win->processEvent(&event);
-			}
-		#endif
-		// Otherwise render screen
-		else
-		{
-			// Start to draw
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// Keep track of how many frames are being drawn person second
+	win->frameRate.draw();
 
-			if(win->renderScene != NULL)
-				win->renderScene->render();
-			
-			// Update screen
-			glFlush();
-
-			#ifdef WIN32
-				SwapBuffers(win->device);
-			#endif
-			#ifdef __linux__
-				SDL_GL_SwapBuffers();
-			#endif
-		}
-
-		// Keep track of how many frames are being drawn person second
-		win->frameRate.draw();
-
-		#ifdef WIN32
-			// Set window title to current frame rate
-			int frames = win->frameRate.framesPerSecond();
-			char* temp = new char[256];
-			itoa(frames, temp, 10);
-			std::string temp2(temp);
-			SetWindowText(win->winHandle, temp2.c_str());
-		#endif
-	}
+	#ifdef WIN32
+		// Set window title to current frame rate
+		int frames = win->frameRate.framesPerSecond();
+		char* temp = new char[256];
+		_itoa(frames, temp, 10);
+		std::string temp2(temp);
+		SetWindowText(win->winHandle, temp2.c_str());
+	#endif
 
 	// Doesn't compile without returning something
 	#ifdef WIN32
@@ -158,6 +345,11 @@ LRESULT CALLBACK Window::WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM 
 	}
 }
 #endif
+
+Input* Window::getInput()
+{
+	return this->input;
+}
 
 #ifdef __linux__
 void Window::keyDown(SDL_keysym* keysym)
@@ -298,140 +490,6 @@ void Window::keyUp(int key)
 }
 #endif
 
-void Window::initWin()
-{
-	#ifdef WIN32
-		// The window structure instance
-		WNDCLASSEX winStruct;
-
-		// Size of structure
-		winStruct.cbSize        = sizeof(WNDCLASSEX);
-		// Window Style
-		winStruct.style         = CS_OWNDC;
-		// Windows Callback procedure
-		winStruct.lpfnWndProc   = Window::WndProc;
-		// Extra memory allocation for this class
-		winStruct.cbClsExtra    = 0;
-		// Extra memory allocation per window
-		winStruct.cbWndExtra    = 0;
-		// Handle for window instance
-		winStruct.hInstance     = this->programHandle;
-		// Icon displayed for alt + tab
-		winStruct.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
-		// Mouse cursor
-		winStruct.hCursor       = LoadCursor(NULL, IDC_ARROW);
-		// Color of background
-		winStruct.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
-		// Name of menu resource
-		winStruct.lpszMenuName  = NULL;
-		// Name to identify structure instance by
-		winStruct.lpszClassName =	TEXT("test");
-		// Icon displayed top left cornor of window and taskbar
-		winStruct.hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
-
-		// Register the window instance
-		if(!RegisterClassEx(&winStruct))
-		{
-			MessageBox(0, TEXT("Error Registering Class!"), TEXT("Error!"), MB_ICONSTOP | MB_OK);
-			exit(0);
-		}
-
-		// Create the actual window and pass paramaters in
-		winHandle = CreateWindowEx(WS_EX_STATICEDGE, TEXT("test"), TEXT("Test Form"), 
-			WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT, this->screenWidth, this->screenHeight, NULL, NULL, programHandle, NULL);
-		if(winHandle == NULL)
-		{
-			MessageBox(0, TEXT("Error Creating Window!"), TEXT("Error!"), MB_ICONSTOP | MB_OK);
-			exit(0);
-		}
-
-		/// Enable opengl rendering
-		// Get Device Context for window
-		this->device = GetDC(winHandle);
-		if(this->device == NULL)
-		{
-			MessageBox(NULL, TEXT("ERROR: Could not create device context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
-			exit(0);
-		}
-
-		// Set Pixel Format
-		PIXELFORMATDESCRIPTOR pixelFormat;
-		pixelFormat.nSize = sizeof(pixelFormat);
-		pixelFormat.nVersion = 1;
-		pixelFormat.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-		pixelFormat.iPixelType = PFD_TYPE_RGBA;
-		pixelFormat.cColorBits = 24;
-		pixelFormat.cDepthBits = 16;
-		pixelFormat.iLayerType = PFD_MAIN_PLANE;
-		int actualFormat = ChoosePixelFormat(this->device, &pixelFormat);
-		SetPixelFormat(this->device, actualFormat, &pixelFormat);
-		// Initialize rendering context
-		this->render = wglCreateContext(this->device);
-		if(this->render == NULL)
-		{
-			MessageBox(NULL, TEXT("ERROR: Could not create rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
-		}
-		// Activate as current drawing window
-		if(!wglMakeCurrent(this->device, this->render))
-		{
-			MessageBox(NULL, TEXT("ERROR: Could not activate rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
-		}
-
-		ShowWindow(winHandle, 1);
-		UpdateWindow(winHandle);
-	#endif
-
-	#ifdef __linux__
-		// Setup SDL
-		if(SDL_Init(SDL_INIT_VIDEO) < 0)
-		{
-			std::cout << "Video Initialization failed" << std::endl;
-			exit(1);
-		}
-
-		// Setup SDL flags
-		const SDL_VideoInfo* videoInfo;
-		videoInfo = SDL_GetVideoInfo();
-		if(!videoInfo)
-		{
-			std::cout << "Video Query failed" << std::endl;
-			exit(1);
-		}
-		videoFlags = SDL_OPENGL;
-		videoFlags |= SDL_GL_DOUBLEBUFFER;
-		videoFlags |= SDL_HWPALETTE;
-		videoFlags |= SDL_RESIZABLE;
-		if(videoInfo->hw_available)
-			videoFlags |= SDL_HWSURFACE;
-		else
-			videoFlags |= SDL_SWSURFACE;
-		if(videoInfo->blit_hw)
-			videoFlags |= SDL_HWACCEL;
-		// videoFlags |= SDL_FULLSCREEN;
-
-		// Setup SDL surface
-		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-		this->surface = SDL_SetVideoMode(this->screenWidth, this->screenHeight, 24, videoFlags);
-		if(!this->surface)
-		{
-			std::cout << "Video Mode Set failed" << std::endl;
-			exit(1);
-		}
-	#endif
-}
-
-void Window::initOpenGL()
-{
-	glShadeModel(GL_SMOOTH);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClearDepth(1.0f);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
-	this->resetScreen();
-}
-
 void Window::setSize(int width, int height)
 {
 	this->screenWidth = width;
@@ -469,43 +527,8 @@ void Window::resetScreen()
 	glLoadIdentity();
 }
 
-void Window::start(HINSTANCE program)
-{
-	#ifdef WIN32
-		this->programHandle = program;
-		_defaultCallback = this;
-	#endif
-
-	// Setup render loop
-	pthread_create(&this->renderThread, NULL, renderLoop, (void*)this);
-}
-
-void Window::wait()
-{
-	void* status;
-	pthread_join(this->renderThread, &status);
-}
-
-void Window::quit()
-{
-	this->terminate = true;
-
-	#ifdef WIN32
-		wglMakeCurrent(this->device, NULL);
-		wglDeleteContext(this->render);
-	#endif
-	#ifdef __linux__
-		delete this->surface;
-		SDL_Quit();
-	#endif
-}
-
 void Window::setScene(Scene* newScene)
 {
 	this->renderScene = newScene;
-}
-void Window::setInput(Input* input)
-{
-	this->input = input;
 }
 

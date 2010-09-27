@@ -103,9 +103,13 @@ void BaseObject::draw(Vector cameraPosition, Vector cameraAngle)
 
 	glRotatev(angle);
 
-	// glCallList(this->displayList);
+	if(!glIsList(this->displayList))
+	{
+		MessageBox(NULL, TEXT("No list"), NULL, NULL);
+	}
+	glCallList(this->displayList);
 
-	glBegin(GL_TRIANGLES);
+	/*glBegin(GL_TRIANGLES);
 		glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, 1.0f);
@@ -125,10 +129,10 @@ void BaseObject::draw(Vector cameraPosition, Vector cameraAngle)
 		glVertex3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);
 		glVertex3f(-1.0f, -1.0f, 1.0f);
-	glEnd();
+	glEnd();*/
 }
 
 void BaseObject::load()
 {
-
+	
 }

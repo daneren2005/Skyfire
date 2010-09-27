@@ -8,7 +8,6 @@
 #ifndef _SKYFIRE_H
 #define	_SKYFIRE_H
 
-#include "Application.h"
 #include "Window.h"
 #include "Universe.h"
 
