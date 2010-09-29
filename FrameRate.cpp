@@ -12,7 +12,7 @@ FrameRate::FrameRate()
 void FrameRate::draw()
 {
 	counter++;
-	std::cout << clock.totalTime() << std::endl;
+	// std::cout << clock.totalTime() << std::endl;
 	double temp = clock.totalTime();
 	if(clock.totalTime() > 1.0)
 	{

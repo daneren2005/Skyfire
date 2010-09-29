@@ -10,8 +10,9 @@
 
 #ifdef WIN32
 	#include <windows.h>
+        #include <GL/glut.h>
 #endif
-#include <GL/glut.h>
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 
@@ -25,6 +26,8 @@
 #include "FrameRate.h"
 
 #include "Thread.h"
+
+#include <iostream>
 
 class Window
 {
@@ -96,7 +99,6 @@ private:
 		void keyDown(SDL_keysym* keysym);
 		void keyUp(SDL_keysym* keysym);
 	#endif
-	Thread eventThread;
 
 	void resetScreen();
 

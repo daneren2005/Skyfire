@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="f1" displayName="Objects" projectFiles="true">
+      <itemPath>AxisObject.cpp</itemPath>
+      <itemPath>AxisObject.h</itemPath>
+      <itemPath>BaseObject.cpp</itemPath>
+      <itemPath>BaseObject.h</itemPath>
+      <itemPath>Polygon.cpp</itemPath>
+      <itemPath>Polygon.h</itemPath>
+      <itemPath>Triangle.cpp</itemPath>
+      <itemPath>Triangle.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f3" displayName="Regions" projectFiles="true">
+      <itemPath>Region.cpp</itemPath>
+      <itemPath>Region.h</itemPath>
+      <itemPath>Universe.cpp</itemPath>
+      <itemPath>Universe.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f4" displayName="Utilities" projectFiles="true">
+      <itemPath>List.h</itemPath>
+      <itemPath>StopWatch.cpp</itemPath>
+      <itemPath>StopWatch.h</itemPath>
+      <itemPath>Thread.cpp</itemPath>
+      <itemPath>Thread.h</itemPath>
+      <itemPath>Vector.cpp</itemPath>
+      <itemPath>Vector.h</itemPath>
+      <itemPath>const.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f2" displayName="Windows" projectFiles="true">
+      <itemPath>Camera.cpp</itemPath>
+      <itemPath>Camera.h</itemPath>
+      <itemPath>FrameRate.cpp</itemPath>
+      <itemPath>FrameRate.h</itemPath>
+      <itemPath>Input.cpp</itemPath>
+      <itemPath>Input.h</itemPath>
+      <itemPath>Key.cpp</itemPath>
+      <itemPath>Key.h</itemPath>
+      <itemPath>Scene.cpp</itemPath>
+      <itemPath>Scene.h</itemPath>
+      <itemPath>Window.cpp</itemPath>
+      <itemPath>Window.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>skyfire-Makefile.mk</itemPath>
+    </logicalFolder>
+    <itemPath>ReadMe.txt</itemPath>
+    <itemPath>skyfire.h</itemPath>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>skyfire-Makefile.mk</projectmakefile>
+  <confs>
+    <conf name="Debug" type="3">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+    </conf>
+  </confs>
+</configurationDescriptor>

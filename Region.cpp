@@ -22,8 +22,6 @@ Region::~Region()
 
 void Region::update(double interval)
 {
-	// std::cout << interval * 10 << std::endl;
-
 	BaseObject* object = NULL;
 	for(Iterator<BaseObject*> it = objects.begin(false); !it; it++)
 	{

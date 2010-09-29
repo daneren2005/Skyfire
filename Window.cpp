@@ -11,10 +11,6 @@
 
 Window::Window()
 {
-	#ifdef __linux__
-		surface = NULL;
-	#endif
-
 	renderScene = NULL;
 	this->terminate = false;
 	this->screenWidth = 640;
@@ -29,6 +25,9 @@ Window::Window()
 		device = NULL;
 		render = NULL;
 	#endif
+	#ifdef __linux__
+		surface = NULL;
+	#endif
 
 	pthread_mutex_init(&this->glLock, NULL);
 
@@ -37,10 +36,6 @@ Window::Window()
 
 Window::Window(int width, int height)
 {
-	#ifdef __linux__
-		surface = NULL;
-	#endif
-
 	renderScene = NULL;
 	this->terminate = false;
 	this->screenWidth = width;
@@ -54,6 +49,9 @@ Window::Window(int width, int height)
 		winHandle = NULL;
 		device = NULL;
 		render = NULL;
+	#endif
+	#ifdef __linux__
+		surface = NULL;
 	#endif
 
 	pthread_mutex_init(&this->glLock, NULL);
@@ -79,21 +77,12 @@ Window::~Window()
 		_defaultCallback = this;
 	#endif
 
-	// Setup render loop
-	eventThread.start(initWin, this);
-	this->initOpenGL();
-
-	// Make sure to wait for window to initialize before start rendering
-	#ifdef WIN32
-		while(this->winHandle == 0) {}
-	#endif
-
-	renderThread.start(renderFunction, NULL, this);
+	// Start rendering
+	renderThread.start(renderFunction, this, initWin);
 }
 
 void Window::wait()
 {
-    std::cout << "test" << std::endl;
 	renderThread.waitFor();
 }
 
@@ -114,7 +103,7 @@ void Window::quit()
 void* Window::initWin(void* arg)
 {
 	Thread* thread = (Thread*)arg;
-	Window* win = (Window*)thread->arg;
+	Window* win = (Window*)thread->getArg();
 
 	#ifdef WIN32
 		// The window structure instance
@@ -235,22 +224,7 @@ void* Window::initWin(void* arg)
 		}
 	#endif
 
-	// Proccess events
-	#ifdef WIN32
-		MSG msg;
-		while(GetMessage(&msg, NULL, 0, 0))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-	#endif
-	#ifdef __linux__
-		SDL_Event event;
-		while(SDL_PollEvent(&event))
-		{
-			win->processEvent(&event);
-		}
-	#endif
+		win->initOpenGL();
 
 	return NULL;
 }
@@ -270,7 +244,24 @@ void Window::initOpenGL()
 void* Window::renderFunction(void* arg)
 {
 	Thread* thread = (Thread*)arg;
-	Window* win = thread->win;
+	Window* win = (Window*)thread->getArg();
+
+	// Proccess events
+	#ifdef WIN32
+		MSG msg;
+		while(GetMessage(&msg, NULL, 0, 0))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+	#endif
+	#ifdef __linux__
+		SDL_Event event;
+		while(SDL_PollEvent(&event))
+		{
+			win->processEvent(&event);
+		}
+	#endif
 
 	// render screen
 	// Start to draw

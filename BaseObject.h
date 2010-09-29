@@ -8,6 +8,7 @@
 #ifndef _BASEOBJECT_H
 #define	_BASEOBJECT_H
 
+#include "Polygon.h"
 #include "Vector.h"
 
 class BaseObject
@@ -34,11 +35,11 @@ public:
 
 	virtual void load();
 protected:
+	Polygon* shape;
 	Vector position;
 	Vector angle;
 
-	// uintptr_t displayList;
-	GLuint displayList;
+	uintptr_t displayList;
 private:
 	static int objectIDCounter;
 };

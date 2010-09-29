@@ -20,10 +20,12 @@ BaseObject::BaseObject()
 {
 	position = Vector(0.0f, 0.0f, 0.0f);
 	angle = Vector(0.0f, 0.0f, 0.0f);
+	this->shape = NULL;
 }
 BaseObject::BaseObject(float x, float y, float z)
 {
 	position = Vector(x, y, z);
+	this->shape = NULL;
 }
 
 BaseObject::BaseObject(const BaseObject& orig)
@@ -109,7 +111,12 @@ void BaseObject::draw(Vector cameraPosition, Vector cameraAngle)
             MessageBox(NULL, TEXT("No list"), NULL, NULL);
         #endif
 	}
-	glCallList(this->displayList);
+	// glCallList(this->displayList);
+
+	if(this->shape != NULL)
+	{
+		this->shape->draw();
+	}
 
 	/*glBegin(GL_TRIANGLES);
 		glColor3f(1.0f, 0.0f, 0.0f);
