@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   BaseObject.cpp
  * Author: scott
- * 
+ *
  * Created on July 13, 2010, 8:20 PM
  */
 
@@ -105,7 +105,9 @@ void BaseObject::draw(Vector cameraPosition, Vector cameraAngle)
 
 	if(!glIsList(this->displayList))
 	{
-		MessageBox(NULL, TEXT("No list"), NULL, NULL);
+        #ifdef WIN32
+            MessageBox(NULL, TEXT("No list"), NULL, NULL);
+        #endif
 	}
 	glCallList(this->displayList);
 
@@ -134,5 +136,5 @@ void BaseObject::draw(Vector cameraPosition, Vector cameraAngle)
 
 void BaseObject::load()
 {
-	
+
 }

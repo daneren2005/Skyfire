@@ -19,5 +19,5 @@ AxisObject::~AxisObject()
 
 void AxisObject::update(double interval)
 {
-	
+
 }

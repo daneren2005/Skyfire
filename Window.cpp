@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   Window.cpp
  * Author: scott
- * 
+ *
  * Created on July 13, 2010, 10:30 PM
  */
 
@@ -67,7 +67,12 @@ Window::~Window()
 	this->quit();
 }
 
-void Window::start(HINSTANCE program)
+#ifdef WIN32
+	void Window::start(HINSTANCE program)
+#endif
+#ifdef __linux__
+	void Window::start()
+#endif
 {
 	#ifdef WIN32
 		this->programHandle = program;
@@ -88,6 +93,7 @@ void Window::start(HINSTANCE program)
 
 void Window::wait()
 {
+    std::cout << "test" << std::endl;
 	renderThread.waitFor();
 }
 
@@ -147,7 +153,7 @@ void* Window::initWin(void* arg)
 		}
 
 		// Create the actual window and pass paramaters in
-		win->winHandle = CreateWindowEx(WS_EX_STATICEDGE, TEXT("test"), TEXT("Test Form"), 
+		win->winHandle = CreateWindowEx(WS_EX_STATICEDGE, TEXT("test"), TEXT("Test Form"),
 			WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT, win->screenWidth, win->screenHeight, NULL, NULL, win->programHandle, NULL);
 		if(win->winHandle == NULL)
 		{
@@ -207,22 +213,22 @@ void* Window::initWin(void* arg)
 			std::cout << "Video Query failed" << std::endl;
 			exit(1);
 		}
-		videoFlags = SDL_OPENGL;
-		videoFlags |= SDL_GL_DOUBLEBUFFER;
-		videoFlags |= SDL_HWPALETTE;
-		videoFlags |= SDL_RESIZABLE;
+		win->videoFlags = SDL_OPENGL;
+		win->videoFlags |= SDL_GL_DOUBLEBUFFER;
+		win->videoFlags |= SDL_HWPALETTE;
+		win->videoFlags |= SDL_RESIZABLE;
 		if(videoInfo->hw_available)
-			videoFlags |= SDL_HWSURFACE;
+			win->videoFlags |= SDL_HWSURFACE;
 		else
-			videoFlags |= SDL_SWSURFACE;
+			win->videoFlags |= SDL_SWSURFACE;
 		if(videoInfo->blit_hw)
-			videoFlags |= SDL_HWACCEL;
+			win->videoFlags |= SDL_HWACCEL;
 		// videoFlags |= SDL_FULLSCREEN;
 
 		// Setup SDL surface
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-		this->surface = SDL_SetVideoMode(this->screenWidth, this->screenHeight, 24, videoFlags);
-		if(!this->surface)
+		win->surface = SDL_SetVideoMode(win->screenWidth, win->screenHeight, 24, win->videoFlags);
+		if(!win->surface)
 		{
 			std::cout << "Video Mode Set failed" << std::endl;
 			exit(1);
@@ -245,6 +251,8 @@ void* Window::initWin(void* arg)
 			win->processEvent(&event);
 		}
 	#endif
+
+	return NULL;
 }
 
 void Window::initOpenGL()
@@ -270,7 +278,7 @@ void* Window::renderFunction(void* arg)
 
 	if(win->renderScene != NULL)
 		win->renderScene->render();
-	
+
 	// Update screen
 	glFlush();
 
@@ -294,9 +302,7 @@ void* Window::renderFunction(void* arg)
 	#endif
 
 	// Doesn't compile without returning something
-	#ifdef WIN32
-		return NULL;
-	#endif
+	return NULL;
 }
 
 #ifdef __linux__
@@ -350,64 +356,6 @@ Input* Window::getInput()
 {
 	return this->input;
 }
-
-#ifdef __linux__
-void Window::keyDown(SDL_keysym* keysym)
-{
-
-	switch(keysym->sym)
-	{
-		case SDLK_ESCAPE:
-			// exit(0);
-			break;
-		case SDLK_LEFT:
-			input->left = true;
-			break;
-		case SDLK_RIGHT:
-			input->right = true;
-			break;
-		case SDLK_UP:
-			input->up = true;
-			break;
-		case SDLK_DOWN:
-			input->down = true;
-			break;
-		case SDLK_PAGEUP:
-			input->in = true;
-			break;
-		case SDLK_PAGEDOWN:
-			input->out = true;
-			break;
-	}
-}
-void Window::keyUp(SDL_keysym* keysym)
-{
-	switch(keysym->sym)
-	{
-		case SDLK_ESCAPE:
-			exit(0);
-			break;
-		case SDLK_LEFT:
-			input->left = false;
-			break;
-		case SDLK_RIGHT:
-			input->right = false;
-			break;
-		case SDLK_UP:
-			input->up = false;
-			break;
-		case SDLK_DOWN:
-			input->down = false;
-			break;
-		case SDLK_PAGEUP:
-			input->in = false;
-			break;
-		case SDLK_PAGEDOWN:
-			input->out = false;
-			break;
-	}
-}
-#endif
 
 #ifdef WIN32
 void Window::keyDown(int key)
@@ -490,6 +438,92 @@ void Window::keyUp(int key)
 }
 #endif
 
+#ifdef __linux__
+void Window::keyDown(SDL_keysym* keysym)
+{
+
+	switch(keysym->sym)
+	{
+	case SDLK_ESCAPE:
+		input->keyDown(KEY_ESCAPE);
+		break;
+	case SDLK_UP:
+		input->keyDown(KEY_UP);
+		break;
+	case SDLK_LEFT:
+		input->keyDown(KEY_LEFT);
+		break;
+	case SDLK_RIGHT:
+		input->keyDown(KEY_RIGHT);
+		break;
+	case SDLK_DOWN:
+		input->keyDown(KEY_DOWN);
+		break;
+	case SDLK_PAGEUP:
+		input->keyDown(KEY_PAGEUP);
+		break;
+	case SDLK_PAGEDOWN:
+		input->keyDown(KEY_PAGEDOWN);
+		break;
+	case SDLK_w:
+		input->keyDown(KEY_W);
+		break;
+	case SDLK_a:
+		input->keyDown(KEY_A);
+		break;
+	case SDLK_s:
+		input->keyDown(KEY_S);
+		break;
+	case SDLK_d:
+		input->keyDown(KEY_D);
+		break;
+	default:
+		break;
+	}
+}
+void Window::keyUp(SDL_keysym* keysym)
+{
+	switch(keysym->sym)
+	{
+	case SDLK_ESCAPE:
+		input->keyUp(KEY_ESCAPE);
+		break;
+	case SDLK_UP:
+		input->keyUp(KEY_UP);
+		break;
+	case SDLK_LEFT:
+		input->keyUp(KEY_LEFT);
+		break;
+	case SDLK_RIGHT:
+		input->keyUp(KEY_RIGHT);
+		break;
+	case SDLK_DOWN:
+		input->keyUp(KEY_DOWN);
+		break;
+	case SDLK_PAGEUP:
+		input->keyUp(KEY_PAGEUP);
+		break;
+	case SDLK_PAGEDOWN:
+		input->keyUp(KEY_PAGEDOWN);
+		break;
+	case SDLK_w:
+		input->keyUp(KEY_W);
+		break;
+	case SDLK_a:
+		input->keyUp(KEY_A);
+		break;
+	case SDLK_s:
+		input->keyUp(KEY_S);
+		break;
+	case SDLK_d:
+		input->keyUp(KEY_D);
+		break;
+	default:
+		break;
+	}
+}
+#endif
+
 void Window::setSize(int width, int height)
 {
 	this->screenWidth = width;
@@ -516,7 +550,7 @@ void Window::resetScreen()
 	// gluPerspective(45, (float)this->width/this->height, 0.1f, 100.0f);
 	GLdouble aspectRatio = (GLdouble)this->screenWidth / (GLdouble)this->screenHeight;
 	/*if(this->screenWidth <= this->screenHeight)
-		glOrtho(-(this->resolutionWidth / 2), (this->resolutionWidth / 2), 
+		glOrtho(-(this->resolutionWidth / 2), (this->resolutionWidth / 2),
 				-(this->resolutionHeight / 2 / aspectRatio), (this->resolutionHeight / 2 / aspectRatio) / aspectRatio,
 				this->resolutionDistance, -this->resolutionDistance);
 	else

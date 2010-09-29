@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Vector.h
  * Author: scott
  *
@@ -8,7 +8,9 @@
 #ifndef _VECTOR_H
 #define	_VECTOR_H
 
-#include <windows.h>
+#ifdef WIN32
+    #include <windows.h>
+#endif
 
 #include <GL/gl.h>
 #include <pthread.h>

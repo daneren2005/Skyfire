@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Window.h
  * Author: scott
  *
@@ -8,7 +8,9 @@
 #ifndef _WINDOW_H
 #define	_WINDOW_H
 
-#include <windows.h>
+#ifdef WIN32
+	#include <windows.h>
+#endif
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -35,7 +37,12 @@ public:
 	virtual ~Window();
 
 	// Initialize Window and start displaying
-	void start(HINSTANCE program);
+	#ifdef WIN32
+		void start(HINSTANCE program);
+	#endif
+	#ifdef __linux__
+		void start();
+	#endif
 	// Calling thread waits for renderThread to exit
 	void wait();
 	// Make Window shutdown, close renderThread and eventsThread
@@ -103,7 +110,9 @@ private:
 	double resolutionDistance;
 };
 
-static Window* _defaultCallback;
+#ifdef WIN32
+	static Window* _defaultCallback;
+#endif
 
 #endif	/* _WINDOW_H */
 

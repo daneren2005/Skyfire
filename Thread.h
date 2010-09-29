@@ -1,7 +1,10 @@
 #ifndef _THREAD_H
 #define	_THREAD_H
 
-#include <windows.h>
+#ifdef WIN32
+	#include <windows.h>
+#endif
+
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>

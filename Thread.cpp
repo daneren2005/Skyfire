@@ -45,45 +45,50 @@ void Thread::waitFor()
 void Thread::createContext()
 {
 	/// Enable opengl rendering
-	// Get Device Context for window
-	this->device = GetDC(win->winHandle);
-	if(this->device == NULL)
-	{
-		MessageBox(NULL, TEXT("ERROR: Could not create device context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
-		exit(0);
-	}
 
-	// Set Pixel Format
-	PIXELFORMATDESCRIPTOR pixelFormat;
-	pixelFormat.nSize = sizeof(pixelFormat);
-	pixelFormat.nVersion = 1;
-	pixelFormat.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-	pixelFormat.iPixelType = PFD_TYPE_RGBA;
-	pixelFormat.cColorBits = 24;
-	pixelFormat.cDepthBits = 16;
-	pixelFormat.iLayerType = PFD_MAIN_PLANE;
-	int actualFormat = ChoosePixelFormat(this->device, &pixelFormat);
-	SetPixelFormat(this->device, actualFormat, &pixelFormat);
+	#ifdef WIN32
+		// Get Device Context for window
+		this->device = GetDC(win->winHandle);
+		if(this->device == NULL)
+		{
+			MessageBox(NULL, TEXT("ERROR: Could not create device context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
+			exit(0);
+		}
 
-	this->render = wglCreateContext(this->device);
-	if(this->render == NULL)
-	{
-		MessageBox(NULL, TEXT("ERROR: Could not create rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
-	}
-	// Activate as current drawing window
-	if(!wglMakeCurrent(this->device, this->render))
-	{
-		MessageBox(NULL, TEXT("ERROR: Could not activate rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
-	}
+		// Set Pixel Format
+		PIXELFORMATDESCRIPTOR pixelFormat;
+		pixelFormat.nSize = sizeof(pixelFormat);
+		pixelFormat.nVersion = 1;
+		pixelFormat.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+		pixelFormat.iPixelType = PFD_TYPE_RGBA;
+		pixelFormat.cColorBits = 24;
+		pixelFormat.cDepthBits = 16;
+		pixelFormat.iLayerType = PFD_MAIN_PLANE;
+		int actualFormat = ChoosePixelFormat(this->device, &pixelFormat);
+		SetPixelFormat(this->device, actualFormat, &pixelFormat);
 
-	this->win->initOpenGL();
+		this->render = wglCreateContext(this->device);
+		if(this->render == NULL)
+		{
+			MessageBox(NULL, TEXT("ERROR: Could not create rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
+		}
+		// Activate as current drawing window
+		if(!wglMakeCurrent(this->device, this->render))
+		{
+			MessageBox(NULL, TEXT("ERROR: Could not activate rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
+		}
+
+		this->win->initOpenGL();
+	#endif
 }
 void Thread::getContext()
 {
-	if(!wglMakeCurrent(this->device, this->render))
-	{
-		MessageBox(NULL, TEXT("ERROR: Could not activate rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
-	}
+	#ifdef WIN32
+		if(!wglMakeCurrent(this->device, this->render))
+		{
+			MessageBox(NULL, TEXT("ERROR: Could not activate rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
+		}
+	#endif
 }
 
 void* Thread::threadFunction(void* arg)
@@ -110,7 +115,5 @@ void* Thread::threadFunction(void* arg)
 	}
 
 	// Doesn't compile without returning something
-	#ifdef WIN32
-		return NULL;
-	#endif
+	return NULL;
 }

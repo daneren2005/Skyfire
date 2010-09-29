@@ -1,12 +1,15 @@
-/* 
+/*
  * File:   Keyboard.cpp
  * Author: scott
- * 
+ *
  * Created on July 14, 2010, 6:16 PM
  */
 
 #include "Input.h"
-#include <windows.h>
+
+#ifdef WIN32
+    #include <windows.h>
+#endif
 
 Input::Input()
 {

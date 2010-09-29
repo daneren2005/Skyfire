@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   BaseObject.h
  * Author: scott
  *
