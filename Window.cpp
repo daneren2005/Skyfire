@@ -291,6 +291,9 @@ void* Window::renderFunction(void* arg)
 		std::string temp2(temp);
 		SetWindowText(win->winHandle, temp2.c_str());
 	#endif
+	#ifdef __linux__
+		// std::cout << win->frameRate.framesPerSecond() << std::endl;
+	#endif
 
 	// Doesn't compile without returning something
 	return NULL;

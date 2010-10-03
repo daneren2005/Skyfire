@@ -38,8 +38,6 @@ protected:
 	Polygon* shape;
 	Vector position;
 	Vector angle;
-
-	uintptr_t displayList;
 private:
 	static int objectIDCounter;
 };
