@@ -7,7 +7,7 @@ To Use:
 
 Universe:
 -Update Thread
-	-Updates all Regions and Objects within Universe
+	-Updates all Regions and Objects within Universe (60x per second)
 -Camera
 	-Scene object that draws objects in Camera "view" within ActiveRegion
 -Region
@@ -18,7 +18,5 @@ Universe:
 		-Shape
 
 Window:
--Event Thread
-	-Input object updated with user input
 -Render Thread
-	-Renders all active scenes
+	-Renders all active scenes (60x per second) + gets user input
