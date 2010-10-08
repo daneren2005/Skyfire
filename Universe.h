@@ -10,11 +10,11 @@
 
 #include "Region.h"
 #include "Camera.h"
-#include <pthread.h>
 #include "List.h"
 #include "StopWatch.h"
 #include "Input.h"
 #include "Rate.h"
+#include "Thread.h"
 
 class Universe
 {
@@ -48,10 +48,8 @@ protected:
 	Rate updateRate;
 	bool running;
 	StopWatch timer;
-	pthread_t updateThread;
-	pthread_mutex_t updateLock;
-	static void* updateLoop(void* arg);
-	void update();
+	Thread updateThread;
+	static void* updateFunction(void* arg);
 };
 
 #endif	/* _UNIVERSE_H */
