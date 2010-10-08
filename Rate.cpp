@@ -4,7 +4,10 @@
 	#include <windows.h>
 #endif
 
-#include <iostream>
+#ifdef __linux__
+	#include <unistd.h>
+	#include <iostream>
+#endif
 
 Rate::Rate()
 {
@@ -51,7 +54,12 @@ void Rate::executeEnd()
 
 		int sleepTime = (period - (end - start)) * 1000;
 		if(sleepTime > 1)
-			Sleep(sleepTime);
+			#ifdef WIN32
+				Sleep(sleepTime);
+			#endif
+			#ifdef __linux__
+				usleep(sleepTime * 1000);
+			#endif
 	}
 }
 
