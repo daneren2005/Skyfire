@@ -1,35 +1,35 @@
 /* 
- * File:   Polygon.cpp
+ * File:   Mesh.cpp
  * Author: scott
  * 
  * Created on September 29, 2010, 4:04 PM
  */
 
-#include "Polygon.h"
+#include "Mesh.h"
 
 #include <iostream>
 
-Polygon::Polygon()
+Mesh::Mesh()
 {
 	this->displayList = 0;
 }
 
-Polygon::Polygon(const Polygon& orig)
+Mesh::Mesh(const Mesh& orig)
 {
 
 }
 
-Polygon::~Polygon()
+Mesh::~Mesh()
 {
 	
 }
 
-void Polygon::addTriangle(Triangle* triangle)
+void Mesh::addTriangle(Triangle* triangle)
 {
 	triangles.push_back(triangle);
 }
 
-void Polygon::draw()
+void Mesh::draw()
 {
 	if(this->displayList == 0)
 	{

@@ -1,22 +1,22 @@
 /* 
- * File:   Polygon.h
+ * File:   Mesh.h
  * Author: scott
  *
  * Created on September 29, 2010, 4:04 PM
  */
 
-#ifndef _POLYGON_H
-#define	_POLYGON_H
+#ifndef _Mesh_H
+#define	_Mesh_H
 
 #include "Triangle.h"
 #include "List.h"
 
-class Polygon
+class Mesh
 {
 public:
-	Polygon();
-	Polygon(const Polygon& orig);
-	virtual ~Polygon();
+	Mesh();
+	Mesh(const Mesh& orig);
+	virtual ~Mesh();
 
 	void addTriangle(Triangle* triangle);
 	void draw();
@@ -25,5 +25,5 @@ private:
 	uintptr_t displayList;
 };
 
-#endif	/* _POLYGON_H */
+#endif	/* _Mesh_H */
 

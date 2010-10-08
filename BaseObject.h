@@ -8,7 +8,7 @@
 #ifndef _BASEOBJECT_H
 #define	_BASEOBJECT_H
 
-#include "Polygon.h"
+#include "Mesh.h"
 #include "Vector.h"
 
 class BaseObject
@@ -35,7 +35,7 @@ public:
 
 	virtual void load();
 protected:
-	Polygon* shape;
+	Mesh* shape;
 	Vector position;
 	Vector angle;
 private:
