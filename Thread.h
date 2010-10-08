@@ -21,12 +21,15 @@ public:
 	void start(void*(*function)(void *), void* arg);
 	void start(void*(*function)(void *), void* arg, void*(*startFunction)(void *));
 	void stop();
+	void pause();
+	void resume();
 	void waitFor();
 
 	void* getArg();
 private:
 	void* arg;
 
+	bool quit;
 	bool running;
 	void*(*function)(void *);
 	void*(*startFunction)(void *);

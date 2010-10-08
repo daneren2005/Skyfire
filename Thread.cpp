@@ -5,6 +5,7 @@ Thread::Thread()
 {
 	arg = NULL;
 
+	quit = false;
 	running = false;
 }
 
@@ -12,6 +13,7 @@ void Thread::start(void*(*function)(void *), void* arg)
 {
 	this->arg = arg;
 	this->running = true;
+	this->quit = false;
 	this->function = function;
 	this->startFunction = NULL;
 
@@ -20,6 +22,7 @@ void Thread::start(void*(*function)(void *), void* arg)
 void Thread::start(void*(*function)(void *), void* arg, void*(*startFunction)(void *))
 {
 	this->arg = arg;
+	this->quit = false;
 	this->running = true;
 	this->function = function;
 	this->startFunction = startFunction;
@@ -29,7 +32,15 @@ void Thread::start(void*(*function)(void *), void* arg, void*(*startFunction)(vo
 
 void Thread::stop()
 {
+	this->quit = true;
+}
+void Thread::pause()
+{
 	this->running = false;
+}
+void Thread::resume()
+{
+	this->running = true;
 }
 
 void Thread::waitFor()
@@ -50,9 +61,10 @@ void* Thread::threadFunction(void* arg)
 	if(thread->startFunction != NULL)
 		thread->startFunction(thread);
 	
-	while(thread->running)
+	while(!thread->quit)
 	{
-		thread->function(thread);
+		if(thread->running)
+			thread->function(thread);
 	}
 
 	// Doesn't compile without returning something
