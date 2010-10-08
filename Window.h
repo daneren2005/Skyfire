@@ -10,7 +10,7 @@
 
 #ifdef WIN32
 	#include <windows.h>
-        #include <GL/glut.h>
+    #include <GL/glut.h>
 #endif
 
 #include <GL/gl.h>
@@ -23,7 +23,7 @@
 
 #include "Scene.h"
 #include "Input.h"
-#include "FrameRate.h"
+#include "Rate.h"
 
 #include "Thread.h"
 
@@ -79,7 +79,7 @@ private:
 
 	// Render scene, thread, and function
 	pthread_mutex_t glLock;
-	FrameRate frameRate;
+	Rate frameRate;
 	Scene* renderScene;
 	Thread renderThread;
 	static void* renderFunction(void* arg);

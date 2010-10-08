@@ -32,6 +32,7 @@ Window::Window()
 	pthread_mutex_init(&this->glLock, NULL);
 
 	this->input = new Input();
+	frameRate = Rate(60);
 }
 
 Window::Window(int width, int height)
@@ -57,6 +58,7 @@ Window::Window(int width, int height)
 	pthread_mutex_init(&this->glLock, NULL);
 
 	this->input = new Input();
+	frameRate = Rate(60);
 }
 
 Window::~Window()
@@ -246,10 +248,12 @@ void* Window::renderFunction(void* arg)
 	Thread* thread = (Thread*)arg;
 	Window* win = (Window*)thread->getArg();
 
+	win->frameRate.executeStart();
+
 	// Proccess events
 	#ifdef WIN32
 		MSG msg;
-		while(GetMessage(&msg, NULL, 0, 0))
+		while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
@@ -274,18 +278,18 @@ void* Window::renderFunction(void* arg)
 	glFlush();
 
 	#ifdef WIN32
-		SwapBuffers(thread->device);
+		SwapBuffers(win->device);
 	#endif
 	#ifdef __linux__
 		SDL_GL_SwapBuffers();
 	#endif
 
 	// Keep track of how many frames are being drawn person second
-	win->frameRate.draw();
+	win->frameRate.executeEnd();
 
 	#ifdef WIN32
 		// Set window title to current frame rate
-		int frames = win->frameRate.framesPerSecond();
+		int frames = win->frameRate.ticksPerSecond();
 		char* temp = new char[256];
 		_itoa(frames, temp, 10);
 		std::string temp2(temp);

@@ -14,6 +14,8 @@ Universe::Universe()
 	this->camera = new Camera();
 	this->input = NULL;
 	pthread_mutex_init(&this->updateLock, NULL);
+
+	this->updateRate = Rate(60);
 }
 
 Universe::Universe(const Universe& orig)
@@ -83,6 +85,8 @@ void* Universe::updateLoop(void* arg)
 
 void Universe::update()
 {
+	updateRate.executeStart();
+
 	float interval = (float)timer.elapsedTime();
 
 	// Update all regions
@@ -121,6 +125,8 @@ void Universe::update()
 		if(!this->input->rotateUp && this->input->rotateDown)
 			camera->rotateByAbsolute(0.0f, -interval * 100.0f, 0.0f);
 	}
+
+	updateRate.executeEnd();
 }
 
 Camera* Universe::getCamera()

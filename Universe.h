@@ -14,6 +14,7 @@
 #include "List.h"
 #include "StopWatch.h"
 #include "Input.h"
+#include "Rate.h"
 
 class Universe
 {
@@ -44,6 +45,7 @@ protected:
 	Input* input;
 
 	// Update thread + loop
+	Rate updateRate;
 	bool running;
 	StopWatch timer;
 	pthread_t updateThread;

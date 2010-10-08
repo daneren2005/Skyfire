@@ -175,6 +175,22 @@
 				RelativePath=".\BaseObject.h"
 				>
 			</File>
+			<File
+				RelativePath=".\Mesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Mesh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Triangle.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Triangle.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Regions"
@@ -208,14 +224,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FrameRate.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FrameRate.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Input.cpp"
 				>
 			</File>
@@ -229,6 +237,14 @@
 			</File>
 			<File
 				RelativePath=".\Key.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Rate.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Rate.h"
 				>
 			</File>
 			<File
