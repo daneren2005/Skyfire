@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   skyfire.h
  * Author: scott
  *
@@ -14,6 +14,7 @@
 #include "StopWatch.h"
 #include "List.h"
 #include "Vector.h"
+#include "Matrix.h"
 
 #include "BaseObject.h"
 #include "AxisObject.h"

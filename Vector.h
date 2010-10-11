@@ -30,20 +30,19 @@ public:
 
 	// Operator Overloading
 	float& operator[](unsigned col);
+
+	// TODO: make thread safe
+	Vector operator+(const Vector& rhs);
+	Vector operator-(const Vector& rhs);
+	Vector operator*(const Vector& rhs);
+	Vector operator%(const float amount);
+
+	bool operator==(const Vector& rhs);
+	bool operator!=(const Vector& rhs);
 private:
 	float pos[3];
 	pthread_mutex_t lock;
 };
-
-// Operator Overloading
-// TODO: make thread safe
-Vector operator+(const Vector& lhs, const Vector& rhs);
-Vector operator-(const Vector& lhs, const Vector& rhs);
-Vector operator*(const Vector& lhs, const Vector& rhs);
-Vector operator%(const Vector& lhs, const float amount);
-
-bool operator==(const Vector& lhs, const Vector& rhs);
-bool operator!=(const Vector& lhs, const Vector& rhs);
 
 // Opengl functions
 static void glTranslatev(Vector vector)

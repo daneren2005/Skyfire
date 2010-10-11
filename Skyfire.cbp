@@ -52,12 +52,6 @@
 		<Unit filename="Camera.h">
 			<Option target="Debug" />
 		</Unit>
-		<Unit filename="FrameRate.cpp">
-			<Option target="Debug" />
-		</Unit>
-		<Unit filename="FrameRate.h">
-			<Option target="Debug" />
-		</Unit>
 		<Unit filename="Input.cpp">
 			<Option target="Debug" />
 		</Unit>
@@ -71,6 +65,27 @@
 			<Option target="Debug" />
 		</Unit>
 		<Unit filename="List.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="Matrix.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="Matrix.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="Mesh.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="Mesh.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="Rate.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="Rate.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="ReadMe.txt">
 			<Option target="Debug" />
 		</Unit>
 		<Unit filename="Region.cpp">
@@ -95,6 +110,12 @@
 			<Option target="Debug" />
 		</Unit>
 		<Unit filename="Thread.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="Triangle.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="Triangle.h">
 			<Option target="Debug" />
 		</Unit>
 		<Unit filename="Universe.cpp">

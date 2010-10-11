@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   Vector.cpp
  * Author: scott
- * 
+ *
  * Created on July 13, 2010, 8:22 PM
  */
 
@@ -68,7 +68,7 @@ float Vector::z() const
 	return value;
 }
 
-// Operator Overloading
+// Vector::operator Overloading
 float& Vector::operator[](unsigned col)
 {
 	// pthread_mutex_lock(&this->lock);
@@ -84,42 +84,42 @@ float& Vector::operator[](unsigned col)
 	// pthread_mutex_unlock(&this->lock);
 }
 
-Vector operator+(const Vector& lhs, const Vector& rhs)
+Vector Vector::operator+(const Vector& rhs)
 {
 	// pthread_mutex_lock(&this->lock);
-	Vector vec(lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z());
+	Vector vec(this->x() + this->x(), this->y() + rhs.y(), this->z() + rhs.z());
 	// pthread_mutex_unlock(&this->lock);
 	return vec;
 }
-Vector operator-(const Vector& lhs, const Vector& rhs)
+Vector Vector::operator-(const Vector& rhs)
 {
 	// pthread_mutex_lock(&this->lock);
-	Vector vec(lhs.x() - rhs.x(), lhs.y() - rhs.y(), lhs.z() - rhs.z());
+	Vector vec(this->x() - rhs.x(), this->y() - rhs.y(), this->z() - rhs.z());
 	// pthread_mutex_unlock(&this->lock);
 	return vec;
 }
-Vector operator*(const Vector& lhs, const Vector& rhs)
+Vector Vector::operator*(const Vector& rhs)
 {
 	// pthread_mutex_lock(&this->lock);
-	Vector vec(lhs.x() * rhs.x(), lhs.y() * rhs.y(), lhs.z() * rhs.z());
+	Vector vec(this->x() * rhs.x(), this->y() * rhs.y(), this->z() * rhs.z());
 	// pthread_mutex_unlock(&this->lock);
 	return vec;
 }
-Vector operator%(const Vector& lhs, const float amount)
+Vector Vector::operator%(const float amount)
 {
 	// pthread_mutex_lock(&this->lock);
-	int x = (int)(lhs.x() / amount);
-	float x_val = lhs.x() - x * amount;
+	int x = (int)(this->x() / amount);
+	float x_val = this->x() - x * amount;
 	if(x_val < 0.0f)
 		x_val = amount + x_val;
 
-	int y = (int)(lhs.y() / amount);
-	float y_val = lhs.y() - y * amount;
+	int y = (int)(this->y() / amount);
+	float y_val = this->y() - y * amount;
 	if(y_val < 0.0f)
 		y_val = amount + y_val;
 
-	int z = (int)(lhs.z() / amount);
-	float z_val = lhs.z() - z * amount;
+	int z = (int)(this->z() / amount);
+	float z_val = this->z() - z * amount;
 	if(z_val < 0.0f)
 		z_val = amount + z_val;
 
@@ -128,30 +128,30 @@ Vector operator%(const Vector& lhs, const float amount)
 	return vec;
 }
 
-bool operator==(const Vector& lhs, const Vector& rhs)
+bool Vector::operator==(const Vector& rhs)
 {
 	// pthread_mutex_lock(&this->lock);
 	bool value;
-	if(lhs.x() != rhs.x())
+	if(this->x() != rhs.x())
 		value = false;
-	else if(lhs.y() != rhs.y())
+	else if(this->y() != rhs.y())
 		value = false;
-	else if(lhs.z() != rhs.z())
+	else if(this->z() != rhs.z())
 		value = false;
 	else
 		value = true;
 	// pthread_mutex_unlock(&this->lock);
 	return value;
 }
-bool operator!=(const Vector& lhs, const Vector& rhs)
+bool Vector::operator!=(const Vector& rhs)
 {
 	// pthread_mutex_lock(&this->lock);
 	bool value;
-	if(lhs.x() != rhs.x())
+	if(this->x() != rhs.x())
 		value = true;
-	else if(lhs.y() != rhs.y())
+	else if(this->y() != rhs.y())
 		value = true;
-	else if(lhs.z() != rhs.z())
+	else if(this->z() != rhs.z())
 		value = true;
 	else
 		value = false;
