@@ -9,16 +9,15 @@
 #define	_MATRIX4_H
 
 #include "Matrix.h"
+#include "Quaternion.h"
 #include "Vector.h"
 
-class Matrix4 : Matrix
+class Matrix4 : public Matrix
 {
 public:
 	Matrix4();
+	Matrix4(float* matrix);
 	Matrix4(const Matrix& orig);
-
-	float* operator[](unsigned col);
-	float* getMatrix();
 
 	static Matrix identity();
 

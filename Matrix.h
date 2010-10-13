@@ -12,10 +12,13 @@ class Matrix
 {
 public:
 	Matrix(unsigned int dimensions);
+	Matrix(unsigned int dimensions, float* matrix);
 	Matrix(const Matrix& orig);
 	~Matrix();
 
-	virtual float* operator[](unsigned col);
+	float* operator[](unsigned col);
+	Matrix operator*(const Matrix& rhs);
+
 	virtual float* getMatrix();
 
 	static Matrix identity(unsigned int dimensions);

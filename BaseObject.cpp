@@ -87,27 +87,11 @@ void BaseObject::rotateByReference(const Vector& amount)
 
 void BaseObject::draw()
 {
-	/*float x = (cameraAngle[1] * PI) / 180;
-	float y = (cameraAngle[0] * PI) / 180;
-	float z = (cameraAngle[2] * PI) / 180;
-
-	Vector oldPosition = position - cameraPosition;
-	Vector newPosition;
-	newPosition[0] = oldPosition[2] * std::sin(x) + oldPosition[0] * std::cos(x)	// x rotation (actual y)
-		- oldPosition[1] * std::sin(z);												// z rotation
-	newPosition[1] = oldPosition[1] * std::cos(y) - oldPosition[2] * std::sin(y)	// y rotation (actual x)
-		+ oldPosition[0] * std::sin(z);												// z rotation
-	newPosition[2] = oldPosition[2] * std::cos(x) - oldPosition[0] * std::sin(x)	// x rotation (actual y)
-		+ oldPosition[1] * std::sin(y);												// y rotation (actual x)
-	glTranslatev(newPosition);
-
-	glRotatev(angle);*/
-
 	glPushMatrix();
+	Matrix4 rotate = Matrix4::rotate(this->angle);
 	Matrix4 translate = Matrix4::translate(this->position);
-	glMultMatrixf(translate.getMatrix());
-	// glLoadMatrixf(translate.getMatrix());
-	// glTranslatev(this->position);
+	Matrix4 transform = rotate * translate;
+	glMultMatrixf(transform.getMatrix());
 
 	/*float* f = new float[16];
 	glGetFloatv(GL_MODELVIEW_MATRIX, f);

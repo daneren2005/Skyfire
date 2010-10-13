@@ -7,6 +7,8 @@
       <itemPath>Matrix.h</itemPath>
       <itemPath>Matrix4.cpp</itemPath>
       <itemPath>Matrix4.h</itemPath>
+      <itemPath>Quaternion.cpp</itemPath>
+      <itemPath>Quaternion.h</itemPath>
       <itemPath>Vector.cpp</itemPath>
       <itemPath>Vector.h</itemPath>
     </logicalFolder>

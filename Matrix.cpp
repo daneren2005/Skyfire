@@ -15,6 +15,14 @@ Matrix::Matrix(unsigned int dimensions)
 	}
 }
 
+Matrix::Matrix(unsigned int dimensions, float* matrix)
+{
+	this->dim = dimensions;
+	this->size = dimensions * dimensions;
+
+	this->matrix = matrix;
+}
+
 Matrix::Matrix(const Matrix& orig)
 {
 	matrix = new float[orig.size];
@@ -35,6 +43,27 @@ float* Matrix::operator[](unsigned col)
 {
 	// return pointer starting at the given row
 	return matrix + (dim * col);
+}
+
+Matrix Matrix::operator*(const Matrix& rhs)
+{
+	Matrix result(this->dim);
+
+	// Column of new matrix
+	for(int i = 0; i < this->dim; i++)
+	{
+		// Row of new matrix
+		for(int j = 0; j < dim; j++)
+		{
+			result.matrix[i * dim + j] = 0.0f;
+			for(int k = 0; k < dim; k++)
+			{
+				result.matrix[i * dim + j] += this->matrix[i * dim + k] * rhs.matrix[k * dim + j];
+			}
+		}
+	}
+
+	return result;
 }
 
 float* Matrix::getMatrix()

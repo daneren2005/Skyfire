@@ -5,19 +5,11 @@
 Matrix4::Matrix4() : Matrix(4)
 { }
 
-Matrix4::Matrix4(const Matrix& orig) : Matrix(orig)
+Matrix4::Matrix4(float* matrix) : Matrix(4, matrix)
 { }
 
-float* Matrix4::operator[](unsigned col)
-{
-	// return pointer starting at the given row
-	return matrix + (dim * col);
-}
-
-float* Matrix4::getMatrix()
-{
-	return matrix;
-}
+Matrix4::Matrix4(const Matrix& orig) : Matrix(orig)
+{ }
 
 Matrix Matrix4::identity()
 {
@@ -42,7 +34,13 @@ Matrix4 Matrix4::translate(const Vector& vec)
 
 Matrix4 Matrix4::rotate(const Vector& vec)
 {
+	Quaternion x(1.0f, 0.0f, 0.0f, vec.x());
+	Quaternion y(0.0f, 1.0f, 0.0f, vec.y());
+	Quaternion z(0.0f, 0.0f, 1.0f, vec.z());
 
+	Quaternion rotation = x * y * z;
+	Matrix4 matrix(rotation.getMatrix());
+	return matrix;
 }
 
 Matrix4 Matrix4::scale(const Vector& vec)

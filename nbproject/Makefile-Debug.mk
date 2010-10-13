@@ -36,14 +36,15 @@ OBJECTFILES= \
 	${OBJECTDIR}/StopWatch.o \
 	${OBJECTDIR}/Camera.o \
 	${OBJECTDIR}/Triangle.o \
-	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/Input.o \
+	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/Key.o \
-	${OBJECTDIR}/Scene.o \
 	${OBJECTDIR}/Vector.o \
 	${OBJECTDIR}/Matrix4.o \
+	${OBJECTDIR}/Scene.o \
 	${OBJECTDIR}/Universe.o \
 	${OBJECTDIR}/Matrix.o \
+	${OBJECTDIR}/Quaternion.o \
 	${OBJECTDIR}/Rate.o \
 	${OBJECTDIR}/BaseObject.o \
 	${OBJECTDIR}/Window.o \
@@ -100,25 +101,20 @@ ${OBJECTDIR}/Triangle.o: nbproject/Makefile-${CND_CONF}.mk Triangle.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Triangle.o Triangle.cpp
 
-${OBJECTDIR}/Mesh.o: nbproject/Makefile-${CND_CONF}.mk Mesh.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mesh.o Mesh.cpp
-
 ${OBJECTDIR}/Input.o: nbproject/Makefile-${CND_CONF}.mk Input.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Input.o Input.cpp
 
+${OBJECTDIR}/Mesh.o: nbproject/Makefile-${CND_CONF}.mk Mesh.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mesh.o Mesh.cpp
+
 ${OBJECTDIR}/Key.o: nbproject/Makefile-${CND_CONF}.mk Key.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Key.o Key.cpp
-
-${OBJECTDIR}/Scene.o: nbproject/Makefile-${CND_CONF}.mk Scene.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scene.o Scene.cpp
 
 ${OBJECTDIR}/Vector.o: nbproject/Makefile-${CND_CONF}.mk Vector.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -130,6 +126,11 @@ ${OBJECTDIR}/Matrix4.o: nbproject/Makefile-${CND_CONF}.mk Matrix4.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix4.o Matrix4.cpp
 
+${OBJECTDIR}/Scene.o: nbproject/Makefile-${CND_CONF}.mk Scene.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scene.o Scene.cpp
+
 ${OBJECTDIR}/Universe.o: nbproject/Makefile-${CND_CONF}.mk Universe.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -139,6 +140,11 @@ ${OBJECTDIR}/Matrix.o: nbproject/Makefile-${CND_CONF}.mk Matrix.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix.o Matrix.cpp
+
+${OBJECTDIR}/Quaternion.o: nbproject/Makefile-${CND_CONF}.mk Quaternion.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Quaternion.o Quaternion.cpp
 
 ${OBJECTDIR}/Rate.o: nbproject/Makefile-${CND_CONF}.mk Rate.cpp 
 	${MKDIR} -p ${OBJECTDIR}

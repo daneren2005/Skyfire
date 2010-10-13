@@ -38,13 +38,14 @@ void Camera::render()
 {
 	glLoadIdentity();
 
-	Matrix4 m = Matrix4::translate(!this->position);
+	// Translate camera
+	Matrix4 translate = Matrix4::translate(!this->position);
+	glMultMatrixf(translate.getMatrix());
 
-	/*std::cout << arr[0] << std::endl;
-	std::cout << arr[4] << std::endl;
-	std::cout << arr[5] << std::endl;
-	std::cout << arr[15] << std::endl;*/
-	glMultMatrixf(m.getMatrix());
+	// Rotate camera around new origin
+	Matrix4 rotate = Matrix4::rotate(!this->angle);
+	glMultMatrixf(rotate.getMatrix());
+
 	glPushMatrix();
 
 	if(this->activeRegion)
