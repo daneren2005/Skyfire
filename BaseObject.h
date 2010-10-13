@@ -9,6 +9,7 @@
 #define	_BASEOBJECT_H
 
 #include "Mesh.h"
+#include "Matrix4.h"
 #include "Vector.h"
 
 class BaseObject
@@ -31,7 +32,7 @@ public:
 	virtual void rotateByAbsolute(const Vector& amount);
 
 	virtual void update(double interval) = 0;
-	virtual void draw(Vector cameraPosition, Vector cameraAngle);
+	virtual void draw();
 
 	virtual void load();
 protected:

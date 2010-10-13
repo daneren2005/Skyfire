@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   Region.cpp
  * Author: scott
- * 
+ *
  * Created on July 14, 2010, 7:11 PM
  */
 
@@ -9,7 +9,7 @@
 
 Region::Region()
 {
-	
+
 }
 
 Region::Region(const Region& orig)
@@ -30,12 +30,12 @@ void Region::update(double interval)
 	}
 }
 
-void Region::draw(Vector cameraPosition, Vector cameraAngle)
+void Region::draw()
 {
 	BaseObject* object = NULL;
 	for(Iterator<BaseObject*> it = objects.begin(false); !it; it++)
 	{
 		object = it.value();
-		object->draw(cameraPosition, cameraAngle);
+		object->draw();
 	}
 }

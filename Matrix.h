@@ -15,9 +15,11 @@ public:
 	Matrix(const Matrix& orig);
 	~Matrix();
 
-	float* operator[](unsigned row);
-	float* getMatrix();
-private:
+	virtual float* operator[](unsigned col);
+	virtual float* getMatrix();
+
+	static Matrix identity(unsigned int dimensions);
+protected:
 	int size;
 	int dim;
 	float* matrix;

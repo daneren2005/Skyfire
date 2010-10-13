@@ -14,7 +14,7 @@
 #include "const.h"
 #include <cmath>
 
-// #include <iostream>
+#include <iostream>
 
 BaseObject::BaseObject()
 {
@@ -85,11 +85,9 @@ void BaseObject::rotateByReference(const Vector& amount)
 	this->angle = this->angle + amount;
 }
 
-void BaseObject::draw(Vector cameraPosition, Vector cameraAngle)
+void BaseObject::draw()
 {
-	glLoadIdentity();
-
-	float x = (cameraAngle[1] * PI) / 180;
+	/*float x = (cameraAngle[1] * PI) / 180;
 	float y = (cameraAngle[0] * PI) / 180;
 	float z = (cameraAngle[2] * PI) / 180;
 
@@ -103,14 +101,30 @@ void BaseObject::draw(Vector cameraPosition, Vector cameraAngle)
 		+ oldPosition[1] * std::sin(y);												// y rotation (actual x)
 	glTranslatev(newPosition);
 
-	glRotatev(angle);
+	glRotatev(angle);*/
 
-	// glCallList(this->displayList);
+	Matrix4 translate = Matrix4::translate(this->position);
+
+	glMultMatrixf(translate.getMatrix());
+	// glLoadMatrixf(translate.getMatrix());
+	// glTranslatev(this->position);
+
+	/*float* f = new float[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, f);
+	for(int i = 0; i < 16; i++)
+	{
+		std::cout << f[i] << std::endl;
+	}
+	std::cout << std::endl;*/
 
 	if(this->shape != NULL)
 	{
 		this->shape->draw();
 	}
+
+	// Get rid of just edited matrix and replace with the fresh camera one
+	// glPopMatrix();
+	// glPushMatrix();
 }
 
 void BaseObject::load()

@@ -73,6 +73,12 @@
 		<Unit filename="Matrix.h">
 			<Option target="Debug" />
 		</Unit>
+		<Unit filename="Matrix4.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="Matrix4.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="Mesh.cpp">
 			<Option target="Debug" />
 		</Unit>

@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Mesh.h
  * Author: scott
  *
@@ -22,7 +22,7 @@ public:
 	void draw();
 private:
 	List<Triangle*> triangles;
-	uintptr_t displayList;
+	int displayList;
 };
 
 #endif	/* _Mesh_H */

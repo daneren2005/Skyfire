@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Region.h
  * Author: scott
  *
@@ -18,7 +18,7 @@ public:
 	virtual ~Region();
 
 	virtual void update(double interval);
-	virtual void draw(Vector cameraPosition, Vector cameraAngle);
+	virtual void draw();
 protected:
 	List<BaseObject*> objects;
 };
