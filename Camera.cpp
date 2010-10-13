@@ -38,7 +38,8 @@ void Camera::render()
 {
 	glLoadIdentity();
 
-	Matrix4 m = Matrix4::translate(this->position);
+	Matrix4 m = Matrix4::translate(!this->position);
+
 	/*std::cout << arr[0] << std::endl;
 	std::cout << arr[4] << std::endl;
 	std::cout << arr[5] << std::endl;

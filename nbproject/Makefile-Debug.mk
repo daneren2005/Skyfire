@@ -32,17 +32,19 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/AxisObject.o \
-	${OBJECTDIR}/FrameRate.o \
 	${OBJECTDIR}/Thread.o \
 	${OBJECTDIR}/StopWatch.o \
 	${OBJECTDIR}/Camera.o \
 	${OBJECTDIR}/Triangle.o \
-	${OBJECTDIR}/Polygon.o \
+	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Key.o \
-	${OBJECTDIR}/Vector.o \
 	${OBJECTDIR}/Scene.o \
+	${OBJECTDIR}/Vector.o \
+	${OBJECTDIR}/Matrix4.o \
 	${OBJECTDIR}/Universe.o \
+	${OBJECTDIR}/Matrix.o \
+	${OBJECTDIR}/Rate.o \
 	${OBJECTDIR}/BaseObject.o \
 	${OBJECTDIR}/Window.o \
 	${OBJECTDIR}/Region.o
@@ -78,11 +80,6 @@ ${OBJECTDIR}/AxisObject.o: nbproject/Makefile-${CND_CONF}.mk AxisObject.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisObject.o AxisObject.cpp
 
-${OBJECTDIR}/FrameRate.o: nbproject/Makefile-${CND_CONF}.mk FrameRate.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/FrameRate.o FrameRate.cpp
-
 ${OBJECTDIR}/Thread.o: nbproject/Makefile-${CND_CONF}.mk Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -103,10 +100,10 @@ ${OBJECTDIR}/Triangle.o: nbproject/Makefile-${CND_CONF}.mk Triangle.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Triangle.o Triangle.cpp
 
-${OBJECTDIR}/Polygon.o: nbproject/Makefile-${CND_CONF}.mk Polygon.cpp 
+${OBJECTDIR}/Mesh.o: nbproject/Makefile-${CND_CONF}.mk Mesh.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Polygon.o Polygon.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mesh.o Mesh.cpp
 
 ${OBJECTDIR}/Input.o: nbproject/Makefile-${CND_CONF}.mk Input.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -118,20 +115,35 @@ ${OBJECTDIR}/Key.o: nbproject/Makefile-${CND_CONF}.mk Key.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Key.o Key.cpp
 
-${OBJECTDIR}/Vector.o: nbproject/Makefile-${CND_CONF}.mk Vector.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Vector.o Vector.cpp
-
 ${OBJECTDIR}/Scene.o: nbproject/Makefile-${CND_CONF}.mk Scene.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scene.o Scene.cpp
 
+${OBJECTDIR}/Vector.o: nbproject/Makefile-${CND_CONF}.mk Vector.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Vector.o Vector.cpp
+
+${OBJECTDIR}/Matrix4.o: nbproject/Makefile-${CND_CONF}.mk Matrix4.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix4.o Matrix4.cpp
+
 ${OBJECTDIR}/Universe.o: nbproject/Makefile-${CND_CONF}.mk Universe.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Universe.o Universe.cpp
+
+${OBJECTDIR}/Matrix.o: nbproject/Makefile-${CND_CONF}.mk Matrix.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix.o Matrix.cpp
+
+${OBJECTDIR}/Rate.o: nbproject/Makefile-${CND_CONF}.mk Rate.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Rate.o Rate.cpp
 
 ${OBJECTDIR}/BaseObject.o: nbproject/Makefile-${CND_CONF}.mk BaseObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}

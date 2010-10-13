@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="62">
   <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="f6" displayName="Containers" projectFiles="true">
+      <itemPath>List.h</itemPath>
+      <itemPath>Matrix.cpp</itemPath>
+      <itemPath>Matrix.h</itemPath>
+      <itemPath>Matrix4.cpp</itemPath>
+      <itemPath>Matrix4.h</itemPath>
+      <itemPath>Vector.cpp</itemPath>
+      <itemPath>Vector.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f5" displayName="Models" projectFiles="true">
+      <itemPath>Mesh.cpp</itemPath>
+      <itemPath>Mesh.h</itemPath>
+      <itemPath>Triangle.cpp</itemPath>
+      <itemPath>Triangle.h</itemPath>
+    </logicalFolder>
     <logicalFolder name="f1" displayName="Objects" projectFiles="true">
       <itemPath>AxisObject.cpp</itemPath>
       <itemPath>AxisObject.h</itemPath>
       <itemPath>BaseObject.cpp</itemPath>
       <itemPath>BaseObject.h</itemPath>
-      <itemPath>Polygon.cpp</itemPath>
-      <itemPath>Polygon.h</itemPath>
-      <itemPath>Triangle.cpp</itemPath>
-      <itemPath>Triangle.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f3" displayName="Regions" projectFiles="true">
       <itemPath>Region.cpp</itemPath>
@@ -17,27 +28,26 @@
       <itemPath>Universe.cpp</itemPath>
       <itemPath>Universe.h</itemPath>
     </logicalFolder>
+    <logicalFolder name="f7" displayName="Scenes" projectFiles="true">
+      <itemPath>Camera.cpp</itemPath>
+      <itemPath>Camera.h</itemPath>
+      <itemPath>Scene.cpp</itemPath>
+      <itemPath>Scene.h</itemPath>
+    </logicalFolder>
     <logicalFolder name="f4" displayName="Utilities" projectFiles="true">
-      <itemPath>List.h</itemPath>
+      <itemPath>Rate.cpp</itemPath>
+      <itemPath>Rate.h</itemPath>
       <itemPath>StopWatch.cpp</itemPath>
       <itemPath>StopWatch.h</itemPath>
       <itemPath>Thread.cpp</itemPath>
       <itemPath>Thread.h</itemPath>
-      <itemPath>Vector.cpp</itemPath>
-      <itemPath>Vector.h</itemPath>
       <itemPath>const.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f2" displayName="Windows" projectFiles="true">
-      <itemPath>Camera.cpp</itemPath>
-      <itemPath>Camera.h</itemPath>
-      <itemPath>FrameRate.cpp</itemPath>
-      <itemPath>FrameRate.h</itemPath>
       <itemPath>Input.cpp</itemPath>
       <itemPath>Input.h</itemPath>
       <itemPath>Key.cpp</itemPath>
       <itemPath>Key.h</itemPath>
-      <itemPath>Scene.cpp</itemPath>
-      <itemPath>Scene.h</itemPath>
       <itemPath>Window.cpp</itemPath>
       <itemPath>Window.h</itemPath>
     </logicalFolder>

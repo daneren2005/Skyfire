@@ -87,7 +87,7 @@ float& Vector::operator[](unsigned col)
 Vector Vector::operator+(const Vector& rhs)
 {
 	// pthread_mutex_lock(&this->lock);
-	Vector vec(this->x() + this->x(), this->y() + rhs.y(), this->z() + rhs.z());
+	Vector vec(this->x() + rhs.x(), this->y() + rhs.y(), this->z() + rhs.z());
 	// pthread_mutex_unlock(&this->lock);
 	return vec;
 }
@@ -157,5 +157,10 @@ bool Vector::operator!=(const Vector& rhs)
 		value = false;
 	// pthread_mutex_unlock(&this->lock);
 	return value;
+}
+
+Vector Vector::operator!()
+{
+	return Vector(-this->x(), -this->y(), -this->z());
 }
 

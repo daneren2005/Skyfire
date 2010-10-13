@@ -39,6 +39,8 @@ public:
 
 	bool operator==(const Vector& rhs);
 	bool operator!=(const Vector& rhs);
+
+	Vector operator!();
 private:
 	float pos[3];
 	pthread_mutex_t lock;

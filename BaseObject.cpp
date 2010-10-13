@@ -103,17 +103,17 @@ void BaseObject::draw()
 
 	glRotatev(angle);*/
 
+	glPushMatrix();
 	Matrix4 translate = Matrix4::translate(this->position);
-
 	glMultMatrixf(translate.getMatrix());
 	// glLoadMatrixf(translate.getMatrix());
 	// glTranslatev(this->position);
 
 	/*float* f = new float[16];
 	glGetFloatv(GL_MODELVIEW_MATRIX, f);
-	for(int i = 0; i < 16; i++)
+	for(int i = 0; i < 4; i++)
 	{
-		std::cout << f[i] << std::endl;
+		std::cout << f[i] << " " << f[i + 4] << " " << f[i + 8] << " " << f[i + 12] << std::endl;
 	}
 	std::cout << std::endl;*/
 
@@ -123,8 +123,7 @@ void BaseObject::draw()
 	}
 
 	// Get rid of just edited matrix and replace with the fresh camera one
-	// glPopMatrix();
-	// glPushMatrix();
+	glPopMatrix();
 }
 
 void BaseObject::load()
