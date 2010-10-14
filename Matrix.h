@@ -8,6 +8,8 @@
 #ifndef _MATRIX_H
 #define	_MATRIX_H
 
+#include "Vector.h"
+
 class Matrix
 {
 public:
@@ -18,6 +20,7 @@ public:
 
 	float* operator[](unsigned col);
 	Matrix operator*(const Matrix& rhs);
+	Vector operator*(const Vector& rhs);
 
 	virtual float* getMatrix();
 

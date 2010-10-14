@@ -36,24 +36,25 @@ BaseObject::~BaseObject()
 {
 }
 
-void BaseObject::moveByAbsolute(float x, float y, float z)
+void BaseObject::moveBy(float x, float y, float z)
 {
 	Vector amount(x, y, z);
-	this->position = this->position + amount;
+	this->moveBy(amount);
 }
-void BaseObject::moveByAbsolute(const Vector& amount)
+void BaseObject::moveBy(const Vector& amount)
 {
 	this->position = this->position + amount;
 }
-void BaseObject::moveByReference(float x, float y, float z)
+void BaseObject::moveByDirection(float x, float y, float z)
 {
-	// TODO: reference
 	Vector amount(x, y, z);
-	this->position = this->position + amount;
+	this->moveByDirection(amount);
 }
-void BaseObject::moveByReference(const Vector& amount)
+void BaseObject::moveByDirection(const Vector& amount)
 {
 	// TODO: reference
+	Matrix4 rotate = Matrix4::rotate(this->angle);
+
 	this->position = this->position + amount;
 }
 void BaseObject::moveTo(float x, float y, float z)
@@ -64,25 +65,15 @@ void BaseObject::moveTo(const Vector& amount)
 {
 	this->position = amount;
 }
-void BaseObject::rotateByAbsolute(float x, float y, float z)
+void BaseObject::rotateBy(float x, float y, float z)
 {
-	this->rotateByAbsolute(Vector(y, x, z));
+	this->rotateBy(Vector(y, x, z));
 }
-void BaseObject::rotateByAbsolute(const Vector& amount)
+void BaseObject::rotateBy(const Vector& amount)
 {
 	this->angle = this->angle + amount;
 	this->angle = this->angle % 360;
 
-}
-void BaseObject::rotateByReference(float x, float y, float z)
-{
-	// TODO: reference
-	this->angle = this->angle + Vector(y, x, z);
-}
-void BaseObject::rotateByReference(const Vector& amount)
-{
-	// TODO: reference
-	this->angle = this->angle + amount;
 }
 
 void BaseObject::draw()

@@ -85,29 +85,29 @@ void* Universe::updateFunction(void* arg)
 	if(uni->input != NULL)
 	{
 		if(uni->input->moveLeft && !uni->input->moveRight)
-			uni->camera->moveByAbsolute(-interval * 10, 0.0f, 0.0f);
+			uni->camera->moveByDirection(-interval * 10, 0.0f, 0.0f);
 		if(!uni->input->moveLeft && uni->input->moveRight)
-			uni->camera->moveByAbsolute(interval * 10, 0.0f, 0.0f);
+			uni->camera->moveByDirection(interval * 10, 0.0f, 0.0f);
 
 		if(uni->input->moveUp && !uni->input->moveDown)
-			uni->camera->moveByAbsolute(0.0f, interval * 10, 0.0f);
+			uni->camera->moveByDirection(0.0f, interval * 10, 0.0f);
 		if(!uni->input->moveUp && uni->input->moveDown)
-			uni->camera->moveByAbsolute(0.0f, -interval * 10, 0.0f);
+			uni->camera->moveByDirection(0.0f, -interval * 10, 0.0f);
 
 		if(uni->input->moveIn && !uni->input->moveOut)
-			uni->camera->moveByAbsolute(0.0f, 0.0f, -interval * 10);
+			uni->camera->moveByDirection(0.0f, 0.0f, -interval * 10);
 		if(!uni->input->moveIn && uni->input->moveOut)
-			uni->camera->moveByAbsolute(0.0f, 0.0f, interval * 10);
+			uni->camera->moveByDirection(0.0f, 0.0f, interval * 10);
 
 		if(uni->input->rotateLeft && !uni->input->rotateRight)
-			uni->camera->rotateByAbsolute(-interval * 100.0f, 0.0f, 0.0f);
+			uni->camera->rotateBy(-interval * 100.0f, 0.0f, 0.0f);
 		if(!uni->input->rotateLeft && uni->input->rotateRight)
-			uni->camera->rotateByAbsolute(interval * 100.0f, 0.0f, 0.0f);
+			uni->camera->rotateBy(interval * 100.0f, 0.0f, 0.0f);
 
 		if(uni->input->rotateUp && !uni->input->rotateDown)
-			uni->camera->rotateByAbsolute(0.0f, interval * 100.0f, 0.0f);
+			uni->camera->rotateBy(0.0f, interval * 100.0f, 0.0f);
 		if(!uni->input->rotateUp && uni->input->rotateDown)
-			uni->camera->rotateByAbsolute(0.0f, -interval * 100.0f, 0.0f);
+			uni->camera->rotateBy(0.0f, -interval * 100.0f, 0.0f);
 	}
 
 	uni->updateRate.executeEnd();

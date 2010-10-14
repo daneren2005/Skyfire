@@ -66,6 +66,20 @@ Matrix Matrix::operator*(const Matrix& rhs)
 	return result;
 }
 
+Vector Matrix::operator*(const Vector& rhs)
+{
+	Vector result;
+
+	for(int i = 0; i < 3; i++)
+	{
+		result[i] += matrix[i] * rhs.x();
+		result[i] += matrix[dim + i] * rhs.y();
+		result[i] += matrix[dim * 2 + i] * rhs.z();
+	}
+
+	return result;
+}
+
 float* Matrix::getMatrix()
 {
 	return matrix;

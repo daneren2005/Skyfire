@@ -20,16 +20,14 @@ public:
 	BaseObject(const BaseObject& orig);
 	virtual ~BaseObject();
 
-	virtual void moveByReference(float x, float y, float z);
-	virtual void moveByReference(const Vector& amount);
-	virtual void moveByAbsolute(float x, float y, float z);
-	virtual void moveByAbsolute(const Vector& amount);
+	virtual void moveBy(float x, float y, float z);
+	virtual void moveBy(const Vector& amount);
+	virtual void moveByDirection(float x, float y, float z);
+	virtual void moveByDirection(const Vector& amount);
 	virtual void moveTo(float x, float y, float z);
 	virtual void moveTo(const Vector& amount);
-	virtual void rotateByReference(float x, float y, float z);
-	virtual void rotateByReference(const Vector& amount);
-	virtual void rotateByAbsolute(float x, float y, float z);
-	virtual void rotateByAbsolute(const Vector& amount);
+	virtual void rotateBy(float x, float y, float z);
+	virtual void rotateBy(const Vector& amount);
 
 	virtual void update(double interval) = 0;
 	virtual void draw();
