@@ -31,7 +31,6 @@ public:
 	// Operator Overloading
 	float& operator[](unsigned col);
 
-	// TODO: make thread safe
 	Vector operator+(const Vector& rhs);
 	Vector operator-(const Vector& rhs);
 	Vector operator*(const Vector& rhs);

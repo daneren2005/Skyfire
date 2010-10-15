@@ -31,8 +31,8 @@ Matrix4 Matrix4::rotate(const Vector& vec)
 	Quaternion x(1.0f, 0.0f, 0.0f, vec.x());
 	Quaternion y(0.0f, 1.0f, 0.0f, vec.y());
 	Quaternion z(0.0f, 0.0f, 1.0f, vec.z());
-
 	Quaternion rotation = y * x * z;
+
 	Matrix4 matrix(rotation.getMatrix());
 	return matrix;
 }

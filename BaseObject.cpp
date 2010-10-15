@@ -52,9 +52,14 @@ void BaseObject::moveByDirection(float x, float y, float z)
 }
 void BaseObject::moveByDirection(const Vector& amount)
 {
-	// TODO: reference
 	Matrix4 rotate = Matrix4::rotate(this->angle);
 	Vector move = rotate * amount;
+	
+	/*Quaternion x(1.0f, 0.0f, 0.0f, angle.x());
+	Quaternion y(0.0f, 1.0f, 0.0f, angle.y());
+	Quaternion z(0.0f, 0.0f, 1.0f, angle.z());
+	Quaternion rotation = y * x * z;
+	Vector move = rotation * amount;*/
 
 	this->position = this->position + move;
 }
@@ -68,13 +73,13 @@ void BaseObject::moveTo(const Vector& amount)
 }
 void BaseObject::rotateBy(float x, float y, float z)
 {
-	this->rotateBy(Vector(y, x, z));
+	Vector vec(y, x, z);
+	this->angle = this->angle + vec;
+	this->angle = this->angle % 360;
 }
 void BaseObject::rotateBy(const Vector& amount)
 {
-	// TODO: switch y and x here too
-	this->angle = this->angle + amount;
-	this->angle = this->angle % 360;
+	this->rotateBy(amount.y(), amount.x(), amount.z());
 }
 
 void BaseObject::draw()

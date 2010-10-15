@@ -19,6 +19,9 @@ public:
 	Camera(const Camera& orig);
 	virtual ~Camera();
 
+	virtual void rotateBy(float x, float y, float z);
+	virtual void rotateBy(const Vector& amount);
+
 	void setActiveRegion(Region* region);
 	virtual void render();
 	virtual void update(double interval);

@@ -19,6 +19,14 @@ Quaternion::Quaternion()
 	pos[3] = 0.0f;
 }
 
+Quaternion::Quaternion(float x, float y, float z)
+{
+	pos[0] = x;
+	pos[1] = y;
+	pos[2] = z;
+	pos[3] = 0.0f;
+}
+
 Quaternion::Quaternion(float x, float y, float z, float degrees)
 {
 	float angle = ((degrees / 180.0f) * PI);
@@ -79,5 +87,33 @@ Quaternion Quaternion::operator*(const Quaternion& rhs)
 	r.pos[2] = pos[3]*rhs.pos[2] + pos[2]*rhs.pos[3] + pos[0]*rhs.pos[1] - pos[1]*rhs.pos[0];
 
 	return(r);
+}
 
+Vector Quaternion::operator*(const Vector& rhs)
+{
+	Quaternion vec(rhs.x(), rhs.y(), rhs.z());
+	Quaternion res = vec * !(*this);
+	res = *this * res;
+
+	return Vector(res.pos[0], res.pos[1], res.pos[2]);
+}
+
+Quaternion Quaternion::operator!()
+{
+	Quaternion q(-pos[0], -pos[1], -pos[2]);
+	q.pos[3] = pos[3];
+	return q;
+}
+
+void Quaternion::normalize()
+{
+	float temp = pos[3] * pos[3] + pos[0] * pos[0] + pos[1] * pos[1] + pos[2] * pos[2];
+	if(temp!=0.f)
+	{
+		float mag = sqrt(temp);
+		pos[3] /= mag;
+		pos[0] /= mag;
+		pos[1] /= mag;
+		pos[2] /= mag;
+	}
 }
