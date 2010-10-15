@@ -54,8 +54,9 @@ void BaseObject::moveByDirection(const Vector& amount)
 {
 	// TODO: reference
 	Matrix4 rotate = Matrix4::rotate(this->angle);
+	Vector move = rotate * amount;
 
-	this->position = this->position + amount;
+	this->position = this->position + move;
 }
 void BaseObject::moveTo(float x, float y, float z)
 {
@@ -71,9 +72,9 @@ void BaseObject::rotateBy(float x, float y, float z)
 }
 void BaseObject::rotateBy(const Vector& amount)
 {
+	// TODO: switch y and x here too
 	this->angle = this->angle + amount;
 	this->angle = this->angle % 360;
-
 }
 
 void BaseObject::draw()

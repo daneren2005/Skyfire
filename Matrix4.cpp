@@ -23,12 +23,6 @@ Matrix4 Matrix4::translate(const Vector& vec)
 	m.matrix[13] = vec.y();
 	m.matrix[14] = vec.z();
 
-	/*for(int i = 0; i < m.size; i++)
-	{
-		std::cout << m.matrix[i] << std::endl;
-	}
-	std::cout << std::endl;*/
-
 	return m;
 }
 
@@ -38,12 +32,16 @@ Matrix4 Matrix4::rotate(const Vector& vec)
 	Quaternion y(0.0f, 1.0f, 0.0f, vec.y());
 	Quaternion z(0.0f, 0.0f, 1.0f, vec.z());
 
-	Quaternion rotation = x * y * z;
+	Quaternion rotation = y * x * z;
 	Matrix4 matrix(rotation.getMatrix());
 	return matrix;
 }
 
 Matrix4 Matrix4::scale(const Vector& vec)
 {
-
+	Matrix4 m = Matrix4::identity();
+	m.matrix[0] = vec.x();
+	m.matrix[5] = vec.y();
+	m.matrix[10] = vec.z();
+	return m;
 }

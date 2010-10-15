@@ -25,7 +25,7 @@ Quaternion::Quaternion(float x, float y, float z, float degrees)
 	float result = std::sin(angle  / 2.0f);
 
 	pos[3] = std::cos(angle / 2.0f);
-	pos[0] = -x * result;
+	pos[0] = x * result;
 	pos[1] = y * result;
 	pos[2] = z * result;
 }

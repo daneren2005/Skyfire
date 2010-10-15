@@ -175,22 +175,6 @@
 				RelativePath=".\BaseObject.h"
 				>
 			</File>
-			<File
-				RelativePath=".\Mesh.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Mesh.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Triangle.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Triangle.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Regions"
@@ -216,14 +200,6 @@
 			Name="Windows"
 			>
 			<File
-				RelativePath=".\Camera.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Camera.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Input.cpp"
 				>
 			</File>
@@ -237,22 +213,6 @@
 			</File>
 			<File
 				RelativePath=".\Key.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Rate.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Rate.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Scene.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Scene.h"
 				>
 			</File>
 			<File
@@ -272,7 +232,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\List.h"
+				RelativePath=".\Rate.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Rate.h"
 				>
 			</File>
 			<File
@@ -291,12 +255,84 @@
 				RelativePath=".\Thread.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Models"
+			>
+			<File
+				RelativePath=".\Mesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Mesh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Triangle.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Triangle.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Containers"
+			>
+			<File
+				RelativePath=".\List.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Matrix.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Matrix.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Matrix4.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Matrix4.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Quaternion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Quaternion.h"
+				>
+			</File>
 			<File
 				RelativePath=".\Vector.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Vector.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Scenes"
+			>
+			<File
+				RelativePath=".\Camera.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Camera.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene.h"
 				>
 			</File>
 		</Filter>
