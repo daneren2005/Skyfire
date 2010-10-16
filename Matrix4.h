@@ -22,7 +22,8 @@ public:
 	static Matrix identity();
 
 	static Matrix4 translate(const Vector& vec);
-	static Matrix4 rotate(const Vector& vec);
+	static Matrix4 rotateObject(const Vector& vec);
+	static Matrix4 rotateMovement(const Vector& vec);
 	static Matrix4 scale(const Vector& vec);
 };
 

@@ -26,12 +26,22 @@ Matrix4 Matrix4::translate(const Vector& vec)
 	return m;
 }
 
-Matrix4 Matrix4::rotate(const Vector& vec)
+Matrix4 Matrix4::rotateObject(const Vector& vec)
 {
 	Quaternion x(1.0f, 0.0f, 0.0f, vec.x());
 	Quaternion y(0.0f, 1.0f, 0.0f, vec.y());
 	Quaternion z(0.0f, 0.0f, 1.0f, vec.z());
 	Quaternion rotation = z * y * x;
+
+	Matrix4 matrix(rotation.getMatrix());
+	return matrix;
+}
+Matrix4 Matrix4::rotateMovement(const Vector& vec)
+{
+	Quaternion x(1.0f, 0.0f, 0.0f, vec.x());
+	Quaternion y(0.0f, 1.0f, 0.0f, vec.y());
+	Quaternion z(0.0f, 0.0f, 1.0f, vec.z());
+	Quaternion rotation = z * x * y;
 
 	Matrix4 matrix(rotation.getMatrix());
 	return matrix;

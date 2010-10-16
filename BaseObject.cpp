@@ -52,7 +52,7 @@ void BaseObject::moveByDirection(float x, float y, float z)
 }
 void BaseObject::moveByDirection(const Vector& amount)
 {
-	Matrix4 rotate = Matrix4::rotate(this->angle);
+	Matrix4 rotate = Matrix4::rotateMovement(this->angle);
 	Vector move = rotate * amount;
 	
 	/*Quaternion x(1.0f, 0.0f, 0.0f, angle.x());
@@ -85,7 +85,7 @@ void BaseObject::rotateBy(const Vector& amount)
 void BaseObject::draw()
 {
 	glPushMatrix();
-	Matrix4 rotate = Matrix4::rotate(this->angle);
+	Matrix4 rotate = Matrix4::rotateObject(this->angle);
 	Matrix4 translate = Matrix4::translate(this->position);
 	Matrix4 transform = rotate * translate;
 	glMultMatrixf(transform.getMatrix());
