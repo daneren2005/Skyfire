@@ -48,7 +48,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Rate.o \
 	${OBJECTDIR}/BaseObject.o \
 	${OBJECTDIR}/Window.o \
-	${OBJECTDIR}/Region.o
+	${OBJECTDIR}/Region.o \
+	${OBJECTDIR}/ModelManager.o
 
 # C Compiler Flags
 CFLAGS=
@@ -165,6 +166,11 @@ ${OBJECTDIR}/Region.o: nbproject/Makefile-${CND_CONF}.mk Region.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Region.o Region.cpp
+
+${OBJECTDIR}/ModelManager.o: nbproject/Makefile-${CND_CONF}.mk ModelManager.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/ModelManager.o ModelManager.cpp
 
 # Subprojects
 .build-subprojects:

@@ -16,7 +16,7 @@ class Mesh : public Array<Triangle>
 {
 public:
 	Mesh();
-	Mesh(unsigned long triangles);
+	Mesh(unsigned long size);
 	Mesh(const Mesh& orig);
 	virtual ~Mesh();
 

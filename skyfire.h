@@ -16,6 +16,7 @@
 #include "Vector.h"
 #include "Matrix4.h"
 
+#include "ModelManager.h"
 #include "BaseObject.h"
 #include "AxisObject.h"
 

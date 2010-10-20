@@ -20,14 +20,17 @@ BaseObject::BaseObject()
 {
 	position = Vector(0.0f, 0.0f, 0.0f);
 	angle = Vector(0.0f, 0.0f, 0.0f);
+	// mesh = NULL;
 }
 BaseObject::BaseObject(float x, float y, float z)
 {
 	position = Vector(x, y, z);
+	// mesh = NULL;
 }
 
 BaseObject::BaseObject(const BaseObject& orig)
 {
+	mesh = orig.mesh;
 }
 
 BaseObject::~BaseObject()
@@ -90,6 +93,10 @@ void BaseObject::draw()
 	}
 	std::cout << std::endl;*/
 
+	/*if(this->mesh)
+	{
+		this->mesh->draw();
+	}*/
 	this->mesh.draw();
 
 	// Get rid of just edited matrix and replace with the fresh camera one

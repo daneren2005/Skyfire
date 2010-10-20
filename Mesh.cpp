@@ -9,17 +9,17 @@
 
 #include <iostream>
 
-Mesh::Mesh() : Array()
+Mesh::Mesh() : Array<Triangle>()
 {
 	this->displayList = 0;
 }
 
-Mesh::Mesh(unsigned long triangles) : Array(triangles)
+Mesh::Mesh(unsigned long size) : Array<Triangle>(size)
 {
 	this->displayList = 0;
 }
 
-Mesh::Mesh(const Mesh& orig) : Array(orig)
+Mesh::Mesh(const Mesh& orig) : Array<Triangle>(orig)
 {
 	this->displayList = 0;
 }
