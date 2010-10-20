@@ -9,19 +9,19 @@
 #define	_Mesh_H
 
 #include "Triangle.h"
+#include "Array.h"
 #include "List.h"
 
-class Mesh
+class Mesh : public Array<Triangle>
 {
 public:
 	Mesh();
+	Mesh(unsigned long triangles);
 	Mesh(const Mesh& orig);
 	virtual ~Mesh();
 
-	void addTriangle(Triangle* triangle);
 	void draw();
 private:
-	List<Triangle*> triangles;
 	int displayList;
 };
 

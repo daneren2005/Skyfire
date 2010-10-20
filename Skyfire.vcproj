@@ -280,6 +280,10 @@
 			Name="Containers"
 			>
 			<File
+				RelativePath=".\Array.h"
+				>
+			</File>
+			<File
 				RelativePath=".\List.h"
 				>
 			</File>

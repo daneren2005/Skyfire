@@ -19,6 +19,7 @@ public:
 	~Matrix();
 
 	float* operator[](unsigned col);
+	const float* operator[](unsigned col) const;
 	Matrix operator*(const Matrix& rhs);
 	Vector operator*(const Vector& rhs);
 

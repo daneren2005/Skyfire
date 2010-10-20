@@ -9,24 +9,24 @@
 
 #include <iostream>
 
-Mesh::Mesh()
+Mesh::Mesh() : Array()
 {
 	this->displayList = 0;
 }
 
-Mesh::Mesh(const Mesh& orig)
+Mesh::Mesh(unsigned long triangles) : Array(triangles)
 {
+	this->displayList = 0;
+}
 
+Mesh::Mesh(const Mesh& orig) : Array(orig)
+{
+	this->displayList = 0;
 }
 
 Mesh::~Mesh()
 {
 	
-}
-
-void Mesh::addTriangle(Triangle* triangle)
-{
-	triangles.push_back(triangle);
 }
 
 void Mesh::draw()
@@ -36,10 +36,9 @@ void Mesh::draw()
 		this->displayList = glGenLists(1);
 		glNewList(this->displayList, GL_COMPILE);
 			glBegin(GL_TRIANGLES);
-				for(Iterator<Triangle*> it = triangles.begin(false); !it; it++)
+				for(int i = 0; i < _size; i++)
 				{
-					Triangle* triangle = it.value();
-					triangle->draw();
+					array[i].draw();
 				}
 			glEnd();
 		glEndList();

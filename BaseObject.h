@@ -34,7 +34,7 @@ public:
 
 	virtual void load();
 protected:
-	Mesh* shape;
+	Mesh mesh;
 	Vector position;
 	Vector angle;
 private:

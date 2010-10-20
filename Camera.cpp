@@ -35,7 +35,7 @@ void Camera::rotateBy(float x, float y, float z)
 }
 void Camera::rotateBy(const Vector& amount) 
 {
-	BaseObject::rotateBy(amount.x(), amount.y(), amount.z());
+	BaseObject::rotateBy(amount[0], amount[1], amount[2]);
 }
 
 void Camera::setActiveRegion(Region* region)

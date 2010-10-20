@@ -91,7 +91,7 @@ Quaternion Quaternion::operator*(const Quaternion& rhs)
 
 Vector Quaternion::operator*(const Vector& rhs)
 {
-	Quaternion vec(rhs.x(), rhs.y(), rhs.z());
+	Quaternion vec(rhs[0], rhs[1], rhs[2]);
 	Quaternion res = vec * !(*this);
 	res = *this * res;
 

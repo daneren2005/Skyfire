@@ -20,12 +20,10 @@ BaseObject::BaseObject()
 {
 	position = Vector(0.0f, 0.0f, 0.0f);
 	angle = Vector(0.0f, 0.0f, 0.0f);
-	this->shape = NULL;
 }
 BaseObject::BaseObject(float x, float y, float z)
 {
 	position = Vector(x, y, z);
-	this->shape = NULL;
 }
 
 BaseObject::BaseObject(const BaseObject& orig)
@@ -54,12 +52,6 @@ void BaseObject::moveByDirection(const Vector& amount)
 {
 	Matrix4 rotate = Matrix4::rotateMovement(this->angle);
 	Vector move = rotate * amount;
-	
-	/*Quaternion x(1.0f, 0.0f, 0.0f, angle.x());
-	Quaternion y(0.0f, 1.0f, 0.0f, angle.y());
-	Quaternion z(0.0f, 0.0f, 1.0f, angle.z());
-	Quaternion rotation = y * x * z;
-	Vector move = rotation * amount;*/
 
 	this->position = this->position + move;
 }
@@ -79,7 +71,7 @@ void BaseObject::rotateBy(float x, float y, float z)
 }
 void BaseObject::rotateBy(const Vector& amount)
 {
-	this->rotateBy(amount.y(), amount.x(), amount.z());
+	this->rotateBy(amount[1], amount[0], amount[2]);
 }
 
 void BaseObject::draw()
@@ -98,10 +90,7 @@ void BaseObject::draw()
 	}
 	std::cout << std::endl;*/
 
-	if(this->shape != NULL)
-	{
-		this->shape->draw();
-	}
+	this->mesh.draw();
 
 	// Get rid of just edited matrix and replace with the fresh camera one
 	glPopMatrix();

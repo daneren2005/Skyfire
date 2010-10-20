@@ -30,6 +30,7 @@ public:
 
 	// Operator Overloading
 	float& operator[](unsigned col);
+	const float& operator[](unsigned col) const;
 
 	Vector operator+(const Vector& rhs);
 	Vector operator-(const Vector& rhs);
@@ -42,7 +43,6 @@ public:
 	Vector operator!();
 private:
 	float pos[3];
-	pthread_mutex_t lock;
 };
 
 // Opengl functions

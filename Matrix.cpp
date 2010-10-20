@@ -44,6 +44,11 @@ float* Matrix::operator[](unsigned col)
 	// return pointer starting at the given row
 	return matrix + (dim * col);
 }
+const float* Matrix::operator[](unsigned col) const
+{
+	// return pointer starting at the given row
+	return matrix + (dim * col);
+}
 
 Matrix Matrix::operator*(const Matrix& rhs)
 {

@@ -12,24 +12,18 @@ Vector::Vector()
 	this->pos[0] = 0;
 	this->pos[1] = 0;
 	this->pos[2] = 0;
-
-	pthread_mutex_init(&this->lock, NULL);
 }
 Vector::Vector(float x, float y)
 {
 	this->pos[0] = x;
 	this->pos[1] = y;
 	this->pos[2] = 0.0f;
-
-	pthread_mutex_init(&this->lock, NULL);
 }
 Vector::Vector(float x, float y, float z)
 {
 	this->pos[0] = x;
 	this->pos[1] = y;
 	this->pos[2] = z;
-
-	pthread_mutex_init(&this->lock, NULL);
 }
 
 Vector::Vector(const Vector& orig)
@@ -37,13 +31,10 @@ Vector::Vector(const Vector& orig)
 	this->pos[0] = orig.pos[0];
 	this->pos[1] = orig.pos[1];
 	this->pos[2] = orig.pos[2];
-
-	pthread_mutex_init(&this->lock, NULL);
 }
 
 Vector::~Vector()
 {
-	// pthread_mutex_destroy(&this->lock);
 }
 
 float Vector::x() const
@@ -82,6 +73,19 @@ float& Vector::operator[](unsigned col)
 		return value;
 	}
 	// pthread_mutex_unlock(&this->lock);
+}
+
+const float& Vector::operator[](unsigned col) const
+{
+	if(col >= 0 && col < 3)
+	{
+		return pos[col];
+	}
+	else
+	{
+		float value = 0.0f;
+		return value;
+	}
 }
 
 Vector Vector::operator+(const Vector& rhs)
