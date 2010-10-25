@@ -14,6 +14,7 @@
 Camera::Camera()
 {
 	this->activeRegion = NULL;
+	this->object = NULL;
 
 	position = Vector();
 	angle = Vector();
@@ -38,9 +39,18 @@ void Camera::rotateBy(const Vector& amount)
 	BaseObject::rotateBy(amount[0], amount[1], amount[2]);
 }
 
+void Camera::setActiveObject(BaseObject* object)
+{
+	this->object = object;
+}
+
 void Camera::setActiveRegion(Region* region)
 {
 	this->activeRegion = region;
+}
+Region* Camera::getActiveRegion()
+{
+	return this->activeRegion;
 }
 
 void Camera::render()

@@ -122,6 +122,7 @@ Camera* Universe::getCamera()
 
 void Universe::addRegion(Region* region)
 {
+	region->universe = this;
 	this->regions.push_front(region);
 }
 

@@ -11,6 +11,8 @@
 #include "BaseObject.h"
 #include "List.h"
 
+class Universe;
+
 class Region {
 public:
 	Region();
@@ -19,7 +21,13 @@ public:
 
 	virtual void update(double interval);
 	virtual void draw();
+
+	// temp
+	BaseObject* getFront();
+
+	friend class Universe;
 protected:
+	Universe* universe;
 	List<BaseObject*> objects;
 };
 

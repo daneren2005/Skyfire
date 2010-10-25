@@ -35,6 +35,8 @@ public:
 	void setInput(Input* input);
 
 	double runningTime();
+
+	friend class Region;
 protected:
 	bool quit;
 

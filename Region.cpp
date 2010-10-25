@@ -9,7 +9,7 @@
 
 Region::Region()
 {
-
+	universe = NULL;
 }
 
 Region::Region(const Region& orig)
@@ -38,4 +38,9 @@ void Region::draw()
 		object = it.value();
 		object->draw();
 	}
+}
+
+BaseObject* Region::getFront()
+{
+	return objects.front();
 }
