@@ -20,6 +20,7 @@ public:
 	virtual ~Quaternion();
 
 	float* getMatrix();
+	Vector getAxis();
 
 	Quaternion operator*(const Quaternion& rhs);
 	Vector operator*(const Vector& rhs);

@@ -21,10 +21,16 @@ Quaternion::Quaternion()
 
 Quaternion::Quaternion(float x, float y, float z)
 {
-	pos[0] = x;
-	pos[1] = y;
-	pos[2] = z;
-	pos[3] = 0.0f;
+	float xAngle = (x / 180.0f) * PI;
+	float yAngle = (y / 180.0f) * PI;
+	float zAngle = (z / 180.0f) * PI;
+
+	pos[0] = std::sin(yAngle) * std::cos(xAngle) * std::cos(zAngle) - std::cos(yAngle) * std::sin(xAngle) * std::sin(zAngle);
+	pos[1] = std::cos(yAngle) * std::sin(xAngle) * std::cos(zAngle) + std::sin(yAngle) * std::cos(xAngle) * std::sin(zAngle);
+	pos[2] = std::cos(yAngle) * std::cos(xAngle) * std::sin(zAngle) - std::sin(yAngle) * std::sin(xAngle) * std::cos(zAngle);
+	pos[3] = std::cos(yAngle) * std::cos(xAngle) * std::cos(zAngle) + std::sin(yAngle) * std::sin(xAngle) * std::sin(zAngle);
+
+	this->normalize();
 }
 
 Quaternion::Quaternion(float x, float y, float z, float degrees)
@@ -77,6 +83,12 @@ float* Quaternion::getMatrix()
 	return matrix;
 }
 
+Vector Quaternion::getAxis()
+{
+	float scale = std::sqrt(pos[0] * pos[0] + pos[1] * pos[1] + pos[2] * pos[2]);
+	return Vector(pos[0] / scale, pos[1] / scale, pos[2] / scale);
+}
+
 Quaternion Quaternion::operator*(const Quaternion& rhs)
 {
 	Quaternion r;
@@ -91,6 +103,7 @@ Quaternion Quaternion::operator*(const Quaternion& rhs)
 
 Vector Quaternion::operator*(const Vector& rhs)
 {
+	// TODO: Should be vector...
 	Quaternion vec(rhs[0], rhs[1], rhs[2]);
 	Quaternion res = vec * !(*this);
 	res = *this * res;

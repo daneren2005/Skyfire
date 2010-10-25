@@ -9,9 +9,9 @@
 
 Vector::Vector()
 {
-	this->pos[0] = 0;
-	this->pos[1] = 0;
-	this->pos[2] = 0;
+	this->pos[0] = 0.0f;
+	this->pos[1] = 0.0f;
+	this->pos[2] = 0.0f;
 }
 Vector::Vector(float x, float y)
 {
@@ -95,6 +95,12 @@ Vector Vector::operator+(const Vector& rhs)
 	// pthread_mutex_unlock(&this->lock);
 	return vec;
 }
+Vector Vector::operator+=(const Vector& rhs)
+{
+	Vector vec(this->x() + rhs.x(), this->y() + rhs.y(), this->z() + rhs.z());
+	return vec;
+}
+
 Vector Vector::operator-(const Vector& rhs)
 {
 	// pthread_mutex_lock(&this->lock);
@@ -105,10 +111,22 @@ Vector Vector::operator-(const Vector& rhs)
 Vector Vector::operator*(const Vector& rhs)
 {
 	// pthread_mutex_lock(&this->lock);
-	Vector vec(this->x() * rhs.x(), this->y() * rhs.y(), this->z() * rhs.z());
+	Vector vec(this->pos[1] * rhs[2] - this->pos[2] * rhs[1], this->pos[2] * rhs[0] - this->pos[0] * rhs[2], this->pos[0] * rhs[1] - this->pos[1] * rhs[0]);
 	// pthread_mutex_unlock(&this->lock);
 	return vec;
 }
+Vector Vector::operator*(const Vector& rhs) const
+{
+	// pthread_mutex_lock(&this->lock);
+	Vector vec(this->pos[1] * rhs[2] - this->pos[2] * rhs[1], this->pos[2] * rhs[0] - this->pos[0] * rhs[2], this->pos[0] * rhs[1] - this->pos[1] * rhs[0]);
+	// pthread_mutex_unlock(&this->lock);
+	return vec;
+}
+Vector Vector::operator*(const float& rhs) const
+{
+	return Vector(pos[0] * rhs, pos[1] * rhs, pos[2] * rhs);
+}
+
 Vector Vector::operator%(const float amount)
 {
 	// pthread_mutex_lock(&this->lock);
@@ -168,3 +186,10 @@ Vector Vector::operator!()
 	return Vector(-this->x(), -this->y(), -this->z());
 }
 
+Vector Vector::projection(const Vector& b) const
+{
+	float dot = pos[0] * b.pos[0] + pos[1] * b.pos[1] + pos[2] * b.pos[2];
+	float a = pos[0] * pos[0] + pos[1] * pos[1] + pos[2] * pos[2];
+
+	return *this * (dot / a);
+}

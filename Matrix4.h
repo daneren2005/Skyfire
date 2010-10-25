@@ -21,6 +21,7 @@ public:
 
 	static Matrix identity();
 
+	static Matrix4 modelView(const Vector& location, const Vector& forward, const Vector& up);
 	static Matrix4 translate(const Vector& vec);
 	static Matrix4 rotateObject(const Vector& vec);
 	static Matrix4 rotateMovement(const Vector& vec);

@@ -33,14 +33,19 @@ public:
 	const float& operator[](unsigned col) const;
 
 	Vector operator+(const Vector& rhs);
+	Vector operator+=(const Vector& rhs);
 	Vector operator-(const Vector& rhs);
 	Vector operator*(const Vector& rhs);
+	Vector operator*(const Vector& rhs) const;
+	Vector operator*(const float& rhs) const;
 	Vector operator%(const float amount);
 
 	bool operator==(const Vector& rhs);
 	bool operator!=(const Vector& rhs);
 
 	Vector operator!();
+
+	Vector projection(const Vector& b) const;
 private:
 	float pos[3];
 };
