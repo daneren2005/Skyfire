@@ -12,6 +12,8 @@
 #include "Matrix4.h"
 #include "Vector.h"
 
+class Camera;
+
 class BaseObject
 {
 public:
@@ -30,13 +32,19 @@ public:
 	virtual void rotateBy(const Vector& amount);
 
 	virtual void update(double interval) = 0;
+	virtual void transformObject();
+	virtual void transformCamera();
 	virtual void draw();
 
 	virtual void load();
+
+	friend class Camera;
 protected:
 	Mesh mesh;
 	Vector position;
 	Vector angle;
+
+	Camera* camera;
 private:
 	static int objectIDCounter;
 };

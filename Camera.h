@@ -21,12 +21,20 @@ public:
 	Camera(const Camera& orig);
 	virtual ~Camera();
 
+	virtual void moveBy(float x, float y, float z);
+	virtual void moveBy(const Vector& amount);
+	virtual void moveByDirection(float x, float y, float z);
+	virtual void moveByDirection(const Vector& amount);
+	virtual void moveTo(float x, float y, float z);
+	virtual void moveTo(const Vector& amount);
 	virtual void rotateBy(float x, float y, float z);
 	virtual void rotateBy(const Vector& amount);
 
-	void setActiveObject(BaseObject* object);
+	void attachTo(BaseObject* object);
+	void detach();
 	void setActiveRegion(Region* region);
 	Region* getActiveRegion();
+
 	virtual void render();
 	virtual void update(double interval);
 

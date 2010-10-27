@@ -20,11 +20,13 @@ BaseObject::BaseObject()
 {
 	position = Vector(0.0f, 0.0f, 0.0f);
 	angle = Vector(0.0f, 0.0f, 0.0f);
+	camera = NULL;
 	// mesh = NULL;
 }
 BaseObject::BaseObject(float x, float y, float z)
 {
 	position = Vector(x, y, z);
+	camera = NULL;
 	// mesh = NULL;
 }
 
@@ -77,30 +79,47 @@ void BaseObject::rotateBy(const Vector& amount)
 	this->rotateBy(amount[1], amount[0], amount[2]);
 }
 
-void BaseObject::draw()
+void BaseObject::transformObject()
 {
-	glPushMatrix();
 	Matrix4 rotate = Matrix4::rotateObject(this->angle);
 	Matrix4 translate = Matrix4::translate(this->position);
 	Matrix4 transform = rotate * translate;
 	glMultMatrixf(transform.getMatrix());
+}
 
-	/*float* f = new float[16];
-	glGetFloatv(GL_MODELVIEW_MATRIX, f);
-	for(int i = 0; i < 4; i++)
+void BaseObject::transformCamera()
+{
+	Matrix4 rotate = Matrix4::rotateObject(!this->angle);
+	Matrix4 translate = Matrix4::translate(!this->position);
+	Matrix4 transform = rotate * translate;
+	glMultMatrixf(transform.getMatrix());
+}
+
+void BaseObject::draw()
+{
+	// Already drawn if camera is not null
+	if(this->camera == NULL)
 	{
-		std::cout << f[i] << " " << f[i + 4] << " " << f[i + 8] << " " << f[i + 12] << std::endl;
+		glPushMatrix();
+		this->transformObject();
+
+		/*float* f = new float[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, f);
+		for(int i = 0; i < 4; i++)
+		{
+			std::cout << f[i] << " " << f[i + 4] << " " << f[i + 8] << " " << f[i + 12] << std::endl;
+		}
+		std::cout << std::endl;*/
+
+		/*if(this->mesh)
+		{
+			this->mesh->draw();
+		}*/
+		this->mesh.draw();
+
+		// Get rid of just edited matrix and replace with the fresh camera one
+		glPopMatrix();
 	}
-	std::cout << std::endl;*/
-
-	/*if(this->mesh)
-	{
-		this->mesh->draw();
-	}*/
-	this->mesh.draw();
-
-	// Get rid of just edited matrix and replace with the fresh camera one
-	glPopMatrix();
 }
 
 void BaseObject::load()
