@@ -86,10 +86,16 @@ void BaseObject::transformObject()
 	Matrix4 transform = rotate * translate;
 	glMultMatrixf(transform.getMatrix());
 }
-
 void BaseObject::transformCamera()
 {
 	Matrix4 rotate = Matrix4::rotateObject(!this->angle);
+	Matrix4 translate = Matrix4::translate(!this->position);
+	Matrix4 transform = rotate * translate;
+	glMultMatrixf(transform.getMatrix());
+}
+void BaseObject::transformCamera(const Vector& cameraPosition, const Vector& cameraAngle)
+{
+	Matrix4 rotate = Matrix4::rotateObject(!(this->angle + cameraAngle));
 	Matrix4 translate = Matrix4::translate(!this->position);
 	Matrix4 transform = rotate * translate;
 	glMultMatrixf(transform.getMatrix());

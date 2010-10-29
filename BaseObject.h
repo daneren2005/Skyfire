@@ -34,6 +34,7 @@ public:
 	virtual void update(double interval) = 0;
 	virtual void transformObject();
 	virtual void transformCamera();
+	virtual void transformCamera(const Vector& cameraPosition, const Vector& cameraAngle);
 	virtual void draw();
 
 	virtual void load();

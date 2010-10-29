@@ -151,7 +151,8 @@ void Camera::render()
 	if(this->object != NULL)
 	{
 		this->object->draw();
-		this->object->transformCamera();
+		glLoadIdentity();
+		this->object->transformCamera(this->position, this->angle);
 	}
 
 	if(this->activeRegion)
