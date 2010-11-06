@@ -16,8 +16,13 @@
 
 #include <iostream>
 
+int BaseObject::objectIDCounter = 0;
+
 BaseObject::BaseObject()
 {
+	this->objectID = BaseObject::objectIDCounter;
+	BaseObject::objectIDCounter++;
+
 	position = Vector(0.0f, 0.0f, 0.0f);
 	angle = Vector(0.0f, 0.0f, 0.0f);
 	camera = NULL;
@@ -25,6 +30,9 @@ BaseObject::BaseObject()
 }
 BaseObject::BaseObject(float x, float y, float z)
 {
+	this->objectID = BaseObject::objectIDCounter;
+	BaseObject::objectIDCounter++;
+
 	position = Vector(x, y, z);
 	camera = NULL;
 	// mesh = NULL;
@@ -32,6 +40,7 @@ BaseObject::BaseObject(float x, float y, float z)
 
 BaseObject::BaseObject(const BaseObject& orig)
 {
+	objectID = orig.objectID;
 	mesh = orig.mesh;
 }
 
@@ -82,53 +91,67 @@ void BaseObject::rotateBy(const Vector& amount)
 void BaseObject::transformObject()
 {
 	Matrix4 rotate = Matrix4::rotateObject(this->angle);
-	Matrix4 translate = Matrix4::translate(this->position);
-	Matrix4 transform = rotate * translate;
-	glMultMatrixf(transform.getMatrix());
+	Vector t(position[0], position[1], -position[2]);
+	Matrix4 translate = Matrix4::translate(t);
+	// Matrix4 transform = rotate * translate;
+	// glMultMatrixf(transform.getMatrix());
+	glMultMatrixf(rotate.getMatrix());
+	glMultMatrixf(translate.getMatrix());
 }
 void BaseObject::transformCamera()
 {
-	Matrix4 rotate = Matrix4::rotateObject(!this->angle);
-	Matrix4 translate = Matrix4::translate(!this->position);
-	Matrix4 transform = rotate * translate;
-	glMultMatrixf(transform.getMatrix());
-}
-void BaseObject::transformCamera(const Vector& cameraPosition, const Vector& cameraAngle)
-{
-	Matrix4 rotate = Matrix4::rotateObject(!(this->angle + cameraAngle));
-	Matrix4 translate = Matrix4::translate(!this->position);
-	Matrix4 transform = rotate * translate;
-	glMultMatrixf(transform.getMatrix());
-}
-
-void BaseObject::draw()
-{
-	// Already drawn if camera is not null
 	if(this->camera == NULL)
 	{
-		glPushMatrix();
-		this->transformObject();
-
-		/*float* f = new float[16];
-		glGetFloatv(GL_MODELVIEW_MATRIX, f);
-		for(int i = 0; i < 4; i++)
-		{
-			std::cout << f[i] << " " << f[i + 4] << " " << f[i + 8] << " " << f[i + 12] << std::endl;
-		}
-		std::cout << std::endl;*/
-
-		/*if(this->mesh)
-		{
-			this->mesh->draw();
-		}*/
-		this->mesh.draw();
-
-		// Get rid of just edited matrix and replace with the fresh camera one
-		glPopMatrix();
+		Matrix4 rotate = Matrix4::rotateObject(!this->angle);
+		Vector t(-position[0], -position[1], position[2]);
+		Matrix4 translate = Matrix4::translate(t);
+		// Matrix4 transform = rotate * translate;
+		// glMultMatrixf(transform.getMatrix());
+		glMultMatrixf(rotate.getMatrix());
+		glMultMatrixf(translate.getMatrix());
+	}
+	else
+	{
+		Vector r(angle[0] + camera->angle[0], -angle[1] + camera->angle[1], -angle[2] + camera->angle[2]);
+		Matrix4 rotate = Matrix4::rotateObject(r);
+		Vector t(-position[0] - camera->position[0], -position[1] - camera->position[1], -position[2] + camera->position[2]);
+		Matrix4 translate = Matrix4::translate(t);
+		// Matrix4 transform = rotate * translate;
+		// glMultMatrixf(transform.getMatrix());
+		glMultMatrixf(rotate.getMatrix());
+		glMultMatrixf(translate.getMatrix());
 	}
 }
 
-void BaseObject::load()
+void BaseObject::draw(bool forceDraw)
 {
+	// Already drawn if camera is not null
+	if(this->camera == NULL || forceDraw == true)
+	{
+		this->mesh.draw();
+	}
+}
 
+bool BaseObject::operator==(const BaseObject& rhs)
+{
+	if(this->objectID == rhs.objectID)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool BaseObject::operator!=(const BaseObject& rhs)
+{
+	if(this->objectID == rhs.objectID)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }

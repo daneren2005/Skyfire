@@ -38,6 +38,8 @@ public:
 	virtual void render();
 	virtual void update(double interval);
 
+	virtual void load();
+
 	friend class Universe;
 private:
 	Region* activeRegion;

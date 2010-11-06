@@ -34,10 +34,12 @@ public:
 	virtual void update(double interval) = 0;
 	virtual void transformObject();
 	virtual void transformCamera();
-	virtual void transformCamera(const Vector& cameraPosition, const Vector& cameraAngle);
-	virtual void draw();
+	virtual void draw(bool forceDraw = false);
 
-	virtual void load();
+	virtual void load() = 0;
+
+	bool operator==(const BaseObject& rhs);
+	bool operator!=(const BaseObject& rhs);
 
 	friend class Camera;
 protected:
@@ -45,8 +47,9 @@ protected:
 	Vector position;
 	Vector angle;
 
-	Camera* camera;
+	BaseObject* camera;
 private:
+	int objectID;
 	static int objectIDCounter;
 };
 

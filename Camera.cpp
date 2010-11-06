@@ -144,21 +144,18 @@ void Camera::render()
 {
 	glLoadIdentity();
 
-	this->transformObject();
-	glPushMatrix();
+	this->transformCamera();
 
 	// If a base object exists, transform on it as well
 	if(this->object != NULL)
 	{
-		this->object->draw();
+		this->object->draw(true);
 		glLoadIdentity();
-		this->object->transformCamera(this->position, this->angle);
+		this->object->transformCamera();
 	}
 
 	if(this->activeRegion)
 		this->activeRegion->draw();
-
-	// glPopMatrix();
 }
 
 void Camera::update(double update)
@@ -166,3 +163,8 @@ void Camera::update(double update)
 
 }
 
+
+void Camera::load()
+{
+	
+}

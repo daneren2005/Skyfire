@@ -36,7 +36,11 @@ void Region::draw()
 	for(Iterator<BaseObject*> it = objects.begin(false); !it; it++)
 	{
 		object = it.value();
+
+		glPushMatrix();
+		object->transformObject();
 		object->draw();
+		glPopMatrix();
 	}
 }
 
