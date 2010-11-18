@@ -64,7 +64,8 @@ void BaseObject::moveByDirection(float x, float y, float z)
 }
 void BaseObject::moveByDirection(const Vector& amount)
 {
-	Matrix4 rotate = Matrix4::rotateMovement(this->angle);
+	Vector angle(this->angle[0], this->angle[1], this->angle[2]);
+	Matrix4 rotate = Matrix4::rotateMovement(angle);
 	Vector move = rotate * amount;
 
 	this->position = this->position + move;
@@ -103,7 +104,7 @@ void BaseObject::transformCamera()
 	if(this->camera == NULL)
 	{
 		Matrix4 rotate = Matrix4::rotateObject(!this->angle);
-		Vector t(-position[0], -position[1], position[2]);
+		Vector t(-position[0], -position[1], -position[2]);
 		Matrix4 translate = Matrix4::translate(t);
 		// Matrix4 transform = rotate * translate;
 		// glMultMatrixf(transform.getMatrix());

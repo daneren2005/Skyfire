@@ -1,6 +1,8 @@
 #ifndef _ARRAY_H
 #define	_ARRAY_H
 
+#include <iostream>
+
 template <class T>
 class Array
 {
@@ -17,6 +19,8 @@ public:
 protected:
 	T* array;
 	unsigned long _size;
+
+	void resize(unsigned long newSize);
 };
 
 template <class T>
@@ -48,7 +52,7 @@ template <class T>
 Array<T>::~Array()
 {
 	// TODO: figure out why this is crashing
-	//delete[] array;
+	delete[] array;
 }
 
 template <class T>
@@ -56,7 +60,8 @@ T& Array<T>::operator[](unsigned col)
 {
 	if(col >= _size)
 	{
-		// TODO: break
+		this->resize(_size * 2);
+		return array[col];
 	}
 	else
 	{
@@ -81,6 +86,19 @@ template <class T>
 long Array<T>::size()
 {
 	return _size;
+}
+
+template <class T>
+void Array<T>::resize(unsigned long newSize)
+{
+	T* toDelete = this->array;
+	this->array = new T[newSize];
+	for(unsigned long i = 0; i < _size; i++)
+	{
+		this->array[i] = toDelete[i];
+	}
+	
+	_size = newSize;
 }
 
 #endif

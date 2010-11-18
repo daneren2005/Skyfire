@@ -37,10 +37,10 @@ void ModelManager::loadModels(std::string filename)
 
 	std::string cmd;
 
-	Mesh* mesh = new Mesh(100);
+	Mesh* mesh = new Mesh(10);
 	int mesh_i = 0;
 
-	Array<Vector> vectors(200);
+	Array<Vector> vectors(10);
 	int vector_i = 0;
 
 	std::string name = "";
