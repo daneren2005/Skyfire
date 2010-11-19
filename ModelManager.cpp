@@ -56,6 +56,7 @@ void ModelManager::loadModels(std::string filename)
 		std::stringstream ss;
 		ss << lineString;
 
+		cmd = "";
 		ss >> cmd;
 
 		switch(cmd[0])
@@ -65,7 +66,9 @@ void ModelManager::loadModels(std::string filename)
 				// If exiting one group to enter another
 				if(name != "")
 				{
-					mesh = new Mesh(100);
+					meshes.insert(name, mesh);
+					mesh->resize(mesh_i + 1);
+					mesh = new Mesh(10);
 					mesh_i = 0;
 				}
 
@@ -88,6 +91,7 @@ void ModelManager::loadModels(std::string filename)
 	}
 
 	// std::cout << name << std::endl;
+	mesh->resize(mesh_i + 1);
 	meshes.insert(name, mesh);
 }
 

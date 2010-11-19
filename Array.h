@@ -16,11 +16,10 @@ public:
 	virtual const T& operator[](unsigned col) const; 
 
 	long size();
+	void resize(unsigned long newSize);
 protected:
 	T* array;
 	unsigned long _size;
-
-	void resize(unsigned long newSize);
 };
 
 template <class T>
@@ -93,7 +92,7 @@ void Array<T>::resize(unsigned long newSize)
 {
 	T* toDelete = this->array;
 	this->array = new T[newSize];
-	for(unsigned long i = 0; i < _size; i++)
+	for(unsigned long i = 0; i < _size && i < newSize; i++)
 	{
 		this->array[i] = toDelete[i];
 	}
