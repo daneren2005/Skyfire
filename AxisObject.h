@@ -12,6 +12,9 @@ public:
 	virtual ~AxisObject();
 
 	virtual void update(double interval);
+	virtual void draw(bool forceDraw = false);
+
+	virtual void load();
 };
 
 #endif	/* _AXISOBJECT_H */
