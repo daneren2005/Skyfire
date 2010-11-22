@@ -37,15 +37,21 @@ void ModelManager::loadModels(std::string filename)
 
 	std::string cmd;
 
+	Model* model = new Model(1);
+	std::string modelName = "";
+	int model_i = 0;
 	Mesh* mesh = new Mesh(10);
+	std::string meshName = "";
 	int mesh_i = 0;
 
-	Array<Vector> vectors(10);
-	int vector_i = 0;
-
-	std::string name = "";
-	float v1, v2, v3;
-	int r1, r2, r3;
+	Array<Vector> geometricVectors(10);
+	int geometric_i = 0;
+	Array<Vector> textureVectors(10);
+	int texture_i = 0;
+	Array<Vector> normalVectors(10);
+	int normal_i = 0;
+	Array<Vector> parametricVectors(10);
+	int parametric_i = 0;
 	
 	char line[256];
 	file.getline(line, 256);
@@ -61,28 +67,86 @@ void ModelManager::loadModels(std::string filename)
 
 		switch(cmd[0])
 		{
-			// Group naming
-			case 'g':
-				// If exiting one group to enter another
-				if(name != "")
+			// Object naming
+			case 'o':
+				// If exiting one object to enter another
+				if(modelName != "")
 				{
-					meshes.insert(name, mesh);
+					meshes.insert(modelName, mesh);
 					mesh->resize(mesh_i + 1);
 					mesh = new Mesh(10);
 					mesh_i = 0;
 				}
 
-				ss >> name;
+				ss >> modelName;
+				break;
+			case 'g':
+				if(meshName != "")
+				{
+					
+				}
+
+				ss >> meshName;
 				break;
 			case 'v':
-				ss >> v1 >> v2 >> v3;
-				vectors[vector_i] = Vector(v1, v2, v3);
-				vector_i++;
+				float v1, v2, v3;
+
+				if(cmd.length() == 1)
+				{
+					ss >> v1 >> v2 >> v3;
+					geometricVectors[geometric_i] = Vector(v1, v2, v3);
+					geometric_i++;
+				}
+				else
+				{
+					switch(cmd[1])
+					{
+					case 't':
+						ss >> v1 >> v2 >> v3;
+						textureVectors[texture_i] = Vector(v1, v2, v3);
+						texture_i++;
+						break;
+					case 'n':
+						ss >> v1 >> v2 >> v3;
+						normalVectors[normal_i] = Vector(v1, v2, v3);
+						normal_i++;
+						break;
+					case 'p':
+						ss >> v1 >> v2 >> v3;
+						parametricVectors[parametric_i] = Vector(v1, v2, v3);
+						parametric_i++;
+						break;
+					};
+				}
 				break;
 			case 'f':
+				// TODO: check for /s and split up into different vectors
+				std::string r1, r2, r3;
 				ss >> r1 >> r2 >> r3;
-				(*mesh)[mesh_i] = Triangle(vectors[r1 - 1], vectors[r2 - 1], vectors[r3 - 1], Vector(1.0f, 0.0f, 0.0f));
-				mesh_i++;
+
+				int pos = r1.find_first_of('/');
+				if(pos == std::string::npos)
+				{
+					int rg1, rg2, rg3;
+					rg1 = atof(r1.c_str());
+					rg2 = atof(r2.c_str());
+					rg3 = atof(r3.c_str());
+					(*mesh)[mesh_i] = Triangle(geometricVectors[rg1 - 1], geometricVectors[rg2 - 1], geometricVectors[rg3 - 1], Vector(1.0f, 0.0f, 0.0f));
+					mesh_i++;
+				}
+				else
+				{
+					int rg1, rg2, rg3;
+					int rn1, rn2, rn3;
+					int rt1, rt2, rt3;
+					rg1 = atof(r1.substr(0, pos + 1).c_str());
+
+					pos = r2.find_first_of('/');
+					rg2 = atof(r2.substr(0, pos + 1).c_str());
+
+					pos = r3.find_first_of('/');
+					rg3 = atof(r3.substr(0, pos + 1).c_str());
+				}
 
 				break;
 		}
@@ -92,7 +156,7 @@ void ModelManager::loadModels(std::string filename)
 
 	// std::cout << name << std::endl;
 	mesh->resize(mesh_i + 1);
-	meshes.insert(name, mesh);
+	meshes.insert(modelName, mesh);
 }
 
 void ModelManager::addModel(Mesh* model, std::string name)

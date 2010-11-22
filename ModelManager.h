@@ -9,7 +9,7 @@
 #define	_MODELMANAGER_H
 
 #include "Map.h"
-#include "Mesh.h"
+#include "Model.h"
 #include <iostream>
 
 class ModelManager
