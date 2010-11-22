@@ -8,7 +8,7 @@
 #ifndef _BASEOBJECT_H
 #define	_BASEOBJECT_H
 
-#include "Mesh.h"
+#include "Model.h"
 #include "Matrix4.h"
 #include "Vector.h"
 
@@ -43,7 +43,7 @@ public:
 
 	friend class Camera;
 protected:
-	Mesh mesh;
+	Model model;
 	Vector position;
 	Vector angle;
 

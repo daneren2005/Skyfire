@@ -7,6 +7,7 @@
 
 #include "ModelManager.h"
 
+#include "conversion.h"
 #include <fstream>
 #include <sstream>
 
@@ -72,8 +73,10 @@ void ModelManager::loadModels(std::string filename)
 				// If exiting one object to enter another
 				if(modelName != "")
 				{
-					meshes.insert(modelName, mesh);
 					mesh->resize(mesh_i + 1);
+					(*model)[model_i] = *mesh;
+					model = new Model(10);
+					model_i = 0;
 					mesh = new Mesh(10);
 					mesh_i = 0;
 				}
@@ -83,7 +86,11 @@ void ModelManager::loadModels(std::string filename)
 			case 'g':
 				if(meshName != "")
 				{
-					
+					mesh->resize(mesh_i + 1);
+					(*model)[model_i] = *mesh;
+					model_i++;
+					mesh = new Mesh(10);
+					mesh_i = 0;
 				}
 
 				ss >> meshName;
@@ -156,17 +163,19 @@ void ModelManager::loadModels(std::string filename)
 
 	// std::cout << name << std::endl;
 	mesh->resize(mesh_i + 1);
-	meshes.insert(modelName, mesh);
+	(*model)[model_i] = *mesh;
+	model->resize(model_i + 1);
+	models.insert(modelName, model);
 }
 
-void ModelManager::addModel(Mesh* model, std::string name)
+void ModelManager::addModel(Model* model, std::string name)
 {
-	meshes.insert(name, model);
+	models.insert(name, model);
 }
 
-Mesh* ModelManager::getModel(std::string name)
+Model* ModelManager::getModel(std::string name)
 {
-	return meshes.get(name);
+	return models.get(name);
 }
 
 void ModelManager::compileModels()

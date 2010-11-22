@@ -17,6 +17,8 @@
     <logicalFolder name="f5" displayName="Models" projectFiles="true">
       <itemPath>Mesh.cpp</itemPath>
       <itemPath>Mesh.h</itemPath>
+      <itemPath>Model.cpp</itemPath>
+      <itemPath>Model.h</itemPath>
       <itemPath>ModelManager.cpp</itemPath>
       <itemPath>ModelManager.h</itemPath>
       <itemPath>Triangle.cpp</itemPath>
@@ -48,6 +50,7 @@
       <itemPath>Thread.cpp</itemPath>
       <itemPath>Thread.h</itemPath>
       <itemPath>const.h</itemPath>
+      <itemPath>conversion.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f2" displayName="Windows" projectFiles="true">
       <itemPath>Input.cpp</itemPath>

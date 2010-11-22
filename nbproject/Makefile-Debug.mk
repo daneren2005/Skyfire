@@ -36,12 +36,13 @@ OBJECTFILES= \
 	${OBJECTDIR}/StopWatch.o \
 	${OBJECTDIR}/Camera.o \
 	${OBJECTDIR}/Triangle.o \
+	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/Key.o \
+	${OBJECTDIR}/Scene.o \
 	${OBJECTDIR}/Vector.o \
 	${OBJECTDIR}/Matrix4.o \
-	${OBJECTDIR}/Scene.o \
 	${OBJECTDIR}/Universe.o \
 	${OBJECTDIR}/Matrix.o \
 	${OBJECTDIR}/Quaternion.o \
@@ -102,6 +103,11 @@ ${OBJECTDIR}/Triangle.o: nbproject/Makefile-${CND_CONF}.mk Triangle.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Triangle.o Triangle.cpp
 
+${OBJECTDIR}/Model.o: nbproject/Makefile-${CND_CONF}.mk Model.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Model.o Model.cpp
+
 ${OBJECTDIR}/Input.o: nbproject/Makefile-${CND_CONF}.mk Input.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -117,6 +123,11 @@ ${OBJECTDIR}/Key.o: nbproject/Makefile-${CND_CONF}.mk Key.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Key.o Key.cpp
 
+${OBJECTDIR}/Scene.o: nbproject/Makefile-${CND_CONF}.mk Scene.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scene.o Scene.cpp
+
 ${OBJECTDIR}/Vector.o: nbproject/Makefile-${CND_CONF}.mk Vector.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -126,11 +137,6 @@ ${OBJECTDIR}/Matrix4.o: nbproject/Makefile-${CND_CONF}.mk Matrix4.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix4.o Matrix4.cpp
-
-${OBJECTDIR}/Scene.o: nbproject/Makefile-${CND_CONF}.mk Scene.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scene.o Scene.cpp
 
 ${OBJECTDIR}/Universe.o: nbproject/Makefile-${CND_CONF}.mk Universe.cpp 
 	${MKDIR} -p ${OBJECTDIR}

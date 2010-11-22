@@ -20,11 +20,11 @@ public:
 	virtual ~ModelManager();
 
 	void loadModels(std::string filename);
-	void addModel(Mesh* model, std::string name);
+	void addModel(Model* model, std::string name);
 	void compileModels();
-	Mesh* getModel(std::string name);
+	Model* getModel(std::string name);
 private:
-	Map<std::string, Mesh*> meshes;
+	Map<std::string, Model*> models;
 
 	void loadObj(std::string filename);
 };

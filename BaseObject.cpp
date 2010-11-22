@@ -41,7 +41,7 @@ BaseObject::BaseObject(float x, float y, float z)
 BaseObject::BaseObject(const BaseObject& orig)
 {
 	objectID = orig.objectID;
-	mesh = orig.mesh;
+	model = orig.model;
 }
 
 BaseObject::~BaseObject()
@@ -129,7 +129,7 @@ void BaseObject::draw(bool forceDraw)
 	// Already drawn if camera is not null
 	if(this->camera == NULL || forceDraw == true)
 	{
-		this->mesh.draw();
+		this->model.draw();
 	}
 }
 
