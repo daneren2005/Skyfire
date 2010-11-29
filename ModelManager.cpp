@@ -153,6 +153,9 @@ void ModelManager::loadModels(std::string filename)
 
 					pos = r3.find_first_of('/');
 					rg3 = atof(r3.substr(0, pos + 1).c_str());
+
+					(*mesh)[mesh_i] = Triangle(geometricVectors[rg1 - 1], geometricVectors[rg2 - 1], geometricVectors[rg3 - 1], Vector(1.0f, 0.0f, 0.0f));
+					mesh_i++;
 				}
 
 				break;
@@ -161,7 +164,6 @@ void ModelManager::loadModels(std::string filename)
 		file.getline(line, 256);
 	}
 
-	// std::cout << name << std::endl;
 	mesh->resize(mesh_i + 1);
 	(*model)[model_i] = *mesh;
 	model->resize(model_i + 1);
