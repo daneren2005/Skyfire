@@ -129,7 +129,7 @@ void BaseObject::draw(bool forceDraw)
 	// Already drawn if camera is not null
 	if(this->camera == NULL || forceDraw == true)
 	{
-		this->model.draw();
+		this->model->draw();
 	}
 }
 

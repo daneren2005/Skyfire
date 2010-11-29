@@ -43,7 +43,7 @@ public:
 
 	friend class Camera;
 protected:
-	Model model;
+	Model* model;
 	Vector position;
 	Vector angle;
 
