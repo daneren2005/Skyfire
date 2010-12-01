@@ -11,16 +11,18 @@
 
 Mesh::Mesh() : Array<Triangle>()
 {
+	this->wireFrame = false;
 	this->displayList = 0;
 }
-
-Mesh::Mesh(unsigned long size) : Array<Triangle>(size)
+Mesh::Mesh(unsigned long size, bool wireFrame) : Array<Triangle>(size)
 {
+	this->wireFrame = wireFrame;
 	this->displayList = 0;
 }
 
 Mesh::Mesh(const Mesh& orig) : Array<Triangle>(orig)
 {
+	this->wireFrame = orig.wireFrame;
 	this->displayList = 0;
 }
 
@@ -31,7 +33,14 @@ Mesh::~Mesh()
 
 void Mesh::draw()
 {
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if(this->wireFrame)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 
 	if(this->displayList == 0)
 	{

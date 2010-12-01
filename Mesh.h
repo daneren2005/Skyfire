@@ -16,12 +16,13 @@ class Mesh : public Array<Triangle>
 {
 public:
 	Mesh();
-	Mesh(unsigned long size);
+	Mesh(unsigned long size, bool wireFrame = false);
 	Mesh(const Mesh& orig);
 	virtual ~Mesh();
 
 	void draw();
 private:
+	bool wireFrame;
 	int displayList;
 };
 

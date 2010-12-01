@@ -28,6 +28,8 @@ void AxisObject::draw(bool forceDraw)
 	float END = 100.0f;
 	float INCREMENT = 5.0f;
 
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
 		for(float i = START; i < END; i += INCREMENT)
