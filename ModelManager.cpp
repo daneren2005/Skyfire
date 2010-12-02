@@ -70,6 +70,7 @@ void ModelManager::loadModels(std::string filename)
 		{
 			// Object naming
 			case 'o':
+			{
 				// If exiting one object to enter another
 				if(modelName != "")
 				{
@@ -83,7 +84,9 @@ void ModelManager::loadModels(std::string filename)
 
 				ss >> modelName;
 				break;
+			}
 			case 'g':
+			{
 				if(meshName != "")
 				{
 					mesh->resize(mesh_i + 1);
@@ -95,7 +98,9 @@ void ModelManager::loadModels(std::string filename)
 
 				ss >> meshName;
 				break;
+			}
 			case 'v':
+			{
 				float v1, v2, v3;
 
 				if(cmd.length() == 1)
@@ -109,8 +114,8 @@ void ModelManager::loadModels(std::string filename)
 					switch(cmd[1])
 					{
 					case 't':
-						ss >> v1 >> v2 >> v3;
-						textureVectors[texture_i] = Vector(v1, v2, v3);
+						ss >> v1 >> v2;
+						textureVectors[texture_i] = Vector(v1, v2, 0.0f);
 						texture_i++;
 						break;
 					case 'n':
@@ -126,7 +131,9 @@ void ModelManager::loadModels(std::string filename)
 					};
 				}
 				break;
+			}
 			case 'f':
+			{
 				// TODO: check for /s and split up into different vectors
 				std::string r1, r2, r3;
 				ss >> r1 >> r2 >> r3;
@@ -159,6 +166,27 @@ void ModelManager::loadModels(std::string filename)
 				}
 
 				break;
+			}
+			case 'u':
+			{
+				if(cmd == "usemtl")
+				{
+					std::string materialName;
+					ss >> materialName;
+				}
+
+				break;
+			}
+			case 'm':
+			{
+				if(cmd == "mtllib")
+				{
+					std::string libraryFileName;
+					ss >> libraryFileName;
+				}
+
+				break;
+			}
 		}
 
 		file.getline(line, 256);
