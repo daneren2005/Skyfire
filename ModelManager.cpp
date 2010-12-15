@@ -54,8 +54,8 @@ void ModelManager::loadModels(std::string filename)
 	Array<Vector> parametricVectors(10);
 	int parametric_i = 0;
 	
-	char line[256];
-	file.getline(line, 256);
+	char line[10240];
+	file.getline(line, 10240);
 
 	while(file.good())
 	{
@@ -138,31 +138,48 @@ void ModelManager::loadModels(std::string filename)
 				std::string r1, r2, r3;
 				ss >> r1 >> r2 >> r3;
 
-				int pos = r1.find_first_of('/');
-				if(pos == std::string::npos)
+				bool work = true;
+				while(work)
 				{
-					int rg1, rg2, rg3;
-					rg1 = atof(r1.c_str());
-					rg2 = atof(r2.c_str());
-					rg3 = atof(r3.c_str());
-					(*mesh)[mesh_i] = Triangle(geometricVectors[rg1 - 1], geometricVectors[rg2 - 1], geometricVectors[rg3 - 1], Vector(1.0f, 0.0f, 0.0f));
-					mesh_i++;
-				}
-				else
-				{
-					int rg1, rg2, rg3;
-					int rn1, rn2, rn3;
-					int rt1, rt2, rt3;
-					rg1 = atof(r1.substr(0, pos + 1).c_str());
+					// Run 1 more iteration after last input then exit
+					if(ss.eof())
+					{
+						work = false;
+					}
 
-					pos = r2.find_first_of('/');
-					rg2 = atof(r2.substr(0, pos + 1).c_str());
+					int pos = r1.find_first_of('/');
+					if(pos == std::string::npos)
+					{
+						int rg1, rg2, rg3;
+						rg1 = atof(r1.c_str());
+						rg2 = atof(r2.c_str());
+						rg3 = atof(r3.c_str());
+						(*mesh)[mesh_i] = Triangle(geometricVectors[rg1 - 1], geometricVectors[rg2 - 1], geometricVectors[rg3 - 1], Vector(1.0f, 0.0f, 0.0f));
+						mesh_i++;
+					}
+					else
+					{
+						int rg1, rg2, rg3;
+						int rn1, rn2, rn3;
+						int rt1, rt2, rt3;
+						rg1 = atof(r1.substr(0, pos + 1).c_str());
 
-					pos = r3.find_first_of('/');
-					rg3 = atof(r3.substr(0, pos + 1).c_str());
+						pos = r2.find_first_of('/');
+						rg2 = atof(r2.substr(0, pos + 1).c_str());
 
-					(*mesh)[mesh_i] = Triangle(geometricVectors[rg1 - 1], geometricVectors[rg2 - 1], geometricVectors[rg3 - 1], Vector(1.0f, 0.0f, 0.0f));
-					mesh_i++;
+						pos = r3.find_first_of('/');
+						rg3 = atof(r3.substr(0, pos + 1).c_str());
+
+						(*mesh)[mesh_i] = Triangle(geometricVectors[rg1 - 1], geometricVectors[rg2 - 1], geometricVectors[rg3 - 1], Vector(1.0f, 0.0f, 0.0f));
+						mesh_i++;
+					}
+
+					if(work)
+					{
+						r1 = r2;
+						r2 = r3;
+						ss >> r3;
+					}
 				}
 
 				break;
@@ -189,7 +206,7 @@ void ModelManager::loadModels(std::string filename)
 			}
 		}
 
-		file.getline(line, 256);
+		file.getline(line, 10240);
 	}
 
 	mesh->resize(mesh_i + 1);
