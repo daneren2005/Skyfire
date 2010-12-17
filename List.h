@@ -79,6 +79,57 @@ private:
 	pthread_mutex_t tailLock;
 	pthread_mutex_t countLock;
 public:
+	// ----------------------- Iterator Class
+	class Iterator
+	{
+	private:
+		typename List<T>::Node* current;
+	public:
+		Iterator(List<T>* list)
+		{
+			this->current = list->head;
+		}
+
+		T value()
+		{
+			if(current == NULL)
+			{
+				return NULL;
+			}
+			else
+			{
+				return this->current->value;
+			}
+		}
+
+		// Operator Overloading
+		bool operator !()
+		{
+			if(this->current == NULL)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		void operator ++()
+		{
+			if(current != NULL)
+			{
+				this->current = this->current->next;
+			}
+		}
+		void operator ++(int)
+		{
+			if(current != NULL)
+			{
+				this->current = this->current->next;
+			}
+		}
+	};
+
 	// Constructor/Destructor
 	List();
 	List(const List<T>& list);
@@ -89,7 +140,10 @@ public:
 	T back();
 	bool empty();
 	int size();
-	Iterator<T> begin(bool write = true);
+	Iterator begin()
+	{
+		return Iterator(this);
+	}
 
 	// Insert
 	void push_front(T value);
@@ -201,12 +255,6 @@ int List<T>::size()
 	long value = this->count;
 	pthread_mutex_unlock(&countLock);
 	return value;
-}
-
-template <class T>
-Iterator<T> List<T>::begin(bool write)
-{
-	return Iterator<T>(this);
 }
 
 template <class T>
@@ -439,72 +487,6 @@ void List<T>::remove(T value)
 	}
 
 	count--;
-}
-
-// ----------------------- Iterator Class
-template <class T>
-class Iterator
-{
-private:
-	typename List<T>::Node* current;
-public:
-	Iterator(List<T>* list);
-
-	T value();
-
-	// Operator Overloading
-	bool operator !();
-	void operator ++();
-	void operator ++(int);
-};
-
-template <class T>
-Iterator<T>::Iterator(List<T>* list)
-{
-	this->current = list->head;
-}
-
-template <class T>
-T Iterator<T>::value()
-{
-	if(current == NULL)
-	{
-		return NULL;
-	}
-	else
-	{
-		return this->current->value;
-	}
-}
-
-template <class T>
-bool Iterator<T>::operator !()
-{
-	if(this->current == NULL)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
-}
-
-template <class T>
-void Iterator<T>::operator ++()
-{
-	if(current != NULL)
-	{
-		this->current = this->current->next;
-	}
-}
-template <class T>
-void Iterator<T>::operator ++(int i)
-{
-	if(current != NULL)
-	{
-		this->current = this->current->next;
-	}
 }
 
 #endif	/* _LIST_H */

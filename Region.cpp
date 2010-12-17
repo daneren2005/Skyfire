@@ -23,7 +23,7 @@ Region::~Region()
 void Region::update(double interval)
 {
 	BaseObject* object = NULL;
-	for(Iterator<BaseObject*> it = objects.begin(false); !it; it++)
+	for(List<BaseObject*>::Iterator it = objects.begin(); !it; it++)
 	{
 		object = it.value();
 		object->update(interval);
@@ -33,7 +33,7 @@ void Region::update(double interval)
 void Region::draw()
 {
 	BaseObject* object = NULL;
-	for(Iterator<BaseObject*> it = objects.begin(false); !it; it++)
+	for(List<BaseObject*>::Iterator it = objects.begin(); !it; it++)
 	{
 		object = it.value();
 

@@ -75,7 +75,7 @@ void* Universe::updateFunction(void* arg)
 
 	// Update all regions
 	Region* region = NULL;
-	for(Iterator<Region*> it = uni->regions.begin(false); !it; it++)
+	for(List<Region*>::Iterator it = uni->regions.begin(); !it; it++)
 	{
 		region = it.value();
 		region->update(interval);
