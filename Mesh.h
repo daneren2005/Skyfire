@@ -8,11 +8,18 @@
 #ifndef _Mesh_H
 #define	_Mesh_H
 
-#include "Triangle.h"
 #include "Array.h"
-#include "List.h"
+#include "Triangle.h"
 
-class Mesh : public Array<Triangle>
+struct Vertex
+{
+	float position[3];
+	float normal[3];
+	float color[3];
+	float texture[2];
+};
+
+class Mesh : public Array<Vertex>
 {
 public:
 	Mesh();
@@ -23,7 +30,6 @@ public:
 	void draw();
 private:
 	bool wireFrame;
-	int displayList;
 };
 
 #endif	/* _Mesh_H */

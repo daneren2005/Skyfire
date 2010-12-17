@@ -152,9 +152,19 @@ void ModelManager::loadModels(std::string filename)
 					{
 						int rg1, rg2, rg3;
 						rg1 = atof(r1.c_str());
+						(*mesh)[mesh_i].position[0] = geometricVectors[rg1 - 1][0];
+						(*mesh)[mesh_i].position[1] = geometricVectors[rg1 - 1][1];
+						(*mesh)[mesh_i].position[2] = geometricVectors[rg1 - 1][2];
+						mesh_i++;
 						rg2 = atof(r2.c_str());
+						(*mesh)[mesh_i].position[0] = geometricVectors[rg2 - 1][0];
+						(*mesh)[mesh_i].position[1] = geometricVectors[rg2 - 1][1];
+						(*mesh)[mesh_i].position[2] = geometricVectors[rg2 - 1][2];
+						mesh_i++;
 						rg3 = atof(r3.c_str());
-						(*mesh)[mesh_i] = Triangle(geometricVectors[rg1 - 1], geometricVectors[rg2 - 1], geometricVectors[rg3 - 1], Vector(1.0f, 0.0f, 0.0f));
+						(*mesh)[mesh_i].position[0] = geometricVectors[rg3 - 1][0];
+						(*mesh)[mesh_i].position[1] = geometricVectors[rg3 - 1][1];
+						(*mesh)[mesh_i].position[2] = geometricVectors[rg3 - 1][2];
 						mesh_i++;
 					}
 					else
@@ -163,14 +173,23 @@ void ModelManager::loadModels(std::string filename)
 						int rn1, rn2, rn3;
 						int rt1, rt2, rt3;
 						rg1 = atof(r1.substr(0, pos + 1).c_str());
+						(*mesh)[mesh_i].position[0] = geometricVectors[rg1 - 1][0];
+						(*mesh)[mesh_i].position[1] = geometricVectors[rg1 - 1][1];
+						(*mesh)[mesh_i].position[2] = geometricVectors[rg1 - 1][2];
+						mesh_i++;
 
 						pos = r2.find_first_of('/');
 						rg2 = atof(r2.substr(0, pos + 1).c_str());
+						(*mesh)[mesh_i].position[0] = geometricVectors[rg2 - 1][0];
+						(*mesh)[mesh_i].position[1] = geometricVectors[rg2 - 1][1];
+						(*mesh)[mesh_i].position[2] = geometricVectors[rg2 - 1][2];
+						mesh_i++;
 
 						pos = r3.find_first_of('/');
 						rg3 = atof(r3.substr(0, pos + 1).c_str());
-
-						(*mesh)[mesh_i] = Triangle(geometricVectors[rg1 - 1], geometricVectors[rg2 - 1], geometricVectors[rg3 - 1], Vector(1.0f, 0.0f, 0.0f));
+						(*mesh)[mesh_i].position[0] = geometricVectors[rg3 - 1][0];
+						(*mesh)[mesh_i].position[1] = geometricVectors[rg3 - 1][1];
+						(*mesh)[mesh_i].position[2] = geometricVectors[rg3 - 1][2];
 						mesh_i++;
 					}
 

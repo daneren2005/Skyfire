@@ -9,21 +9,18 @@
 
 #include <iostream>
 
-Mesh::Mesh() : Array<Triangle>()
+Mesh::Mesh() : Array<Vertex>()
 {
 	this->wireFrame = false;
-	this->displayList = 0;
 }
-Mesh::Mesh(unsigned long size, bool wireFrame) : Array<Triangle>(size)
+Mesh::Mesh(unsigned long size, bool wireFrame) : Array<Vertex>(size)
 {
 	this->wireFrame = wireFrame;
-	this->displayList = 0;
 }
 
-Mesh::Mesh(const Mesh& orig) : Array<Triangle>(orig)
+Mesh::Mesh(const Mesh& orig) : Array<Vertex>(orig)
 {
 	this->wireFrame = orig.wireFrame;
-	this->displayList = 0;
 }
 
 Mesh::~Mesh()
@@ -42,21 +39,19 @@ void Mesh::draw()
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
-	if(this->displayList == 0)
-	{
-		this->displayList = glGenLists(1);
-		glNewList(this->displayList, GL_COMPILE);
-			glBegin(GL_TRIANGLES);
-				for(int i = 0; i < _size; i++)
-				{
-					array[i].draw();
-				}
-			glEnd();
-		glEndList();
-	}
-	else
-	{
-		glCallList(this->displayList);
-	}
-}
+	/*this->displayList = glGenLists(1);
+	glNewList(this->displayList, GL_COMPILE);
+		glBegin(GL_TRIANGLES);
+			glColor3f(1.0f, 0.0f, 0.0f);
+			for(int i = 0; i < _size; i += 3)
+			{
+				glVertex3f(array[i], array[i + 1], array[i + 2]);
+			}
+		glEnd();
+	glEndList();*/
 
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), this->array);
+	glDrawArrays(GL_TRIANGLES, 0, this->_size);
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
