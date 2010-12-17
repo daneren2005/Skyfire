@@ -124,12 +124,22 @@ void BaseObject::transformCamera()
 	}
 }
 
-void BaseObject::draw(bool forceDraw)
+void BaseObject::draw()
 {
 	// Already drawn if camera is not null
-	if(this->camera == NULL || forceDraw == true)
+	if(this->camera == NULL)
 	{
+		glPushMatrix();
+		this->transformObject();
 		this->model->draw();
+		glPopMatrix();
+	}
+	else
+	{
+		glPushMatrix();
+		this->camera->transformCamera();
+		this->model->draw();
+		glPopMatrix();
 	}
 }
 

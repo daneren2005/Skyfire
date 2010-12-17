@@ -144,13 +144,10 @@ void Camera::render()
 {
 	glLoadIdentity();
 
-	this->transformCamera();
-
 	// If a base object exists, transform on it as well
 	if(this->object != NULL)
 	{
-		this->object->draw(true);
-		glLoadIdentity();
+		this->object->draw();
 		this->object->transformCamera();
 	}
 
