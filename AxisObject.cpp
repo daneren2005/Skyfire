@@ -1,6 +1,6 @@
 #include "AxisObject.h"
 
-AxisObject::AxisObject() : BaseObject(0.0f, 0.0f, 0.0f)
+AxisObject::AxisObject() : BaseObject()
 {
 
 }
@@ -22,7 +22,7 @@ void AxisObject::update(double interval)
 
 }
 
-void AxisObject::draw(bool forceDraw)
+void AxisObject::draw()
 {
 	float START = -100.0f;
 	float END = 100.0f;

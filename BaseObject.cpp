@@ -26,7 +26,7 @@ BaseObject::BaseObject()
 	position = Vector(0.0f, 0.0f, 0.0f);
 	angle = Vector(0.0f, 0.0f, 0.0f);
 	camera = NULL;
-	// mesh = NULL;
+	model = NULL;
 }
 BaseObject::BaseObject(float x, float y, float z)
 {
@@ -35,13 +35,14 @@ BaseObject::BaseObject(float x, float y, float z)
 
 	position = Vector(x, y, z);
 	camera = NULL;
-	// mesh = NULL;
+	model = NULL;
 }
 
 BaseObject::BaseObject(const BaseObject& orig)
 {
 	objectID = orig.objectID;
 	model = orig.model;
+	camera = orig.camera;
 }
 
 BaseObject::~BaseObject()
@@ -127,7 +128,11 @@ void BaseObject::transformCamera()
 void BaseObject::draw()
 {
 	// Already drawn if camera is not null
-	if(this->camera == NULL)
+	if(this->model == NULL)
+	{
+		return;
+	}
+	else if(this->camera == NULL)
 	{
 		glPushMatrix();
 		this->transformObject();

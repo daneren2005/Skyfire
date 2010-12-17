@@ -12,7 +12,7 @@ public:
 	virtual ~AxisObject();
 
 	virtual void update(double interval);
-	virtual void draw(bool forceDraw = false);
+	virtual void draw();
 
 	virtual void load();
 };

@@ -34,7 +34,7 @@ public:
 	virtual void update(double interval) = 0;
 	virtual void transformObject();
 	virtual void transformCamera();
-	virtual void draw(bool forceDraw = false);
+	virtual void draw();
 
 	virtual void load() = 0;
 
