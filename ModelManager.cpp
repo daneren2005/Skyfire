@@ -155,6 +155,7 @@ void ModelManager::loadModels(std::string filename)
 						(*mesh)[mesh_i].position[0] = geometricVectors[rg1 - 1][0];
 						(*mesh)[mesh_i].position[1] = geometricVectors[rg1 - 1][1];
 						(*mesh)[mesh_i].position[2] = geometricVectors[rg1 - 1][2];
+						(*mesh)[mesh_i].color[0] = 1.0f;
 						mesh_i++;
 						rg2 = atof(r2.c_str());
 						(*mesh)[mesh_i].position[0] = geometricVectors[rg2 - 1][0];
@@ -176,6 +177,7 @@ void ModelManager::loadModels(std::string filename)
 						(*mesh)[mesh_i].position[0] = geometricVectors[rg1 - 1][0];
 						(*mesh)[mesh_i].position[1] = geometricVectors[rg1 - 1][1];
 						(*mesh)[mesh_i].position[2] = geometricVectors[rg1 - 1][2];
+						(*mesh)[mesh_i].color[0] = 1.0f;
 						mesh_i++;
 
 						pos = r2.find_first_of('/');
@@ -195,7 +197,6 @@ void ModelManager::loadModels(std::string filename)
 
 					if(work)
 					{
-						r1 = r2;
 						r2 = r3;
 						ss >> r3;
 					}
@@ -231,7 +232,14 @@ void ModelManager::loadModels(std::string filename)
 	mesh->resize(mesh_i + 1);
 	(*model)[model_i] = *mesh;
 	model->resize(model_i + 1);
-	models.insert(modelName, model);
+	if(modelName != "")
+	{
+		models.insert(modelName, model);
+	}
+	else
+	{
+		models.insert(meshName, model);
+	}
 }
 
 void ModelManager::addModel(Model* model, std::string name)
