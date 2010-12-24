@@ -27,6 +27,21 @@ ModelManager::~ModelManager()
 
 void ModelManager::loadModels(std::string filename)
 {
+	this->loadObj(filename);
+}
+
+void ModelManager::addModel(Model* model, std::string name)
+{
+	models.insert(name, model);
+}
+
+Model* ModelManager::getModel(std::string name)
+{
+	return models.get(name);
+}
+
+void ModelManager::loadObj(std::string filename)
+{
 	std::ifstream file;
 	file.open(filename.c_str());
 
@@ -53,6 +68,8 @@ void ModelManager::loadModels(std::string filename)
 	int normal_i = 0;
 	Array<Vector> parametricVectors(10);
 	int parametric_i = 0;
+
+	Map<std::string, Material*> materials;
 	
 	char line[10240];
 	file.getline(line, 10240);
@@ -134,7 +151,6 @@ void ModelManager::loadModels(std::string filename)
 			}
 			case 'f':
 			{
-				// TODO: check for /s and split up into different vectors
 				std::string r1, r2, r3;
 				ss >> r1 >> r2 >> r3;
 
@@ -155,7 +171,6 @@ void ModelManager::loadModels(std::string filename)
 						(*mesh)[mesh_i].position[0] = geometricVectors[rg1 - 1][0];
 						(*mesh)[mesh_i].position[1] = geometricVectors[rg1 - 1][1];
 						(*mesh)[mesh_i].position[2] = geometricVectors[rg1 - 1][2];
-						(*mesh)[mesh_i].color[0] = 1.0f;
 						mesh_i++;
 						rg2 = atof(r2.c_str());
 						(*mesh)[mesh_i].position[0] = geometricVectors[rg2 - 1][0];
@@ -177,7 +192,6 @@ void ModelManager::loadModels(std::string filename)
 						(*mesh)[mesh_i].position[0] = geometricVectors[rg1 - 1][0];
 						(*mesh)[mesh_i].position[1] = geometricVectors[rg1 - 1][1];
 						(*mesh)[mesh_i].position[2] = geometricVectors[rg1 - 1][2];
-						(*mesh)[mesh_i].color[0] = 1.0f;
 						mesh_i++;
 
 						pos = r2.find_first_of('/');
@@ -204,22 +218,41 @@ void ModelManager::loadModels(std::string filename)
 
 				break;
 			}
-			case 'u':
-			{
-				if(cmd == "usemtl")
-				{
-					std::string materialName;
-					ss >> materialName;
-				}
-
-				break;
-			}
 			case 'm':
 			{
 				if(cmd == "mtllib")
 				{
 					std::string libraryFileName;
 					ss >> libraryFileName;
+					libraryFileName = "data/Danube/" + libraryFileName;
+
+					materials = this->loadMtl(libraryFileName);
+				}
+
+				break;
+			}
+			case 'u':
+			{
+				if(cmd == "usemtl")
+				{
+					std::string materialName;
+					ss >> materialName;
+
+					Material* temp = materials.get(materialName);
+					if(temp != NULL)
+					{
+						mesh->material = *temp;
+					}
+
+					if(meshName != "")
+					{
+						mesh->resize(mesh_i + 1);
+						(*model)[model_i] = *mesh;
+						model_i++;
+						mesh = new Mesh(10);
+						mesh_i = 0;
+					}
+					// mesh->material.ambient[0] = 1.0f;
 				}
 
 				break;
@@ -242,22 +275,71 @@ void ModelManager::loadModels(std::string filename)
 	}
 }
 
-void ModelManager::addModel(Model* model, std::string name)
+Map<std::string, Material*> ModelManager::loadMtl(std::string filename)
 {
-	models.insert(name, model);
-}
+	Map<std::string, Material*> materials;
 
-Model* ModelManager::getModel(std::string name)
-{
-	return models.get(name);
-}
+	std::ifstream file;
+	file.open(filename.c_str());
 
-void ModelManager::compileModels()
-{
+	if(!file.good())
+	{
+		std::cout << "ModelManager::loadModels error: Failed to load file " << filename << std::endl;
+		return materials;
+	}
 
-}
+	std::string name = "";
+	Material* material = new Material;
 
-void ModelManager::loadObj(std::string filename)
-{
-	
+	char line[128];
+	file.getline(line, 128);
+
+	while(file.good())
+	{
+		std::string lineString(line);
+		std::stringstream ss;
+		ss << lineString;
+
+		std::string cmd;
+		ss >> cmd;
+
+		if(cmd == "newmtl")
+		{
+			if(name != "")
+			{
+				materials.insert(name, material);
+			}
+
+			material = new Material;
+			ss >> name;
+		}
+		else if(cmd == "Ka")
+		{
+			float r1, r2, r3;
+			ss >> r1 >> r2 >> r3;
+			material->ambient[0] = r1;
+			material->ambient[1] = r2;
+			material->ambient[2] = r3;
+		}
+		else if(cmd == "Kd")
+		{
+			float r1, r2, r3;
+			ss >> r1 >> r2 >> r3;
+			material->diffuse[0] = r1;
+			material->diffuse[1] = r2;
+			material->diffuse[2] = r3;
+		}
+		else if(cmd == "Ks")
+		{
+			float r1, r2, r3;
+			ss >> r1 >> r2 >> r3;
+			material->specular[0] = r1;
+			material->specular[1] = r2;
+			material->specular[2] = r3;
+		}
+
+		file.getline(line, 128);
+	}
+
+	return materials;
 }

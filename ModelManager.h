@@ -21,12 +21,12 @@ public:
 
 	void loadModels(std::string filename);
 	void addModel(Model* model, std::string name);
-	void compileModels();
 	Model* getModel(std::string name);
 private:
 	Map<std::string, Model*> models;
 
 	void loadObj(std::string filename);
+	Map<std::string, Material*> loadMtl(std::string filename);
 };
 
 extern ModelManager modelManager;

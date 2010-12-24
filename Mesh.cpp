@@ -50,8 +50,28 @@ void Mesh::draw()
 		glEnd();
 	glEndList();*/
 
+	glEnable(GL_LIGHTING);
+
+	// Setup light for scene
+	float lightDif[] = {0.1f, 0.1f, 0.1f, 1.0f};
+	glLightfv(GL_LIGHT0, GL_AMBIENT, lightDif);
+	float lightSpec[] = {1.0f, 1.0f, 1.0f, 1.0f};
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpec);
+	float lightPos[] = {0.0f, 0.0f, 1.0f, 0.0f};
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	// glMateriali(GL_FRONT, GL_SHININESS, 128);
+	glEnable(GL_LIGHT0);
+
+	// Setup light properties of material
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, this->material.ambient);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, this->material.diffuse);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, this->material.specular);
+
+	// Draw vertices + normals + textures of mesh
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), this->array);
 	glDrawArrays(GL_TRIANGLES, 0, this->_size);
 	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glDisable(GL_LIGHTING);
 }

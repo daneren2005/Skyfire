@@ -15,8 +15,14 @@ struct Vertex
 {
 	float position[3];
 	float normal[3];
-	float color[3];
 	float texture[2];
+};
+
+struct Material
+{
+	float ambient[3];
+	float diffuse[3];
+	float specular[3];
 };
 
 class Mesh : public Array<Vertex>
@@ -28,6 +34,8 @@ public:
 	virtual ~Mesh();
 
 	void draw();
+
+	Material material;
 private:
 	bool wireFrame;
 };
