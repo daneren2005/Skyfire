@@ -22,7 +22,7 @@ public:
 	const T& operator[](Key key) const;
 
 	void insert(Key access, T value);
-	T get(Key key);
+	T get(const Key& key);
 private:
 	class Node
 	{
@@ -58,13 +58,36 @@ Map<Key, T>::Map()
 template <class Key, class T>
 Map<Key, T>::Map(const Map& orig)
 {
-	// TODO: fill in map copy constructor
+	this->head = NULL;
+	this->tail = NULL;
+	Node* current = NULL;
+	for(Node* node = orig.head; node != NULL; node = node->next)
+	{
+		if(this->head == NULL)
+		{
+			this->head = new Node(node->key, node->value);
+			current = this->head;
+		}
+		else
+		{
+			current->next = new Node(node->key, node->value);
+			current = current->next;
+		}
+	}
+	this->tail = current;
+	this->count = orig.count;
 }
 
 template <class Key, class T>
 Map<Key, T>::~Map()
 {
-	// TODO: fill in map deconstructor
+	// TODO: fix buggy destructor
+	/*while(this->head != NULL)
+	{
+		Node* toDelete = head;
+		this->head = toDelete->next;
+		delete toDelete;
+	}*/
 }
 
 template <class Key, class T>
@@ -137,7 +160,7 @@ void Map<Key, T>::insert(Key key, T value)
 }
 
 template <class Key, class T>
-T Map<Key, T>::get(Key key)
+T Map<Key, T>::get(const Key& key)
 {
 	if(head == NULL)
 	{
