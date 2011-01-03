@@ -175,10 +175,6 @@
 				RelativePath=".\BaseObject.h"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="Regions"
-			>
 			<File
 				RelativePath=".\Region.cpp"
 				>
@@ -257,8 +253,16 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Models"
+			Name="Graphics"
 			>
+			<File
+				RelativePath=".\Camera.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Camera.h"
+				>
+			</File>
 			<File
 				RelativePath=".\Mesh.cpp"
 				>
@@ -284,6 +288,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Scene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Triangle.cpp"
 				>
 			</File>
@@ -293,10 +305,22 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Containers"
+			Name="IO"
 			>
 			<File
 				RelativePath=".\Array.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CString.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CString.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Exceptions.h"
 				>
 			</File>
 			<File
@@ -307,6 +331,10 @@
 				RelativePath=".\Map.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Math"
+			>
 			<File
 				RelativePath=".\Matrix.cpp"
 				>
@@ -337,26 +365,6 @@
 			</File>
 			<File
 				RelativePath=".\Vector.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Scenes"
-			>
-			<File
-				RelativePath=".\Camera.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Camera.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Scene.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Scene.h"
 				>
 			</File>
 		</Filter>
