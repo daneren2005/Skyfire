@@ -533,11 +533,62 @@ String& String::remove(long startPos, long length)
 }
 String& String::replace(const String& find, const String& replace)
 {
-	return *this;
+	String* str = new String(*this);
+
+	for(long i = 0; i < this->size; i++)
+	{
+		for(long j = 0; this->array[i] == find[j]; j++)
+		{
+			i++;
+			if((j + 1) >= find.size)
+			{
+				// Only memcpy if search length == replace length
+				if(find.size == replace.size)
+				{
+					memcpy(str->array + i - j - 1, replace.array, replace.size);
+				}
+				else
+				{
+					// TODO: if search length != replace length
+				}
+			}
+		}
+	}
+
+	return *str;
 }
 String& String::replace(const char* find, const char* replace)
 {
-	return *this;
+	String* str = new String(*this);
+
+	// Get length of replace string
+	long replaceLength = 0;
+	for(long i = 0; replace[i] != 0x0; i++)
+	{
+		replaceLength = i;
+	}
+
+	for(long i = 0; i < this->size; i++)
+	{
+		for(long j = 0; this->array[i] == find[j]; j++)
+		{
+			i++;
+			if(find[j + 1] == 0x0)
+			{
+				// Only memcpy if search length == replace length
+				if(j == replaceLength)
+				{
+					memcpy(str->array + i - j - 1, replace, j + 1);
+				}
+				else
+				{
+					// TODO: if search length != replace length
+				}
+			}
+		}
+	}
+
+	return *str;
 }
 String& String::replace(const char& find, const char& replace)
 {
