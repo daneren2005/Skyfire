@@ -1,5 +1,6 @@
 #include "CString.h"
 #include "Exceptions.h"
+#include <string.h>
 
 String::String()
 {

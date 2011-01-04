@@ -238,7 +238,7 @@ void ModelManager::loadObj(std::string filename)
 					std::string materialName;
 					ss >> materialName;
 
-					Material* temp = materials.get(materialName);
+					Material* temp = materials[materialName];
 					if(temp != NULL)
 					{
 						mesh->material = *temp;

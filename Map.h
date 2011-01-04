@@ -8,6 +8,7 @@
 #ifndef _MAP_H
 #define	_MAP_H
 
+#include "Exceptions.h"
 #include <iostream>
 
 template <class Key, class T>
@@ -126,7 +127,7 @@ const T& Map<Key, T>::operator[](Key key) const
 	// Read
 	if(head == NULL)
 	{
-		return NULL;
+		throw OutOfRange();
 	}
 	else
 	{
@@ -139,7 +140,7 @@ const T& Map<Key, T>::operator[](Key key) const
 		}
 	}
 
-	return NULL;
+	throw OutOfRange();
 }
 
 template <class Key, class T>
@@ -164,7 +165,7 @@ T Map<Key, T>::get(const Key& key)
 {
 	if(head == NULL)
 	{
-		return NULL;
+		throw OutOfRange();
 	}
 	else
 	{
@@ -177,7 +178,7 @@ T Map<Key, T>::get(const Key& key)
 		}
 	}
 
-	return NULL;
+	throw OutOfRange();
 }
 
 #endif	/* _MAP_H */
