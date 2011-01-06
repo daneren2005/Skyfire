@@ -16,64 +16,76 @@ public:
 	virtual const T& operator[](unsigned col) const; 
 
 	long size();
+	long max();
+
+	void insert(T value);
 	void resize(unsigned long newSize);
 protected:
 	T* array;
 	unsigned long _size;
+	unsigned long _max;
 };
 
 template <class T>
 Array<T>::Array()
 {
-	_size = 1;
-	array = new T[_size];
+	this->_size = 1;
+	this->_max = 1;
+	this->array = new T[this->_size];
 }
 
 template <class T>
 Array<T>::Array(unsigned long size)
 {
-	_size = size;
-	array = new T[_size];
+	this->_size = size;
+	this->_max = size;
+	this->array = new T[size];
 }
 
 template <class T>
 Array<T>::Array(const Array<T> &orig)
 {
-	_size = orig._size;
-	array = new T[_size];
-	for(int i = 0; i < _size; i++)
+	this->_size = orig._size;
+	this->_max = this->_size;
+	this->array = new T[this->_size];
+	for(int i = 0; i < this->_size; i++)
 	{
-		array[i] = orig.array[i];
+		this->array[i] = orig.array[i];
 	}
 }
 
 template <class T>
 Array<T>::~Array()
 {
-	// TODO: figure out why this is crashing
 	delete[] array;
 }
 
 template <class T>
 T& Array<T>::operator[](unsigned col)
 {
-	if(col >= _size)
+	if(col >= this->_size)
 	{
-		this->resize(_size * 2);
-		return array[col];
+		if(col >= this->_max)
+		{
+			this->resize(this->_max * 2);
+		}
+		
+		this->_size = col + 1;
+		return this->array[col];
 	}
 	else
 	{
-		return array[col];
+		return this->array[col];
 	}
 }
 
 template <class T>
 const T& Array<T>::operator[](unsigned col) const
 {
-	if(col >= _size)
+	if(col >= this->_size)
 	{
-		// TODO: break
+		// TODO: figure out how to throw exception in Array class
+		std::cout << "This si where the error is" << std::endl;
 	}
 	else
 	{
@@ -84,7 +96,25 @@ const T& Array<T>::operator[](unsigned col) const
 template <class T>
 long Array<T>::size()
 {
-	return _size;
+	return this->_size;
+}
+
+template <class T>
+long Array<T>::max()
+{
+	return this->_max;
+}
+
+template <class T>
+void Array<T>::insert(T value)
+{
+	if(this->_size >= this->_max)
+	{
+		this->resize(this->_max * 2);
+	}
+
+	this->_size++;
+	this->array[this->_size] = value;
 }
 
 template <class T>
@@ -97,7 +127,14 @@ void Array<T>::resize(unsigned long newSize)
 		this->array[i] = toDelete[i];
 	}
 	
-	_size = newSize;
+	this->_max = newSize;
+	if(this->_size < newSize)
+	{
+		this->_size = newSize;
+	}
+
+	// TODO: find a way to safely delete old array
+	// delete[] toDelete;
 }
 
 #endif
