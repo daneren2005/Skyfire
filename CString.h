@@ -6,6 +6,9 @@
 class String
 {
 public:
+	// Public constants
+	static const long npos = -1;
+
 	// Constructor + Destructor
 	String();
 	String(const String& rhs);
@@ -15,9 +18,9 @@ public:
 	// Operator Overloading
 	char& operator[](unsigned pos);
 	const char& operator[](unsigned pos) const;
-	String& operator+(const String& rhs);
-	String& operator+(const char* rhs);
-	String& operator+(const char& rhs);
+	String operator+(const String& rhs);
+	String operator+(const char* rhs);
+	String operator+(const char& rhs);
 	String& operator+=(const String& rhs);
 	String& operator+=(const char* rhs);
 	String& operator+=(const char& rhs);
@@ -30,7 +33,7 @@ public:
 
 	// String Accessors
 	long length();
-	const char* cStr();
+	const char* cStr() const;
 	String subStr(long startPos);
 	String subStr(long startPos, long length);
 	Array<String> split(const String& delim);
@@ -47,16 +50,18 @@ public:
 	Array<long> strAllPos(const char& search);
 
 	// String manuipulation
-	String& remove(const String& find);
-	String& remove(const char* find);
-	String& remove(const char& find);
-	String& remove(long startPos);
-	String& remove(long startPos, long length);
-	String& replace(const String& find, const String& replace);
-	String& replace(const char* find, const char* replace);
-	String& replace(const char& find, const char& replace);
-	String& toLower();
-	String& toUpper();
+	String insert(long pos, const String& insert);
+	String insert(long pos, const char* insert);
+	String insert(long pos, const char& insert);
+	String remove(const String& find);
+	String remove(const char* find);
+	String remove(const char& find);
+	String remove(long startPos, long length);
+	String replace(const String& find, const String& replace);
+	String replace(const char* find, const char* replace);
+	String replace(const char& find, const char& replace);
+	String toLower();
+	String toUpper();
 private:
 	char* array;
 	long size;

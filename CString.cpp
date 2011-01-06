@@ -50,16 +50,16 @@ const char& String::operator[](unsigned pos) const
 
 	return this->array[pos];
 }
-String& String::operator+(const String& rhs)
+String String::operator+(const String& rhs)
 {
-	String* str = new String();
-	str->size = this->size + rhs.size;
-	str->array = new char[str->size + 1];
-	memcpy(str->array, this->array, this->size);
-	memcpy(str->array + this->size, rhs.array, rhs.size + 1);
-	return *str;
+	String str;
+	str.size = this->size + rhs.size;
+	str.array = new char[str.size + 1];
+	memcpy(str.array, this->array, this->size);
+	memcpy(str.array + this->size, rhs.array, rhs.size + 1);
+	return str;
 }
-String& String::operator+(const char* rhs)
+String String::operator+(const char* rhs)
 {
 	long i = 0;
 	while(rhs[i] != 0x0)
@@ -67,24 +67,24 @@ String& String::operator+(const char* rhs)
 		i++;
 	}
 
-	String* str = new String();
-	str->size = this->size + i;
-	str->array = new char[str->size + 1];
-	memcpy(str->array, this->array, this->size);
-	memcpy(str->array + this->size, rhs, i + 1);
+	String str;
+	str.size = this->size + i;
+	str.array = new char[str.size + 1];
+	memcpy(str.array, this->array, this->size);
+	memcpy(str.array + this->size, rhs, i + 1);
 
-	return *str;
+	return str;
 }
-String& String::operator+(const char& rhs)
+String String::operator+(const char& rhs)
 {
-	String* str = new String();
-	str->size = this->size + 1;
-	str->array = new char[str->size + 1];
-	memcpy(str->array, this->array, this->size);
-	str->array[this->size] = rhs;
-	str->array[this->size + 1] = NULL;
+	String str;
+	str.size = this->size + 1;
+	str.array = new char[str.size + 1];
+	memcpy(str.array, this->array, this->size);
+	str.array[this->size] = rhs;
+	str.array[this->size + 1] = NULL;
 
-	return *str;
+	return str;
 }
 String& String::operator+=(const String& rhs)
 {
@@ -186,7 +186,7 @@ long String::length()
 	return this->size;
 }
 
-const char* String::cStr()
+const char* String::cStr() const
 {
 	char* cString = new char[this->size];
 	memcpy(cString, this->array, this->size + 1);
@@ -203,6 +203,7 @@ String String::subStr(long startPos)
 	String string;
 	char* array = new char[this->size - startPos + 1];
 	memcpy(array, this->array + startPos, this->size - startPos + 1);
+	delete string.array;
 	string.array = array;
 	string.size = this->size - startPos;
 	return string;
@@ -219,7 +220,7 @@ String String::subStr(long startPos, long length)
 	}
 
 	// If length > till end of string just return rest of string
-	if(length - startPos > this->size)
+	if(length - startPos > this->size || length == String::npos)
 	{
 		return this->subStr(startPos);
 	}
@@ -229,6 +230,7 @@ String String::subStr(long startPos, long length)
 		char* array = new char[length + 1];
 		memcpy(array, this->array + startPos, length);
 		array[length] = 0x0;
+		delete string.array;
 		string.array = array;
 		string.size = length;
 		return string;
@@ -359,7 +361,7 @@ long String::strPos(const String& search)
 		}
 	}
 
-	return -1;
+	return String::npos;
 }
 long String::strPos(const char* search)
 {
@@ -376,7 +378,7 @@ long String::strPos(const char* search)
 		}
 	}
 
-	return -1;
+	return String::npos;
 }
 long String::strPos(const char& search)
 {
@@ -389,12 +391,12 @@ long String::strPos(const char& search)
 		}
 	}
 
-	return -1;
+	return String::npos;
 }
 long String::strLastPos(const String& search)
 {
 	// Go through every character in string and compare to delim
-	long lastPos = -1;
+	long lastPos = String::npos;
 	for(long i = 0; i < this->size; i++)
 	{
 		for(long j = 0; this->array[i] == search[j]; j++)
@@ -412,7 +414,7 @@ long String::strLastPos(const String& search)
 long String::strLastPos(const char* search)
 {
 	// Go through every character in string and compare to delim
-	long lastPos = -1;
+	long lastPos = String::npos;
 	for(long i = 0; i < this->size; i++)
 	{
 		for(long j = 0; this->array[i] == search[j]; j++)
@@ -430,7 +432,7 @@ long String::strLastPos(const char* search)
 long String::strLastPos(const char& search)
 {
 	// Go through every character in string and compare to delim
-	long lastPos = -1;
+	long lastPos = String::npos;
 	for(long i = 0; i < this->size; i++)
 	{
 		if(this->array[i] == search)
@@ -447,13 +449,13 @@ Array<long> String::strAllPos(const String& search)
 	long count = 0;
 	for(long i = 0; i < this->size; i++)
 	{
-		for(long j = 0; this->array[i] == search[j]; j++)
+		for(long j = 0; this->array[i + j] == search[j]; j++)
 		{
-			i++;
 			if((j + 1) >= search.size)
 			{
-				list[count] = i - search.size;
+				list[count] = i;
 				count++;
+				break;
 			}
 		}
 	}
@@ -466,13 +468,13 @@ Array<long> String::strAllPos(const char* search)
 	long count = 0;
 	for(long i = 0; i < this->size; i++)
 	{
-		for(long j = 0; this->array[i] == search[j]; j++)
+		for(long j = 0; this->array[i + j] == search[j]; j++)
 		{
-			i++;
 			if(search[j + 1] == 0x0)
 			{
-				list[count] = i - j - 1;
+				list[count] = i;
 				count++;
+				break;
 			}
 		}
 	}
@@ -496,45 +498,50 @@ Array<long> String::strAllPos(const char& search)
 	return list;
 }
 
-String& String::remove(const String& find)
+String String::insert(long pos, const String& insert)
 {
-	return *this;
+	if((pos + 1) >= this->size)
+	{
+		String str = this->subStr(0, pos + 1) + insert;
+		return str;
+	}
+	else
+	{
+		String str = this->subStr(0, pos + 1) + insert + this->subStr(pos + 1);
+		return str;
+	}
 }
-String& String::remove(const char* find)
+String String::insert(long pos, const char* insert)
 {
-	return *this;
+	if((pos + 1) >= this->size)
+	{
+		String str = this->subStr(0, pos + 1) + insert;
+		return str;
+	}
+	else
+	{
+		String str = this->subStr(0, pos + 1) + insert + this->subStr(pos + 1);
+		return str;
+	}
 }
-String& String::remove(const char& find)
+String String::insert(long pos, const char& insert)
 {
-	String* str = new String();
+	if((pos + 1) >= this->size)
+	{
+		String str = this->subStr(0, pos + 1) + insert;
+		return str;
+	}
+	else
+	{
+		String str = this->subStr(0, pos + 1) + insert + this->subStr(pos + 1);
+		return str;
+	}
+}
+
+String String::remove(const String& find)
+{
+	String str;
 	long pos = 0;
-	for(long i = 0; i < this->size; i++)
-	{
-		if(this->array[i] == find)
-		{
-			*str += this->subStr(pos, i - pos);
-			pos = i + 1;
-		}
-	}
-
-	if(pos < this->size)
-	{
-		*str += this->subStr(pos);
-	}
-	return *str;
-}
-String& String::remove(long startPos)
-{
-	return *this;
-}
-String& String::remove(long startPos, long length)
-{
-	return *this;
-}
-String& String::replace(const String& find, const String& replace)
-{
-	String* str = new String(*this);
-
 	for(long i = 0; i < this->size; i++)
 	{
 		for(long j = 0; this->array[i] == find[j]; j++)
@@ -542,24 +549,132 @@ String& String::replace(const String& find, const String& replace)
 			i++;
 			if((j + 1) >= find.size)
 			{
+				str += this->subStr(pos, (i - j) - pos - 1);
+				pos = i;
+				i--;
+				break;
+			}
+		}
+	}
+
+	if(pos < this->size)
+	{
+		str += this->subStr(pos);
+	}
+	return str;
+}
+String String::remove(const char* find)
+{
+	String str;
+	long pos = 0;
+	for(long i = 0; i < this->size; i++)
+	{
+		for(long j = 0; this->array[i] == find[j]; j++)
+		{
+			i++;
+			if(find[j + 1] == 0x0)
+			{
+				str += this->subStr(pos, (i - j) - pos - 1);
+				pos = i;
+				i--;
+				break;
+			}
+		}
+	}
+
+	if(pos < this->size)
+	{
+		str += this->subStr(pos);
+	}
+	return str;
+}
+String String::remove(const char& find)
+{
+	String str;
+	long pos = 0;
+	for(long i = 0; i < this->size; i++)
+	{
+		if(this->array[i] == find)
+		{
+			str += this->subStr(pos, i - pos);
+			pos = i + 1;
+		}
+	}
+
+	if(pos < this->size)
+	{
+		str += this->subStr(pos);
+	}
+	return str;
+}
+String String::remove(long startPos, long length)
+{
+	if(startPos >= this->size)
+	{
+		throw OutOfRange();
+	}
+
+	String str;
+	delete str.array;
+	str.array = new char[startPos + 1];
+	memcpy(str.array, this->array, startPos);
+	str.array[startPos] = 0x0;
+	str.size = startPos;
+
+	// Only add end of the string if length not more than rest of string
+	if(this->size - startPos > length && length != String::npos)
+	{
+		String str2;
+		delete str2.array;
+		str2.size = this->size - (startPos + length);
+		str2.array = new char[str2.size + 1];
+		memcpy(str2.array, this->array + startPos + length, str2.size + 1);
+		str += str2;
+	}
+
+	return str;
+}
+String String::replace(const String& find, const String& replace)
+{
+	String str(*this);
+
+	for(long i = 0; i < str.size; i++)
+	{
+		for(long j = 0; str.array[i] == find[j]; j++)
+		{
+			i++;
+			if((j + 1) >= find.size)
+			{
 				// Only memcpy if search length == replace length
 				if(find.size == replace.size)
 				{
-					memcpy(str->array + i - j - 1, replace.array, replace.size);
+					memcpy(str.array + i - j - 1, replace.array, replace.size);
+					i--;
+					break;
 				}
+				// If size of two replace is different from size of find
 				else
 				{
-					// TODO: if search length != replace length
+					if(i < str.size)
+					{
+						str = str.subStr(0, i - j - 1) + replace + str.subStr(i, str.size - i);
+					}
+					else
+					{
+						str = str.subStr(0, i - j - 1) + replace;
+					}
+					i = i - 1 - (find.size - replace.size);
+					break;
 				}
 			}
 		}
 	}
 
-	return *str;
+	return str;
 }
-String& String::replace(const char* find, const char* replace)
+String String::replace(const char* find, const char* replace)
 {
-	String* str = new String(*this);
+	String str(*this);
 
 	// Get length of replace string
 	long replaceLength = 0;
@@ -568,9 +683,9 @@ String& String::replace(const char* find, const char* replace)
 		replaceLength = i;
 	}
 
-	for(long i = 0; i < this->size; i++)
+	for(long i = 0; i < str.size; i++)
 	{
-		for(long j = 0; this->array[i] == find[j]; j++)
+		for(long j = 0; str.array[i] == find[j]; j++)
 		{
 			i++;
 			if(find[j + 1] == 0x0)
@@ -578,36 +693,67 @@ String& String::replace(const char* find, const char* replace)
 				// Only memcpy if search length == replace length
 				if(j == replaceLength)
 				{
-					memcpy(str->array + i - j - 1, replace, j + 1);
+					memcpy(str.array + i - j - 1, replace, j + 1);
+					i--;
+					break;
 				}
 				else
 				{
-					// TODO: if search length != replace length
+					if(i < str.size)
+					{
+						str = str.subStr(0, i - j - 1) + replace + str.subStr(i, str.size - i);
+					}
+					else
+					{
+						str = str.subStr(0, i - j - 1) + replace;
+					}
+					i = i - 1 - (j - replaceLength);
+					break;
 				}
 			}
 		}
 	}
 
-	return *str;
+	return str;
 }
-String& String::replace(const char& find, const char& replace)
+String String::replace(const char& find, const char& replace)
 {
-	String* str = new String(*this);
+	String str(*this);
 	for(long i = 0; i < this->size; i++)
 	{
 		if(this->array[i] == find)
 		{
-			(*str)[i] = replace;
+			str[i] = replace;
 		}
 	}
 
-	return *str;
+	return str;
 }
-String& String::toLower()
+String String::toLower()
 {
-	return *this;
+	const int DIFF = 'a' - 'A';
+
+	String str(*this);
+	for(long i = 0; i < this->size; i++)
+	{
+		if(str.array[i] >= 'A' && str.array[i] <= 'Z')
+		{
+			str.array[i] += DIFF;
+		}
+	}
+	return str;
 }
-String& String::toUpper()
+String String::toUpper()
 {
-	return *this;
+	const int DIFF = 'a' - 'A';
+
+	String str(*this);
+	for(long i = 0; i < this->size; i++)
+	{
+		if(str.array[i] >= 'a' && str.array[i] <= 'z')
+		{
+			str.array[i] -= DIFF;
+		}
+	}
+	return str;
 }
