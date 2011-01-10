@@ -22,7 +22,7 @@ Model::~Model()
 
 void Model::draw()
 {
-	for(int i = 0; i < _size; i++)
+	for(int i = 0; i < this->used; i++)
 	{
 		array[i].draw();
 	}

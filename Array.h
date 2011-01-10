@@ -16,39 +16,39 @@ public:
 	virtual const T& operator[](unsigned col) const; 
 
 	long size();
-	long max();
+	long reserved();
 
 	void insert(T value);
 	void resize(unsigned long newSize);
 protected:
 	T* array;
-	unsigned long _size;
-	unsigned long _max;
+	unsigned long used;
+	unsigned long allocated;
 };
 
 template <class T>
 Array<T>::Array()
 {
-	this->_size = 1;
-	this->_max = 1;
-	this->array = new T[this->_size];
+	this->used = 0;
+	this->allocated = 1;
+	this->array = new T[this->allocated];
 }
 
 template <class T>
 Array<T>::Array(unsigned long size)
 {
-	this->_size = size;
-	this->_max = size;
+	this->used = 0;
+	this->allocated = size;
 	this->array = new T[size];
 }
 
 template <class T>
 Array<T>::Array(const Array<T> &orig)
 {
-	this->_size = orig._size;
-	this->_max = this->_size;
-	this->array = new T[this->_size];
-	for(int i = 0; i < this->_size; i++)
+	this->used = orig.used;
+	this->allocated = orig.used;
+	this->array = new T[this->allocated];
+	for(int i = 0; i < this->used; i++)
 	{
 		this->array[i] = orig.array[i];
 	}
@@ -57,64 +57,43 @@ Array<T>::Array(const Array<T> &orig)
 template <class T>
 Array<T>::~Array()
 {
-	delete[] array;
+	// delete[] array;
 }
 
 template <class T>
 T& Array<T>::operator[](unsigned col)
 {
-	if(col >= this->_size)
-	{
-		if(col >= this->_max)
-		{
-			this->resize(this->_max * 2);
-		}
-		
-		this->_size = col + 1;
-		return this->array[col];
-	}
-	else
-	{
-		return this->array[col];
-	}
+	return this->array[col];
 }
 
 template <class T>
 const T& Array<T>::operator[](unsigned col) const
 {
-	if(col >= this->_size)
-	{
-		// TODO: figure out how to throw exception in Array class
-		std::cout << "This si where the error is" << std::endl;
-	}
-	else
-	{
-		return array[col];
-	}
+	return this->array[col];
 }
 
 template <class T>
 long Array<T>::size()
 {
-	return this->_size;
+	return this->used;
 }
 
 template <class T>
-long Array<T>::max()
+long Array<T>::reserved()
 {
-	return this->_max;
+	return this->used;
 }
 
 template <class T>
 void Array<T>::insert(T value)
 {
-	if(this->_size >= this->_max)
+	if(this->used >= this->allocated)
 	{
-		this->resize(this->_max * 2);
+		this->resize(this->allocated * 2);
 	}
 
-	this->_size++;
-	this->array[this->_size] = value;
+	this->array[this->used] = value;
+	this->used++;
 }
 
 template <class T>
@@ -122,15 +101,15 @@ void Array<T>::resize(unsigned long newSize)
 {
 	T* toDelete = this->array;
 	this->array = new T[newSize];
-	for(unsigned long i = 0; i < _size && i < newSize; i++)
+	for(unsigned long i = 0; i < this->used && i < newSize; i++)
 	{
 		this->array[i] = toDelete[i];
 	}
 	
-	this->_max = newSize;
-	if(this->_size < newSize)
+	this->allocated = newSize;
+	if(newSize < this->used)
 	{
-		this->_size = newSize;
+		this->used = newSize;
 	}
 
 	// TODO: find a way to safely delete old array

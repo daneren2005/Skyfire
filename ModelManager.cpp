@@ -37,7 +37,7 @@ void ModelManager::addModel(Model* model, std::string name)
 
 Model* ModelManager::getModel(std::string name)
 {
-	return models.get(name);
+	return models.search(name);
 }
 
 void ModelManager::loadObj(std::string filename)
@@ -91,8 +91,8 @@ void ModelManager::loadObj(std::string filename)
 				// If exiting one object to enter another
 				if(modelName != "")
 				{
-					mesh->resize(mesh_i + 1);
-					(*model)[model_i] = *mesh;
+					// mesh->resize(mesh->size());
+					model->insert(*mesh);
 					model = new Model(10);
 					model_i = 0;
 					mesh = new Mesh(10);
@@ -106,8 +106,8 @@ void ModelManager::loadObj(std::string filename)
 			{
 				if(meshName != "")
 				{
-					mesh->resize(mesh_i + 1);
-					(*model)[model_i] = *mesh;
+					// mesh->resize(mesh->size());
+					model->insert(*mesh);
 					model_i++;
 					mesh = new Mesh(10);
 					mesh_i = 0;
@@ -123,7 +123,7 @@ void ModelManager::loadObj(std::string filename)
 				if(cmd.length() == 1)
 				{
 					ss >> v1 >> v2 >> v3;
-					geometricVectors[geometric_i] = Vector(v1, v2, v3);
+					geometricVectors.insert(Vector(v1, v2, v3));
 					geometric_i++;
 				}
 				else
@@ -132,17 +132,17 @@ void ModelManager::loadObj(std::string filename)
 					{
 					case 't':
 						ss >> v1 >> v2;
-						textureVectors[texture_i] = Vector(v1, v2, 0.0f);
+						textureVectors.insert(Vector(v1, v2, 0.0f));
 						texture_i++;
 						break;
 					case 'n':
 						ss >> v1 >> v2 >> v3;
-						normalVectors[normal_i] = Vector(v1, v2, v3);
+						normalVectors.insert(Vector(v1, v2, v3));
 						normal_i++;
 						break;
 					case 'p':
 						ss >> v1 >> v2 >> v3;
-						parametricVectors[parametric_i] = Vector(v1, v2, v3);
+						parametricVectors.insert(Vector(v1, v2, v3));
 						parametric_i++;
 						break;
 					};
@@ -168,19 +168,25 @@ void ModelManager::loadObj(std::string filename)
 					{
 						int rg1, rg2, rg3;
 						rg1 = atof(r1.c_str());
-						(*mesh)[mesh_i].position[0] = geometricVectors[rg1 - 1][0];
-						(*mesh)[mesh_i].position[1] = geometricVectors[rg1 - 1][1];
-						(*mesh)[mesh_i].position[2] = geometricVectors[rg1 - 1][2];
+						Vertex v1;
+						v1.position[0] = geometricVectors[rg1 - 1][0];
+						v1.position[1] = geometricVectors[rg1 - 1][1];
+						v1.position[2] = geometricVectors[rg1 - 1][2];
+						mesh->insert(v1);
 						mesh_i++;
 						rg2 = atof(r2.c_str());
-						(*mesh)[mesh_i].position[0] = geometricVectors[rg2 - 1][0];
-						(*mesh)[mesh_i].position[1] = geometricVectors[rg2 - 1][1];
-						(*mesh)[mesh_i].position[2] = geometricVectors[rg2 - 1][2];
+						Vertex v2;
+						v2.position[0] = geometricVectors[rg2 - 1][0];
+						v2.position[1] = geometricVectors[rg2 - 1][1];
+						v2.position[2] = geometricVectors[rg2 - 1][2];
+						mesh->insert(v2);
 						mesh_i++;
 						rg3 = atof(r3.c_str());
-						(*mesh)[mesh_i].position[0] = geometricVectors[rg3 - 1][0];
-						(*mesh)[mesh_i].position[1] = geometricVectors[rg3 - 1][1];
-						(*mesh)[mesh_i].position[2] = geometricVectors[rg3 - 1][2];
+						Vertex v3;
+						v3.position[0] = geometricVectors[rg3 - 1][0];
+						v3.position[1] = geometricVectors[rg3 - 1][1];
+						v3.position[2] = geometricVectors[rg3 - 1][2];
+						mesh->insert(v3);
 						mesh_i++;
 					}
 					else
@@ -189,23 +195,29 @@ void ModelManager::loadObj(std::string filename)
 						int rn1, rn2, rn3;
 						int rt1, rt2, rt3;
 						rg1 = atof(r1.substr(0, pos + 1).c_str());
-						(*mesh)[mesh_i].position[0] = geometricVectors[rg1 - 1][0];
-						(*mesh)[mesh_i].position[1] = geometricVectors[rg1 - 1][1];
-						(*mesh)[mesh_i].position[2] = geometricVectors[rg1 - 1][2];
+						Vertex v1;
+						v1.position[0] = geometricVectors[rg1 - 1][0];
+						v1.position[1] = geometricVectors[rg1 - 1][1];
+						v1.position[2] = geometricVectors[rg1 - 1][2];
+						mesh->insert(v1);
 						mesh_i++;
 
 						pos = r2.find_first_of('/');
 						rg2 = atof(r2.substr(0, pos + 1).c_str());
-						(*mesh)[mesh_i].position[0] = geometricVectors[rg2 - 1][0];
-						(*mesh)[mesh_i].position[1] = geometricVectors[rg2 - 1][1];
-						(*mesh)[mesh_i].position[2] = geometricVectors[rg2 - 1][2];
+						Vertex v2;
+						v2.position[0] = geometricVectors[rg2 - 1][0];
+						v2.position[1] = geometricVectors[rg2 - 1][1];
+						v2.position[2] = geometricVectors[rg2 - 1][2];
+						mesh->insert(v2);
 						mesh_i++;
 
 						pos = r3.find_first_of('/');
 						rg3 = atof(r3.substr(0, pos + 1).c_str());
-						(*mesh)[mesh_i].position[0] = geometricVectors[rg3 - 1][0];
-						(*mesh)[mesh_i].position[1] = geometricVectors[rg3 - 1][1];
-						(*mesh)[mesh_i].position[2] = geometricVectors[rg3 - 1][2];
+						Vertex v3;
+						v3.position[0] = geometricVectors[rg3 - 1][0];
+						v3.position[1] = geometricVectors[rg3 - 1][1];
+						v3.position[2] = geometricVectors[rg3 - 1][2];
+						mesh->insert(v3);
 						mesh_i++;
 					}
 
@@ -238,16 +250,17 @@ void ModelManager::loadObj(std::string filename)
 					std::string materialName;
 					ss >> materialName;
 
-					Material* temp = materials[materialName];
-					if(temp != NULL)
+					try
 					{
+						Material* temp = materials.search(materialName);
 						mesh->material = *temp;
 					}
+					catch(...) {}
 
-					if(meshName != "")
+					if(meshName != "" && mesh->size() != 0)
 					{
-						mesh->resize(mesh_i + 1);
-						(*model)[model_i] = *mesh;
+						// mesh->resize(mesh->size());
+						model->insert(*mesh);
 						model_i++;
 						mesh = new Mesh(10);
 						mesh_i = 0;
@@ -262,9 +275,9 @@ void ModelManager::loadObj(std::string filename)
 		file.getline(line, 10240);
 	}
 
-	mesh->resize(mesh_i + 1);
-	(*model)[model_i] = *mesh;
-	model->resize(model_i + 1);
+	mesh->resize(mesh->size());
+	model->insert(*mesh);
+	model->resize(model->size());
 	if(modelName != "")
 	{
 		models.insert(modelName, model);

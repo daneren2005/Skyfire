@@ -23,7 +23,7 @@ public:
 	const T& operator[](Key key) const;
 
 	void insert(Key access, T value);
-	T get(const Key& key);
+	T search(const Key& key);
 private:
 	class Node
 	{
@@ -161,7 +161,7 @@ void Map<Key, T>::insert(Key key, T value)
 }
 
 template <class Key, class T>
-T Map<Key, T>::get(const Key& key)
+T Map<Key, T>::search(const Key& key)
 {
 	if(head == NULL)
 	{
