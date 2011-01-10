@@ -36,6 +36,7 @@ public:
 	void draw();
 
 	Material material;
+	void setWireFrame(bool option);
 private:
 	bool wireFrame;
 };

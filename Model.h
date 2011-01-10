@@ -3,7 +3,7 @@
 
 #include "Mesh.h"
 
-class Model : public Array<Mesh>
+class Model : public Array<Mesh*>
 {
 public:
 	Model();

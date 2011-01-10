@@ -92,7 +92,7 @@ void ModelManager::loadObj(std::string filename)
 				if(modelName != "")
 				{
 					// mesh->resize(mesh->size());
-					model->insert(*mesh);
+					model->insert(mesh);
 					model = new Model(10);
 					model_i = 0;
 					mesh = new Mesh(10);
@@ -107,7 +107,7 @@ void ModelManager::loadObj(std::string filename)
 				if(meshName != "")
 				{
 					// mesh->resize(mesh->size());
-					model->insert(*mesh);
+					model->insert(mesh);
 					model_i++;
 					mesh = new Mesh(10);
 					mesh_i = 0;
@@ -255,12 +255,15 @@ void ModelManager::loadObj(std::string filename)
 						Material* temp = materials.search(materialName);
 						mesh->material = *temp;
 					}
-					catch(...) {}
+					catch(...)
+					{
+						mesh->setWireFrame(true);
+					}
 
 					if(meshName != "" && mesh->size() != 0)
 					{
 						// mesh->resize(mesh->size());
-						model->insert(*mesh);
+						model->insert(mesh);
 						model_i++;
 						mesh = new Mesh(10);
 						mesh_i = 0;
@@ -276,7 +279,7 @@ void ModelManager::loadObj(std::string filename)
 	}
 
 	mesh->resize(mesh->size());
-	model->insert(*mesh);
+	model->insert(mesh);
 	model->resize(model->size());
 	if(modelName != "")
 	{
@@ -352,6 +355,11 @@ Map<std::string, Material*> ModelManager::loadMtl(std::string filename)
 		}
 
 		file.getline(line, 128);
+	}
+
+	if(name != "")
+	{
+		materials.insert(name, material);
 	}
 
 	return materials;

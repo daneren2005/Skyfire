@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="62">
   <logicalFolder name="root" displayName="root" projectFiles="true">
-    <logicalFolder name="f6" displayName="Containers" projectFiles="true">
+    <logicalFolder name="f8" displayName="IO" projectFiles="true">
+      <itemPath>Array.h</itemPath>
+      <itemPath>CString.cpp</itemPath>
+      <itemPath>CString.h</itemPath>
+      <itemPath>Exceptions.h</itemPath>
+      <itemPath>List.h</itemPath>
+      <itemPath>Map.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f9" displayName="Math" projectFiles="true">
       <itemPath>Matrix.cpp</itemPath>
       <itemPath>Matrix.h</itemPath>
       <itemPath>Matrix4.cpp</itemPath>
@@ -10,14 +18,6 @@
       <itemPath>Quaternion.h</itemPath>
       <itemPath>Vector.cpp</itemPath>
       <itemPath>Vector.h</itemPath>
-    </logicalFolder>
-    <logicalFolder name="f8" displayName="IO" projectFiles="true">
-      <itemPath>Array.h</itemPath>
-      <itemPath>CString.cpp</itemPath>
-      <itemPath>CString.h</itemPath>
-      <itemPath>Exceptions.h</itemPath>
-      <itemPath>List.h</itemPath>
-      <itemPath>Map.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f5" displayName="Models" projectFiles="true">
       <itemPath>Mesh.cpp</itemPath>
