@@ -97,8 +97,8 @@ void BaseObject::transformObject()
 	Matrix4 translate = Matrix4::translate(t);
 	// Matrix4 transform = rotate * translate;
 	// glMultMatrixf(transform.getMatrix());
-	glMultMatrixf(rotate.getMatrix());
 	glMultMatrixf(translate.getMatrix());
+	glMultMatrixf(rotate.getMatrix());
 }
 void BaseObject::transformCamera()
 {

@@ -32,7 +32,9 @@ public:
 	virtual void rotateBy(const Vector& amount);
 
 	virtual void update(double interval) = 0;
+	// Move object and rotate it around its own axis
 	virtual void transformObject();
+	// Move object and rotate it around cameras axis
 	virtual void transformCamera();
 	virtual void draw();
 
