@@ -20,6 +20,8 @@
 #include "ModelManager.h"
 #include "BaseObject.h"
 #include "AxisObject.h"
+#include "StaticObject.h"
+#include "AnimateObject.h"
 
 #endif	/* _SKYFIRE_H */
 

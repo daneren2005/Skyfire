@@ -24,9 +24,8 @@ BaseObject::BaseObject()
 	BaseObject::objectIDCounter++;
 
 	position = Vector(0.0f, 0.0f, 0.0f);
-	angle = Vector(0.0f, 0.0f, 0.0f);
+	directionForward = Vector(0.0f, 0.0f, 0.0f);
 	camera = NULL;
-	model = NULL;
 }
 BaseObject::BaseObject(float x, float y, float z)
 {
@@ -34,14 +33,15 @@ BaseObject::BaseObject(float x, float y, float z)
 	BaseObject::objectIDCounter++;
 
 	position = Vector(x, y, z);
+	directionForward = Vector(0.0f, 0.0f, 0.0f);
 	camera = NULL;
-	model = NULL;
 }
 
 BaseObject::BaseObject(const BaseObject& orig)
 {
 	objectID = orig.objectID;
-	model = orig.model;
+	this->position = orig.position;
+	this->directionForward = orig.directionForward;
 	camera = orig.camera;
 }
 
@@ -65,8 +65,8 @@ void BaseObject::moveByDirection(float x, float y, float z)
 }
 void BaseObject::moveByDirection(const Vector& amount)
 {
-	Vector angle(this->angle[0], this->angle[1], this->angle[2]);
-	Matrix4 rotate = Matrix4::rotateMovement(angle);
+	Vector directionForward(this->directionForward[0], this->directionForward[1], this->directionForward[2]);
+	Matrix4 rotate = Matrix4::rotateMovement(directionForward);
 	Vector move = rotate * amount;
 
 	this->position = this->position + move;
@@ -82,8 +82,8 @@ void BaseObject::moveTo(const Vector& amount)
 void BaseObject::rotateBy(float x, float y, float z)
 {
 	Vector vec(y, x, z);
-	this->angle = this->angle + vec;
-	this->angle = this->angle % 360;
+	this->directionForward = this->directionForward + vec;
+	this->directionForward = this->directionForward % 360;
 }
 void BaseObject::rotateBy(const Vector& amount)
 {
@@ -92,7 +92,7 @@ void BaseObject::rotateBy(const Vector& amount)
 
 void BaseObject::transformObject()
 {
-	Matrix4 rotate = Matrix4::rotateObject(this->angle);
+	Matrix4 rotate = Matrix4::rotateObject(this->directionForward);
 	Vector t(position[0], position[1], -position[2]);
 	Matrix4 translate = Matrix4::translate(t);
 	// Matrix4 transform = rotate * translate;
@@ -104,7 +104,7 @@ void BaseObject::transformCamera()
 {
 	if(this->camera == NULL)
 	{
-		Matrix4 rotate = Matrix4::rotateObject(!this->angle);
+		Matrix4 rotate = Matrix4::rotateObject(!this->directionForward);
 		Vector t(-position[0], -position[1], -position[2]);
 		Matrix4 translate = Matrix4::translate(t);
 		// Matrix4 transform = rotate * translate;
@@ -114,7 +114,7 @@ void BaseObject::transformCamera()
 	}
 	else
 	{
-		Vector r(angle[0] + camera->angle[0], -angle[1] + camera->angle[1], -angle[2] + camera->angle[2]);
+		Vector r(directionForward[0] + camera->directionForward[0], -directionForward[1] + camera->directionForward[1], -directionForward[2] + camera->directionForward[2]);
 		Matrix4 rotate = Matrix4::rotateObject(r);
 		Vector t(-position[0] - camera->position[0], -position[1] - camera->position[1], -position[2] + camera->position[2]);
 		Matrix4 translate = Matrix4::translate(t);
@@ -122,29 +122,6 @@ void BaseObject::transformCamera()
 		// glMultMatrixf(transform.getMatrix());
 		glMultMatrixf(rotate.getMatrix());
 		glMultMatrixf(translate.getMatrix());
-	}
-}
-
-void BaseObject::draw()
-{
-	// Already drawn if camera is not null
-	if(this->model == NULL)
-	{
-		return;
-	}
-	else if(this->camera == NULL)
-	{
-		glPushMatrix();
-		this->transformObject();
-		this->model->draw();
-		glPopMatrix();
-	}
-	else
-	{
-		glPushMatrix();
-		this->camera->transformCamera();
-		this->model->draw();
-		glPopMatrix();
 	}
 }
 

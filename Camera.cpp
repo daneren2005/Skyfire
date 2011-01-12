@@ -17,7 +17,7 @@ Camera::Camera()
 	this->object = NULL;
 
 	position = Vector();
-	angle = Vector();
+	directionForward = Vector();
 }
 
 Camera::Camera(const Camera& orig)
@@ -157,6 +157,11 @@ void Camera::render()
 
 	if(this->activeRegion)
 		this->activeRegion->draw();
+}
+
+void Camera::draw()
+{
+	
 }
 
 void Camera::update(double update)

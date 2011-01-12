@@ -34,12 +34,16 @@
       <itemPath>Vector.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f1" displayName="Objects" projectFiles="true">
+      <itemPath>AnimateObject.cpp</itemPath>
+      <itemPath>AnimateObject.h</itemPath>
       <itemPath>AxisObject.cpp</itemPath>
       <itemPath>AxisObject.h</itemPath>
       <itemPath>BaseObject.cpp</itemPath>
       <itemPath>BaseObject.h</itemPath>
       <itemPath>Region.cpp</itemPath>
       <itemPath>Region.h</itemPath>
+      <itemPath>StaticObject.cpp</itemPath>
+      <itemPath>StaticObject.h</itemPath>
       <itemPath>Universe.cpp</itemPath>
       <itemPath>Universe.h</itemPath>
     </logicalFolder>

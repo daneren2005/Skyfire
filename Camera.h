@@ -36,8 +36,9 @@ public:
 	Region* getActiveRegion();
 
 	virtual void render();
-	virtual void update(double interval);
 
+	virtual void draw();
+	virtual void update(double interval);
 	virtual void load();
 
 	friend class Universe;
