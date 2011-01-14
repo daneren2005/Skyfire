@@ -32,8 +32,8 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Thread.o \
-	${OBJECTDIR}/StaticObject.o \
 	${OBJECTDIR}/Triangle.o \
+	${OBJECTDIR}/StaticObject.o \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Matrix4.o \
 	${OBJECTDIR}/Universe.o \
@@ -48,7 +48,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/Key.o \
 	${OBJECTDIR}/Vector.o \
 	${OBJECTDIR}/Scene.o \
+	${OBJECTDIR}/ParticleEmitter.o \
 	${OBJECTDIR}/CString.o \
+	${OBJECTDIR}/ParticleSystem.o \
 	${OBJECTDIR}/AnimateObject.o \
 	${OBJECTDIR}/Matrix.o \
 	${OBJECTDIR}/Quaternion.o \
@@ -86,15 +88,15 @@ ${OBJECTDIR}/Thread.o: nbproject/Makefile-${CND_CONF}.mk Thread.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
 
-${OBJECTDIR}/StaticObject.o: nbproject/Makefile-${CND_CONF}.mk StaticObject.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/StaticObject.o StaticObject.cpp
-
 ${OBJECTDIR}/Triangle.o: nbproject/Makefile-${CND_CONF}.mk Triangle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Triangle.o Triangle.cpp
+
+${OBJECTDIR}/StaticObject.o: nbproject/Makefile-${CND_CONF}.mk StaticObject.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/StaticObject.o StaticObject.cpp
 
 ${OBJECTDIR}/Input.o: nbproject/Makefile-${CND_CONF}.mk Input.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -166,10 +168,20 @@ ${OBJECTDIR}/Scene.o: nbproject/Makefile-${CND_CONF}.mk Scene.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scene.o Scene.cpp
 
+${OBJECTDIR}/ParticleEmitter.o: nbproject/Makefile-${CND_CONF}.mk ParticleEmitter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleEmitter.o ParticleEmitter.cpp
+
 ${OBJECTDIR}/CString.o: nbproject/Makefile-${CND_CONF}.mk CString.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/CString.o CString.cpp
+
+${OBJECTDIR}/ParticleSystem.o: nbproject/Makefile-${CND_CONF}.mk ParticleSystem.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleSystem.o ParticleSystem.cpp
 
 ${OBJECTDIR}/AnimateObject.o: nbproject/Makefile-${CND_CONF}.mk AnimateObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}

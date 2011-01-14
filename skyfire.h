@@ -23,5 +23,8 @@
 #include "StaticObject.h"
 #include "AnimateObject.h"
 
+#include "ParticleEmitter.h"
+#include "ParticleSystem.h"
+
 #endif	/* _SKYFIRE_H */
 

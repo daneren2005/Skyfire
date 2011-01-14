@@ -20,6 +20,9 @@ public:
 
 	void insert(T value);
 	void resize(unsigned long newSize);
+
+	T* getPointer();
+	const T* getPointer() const;
 protected:
 	T* array;
 	unsigned long used;
@@ -114,6 +117,17 @@ void Array<T>::resize(unsigned long newSize)
 
 	// TODO: find a way to safely delete old array
 	// delete[] toDelete;
+}
+
+template <class T>
+T* Array<T>::getPointer()
+{
+	return this->array;
+}
+template <class T>
+const T* Array<T>::getPointer() const
+{
+	return this->array;
 }
 
 #endif

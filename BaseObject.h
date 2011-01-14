@@ -49,6 +49,7 @@ public:
 protected:
 	Vector position;
 	Vector directionForward;
+	Vector directionUp;
 
 	BaseObject* camera;
 private:

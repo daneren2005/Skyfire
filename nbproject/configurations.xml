@@ -40,6 +40,11 @@
       <itemPath>AxisObject.h</itemPath>
       <itemPath>BaseObject.cpp</itemPath>
       <itemPath>BaseObject.h</itemPath>
+      <itemPath>Particle.h</itemPath>
+      <itemPath>ParticleEmitter.cpp</itemPath>
+      <itemPath>ParticleEmitter.h</itemPath>
+      <itemPath>ParticleSystem.cpp</itemPath>
+      <itemPath>ParticleSystem.h</itemPath>
       <itemPath>Region.cpp</itemPath>
       <itemPath>Region.h</itemPath>
       <itemPath>StaticObject.cpp</itemPath>
