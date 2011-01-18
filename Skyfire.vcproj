@@ -160,6 +160,14 @@
 			Name="Objects"
 			>
 			<File
+				RelativePath=".\AnimateObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimateObject.h"
+				>
+			</File>
+			<File
 				RelativePath=".\AxisObject.cpp"
 				>
 			</File>
@@ -176,11 +184,43 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Particle.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Particle.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ParticleEmitter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ParticleEmitter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ParticleSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ParticleSystem.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Region.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Region.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StaticObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\StaticObject.h"
 				>
 			</File>
 			<File

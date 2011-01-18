@@ -10,15 +10,21 @@
 
 #include "Vector.h"
 
-struct Particle
+class Particle
 {
+public:
+	Particle();
+	Particle(Vector speed, Vector color, float fade = 0.0f);
+	Particle(Vector position, Vector speed, Vector color, float fade = 0.0f);
+	Particle(Vector position, Vector speed, Vector acceleration, Vector color, float fade = 0.0f);
+
+	bool active;
 	Vector position;
 	Vector speed;
+	Vector acceleration;
 	Vector color;
 	float life;
-	float totalLife;
 	float fade;
-	float fadeSpeed;
 };
 
 #endif	/* _PARTICLE_H */

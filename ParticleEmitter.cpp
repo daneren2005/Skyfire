@@ -22,6 +22,48 @@ ParticleEmitter::~ParticleEmitter()
 
 }
 
+void ParticleEmitter::update(double interval)
+{
+	if(running)
+		this->emitParticles(interval);
+
+	Particle* ptr = this->particles.getPointer();
+	for(int i = 0; i < this->particles.size(); i++)
+	{
+		ptr[i].position = ptr[i].position + (ptr[i].speed * interval);
+		ptr[i].speed = ptr[i].speed + (ptr[i].acceleration * (interval * interval));
+		ptr[i].life -= interval * ptr[i].fade;
+		if(ptr[i].life <= 0 && ptr[i].active)
+		{
+			ptr[i].active = false;
+			inactive.push_back(i);
+		}
+	}
+}
+
+void ParticleEmitter::draw()
+{
+	glEnable (GL_BLEND); glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	Particle* ptr = this->particles.getPointer();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glBegin(GL_TRIANGLES);
+	for(int i = 0; i < this->particles.size(); i++)
+	{
+		if(ptr[i].life >= 0)
+		{
+			glColor4f(0.0f, 1.0f, 0.0f, ptr[i].life);
+			glVertex3f(ptr[i].position[0] + 0.01f, ptr[i].position[1] + 0.01f, ptr[i].position[2]);
+			glVertex3f(ptr[i].position[0] - 0.01f, ptr[i].position[1] + 0.01f, ptr[i].position[2]);
+			glVertex3f(ptr[i].position[0] + 0.01f, ptr[i].position[1] - 0.01f, ptr[i].position[2]);
+			glVertex3f(ptr[i].position[0] - 0.01f, ptr[i].position[1] + 0.01f, ptr[i].position[2]);
+			glVertex3f(ptr[i].position[0] + 0.01f, ptr[i].position[1] - 0.01f, ptr[i].position[2]);
+			glVertex3f(ptr[i].position[0] - 0.01f, ptr[i].position[1] - 0.01f, ptr[i].position[2]);
+		}
+	}
+	glEnd();
+}
+
 void ParticleEmitter::start()
 {
 	this->running = true;
@@ -29,5 +71,39 @@ void ParticleEmitter::start()
 void ParticleEmitter::stop()
 {
 	this->running = false;
+}
+
+void ParticleEmitter::emitParticle(Vector speed, Vector color, float fade)
+{
+	if(inactive.size() <= 0)
+	{
+		this->particles.insert(Particle(speed, color, fade));
+	}
+	else
+	{
+		this->particles[inactive.pop_front()] = Particle(speed, color, fade);
+	}
+}
+void ParticleEmitter::emitParticle(Vector position, Vector speed, Vector color, float fade)
+{
+	if(inactive.size() <= 0)
+	{
+		this->particles.insert(Particle(position, speed, color, fade));
+	}
+	else
+	{
+		this->particles[inactive.pop_front()] = Particle(position, speed, color, fade);
+	}
+}
+void ParticleEmitter::emitParticle(Vector position, Vector speed, Vector acceleration, Vector color, float fade)
+{
+	if(inactive.size() <= 0)
+	{
+		this->particles.insert(Particle(position, speed, acceleration, color, fade));
+	}
+	else
+	{
+		this->particles[inactive.pop_front()] = Particle(position, speed, acceleration, color, fade);
+	}
 }
 
