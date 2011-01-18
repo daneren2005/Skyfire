@@ -52,13 +52,13 @@ void ParticleEmitter::draw()
 	{
 		if(ptr[i].life >= 0)
 		{
-			glColor4f(0.0f, 1.0f, 0.0f, ptr[i].life);
-			glVertex3f(ptr[i].position[0] + 0.01f, ptr[i].position[1] + 0.01f, ptr[i].position[2]);
-			glVertex3f(ptr[i].position[0] - 0.01f, ptr[i].position[1] + 0.01f, ptr[i].position[2]);
-			glVertex3f(ptr[i].position[0] + 0.01f, ptr[i].position[1] - 0.01f, ptr[i].position[2]);
-			glVertex3f(ptr[i].position[0] - 0.01f, ptr[i].position[1] + 0.01f, ptr[i].position[2]);
-			glVertex3f(ptr[i].position[0] + 0.01f, ptr[i].position[1] - 0.01f, ptr[i].position[2]);
-			glVertex3f(ptr[i].position[0] - 0.01f, ptr[i].position[1] - 0.01f, ptr[i].position[2]);
+			glColor4f(1.0f, 0.1f, 0.0f, ptr[i].life);
+			glVertex3f(ptr[i].position[0] + 0.1f, ptr[i].position[1] + 0.1f, ptr[i].position[2]);
+			glVertex3f(ptr[i].position[0] - 0.1f, ptr[i].position[1] + 0.1f, ptr[i].position[2]);
+			glVertex3f(ptr[i].position[0] + 0.1f, ptr[i].position[1] - 0.1f, ptr[i].position[2]);
+			glVertex3f(ptr[i].position[0] - 0.1f, ptr[i].position[1] + 0.1f, ptr[i].position[2]);
+			glVertex3f(ptr[i].position[0] + 0.1f, ptr[i].position[1] - 0.1f, ptr[i].position[2]);
+			glVertex3f(ptr[i].position[0] - 0.1f, ptr[i].position[1] - 0.1f, ptr[i].position[2]);
 		}
 	}
 	glEnd();

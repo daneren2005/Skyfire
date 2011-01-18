@@ -40,6 +40,7 @@
       <itemPath>AxisObject.h</itemPath>
       <itemPath>BaseObject.cpp</itemPath>
       <itemPath>BaseObject.h</itemPath>
+      <itemPath>Particle.cpp</itemPath>
       <itemPath>Particle.h</itemPath>
       <itemPath>ParticleEmitter.cpp</itemPath>
       <itemPath>ParticleEmitter.h</itemPath>

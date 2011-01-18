@@ -41,6 +41,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/BaseObject.o \
 	${OBJECTDIR}/Window.o \
 	${OBJECTDIR}/AxisObject.o \
+	${OBJECTDIR}/Particle.o \
 	${OBJECTDIR}/StopWatch.o \
 	${OBJECTDIR}/Camera.o \
 	${OBJECTDIR}/Model.o \
@@ -132,6 +133,11 @@ ${OBJECTDIR}/AxisObject.o: nbproject/Makefile-${CND_CONF}.mk AxisObject.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisObject.o AxisObject.cpp
+
+${OBJECTDIR}/Particle.o: nbproject/Makefile-${CND_CONF}.mk Particle.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Particle.o Particle.cpp
 
 ${OBJECTDIR}/StopWatch.o: nbproject/Makefile-${CND_CONF}.mk StopWatch.cpp 
 	${MKDIR} -p ${OBJECTDIR}
