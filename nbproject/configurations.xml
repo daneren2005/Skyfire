@@ -19,6 +19,8 @@
       <itemPath>Array.h</itemPath>
       <itemPath>CString.cpp</itemPath>
       <itemPath>CString.h</itemPath>
+      <itemPath>Console.cpp</itemPath>
+      <itemPath>Console.h</itemPath>
       <itemPath>Exceptions.h</itemPath>
       <itemPath>List.h</itemPath>
       <itemPath>Map.h</itemPath>

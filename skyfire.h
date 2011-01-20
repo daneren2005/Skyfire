@@ -16,6 +16,7 @@
 #include "Vector.h"
 #include "Matrix4.h"
 #include "CString.h"
+#include "Console.h"
 
 #include "ModelManager.h"
 #include "BaseObject.h"

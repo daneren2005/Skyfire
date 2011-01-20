@@ -56,7 +56,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Matrix.o \
 	${OBJECTDIR}/Quaternion.o \
 	${OBJECTDIR}/Region.o \
-	${OBJECTDIR}/ModelManager.o
+	${OBJECTDIR}/ModelManager.o \
+	${OBJECTDIR}/Console.o
 
 # C Compiler Flags
 CFLAGS=
@@ -213,6 +214,11 @@ ${OBJECTDIR}/ModelManager.o: nbproject/Makefile-${CND_CONF}.mk ModelManager.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/ModelManager.o ModelManager.cpp
+
+${OBJECTDIR}/Console.o: nbproject/Makefile-${CND_CONF}.mk Console.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console.o Console.cpp
 
 # Subprojects
 .build-subprojects:
