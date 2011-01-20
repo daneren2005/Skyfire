@@ -12,6 +12,7 @@
     #include <windows.h>
 #endif
 
+#include "Console.h"
 #include <GL/gl.h>
 #include <pthread.h>
 
@@ -33,22 +34,35 @@ public:
 	const float& operator[](unsigned col) const;
 
 	Vector operator+(const Vector& rhs);
-	Vector operator+=(const Vector& rhs);
+	Vector operator+(const Vector& rhs) const;
+	Vector& operator+=(const Vector& rhs);
 	Vector operator-(const Vector& rhs);
+	Vector operator-(const Vector& rhs) const;
+	Vector& operator-=(const Vector& rhs);
 	Vector operator*(const Vector& rhs);
 	Vector operator*(const Vector& rhs) const;
+	Vector& operator*=(const Vector& rhs);
+	Vector operator*(const float& rhs);
 	Vector operator*(const float& rhs) const;
-	Vector operator%(const float amount);
+	Vector& operator*=(const float& rhs);
+	Vector operator%(const float& amount);
+	Vector operator%(const float& amount) const;
+	Vector& operator%=(const float& amount);
 
 	bool operator==(const Vector& rhs);
 	bool operator!=(const Vector& rhs);
 
 	Vector operator!();
-
 	Vector projection(const Vector& b) const;
 private:
 	float pos[3];
 };
+
+static Console& operator<<(Console& con, const Vector& vec)
+{
+	con << vec[0] << ' ' << vec[1] << ' ' << vec[2];
+	return con;
+}
 
 // Opengl functions
 static void glTranslatev(Vector vector)
