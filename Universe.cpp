@@ -84,7 +84,8 @@ void* Universe::updateFunction(void* arg)
 	// If input is set, do stuff with it
 	if(uni->input != NULL)
 	{
-		if(uni->input->moveLeft && !uni->input->moveRight)
+		// if(uni->input->moveLeft && !uni->input->moveRight)
+		if(uni->input->keyPressed(KEY_LEFT) && !uni->input->keyPressed(KEY_RIGHT))
 			uni->camera->moveByDirection(-interval * 10, 0.0f, 0.0f);
 		if(!uni->input->moveLeft && uni->input->moveRight)
 			uni->camera->moveByDirection(interval * 10, 0.0f, 0.0f);

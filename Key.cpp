@@ -7,17 +7,41 @@
 
 #include "Key.h"
 
+Key::Key()
+{
+	this->type = NULL_KEY;
+	this->pressed = false;
+	this->eventHandler = 0x0;
+}
 Key::Key(KeyType type)
 {
 	this->type = type;
+	this->pressed = false;
+	this->eventHandler = 0x0;
 }
 
 Key::Key(const Key& orig)
 {
+	this->type = orig.type;
+	this->pressed = orig.pressed;
+	this->eventHandler = orig.eventHandler;
 }
 
 Key::~Key()
 {
+}
+
+void Key::keyDown()
+{
+	this->pressed = true;
+}
+void Key::keyUp()
+{
+	this->pressed = false;
+}
+bool Key::keyPressed()
+{
+	return this->pressed;
 }
 
 KeyType Key::keyType()
@@ -38,5 +62,10 @@ bool Key::operator !=(const Key& rhs)
 		return false;
 	else
 		return true;
+}
+
+void Key::setEventHandler(void*(*eventHandler)())
+{
+	this->eventHandler = eventHandler;
 }
 

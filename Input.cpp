@@ -6,6 +6,7 @@
  */
 
 #include "Input.h"
+#include "Console.h"
 
 #ifdef WIN32
     #include <windows.h>
@@ -13,7 +14,7 @@
 
 Input::Input()
 {
-	this->moveLeft = false;
+	/*this->moveLeft = false;
 	this->moveRight = false;
 	this->moveUp = false;
 	this->moveDown = false;
@@ -22,7 +23,10 @@ Input::Input()
 	this->rotateLeft = false;
 	this->rotateRight = false;
 	this->rotateUp = false;
-	this->rotateDown = false;
+	this->rotateDown = false;*/
+
+	this->keys.insert(KEY_LEFT, Key(KEY_LEFT));
+	this->keys.insert(KEY_RIGHT, Key(KEY_RIGHT));
 }
 
 Input::Input(const Input& orig)
@@ -37,7 +41,10 @@ Input::~Input()
 
 void Input::keyDown(KeyType key)
 {
-	switch(key)
+	if(key == KEY_ESCAPE)
+		exit(0);
+
+	/*switch(key)
 	{
 	case KEY_ESCAPE:
 		exit(0);
@@ -72,11 +79,32 @@ void Input::keyDown(KeyType key)
 	case KEY_W:
 		this->rotateUp = true;
 		break;
+	}*/
+
+	try
+	{
+		this->keys.search(key).keyDown();
+	}
+	catch(Exception& e)
+	{
+		Key pressed(key);
+		pressed.keyDown();
+		this->keys.insert(key, pressed);
 	}
 }
 void Input::keyUp(KeyType key)
 {
-	switch(key)
+	try
+	{
+		this->keys.search(key).keyUp();
+	}
+	catch(Exception& e)
+	{
+		Key pressed(key);
+		this->keys.insert(key, pressed);
+	}
+
+	/*switch(key)
 	{
 	case KEY_ESCAPE:
 		exit(0);
@@ -111,10 +139,28 @@ void Input::keyUp(KeyType key)
 	case KEY_W:
 		this->rotateUp = false;
 		break;
-	}
+	}*/
 }
 
-bool Input::keyPressed(Key key)
+void Input::mouseMove(int x, int y)
 {
-	return false;
+	this->mouseX = x;
+	this->mouseY = y;
+}
+
+bool Input::keyPressed(KeyType key)
+{
+	try
+	{
+		Key check = keys.search(key);
+		if(check.keyPressed())
+			return true;
+		else
+			return false;
+	}
+	catch(Exception& e)
+	{
+		console << "Test" << newline;
+		return false;
+	}
 }

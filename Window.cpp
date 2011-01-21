@@ -309,6 +309,15 @@ void Window::processEvent(SDL_Event* event)
 	switch(event->type)
 	{
 		// TODO: Add Keyboard class for virtual mapping of key->functions
+		case SDL_MOUSEMOTION:
+			this->mouseMove(event->motion.x, event->motion.y);
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			this->mouseDown(event->button.button);
+			break;
+		case SDL_MOUSEBUTTONUP:
+			this->mouseUp(event->button.button);
+			break;
 		case SDL_KEYDOWN:
 			this->keyDown(&event->key.keysym);
 			break;
@@ -323,7 +332,141 @@ void Window::processEvent(SDL_Event* event)
 			break;
 	}
 }
+
+void Window::mouseMove(int x, int y)
+{
+	input->mouseMove(x, y);
+}
+void Window::mouseDown(int button)
+{
+	switch(button)
+	{
+	case SDL_BUTTON_LEFT:
+		input->keyDown(BUTTON_LEFT);
+		break;
+	case SDL_BUTTON_RIGHT:
+		input->keyDown(BUTTON_RIGHT);
+		break;
+	case SDL_BUTTON_MIDDLE:
+		input->keyDown(BUTTON_MIDDLE);
+		break;
+	case SDL_BUTTON_WHEELUP:
+		input->keyDown(WHEEL_UP);
+		break;
+	case SDL_BUTTON_WHEELDOWN:
+		input->keyDown(WHEEL_DOWN);
+	default:
+		break;
+	}
+}
+void Window::mouseUp(int button)
+{
+	switch(button)
+	{
+	case SDL_BUTTON_LEFT:
+		input->keyUp(BUTTON_LEFT);
+		break;
+	case SDL_BUTTON_RIGHT:
+		input->keyUp(BUTTON_RIGHT);
+		break;
+	case SDL_BUTTON_MIDDLE:
+		input->keyUp(BUTTON_MIDDLE);
+		break;
+	case SDL_BUTTON_WHEELUP:
+		input->keyUp(WHEEL_UP);
+		break;
+	case SDL_BUTTON_WHEELDOWN:
+		input->keyUp(WHEEL_DOWN);
+	default:
+		break;
+	}
+}
+
+void Window::keyDown(SDL_keysym* keysym)
+{
+
+	switch(keysym->sym)
+	{
+	case SDLK_ESCAPE:
+		input->keyDown(KEY_ESCAPE);
+		break;
+	case SDLK_UP:
+		input->keyDown(KEY_UP);
+		break;
+	case SDLK_LEFT:
+		input->keyDown(KEY_LEFT);
+		break;
+	case SDLK_RIGHT:
+		input->keyDown(KEY_RIGHT);
+		break;
+	case SDLK_DOWN:
+		input->keyDown(KEY_DOWN);
+		break;
+	case SDLK_PAGEUP:
+		input->keyDown(KEY_PAGEUP);
+		break;
+	case SDLK_PAGEDOWN:
+		input->keyDown(KEY_PAGEDOWN);
+		break;
+	case SDLK_w:
+		input->keyDown(KEY_W);
+		break;
+	case SDLK_a:
+		input->keyDown(KEY_A);
+		break;
+	case SDLK_s:
+		input->keyDown(KEY_S);
+		break;
+	case SDLK_d:
+		input->keyDown(KEY_D);
+		break;
+	default:
+		break;
+	}
+}
+void Window::keyUp(SDL_keysym* keysym)
+{
+	switch(keysym->sym)
+	{
+	case SDLK_ESCAPE:
+		input->keyUp(KEY_ESCAPE);
+		break;
+	case SDLK_UP:
+		input->keyUp(KEY_UP);
+		break;
+	case SDLK_LEFT:
+		input->keyUp(KEY_LEFT);
+		break;
+	case SDLK_RIGHT:
+		input->keyUp(KEY_RIGHT);
+		break;
+	case SDLK_DOWN:
+		input->keyUp(KEY_DOWN);
+		break;
+	case SDLK_PAGEUP:
+		input->keyUp(KEY_PAGEUP);
+		break;
+	case SDLK_PAGEDOWN:
+		input->keyUp(KEY_PAGEDOWN);
+		break;
+	case SDLK_w:
+		input->keyUp(KEY_W);
+		break;
+	case SDLK_a:
+		input->keyUp(KEY_A);
+		break;
+	case SDLK_s:
+		input->keyUp(KEY_S);
+		break;
+	case SDLK_d:
+		input->keyUp(KEY_D);
+		break;
+	default:
+		break;
+	}
+}
 #endif
+
 #ifdef WIN32
 LRESULT CALLBACK Window::WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
@@ -431,92 +574,6 @@ void Window::keyUp(int key)
 		break;
 	case 'D':
 		input->keyUp(KEY_D);
-		break;
-	}
-}
-#endif
-
-#ifdef __linux__
-void Window::keyDown(SDL_keysym* keysym)
-{
-
-	switch(keysym->sym)
-	{
-	case SDLK_ESCAPE:
-		input->keyDown(KEY_ESCAPE);
-		break;
-	case SDLK_UP:
-		input->keyDown(KEY_UP);
-		break;
-	case SDLK_LEFT:
-		input->keyDown(KEY_LEFT);
-		break;
-	case SDLK_RIGHT:
-		input->keyDown(KEY_RIGHT);
-		break;
-	case SDLK_DOWN:
-		input->keyDown(KEY_DOWN);
-		break;
-	case SDLK_PAGEUP:
-		input->keyDown(KEY_PAGEUP);
-		break;
-	case SDLK_PAGEDOWN:
-		input->keyDown(KEY_PAGEDOWN);
-		break;
-	case SDLK_w:
-		input->keyDown(KEY_W);
-		break;
-	case SDLK_a:
-		input->keyDown(KEY_A);
-		break;
-	case SDLK_s:
-		input->keyDown(KEY_S);
-		break;
-	case SDLK_d:
-		input->keyDown(KEY_D);
-		break;
-	default:
-		break;
-	}
-}
-void Window::keyUp(SDL_keysym* keysym)
-{
-	switch(keysym->sym)
-	{
-	case SDLK_ESCAPE:
-		input->keyUp(KEY_ESCAPE);
-		break;
-	case SDLK_UP:
-		input->keyUp(KEY_UP);
-		break;
-	case SDLK_LEFT:
-		input->keyUp(KEY_LEFT);
-		break;
-	case SDLK_RIGHT:
-		input->keyUp(KEY_RIGHT);
-		break;
-	case SDLK_DOWN:
-		input->keyUp(KEY_DOWN);
-		break;
-	case SDLK_PAGEUP:
-		input->keyUp(KEY_PAGEUP);
-		break;
-	case SDLK_PAGEDOWN:
-		input->keyUp(KEY_PAGEDOWN);
-		break;
-	case SDLK_w:
-		input->keyUp(KEY_W);
-		break;
-	case SDLK_a:
-		input->keyUp(KEY_A);
-		break;
-	case SDLK_s:
-		input->keyUp(KEY_S);
-		break;
-	case SDLK_d:
-		input->keyUp(KEY_D);
-		break;
-	default:
 		break;
 	}
 }

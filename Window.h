@@ -96,6 +96,9 @@ private:
 	#ifdef __linux__
 		virtual void processEvent(SDL_Event* event);
 
+		void mouseMove(int x, int y);
+		void mouseDown(int button);
+		void mouseUp(int button);
 		void keyDown(SDL_keysym* keysym);
 		void keyUp(SDL_keysym* keysym);
 	#endif

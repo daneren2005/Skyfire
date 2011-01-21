@@ -13,6 +13,7 @@
 #endif
 
 #include "List.h"
+#include "Map.h"
 #include "Key.h"
 
 class Input
@@ -24,8 +25,9 @@ public:
 
 	void keyDown(KeyType key);
 	void keyUp(KeyType key);
+	void mouseMove(int x, int y);
 
-	bool keyPressed(Key key);
+	bool keyPressed(KeyType key);
 
 	bool moveLeft;
 	bool moveRight;
@@ -39,7 +41,9 @@ public:
 	bool rotateUp;
 	bool rotateDown;
 private:
-	List<Key> keys;
+	int mouseX;
+	int mouseY;
+	Map<KeyType, Key> keys;
 };
 
 #endif	/* _INPUT_H */
