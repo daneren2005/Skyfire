@@ -14,16 +14,6 @@
 template <class Key, class T>
 class Map
 {
-public:
-	Map();
-	Map(const Map& orig);
-	virtual ~Map();
-
-	T& operator[](Key key);
-	const T& operator[](Key key) const;
-
-	void insert(Key access, T value);
-	T search(const Key& key);
 private:
 	class Node
 	{
@@ -46,6 +36,71 @@ private:
 	Node* head;
 	Node* tail;
 	long count;
+public:
+	Map();
+	Map(const Map& orig);
+	virtual ~Map();
+
+	T& operator[](Key key);
+	const T& operator[](Key key) const;
+
+	void insert(Key access, T value);
+	T search(const Key& key);
+
+	class Iterator
+	{
+	private:
+		typename Map<Key, T>::Node* current;
+	public:
+		Iterator(Map<Key, T>* map)
+		{
+			this->current = map->head;
+		}
+
+		T value()
+		{
+			if(current == NULL)
+			{
+				return NULL;
+			}
+			else
+			{
+				return this->current->value;
+			}
+		}
+
+		// Operator Overloading
+		bool operator !()
+		{
+			if(this->current == NULL)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		void operator ++()
+		{
+			if(current != NULL)
+			{
+				this->current = this->current->next;
+			}
+		}
+		void operator ++(int)
+		{
+			if(current != NULL)
+			{
+				this->current = this->current->next;
+			}
+		}
+	};
+
+	Iterator begin()
+	{
+		return Iterator(this);
+	}
 };
 
 template <class Key, class T>
