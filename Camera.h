@@ -42,7 +42,7 @@ public:
 	virtual void load();
 
 	friend class Universe;
-private:
+protected:
 	Region* activeRegion;
 	BaseObject* object;
 };

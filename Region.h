@@ -22,6 +22,9 @@ public:
 	virtual void update(double interval);
 	virtual void draw();
 
+	virtual void insertObject(BaseObject* object);
+	virtual void removeObject(BaseObject* object);
+
 	// temp
 	BaseObject* getFront();
 

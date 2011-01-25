@@ -40,6 +40,22 @@ void Region::draw()
 	}
 }
 
+void Region::insertObject(BaseObject* object)
+{
+	this->objects.push_back(object);
+}
+void Region::removeObject(BaseObject* object)
+{
+	try
+	{
+		this->objects.remove(object);
+	}
+	catch(...)
+	{
+		console << "Error Region::removeObject: Object not in region" << newline;
+	}
+}
+
 BaseObject* Region::getFront()
 {
 	return objects.front();
