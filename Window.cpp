@@ -308,7 +308,6 @@ void Window::processEvent(SDL_Event* event)
 {
 	switch(event->type)
 	{
-		// TODO: Add Keyboard class for virtual mapping of key->functions
 		case SDL_MOUSEMOTION:
 			this->mouseMove(event->motion.x, event->motion.y);
 			break;

@@ -26,24 +26,25 @@ public:
 	void keyDown(KeyType key);
 	void keyUp(KeyType key);
 	void mouseMove(int x, int y);
-
 	bool keyPressed(KeyType key);
 
-	bool moveLeft;
-	bool moveRight;
-	bool moveUp;
-	bool moveDown;
-	bool moveIn;
-	bool moveOut;
+	int mouseLocationX();
+	int mouseLocationY();
 
-	bool rotateLeft;
-	bool rotateRight;
-	bool rotateUp;
-	bool rotateDown;
+	void setMousePressEventHandler(KeyType key, void*(*eventHandler)(void* args, int x, int y), void* args);
+	void setMouseDownEventHandler(KeyType key, void*(*eventHandler)(void* args, double interval, int x, int y), void* args);
+	void setMouseMoveEventHandler(void*(*eventHandler)(void* args, int x, int y), void* args);
+	void setKeyPressEventHandler(KeyType key, void*(*eventHandler)(void* args), void* args);
+	void setKeyDownEventHandler(KeyType key, void*(*eventHandler)(void* args, double interval), void* args);
+
+	void update(double interval);
 private:
 	int mouseX;
 	int mouseY;
-	Map<KeyType, Key> keys;
+	void* mouseArgs;
+	void*(*mouseHandler)(void* args, int x, int y);
+
+	Map<KeyType, Key*> keys;
 };
 
 #endif	/* _INPUT_H */

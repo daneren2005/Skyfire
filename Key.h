@@ -23,8 +23,8 @@ public:
 	Key(const Key& orig);
 	virtual ~Key();
 
-	void keyDown();
-	void keyUp();
+	void keyDown(int x = 0, int y = 0);
+	void keyUp(int x = 0, int y = 0);
 	bool keyPressed();
 
 	KeyType keyType();
@@ -32,11 +32,24 @@ public:
 	bool operator==(const Key& rhs);
 	bool operator!=(const Key& rhs);
 
-	void setEventHandler(void*(*eventHandler)());
+	void update(double interval, int x = 0, int y = 0);
+
+	void setKeyPressEventHandler(void*(*eventHandler)(void* args), void* args);
+	void setKeyDownEventHandler(void*(*eventHandler)(void* args, double interval), void* args);
+	void setMousePressEventHandler(void*(*eventHandler)(void* args, int x, int y), void* args);
+	void setMouseDownEventHandler(void*(*eventHandler)(void* args, double interval, int x, int y), void* args);
 private:
 	KeyType type;
 	bool pressed;
-	void*(*eventHandler)();
+
+	void*(*keyPressHandler)(void* args);
+	void* keyPressArgs;
+	void*(*keyDownHandler)(void* args, double interval);
+	void* keyDownArgs;
+	void*(*mousePressHandler)(void* args, int x, int y);
+	void* mousePressArgs;
+	void*(*mouseDownHandler)(void* args, double interval, int x, int y);
+	void* mouseDownArgs;
 };
 
 #endif	/* _KEY_H */

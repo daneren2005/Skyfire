@@ -73,42 +73,17 @@ void* Universe::updateFunction(void* arg)
 
 	float interval = (float)uni->timer.elapsedTime();
 
+	if(uni->input != NULL)
+	{
+		uni->input->update(interval);
+	}
+
 	// Update all regions
 	Region* region = NULL;
 	for(List<Region*>::Iterator it = uni->regions.begin(); !it; it++)
 	{
 		region = it.value();
 		region->update(interval);
-	}
-
-	// If input is set, do stuff with it
-	if(uni->input != NULL)
-	{
-		// if(uni->input->moveLeft && !uni->input->moveRight)
-		if(uni->input->keyPressed(KEY_LEFT) && !uni->input->keyPressed(KEY_RIGHT))
-			uni->camera->moveByDirection(-interval * 10, 0.0f, 0.0f);
-		if(!uni->input->moveLeft && uni->input->moveRight)
-			uni->camera->moveByDirection(interval * 10, 0.0f, 0.0f);
-
-		if(uni->input->moveUp && !uni->input->moveDown)
-			uni->camera->moveByDirection(0.0f, interval * 10, 0.0f);
-		if(!uni->input->moveUp && uni->input->moveDown)
-			uni->camera->moveByDirection(0.0f, -interval * 10, 0.0f);
-
-		if(uni->input->moveIn && !uni->input->moveOut)
-			uni->camera->moveByDirection(0.0f, 0.0f, -interval * 10);
-		if(!uni->input->moveIn && uni->input->moveOut)
-			uni->camera->moveByDirection(0.0f, 0.0f, interval * 10);
-
-		if(uni->input->rotateLeft && !uni->input->rotateRight)
-			uni->camera->rotateBy(-interval * 100.0f, 0.0f, 0.0f);
-		if(!uni->input->rotateLeft && uni->input->rotateRight)
-			uni->camera->rotateBy(interval * 100.0f, 0.0f, 0.0f);
-
-		if(uni->input->rotateUp && !uni->input->rotateDown)
-			uni->camera->rotateBy(0.0f, interval * 100.0f, 0.0f);
-		if(!uni->input->rotateUp && uni->input->rotateDown)
-			uni->camera->rotateBy(0.0f, -interval * 100.0f, 0.0f);
 	}
 
 	uni->updateRate.executeEnd();
