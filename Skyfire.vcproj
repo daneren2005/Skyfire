@@ -236,6 +236,14 @@
 			Name="Windows"
 			>
 			<File
+				RelativePath=".\Console.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Console.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Input.cpp"
 				>
 			</File>

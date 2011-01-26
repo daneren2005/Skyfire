@@ -19,6 +19,9 @@ Input::Input()
 
 	this->keys.insert(KEY_LEFT, new Key(KEY_LEFT));
 	this->keys.insert(KEY_RIGHT, new Key(KEY_RIGHT));
+
+	this->mouseX = 0;
+	this->mouseY = 0;
 }
 
 Input::Input(const Input& orig)

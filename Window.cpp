@@ -486,6 +486,20 @@ LRESULT CALLBACK Window::WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM 
 		case WM_KEYUP:
 			_defaultCallback->keyUp((int)wParam);
 			return 0;
+		case WM_LBUTTONDOWN:
+			_defaultCallback->getInput()->keyDown(BUTTON_LEFT);
+			return 0;
+		case WM_LBUTTONUP:
+			_defaultCallback->getInput()->keyUp(BUTTON_LEFT);
+			return 0;
+		case WM_RBUTTONDOWN:
+			_defaultCallback->getInput()->keyDown(BUTTON_RIGHT);
+			return 0;
+		case WM_RBUTTONUP:
+			_defaultCallback->getInput()->keyUp(BUTTON_RIGHT);
+			return 0;
+		case WM_MOUSEMOVE:
+			_defaultCallback->getInput()->mouseMove(LOWORD(lParam), HIWORD(lParam));
 		default:
 			return DefWindowProc( hwnd, Message, wParam, lParam );
 	}
