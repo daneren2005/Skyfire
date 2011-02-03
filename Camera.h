@@ -41,6 +41,9 @@ public:
 	virtual void update(double interval);
 	virtual void load();
 
+	BaseObject* getObjectAt(int x, int y);
+	Array<BaseObject*> getOBjectsIn(int x, int y, int width, int height);
+
 	friend class Universe;
 protected:
 	Region* activeRegion;

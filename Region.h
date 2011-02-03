@@ -28,6 +28,7 @@ public:
 	// temp
 	BaseObject* getFront();
 
+	friend class Camera;
 	friend class Universe;
 protected:
 	Universe* universe;

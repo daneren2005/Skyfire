@@ -8,6 +8,7 @@
 #include "Camera.h"
 
 #include <SDL/SDL.h>
+#include <GL/glu.h>
 
 #include <iostream>
 
@@ -173,4 +174,66 @@ void Camera::update(double update)
 void Camera::load()
 {
 	
+}
+
+BaseObject* Camera::getObjectAt(int x, int y)
+{
+	unsigned int buffer[64];
+	int hits, view[4];
+	int id;
+
+	// Setup Select mode
+	glSelectBuffer(64, buffer);
+	glGetIntegerv(GL_VIEWPORT, view);
+	glRenderMode(GL_SELECT);
+
+	// Init select mode
+	glInitNames();
+	glPushName(0);
+
+	// Run draw to get the objects
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+		glLoadIdentity();
+		gluPickMatrix(x, view[3] - y, 1.0f, 1.0f, view);
+		// TODO: get angle + viewing distances from window settings, not hard coded
+		gluPerspective(45.0f, (GLfloat) (view[2]-view[0])/(GLfloat) (view[3]-view[1]), 0.1f, 100.0f);
+
+		glMatrixMode(GL_MODELVIEW);
+		this->render();
+		glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+
+	glMatrixMode(GL_MODELVIEW);
+	hits = glRenderMode(GL_RENDER);
+
+	int maxId = 0;
+	int maxValue = -1;
+	for(int i = 0; i < hits; i++)
+	{
+		if(buffer[i * 4 + 1] < maxValue || maxValue == -1)
+		{
+			maxId = buffer[i * 4 + 3];
+			maxValue = buffer[i * 4 + 1];
+		}
+	}
+
+	if(maxId != 0)
+	{
+		for(List<BaseObject*>::Iterator it = this->activeRegion->objects.begin(); !it; it++)
+		{
+			if(it.value()->objectId() == maxId)
+			{
+				return it.value();
+			}
+		}
+	}
+	
+	return 0x0;
+}
+
+Array<BaseObject*> Camera::getOBjectsIn(int x, int y, int width, int height)
+{
+	Array<BaseObject*> temp;
+	return temp;
 }
