@@ -17,6 +17,8 @@ Key::Key()
 	this->keyDownArgs = 0x0;
 	this->mousePressHandler = 0x0;
 	this->mousePressArgs = 0x0;
+	this->mouseDownHandler = 0x0;
+	this->mouseDownArgs = 0x0;
 }
 Key::Key(KeyType type)
 {
@@ -28,6 +30,8 @@ Key::Key(KeyType type)
 	this->keyDownArgs = 0x0;
 	this->mousePressHandler = 0x0;
 	this->mousePressArgs = 0x0;
+	this->mouseDownHandler = 0x0;
+	this->mouseDownArgs = 0x0;
 }
 
 Key::Key(const Key& orig)
