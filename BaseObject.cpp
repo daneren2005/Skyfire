@@ -16,7 +16,7 @@
 
 #include <iostream>
 
-int BaseObject::objectIDCounter = 0;
+int BaseObject::objectIDCounter = 1;
 
 BaseObject::BaseObject()
 {
@@ -90,6 +90,15 @@ void BaseObject::rotateBy(const Vector& amount)
 	this->rotateBy(amount[1], amount[0], amount[2]);
 }
 
+Vector BaseObject::getPosition()
+{
+	return this->position;
+}
+Vector BaseObject::getAngle()
+{
+	return this->directionForward;
+}
+
 void BaseObject::transformObject()
 {
 	Matrix4 rotate = Matrix4::rotateObject(this->directionForward);
@@ -147,4 +156,9 @@ bool BaseObject::operator!=(const BaseObject& rhs)
 	{
 		return true;
 	}
+}
+
+int BaseObject::objectId()
+{
+	return this->objectID;
 }

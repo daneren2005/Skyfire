@@ -31,6 +31,9 @@ public:
 	virtual void rotateBy(float x, float y, float z);
 	virtual void rotateBy(const Vector& amount);
 
+	virtual Vector getPosition();
+	virtual Vector getAngle();
+
 	// Called regularly to update based on how much time has passed since last called
 	virtual void update(double interval) = 0;
 	// Move object and rotate it around its own axis
@@ -44,6 +47,7 @@ public:
 
 	bool operator==(const BaseObject& rhs);
 	bool operator!=(const BaseObject& rhs);
+	int objectId();
 
 	friend class Camera;
 protected:

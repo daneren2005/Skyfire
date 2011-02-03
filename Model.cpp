@@ -22,6 +22,8 @@ Model::~Model()
 
 void Model::draw()
 {
+	glDisable(GL_BLEND);
+
 	for(int i = 0; i < this->used; i++)
 	{
 		array[i]->draw();

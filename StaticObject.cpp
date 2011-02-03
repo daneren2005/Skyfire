@@ -33,19 +33,24 @@ void StaticObject::draw()
 	{
 		return;
 	}
-	else if(this->camera == NULL)
+
+	// If in select mode, write object id to top of stack
+	glLoadName(this->objectId());
+	// Start a new matrix
+	glPushMatrix();
+
+	// Transform scene based on wether object is attached to camera or not
+	if(this->camera == NULL)
 	{
-		glPushMatrix();
 		this->transformObject();
-		this->model->draw();
-		glPopMatrix();
 	}
 	else
 	{
-		glPushMatrix();
 		this->camera->transformCamera();
-		this->model->draw();
-		glPopMatrix();
 	}
+
+	// Draw then pop back down to old stack
+	this->model->draw();
+	glPopMatrix();
 }
 
