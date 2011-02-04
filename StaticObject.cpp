@@ -40,13 +40,13 @@ void StaticObject::draw()
 	glPushMatrix();
 
 	// Transform scene based on wether object is attached to camera or not
-	if(this->camera == NULL)
+	if(this->attachedCamera == NULL)
 	{
 		this->transformObject();
 	}
 	else
 	{
-		this->camera->transformCamera();
+		this->attachedCamera->transformCamera();
 	}
 
 	// Draw then pop back down to old stack

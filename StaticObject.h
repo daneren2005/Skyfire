@@ -9,6 +9,8 @@
 #define	_STATICOBJECT_H
 
 #include "BaseObject.h"
+#include "Camera.h"
+#include "Region.h"
 
 class StaticObject : public BaseObject
 {

@@ -124,11 +124,11 @@ void Camera::rotateBy(const Vector& amount)
 void Camera::attachTo(BaseObject* object)
 {
 	this->object = object;
-	this->object->camera = this;
+	this->object->setAttachedCamera(this);
 }
 void Camera::detach()
 {
-	this->object->camera = NULL;
+	this->object->setAttachedCamera(NULL);
 	this->object = NULL;
 }
 

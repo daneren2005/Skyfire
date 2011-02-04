@@ -14,6 +14,9 @@
 #include "const.h"
 #include <cmath>
 
+#include "Camera.h"
+#include "Region.h"
+
 #include <iostream>
 
 int BaseObject::objectIDCounter = 1;
@@ -25,7 +28,8 @@ BaseObject::BaseObject()
 
 	position = Vector(0.0f, 0.0f, 0.0f);
 	directionForward = Vector(0.0f, 0.0f, 0.0f);
-	camera = NULL;
+	this->attachedCamera = NULL;
+	this->parentRegion = NULL;
 }
 BaseObject::BaseObject(float x, float y, float z)
 {
@@ -34,7 +38,8 @@ BaseObject::BaseObject(float x, float y, float z)
 
 	position = Vector(x, y, z);
 	directionForward = Vector(0.0f, 0.0f, 0.0f);
-	camera = NULL;
+	this->attachedCamera = NULL;
+	this->parentRegion = NULL;
 }
 
 BaseObject::BaseObject(const BaseObject& orig)
@@ -42,7 +47,8 @@ BaseObject::BaseObject(const BaseObject& orig)
 	objectID = orig.objectID;
 	this->position = orig.position;
 	this->directionForward = orig.directionForward;
-	camera = orig.camera;
+	this->attachedCamera = orig.attachedCamera;
+	this->parentRegion = orig.parentRegion;
 }
 
 BaseObject::~BaseObject()
@@ -90,6 +96,10 @@ void BaseObject::rotateBy(const Vector& amount)
 	this->rotateBy(amount[1], amount[0], amount[2]);
 }
 
+int BaseObject::objectId()
+{
+	return this->objectID;
+}
 Vector BaseObject::getPosition()
 {
 	return this->position;
@@ -97,6 +107,22 @@ Vector BaseObject::getPosition()
 Vector BaseObject::getAngle()
 {
 	return this->directionForward;
+}
+Camera* BaseObject::getAttachedCamera()
+{
+	return this->attachedCamera;
+}
+void BaseObject::setAttachedCamera(Camera* camera)
+{
+	this->attachedCamera = camera;
+}
+Region* BaseObject::getParentRegion()
+{
+	return this->parentRegion;
+}
+void BaseObject::setParentRegion(Region* region)
+{
+	this->parentRegion = region;
 }
 
 void BaseObject::transformObject()
@@ -111,7 +137,7 @@ void BaseObject::transformObject()
 }
 void BaseObject::transformCamera()
 {
-	if(this->camera == NULL)
+	if(this->attachedCamera == NULL)
 	{
 		Matrix4 rotate = Matrix4::rotateObject(!this->directionForward);
 		Vector t(-position[0], -position[1], -position[2]);
@@ -123,9 +149,9 @@ void BaseObject::transformCamera()
 	}
 	else
 	{
-		Vector r(directionForward[0] + camera->directionForward[0], -directionForward[1] + camera->directionForward[1], -directionForward[2] + camera->directionForward[2]);
+		Vector r(directionForward[0] + attachedCamera->directionForward[0], -directionForward[1] + attachedCamera->directionForward[1], -directionForward[2] + attachedCamera->directionForward[2]);
 		Matrix4 rotate = Matrix4::rotateObject(r);
-		Vector t(-position[0] - camera->position[0], -position[1] - camera->position[1], -position[2] + camera->position[2]);
+		Vector t(-position[0] - attachedCamera->position[0], -position[1] - attachedCamera->position[1], -position[2] + attachedCamera->position[2]);
 		Matrix4 translate = Matrix4::translate(t);
 		// Matrix4 transform = rotate * translate;
 		// glMultMatrixf(transform.getMatrix());
@@ -156,9 +182,4 @@ bool BaseObject::operator!=(const BaseObject& rhs)
 	{
 		return true;
 	}
-}
-
-int BaseObject::objectId()
-{
-	return this->objectID;
 }
