@@ -1,6 +1,7 @@
 #include "CString.h"
 #include "Exceptions.h"
 #include <string.h>
+#include "Console.h"
 
 String::String()
 {
@@ -25,6 +26,82 @@ String::String(const char* rhs)
 	this->size = i;
 	this->array = new char[this->size + 1];
 	memcpy(this->array, rhs, this->size + 1);
+}
+String::String(int rhs)
+{
+	const int DIFF = '0' - 0;
+
+	Array<char> buffer(8);
+	while(rhs > 0)
+	{
+		buffer.insert(rhs % 10);
+		rhs = rhs / 10;
+	}
+
+	this->size = buffer.size();
+	this->array = new char[buffer.size()];
+	for(int j = 0; j < buffer.size(); j++)
+	{
+		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
+	}
+}
+String::String(long rhs)
+{
+	const int DIFF = '0' - 0;
+
+	Array<char> buffer(8);
+	while(rhs > 0)
+	{
+		buffer.insert(rhs % 10);
+		rhs = rhs / 10;
+	}
+
+	this->size = buffer.size();
+	this->array = new char[buffer.size()];
+	for(int j = 0; j < buffer.size(); j++)
+	{
+		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
+	}
+}
+String::String(float rhs)
+{
+	// TODO: Get decimal part of float
+	const int DIFF = '0' - 0;
+
+	Array<char> buffer(8);
+	int intPart = (int)rhs;
+	while(intPart > 0)
+	{
+		buffer.insert(intPart % 10);
+		intPart = intPart / 10;
+	}
+
+	this->size = buffer.size();
+	this->array = new char[buffer.size()];
+	for(int j = 0; j < buffer.size(); j++)
+	{
+		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
+	}
+}
+String::String(double rhs)
+{
+	// TODO: Get decimal part of double
+	const int DIFF = '0' - 0;
+
+	Array<char> buffer(8);
+	int intPart = (int)rhs;
+	while(intPart > 0)
+	{
+		buffer.insert(intPart % 10);
+		intPart = intPart / 10;
+	}
+
+	this->size = buffer.size();
+	this->array = new char[buffer.size()];
+	for(int j = 0; j < buffer.size(); j++)
+	{
+		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
+	}
 }
 
 String::~String()
@@ -756,4 +833,130 @@ String String::toUpper()
 		}
 	}
 	return str;
+}
+
+int String::toInt()
+{
+	const int DIFF = '0' - 0;
+
+	int num = 0;
+	for(long i = 0; i < this->size; i++)
+	{
+		// Ingore everything after .
+		if(this->array[i] == '.')
+		{
+			break;
+		}
+		// Check that its a number
+		else if(this->array[i] < '0' || this->array[i] > '9')
+		{
+			throw(InvalidOperation());
+		}
+		
+		num += (this->array[i] - DIFF);
+		num *= 10;
+	}
+	num = num / 10;
+	return num;
+}
+long String::toLong()
+{
+	const int DIFF = '0' - 0;
+
+	long num = 0;
+	for(long i = 0; i < this->size; i++)
+	{
+		// Ingore everything after .
+		if(this->array[i] == '.')
+		{
+			break;
+		}
+		// Check that its a number
+		else if(this->array[i] < '0' || this->array[i] > '9')
+		{
+			throw(InvalidOperation());
+		}
+
+		num += (this->array[i] - DIFF);
+		num *= 10;
+	}
+	num = num / 10;
+	return num;
+}
+float String::toFloat()
+{
+	const int DIFF = '0' - 0;
+
+	float num = 0.0f;
+	for(long i = 0; i < this->size; i++)
+	{
+		// Compute decimal part seperately
+		if(this->array[i] == '.')
+		{
+			float power = 1;
+			for(long j = 1; i + j < this->size; j++)
+			{
+				if(this->array[i + j] == 'f')
+				{
+					break;
+				}
+				else if(this->array[i + j] < '0' || this->array[i + j] > '9')
+				{
+					throw(InvalidOperation());
+				}
+
+				num = num + ((float)this->array[i + j] - DIFF)  / power;
+				power *= 10;
+			}
+
+			break;
+		}
+		// Check that its a number
+		else if(this->array[i] < '0' || this->array[i] > '9')
+		{
+			throw(InvalidOperation());
+		}
+
+		num += (this->array[i] - DIFF);
+		num *= 10;
+	}
+	num = num / 10;
+	return num;
+}
+double String::toDouble()
+{
+	const int DIFF = '0' - 0;
+
+	double num = 0.0;
+	for(long i = 0; i < this->size; i++)
+	{
+		// Compute decimal part seperately
+		if(this->array[i] == '.')
+		{
+			double power = 1;
+			for(long j = 1; i + j < this->size; j++)
+			{
+				// Check that its a number
+				if(this->array[i + j] < '0' || this->array[i + j] > '9')
+				{
+					throw(InvalidOperation());
+				}
+
+				num = num + ((double)this->array[i + j] - DIFF)  / power;
+				power *= 10;
+			}
+
+			break;
+		}
+		// Check that its a number
+		else if(this->array[i] < '0' || this->array[i] > '9')
+		{
+			throw(InvalidOperation());
+		}
+
+		num += (this->array[i] - DIFF);
+		num *= 10;
+	}
+	num = num / 10;
+	return num;
 }

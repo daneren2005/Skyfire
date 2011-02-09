@@ -23,6 +23,7 @@ public:
 	Console& operator<<(const char* str);
 	Console& operator<<(const char& str);
 	Console& operator<<(const int& num);
+	Console& operator<<(const long& num);
 	Console& operator<<(const float& num);
 	Console& operator<<(const double& num);
 private:

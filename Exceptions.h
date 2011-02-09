@@ -31,4 +31,13 @@ public:
 	}	
 };
 
+class InvalidOperation : public Exception
+{
+public:
+	InvalidOperation()
+	{
+		this->msg = "Exception: Attempting to make an invalid operation";
+	}
+};
+
 #endif

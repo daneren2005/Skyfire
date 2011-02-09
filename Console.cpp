@@ -61,6 +61,13 @@ Console& Console::operator<<(const int& num)
 	#endif
 	return *this;
 }
+Console& Console::operator<<(const long& num)
+{
+	#ifdef __linux__
+		std::cout << num;
+	#endif
+	return *this;
+}
 Console& Console::operator<<(const float& num)
 {
 	#ifdef __linux__

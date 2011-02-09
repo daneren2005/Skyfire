@@ -13,6 +13,10 @@ public:
 	String();
 	String(const String& rhs);
 	String(const char* rhs);
+	String(int rhs);
+	String(long rhs);
+	String(float rhs);
+	String(double rhs);
 	~String();
 
 	// Operator Overloading
@@ -60,8 +64,14 @@ public:
 	String replace(const String& find, const String& replace);
 	String replace(const char* find, const char* replace);
 	String replace(const char& find, const char& replace);
+
+	// String conversions
 	String toLower();
 	String toUpper();
+	int toInt();
+	long toLong();
+	float toFloat();
+	double toDouble();
 private:
 	char* array;
 	long size;
