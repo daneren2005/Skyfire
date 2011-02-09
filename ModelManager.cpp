@@ -25,29 +25,29 @@ ModelManager::~ModelManager()
 {
 }
 
-void ModelManager::loadModels(std::string filename)
+void ModelManager::loadModels(String filename)
 {
 	this->loadObj(filename);
 }
 
-void ModelManager::addModel(Model* model, std::string name)
+void ModelManager::addModel(Model* model, String name)
 {
 	models.insert(name, model);
 }
 
-Model* ModelManager::getModel(std::string name)
+Model* ModelManager::getModel(String name)
 {
 	return models.search(name);
 }
 
-void ModelManager::loadObj(std::string filename)
+void ModelManager::loadObj(String filename)
 {
 	std::ifstream file;
-	file.open(filename.c_str());
+	file.open(filename.cStr());
 
 	if(!file.good())
 	{
-		std::cout << "ModelManager::loadModels error: Failed to load " << filename << std::endl;
+		std::cout << "ModelManager::loadModels error: Failed to load " << filename.cStr() << std::endl;
 		return;
 	}
 
@@ -69,7 +69,7 @@ void ModelManager::loadObj(std::string filename)
 	Array<Vector> parametricVectors(10);
 	int parametric_i = 0;
 
-	Map<std::string, Material*> materials;
+	Map<String, Material*> materials;
 	
 	char line[10240];
 	file.getline(line, 10240);
@@ -238,7 +238,7 @@ void ModelManager::loadObj(std::string filename)
 					ss >> libraryFileName;
 					libraryFileName = "data/Danube/" + libraryFileName;
 
-					materials = this->loadMtl(libraryFileName);
+					materials = this->loadMtl(String(libraryFileName.c_str()));
 				}
 
 				break;
@@ -252,7 +252,7 @@ void ModelManager::loadObj(std::string filename)
 
 					try
 					{
-						Material* temp = materials.search(materialName);
+						Material* temp = materials.search(String(materialName.c_str()));
 						mesh->material = *temp;
 					}
 					catch(...)
@@ -283,24 +283,24 @@ void ModelManager::loadObj(std::string filename)
 	model->resize(model->size());
 	if(modelName != "")
 	{
-		models.insert(modelName, model);
+		models.insert(String(modelName.c_str()), model);
 	}
 	else
 	{
-		models.insert(meshName, model);
+		models.insert(String(meshName.c_str()), model);
 	}
 }
 
-Map<std::string, Material*> ModelManager::loadMtl(std::string filename)
+Map<String, Material*> ModelManager::loadMtl(String filename)
 {
-	Map<std::string, Material*> materials;
+	Map<String, Material*> materials;
 
 	std::ifstream file;
-	file.open(filename.c_str());
+	file.open(filename.cStr());
 
 	if(!file.good())
 	{
-		std::cout << "ModelManager::loadModels error: Failed to load file " << filename << std::endl;
+		std::cout << "ModelManager::loadModels error: Failed to load file " << filename.cStr() << std::endl;
 		return materials;
 	}
 
@@ -323,7 +323,7 @@ Map<std::string, Material*> ModelManager::loadMtl(std::string filename)
 		{
 			if(name != "")
 			{
-				materials.insert(name, material);
+				materials.insert(String(name.c_str()), material);
 			}
 
 			material = new Material;
@@ -359,7 +359,7 @@ Map<std::string, Material*> ModelManager::loadMtl(std::string filename)
 
 	if(name != "")
 	{
-		materials.insert(name, material);
+		materials.insert(String(name.c_str()), material);
 	}
 
 	return materials;

@@ -11,6 +11,7 @@
 #include "Map.h"
 #include "Model.h"
 #include <iostream>
+#include "CString.h"
 
 class ModelManager
 {
@@ -19,14 +20,14 @@ public:
 	ModelManager(const ModelManager& orig);
 	virtual ~ModelManager();
 
-	void loadModels(std::string filename);
-	void addModel(Model* model, std::string name);
-	Model* getModel(std::string name);
+	void loadModels(String filename);
+	void addModel(Model* model, String name);
+	Model* getModel(String name);
 private:
-	Map<std::string, Model*> models;
+	Map<String, Model*> models;
 
-	void loadObj(std::string filename);
-	Map<std::string, Material*> loadMtl(std::string filename);
+	void loadObj(String filename);
+	Map<String, Material*> loadMtl(String filename);
 };
 
 extern ModelManager modelManager;
