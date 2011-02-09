@@ -136,6 +136,15 @@ String String::operator+(const String& rhs)
 	memcpy(str.array + this->size, rhs.array, rhs.size + 1);
 	return str;
 }
+String String::operator+(const String& rhs) const
+{
+	String str;
+	str.size = this->size + rhs.size;
+	str.array = new char[str.size + 1];
+	memcpy(str.array, this->array, this->size);
+	memcpy(str.array + this->size, rhs.array, rhs.size + 1);
+	return str;
+}
 String String::operator+(const char* rhs)
 {
 	long i = 0;
@@ -152,7 +161,34 @@ String String::operator+(const char* rhs)
 
 	return str;
 }
+String String::operator+(const char* rhs) const
+{
+	long i = 0;
+	while(rhs[i] != 0x0)
+	{
+		i++;
+	}
+
+	String str;
+	str.size = this->size + i;
+	str.array = new char[str.size + 1];
+	memcpy(str.array, this->array, this->size);
+	memcpy(str.array + this->size, rhs, i + 1);
+
+	return str;
+}
 String String::operator+(const char& rhs)
+{
+	String str;
+	str.size = this->size + 1;
+	str.array = new char[str.size + 1];
+	memcpy(str.array, this->array, this->size);
+	str.array[this->size] = rhs;
+	str.array[this->size + 1] = NULL;
+
+	return str;
+}
+String String::operator+(const char& rhs) const
 {
 	String str;
 	str.size = this->size + 1;
@@ -222,7 +258,32 @@ bool String::operator==(const String& rhs)
 
 	return true;
 }
+bool String::operator==(const String& rhs) const
+{
+	if(this->size != rhs.size)
+	{
+		return false;
+	}
+
+	for(long i = 0; i < this->size; i++)
+	{
+		if(this->array[i] != rhs.array[i])
+			return false;
+	}
+
+	return true;
+}
 bool String::operator==(const char* rhs)
+{
+	for(long i = 0; i < this->size; i++)
+	{
+		if(this->array[i] != rhs[i])
+			return false;
+	}
+
+	return true;
+}
+bool String::operator==(const char* rhs) const
 {
 	for(long i = 0; i < this->size; i++)
 	{
@@ -247,7 +308,32 @@ bool String::operator!=(const String& rhs)
 
 	return false;
 }
+bool String::operator!=(const String& rhs) const
+{
+	if(this->size != rhs.size)
+	{
+		return true;
+	}
+
+	for(long i = 0; i < this->size; i++)
+	{
+		if(this->array[i] != rhs.array[i])
+			return true;
+	}
+
+	return false;
+}
 bool String::operator!=(const char* rhs)
+{
+	for(long i = 0; i < this->size; i++)
+	{
+		if(this->array[i] != rhs[i])
+			return true;
+	}
+
+	return false;
+}
+bool String::operator!=(const char* rhs) const
 {
 	for(long i = 0; i < this->size; i++)
 	{
