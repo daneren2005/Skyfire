@@ -41,6 +41,7 @@ public:
 	bool operator!=(const String& rhs) const;
 	bool operator!=(const char* rhs);
 	bool operator!=(const char* rhs) const;
+	String& operator>>(String& rhs);
 
 	// String Accessors
 	long length();
@@ -59,6 +60,7 @@ public:
 	Array<long> strAllPos(const String& search);
 	Array<long> strAllPos(const char* search);
 	Array<long> strAllPos(const char& search);
+	Array<String> getWords();
 
 	// String manuipulation
 	String insert(long pos, const String& insert);

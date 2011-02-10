@@ -348,6 +348,59 @@ bool String::operator!=(const char* rhs) const
 	return false;
 }
 
+String& String::operator>>(String& rhs)
+{
+	if(this->size == 0)
+	{
+		return *this;
+	}
+
+	// Cycle through extra whitesace
+	int j = 0;
+	for(j = 0; j < this->size; j++)
+	{
+		if(this->array[j] != ' ' && this->array[j] != '\n'  && this->array[j] != '\r')
+		{
+			break;
+		}
+	}
+
+	// Get the first space
+	int i = 0;
+	for(i = j; i < this->size; i++)
+	{
+		if(this->array[i] == ' ' || this->array[i] == '\n' || this->array[i] == '\r')
+		{
+			break;
+		}
+	}
+
+	// Set the rhs to that word
+	rhs = this->subStr(j, i);
+
+	// Cycle through extra whitesace
+	for(i = i; i < this->size; i++)
+	{
+		if(this->array[i] != ' ' && this->array[i] != '\n' && this->array[i] != '\r')
+		{
+			i--;
+			break;
+		}
+	}
+
+	// Take off the word + whitespace from this string
+	if(i < this->size)
+	{
+		*this = this->subStr(i + 1);
+	}
+	else
+	{
+		*this = String();
+	}
+
+	return *this;
+}
+
 long String::length()
 {
 	return this->size;
@@ -663,6 +716,20 @@ Array<long> String::strAllPos(const char& search)
 	}
 
 	return list;
+}
+
+Array<String> String::getWords()
+{
+	Array<String> parts;
+	String orig = *this;
+	String str;
+	while(orig.size != 0)
+	{
+		orig >> str;
+		parts.insert(str);
+	}
+
+	return parts;
 }
 
 String String::insert(long pos, const String& insert)
