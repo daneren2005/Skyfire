@@ -39,11 +39,12 @@ String::String(int rhs)
 	}
 
 	this->size = buffer.size();
-	this->array = new char[buffer.size()];
+	this->array = new char[buffer.size() + 1];
 	for(int j = 0; j < buffer.size(); j++)
 	{
 		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
 	}
+	this->array[buffer.size()] = 0x0;
 }
 String::String(long rhs)
 {
@@ -57,11 +58,12 @@ String::String(long rhs)
 	}
 
 	this->size = buffer.size();
-	this->array = new char[buffer.size()];
+	this->array = new char[buffer.size() + 1];
 	for(int j = 0; j < buffer.size(); j++)
 	{
 		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
 	}
+	this->array[buffer.size()] = 0x0;
 }
 String::String(float rhs)
 {
@@ -77,11 +79,12 @@ String::String(float rhs)
 	}
 
 	this->size = buffer.size();
-	this->array = new char[buffer.size()];
+	this->array = new char[buffer.size() + 1];
 	for(int j = 0; j < buffer.size(); j++)
 	{
 		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
 	}
+	this->array[buffer.size()] = 0x0;
 }
 String::String(double rhs)
 {
@@ -97,11 +100,12 @@ String::String(double rhs)
 	}
 
 	this->size = buffer.size();
-	this->array = new char[buffer.size()];
+	this->array = new char[buffer.size() + 1];
 	for(int j = 0; j < buffer.size(); j++)
 	{
 		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
 	}
+	this->array[buffer.size()] = 0x0;
 }
 
 String::~String()

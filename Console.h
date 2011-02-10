@@ -8,11 +8,17 @@
 #ifndef _CONSOLE_H
 #define	_CONSOLE_H
 
-#define newline '\n'
+#ifdef WIN32
+	#define newline "\r\n"
+#endif
+#ifdef __linux__
+	#define newline '\n'
+#endif
 
 #include "CString.h"
 
-class Console {
+class Console
+{
 public:
 	Console();
 	Console(const Console& orig);

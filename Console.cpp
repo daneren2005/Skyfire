@@ -8,6 +8,10 @@
 #include "Console.h"
 #include <iostream>
 
+#ifdef WIN32
+	#include <windows.h>
+#endif
+
 Console console = Console();
 
 Console::Console()
@@ -24,6 +28,9 @@ Console::~Console()
 
 Console& Console::operator<<(const String& str)
 {
+	#ifdef WIN32
+		OutputDebugString(str.cStr());
+	#endif
 	#ifdef __linux__
 		std::cout << str.cStr();
 	#endif
@@ -31,6 +38,9 @@ Console& Console::operator<<(const String& str)
 }
 Console& Console::operator<<(const std::string& str)
 {
+	#ifdef WIN32
+		OutputDebugString(str.c_str());
+	#endif
 	#ifdef __linux__
 		std::cout << str;
 	#endif
@@ -38,6 +48,9 @@ Console& Console::operator<<(const std::string& str)
 }
 Console& Console::operator<<(const char* str)
 {
+	#ifdef WIN32
+		OutputDebugString(str);
+	#endif
 	#ifdef __linux__
 		std::cout << str;
 	#endif
@@ -45,6 +58,9 @@ Console& Console::operator<<(const char* str)
 }
 Console& Console::operator<<(const char& str)
 {
+	#ifdef WIN32
+		OutputDebugString(String(str).cStr());
+	#endif
 	#ifdef __linux__
 		if(str == '\n')
 			std::cout << std::endl;
@@ -56,6 +72,9 @@ Console& Console::operator<<(const char& str)
 
 Console& Console::operator<<(const int& num)
 {
+	#ifdef WIN32
+		OutputDebugString(String(num).cStr());
+	#endif
 	#ifdef __linux__
 		std::cout << num;
 	#endif
@@ -63,6 +82,9 @@ Console& Console::operator<<(const int& num)
 }
 Console& Console::operator<<(const long& num)
 {
+	#ifdef WIN32
+		OutputDebugString(String(num).cStr());
+	#endif
 	#ifdef __linux__
 		std::cout << num;
 	#endif
@@ -70,6 +92,9 @@ Console& Console::operator<<(const long& num)
 }
 Console& Console::operator<<(const float& num)
 {
+	#ifdef WIN32
+		OutputDebugString(String(num).cStr());
+	#endif
 	#ifdef __linux__
 		std::cout << num;
 	#endif
@@ -77,6 +102,9 @@ Console& Console::operator<<(const float& num)
 }
 Console& Console::operator<<(const double& num)
 {
+	#ifdef WIN32
+		OutputDebugString(String(num).cStr());
+	#endif
 	#ifdef __linux__
 		std::cout << num;
 	#endif
