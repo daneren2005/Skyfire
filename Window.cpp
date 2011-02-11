@@ -609,14 +609,12 @@ void Window::setResolution(GLdouble width, GLdouble height, GLdouble distance)
 }
 void Window::resetScreen()
 {
-	std::cout << this->screenWidth << std::endl << this->screenHeight << std::endl;
-
 	// TODO: find out if this is actually keeping the same resolution
-	glViewport(0, 0, (GLsizei)this->screenWidth, (GLsizei)this->screenHeight);
+	/*glViewport(0, 0, (GLsizei)this->screenWidth, (GLsizei)this->screenHeight);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	// gluPerspective(45, (float)this->width/this->height, 0.1f, 100.0f);
-	GLdouble aspectRatio = (GLdouble)this->screenWidth / (GLdouble)this->screenHeight;
+	GLdouble aspectRatio = (GLdouble)this->screenWidth / (GLdouble)this->screenHeight;*/
 	/*if(this->screenWidth <= this->screenHeight)
 		glOrtho(-(this->resolutionWidth / 2), (this->resolutionWidth / 2),
 				-(this->resolutionHeight / 2 / aspectRatio), (this->resolutionHeight / 2 / aspectRatio) / aspectRatio,
@@ -624,9 +622,9 @@ void Window::resetScreen()
 	else
 		glOrtho(-(this->resolutionWidth / 2 / aspectRatio), (this->resolutionWidth / 2 / aspectRatio)
 				, -(this->resolutionHeight / 2), (this->resolutionHeight / 2), this->resolutionDistance, -this->resolutionDistance);*/
-	gluPerspective( 45.0f, aspectRatio, 0.1f, this->resolutionDistance);
+	/*gluPerspective( 45.0f, aspectRatio, 0.1f, this->resolutionDistance);
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	glLoadIdentity();*/
 }
 
 void Window::setScene(Scene* newScene)

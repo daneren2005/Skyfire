@@ -12,7 +12,7 @@
 
 #include <iostream>
 
-Camera::Camera()
+Camera::Camera() : Scene()
 {
 	this->activeRegion = NULL;
 	this->object = NULL;
@@ -21,7 +21,7 @@ Camera::Camera()
 	directionForward = Vector();
 }
 
-Camera::Camera(const Camera& orig)
+Camera::Camera(const Camera& orig) : Scene(orig)
 {
 
 }
@@ -141,7 +141,7 @@ Region* Camera::getActiveRegion()
 	return this->activeRegion;
 }
 
-void Camera::render()
+void Camera::draw()
 {
 	glLoadIdentity();
 
@@ -158,11 +158,6 @@ void Camera::render()
 
 	if(this->activeRegion)
 		this->activeRegion->draw();
-}
-
-void Camera::draw()
-{
-	
 }
 
 void Camera::update(double update)
