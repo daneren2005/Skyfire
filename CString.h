@@ -42,6 +42,11 @@ public:
 	bool operator!=(const char* rhs);
 	bool operator!=(const char* rhs) const;
 	String& operator>>(String& rhs);
+	String& operator>>(int& rhs);
+	String& operator>>(long& rhs);
+	String& operator>>(float& rhs);
+	String& operator>>(double& rhs);
+
 
 	// String Accessors
 	long length();

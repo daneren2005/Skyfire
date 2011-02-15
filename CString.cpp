@@ -31,6 +31,13 @@ String::String(int rhs)
 {
 	const int DIFF = '0' - 0;
 
+	int neg = 0;
+	if(rhs < 0)
+	{
+		neg = 1;
+		rhs = -rhs;
+	}
+
 	Array<char> buffer(8);
 	while(rhs > 0)
 	{
@@ -39,17 +46,30 @@ String::String(int rhs)
 	}
 
 	this->size = buffer.size();
-	this->array = new char[buffer.size() + 1];
+	this->array = new char[buffer.size() + 1 + neg];
 	for(int j = 0; j < buffer.size(); j++)
 	{
-		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
+		this->array[j + neg] = buffer[buffer.size() - j - 1] + DIFF;
 	}
-	this->array[buffer.size()] = 0x0;
+
+	if(neg == 1)
+	{
+		this->array[0] = '-';
+	}
+
+	this->array[buffer.size() + neg] = 0x0;
 }
 String::String(long rhs)
 {
 	const int DIFF = '0' - 0;
 
+	int neg = 0;
+	if(rhs < 0)
+	{
+		neg = 1;
+		rhs = -rhs;
+	}
+
 	Array<char> buffer(8);
 	while(rhs > 0)
 	{
@@ -58,18 +78,31 @@ String::String(long rhs)
 	}
 
 	this->size = buffer.size();
-	this->array = new char[buffer.size() + 1];
+	this->array = new char[buffer.size() + 1 + neg];
 	for(int j = 0; j < buffer.size(); j++)
 	{
-		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
+		this->array[j + neg] = buffer[buffer.size() - j - 1] + DIFF;
 	}
-	this->array[buffer.size()] = 0x0;
+
+	if(neg == 1)
+	{
+		this->array[0] = '-';
+	}
+
+	this->array[buffer.size() + neg] = 0x0;
 }
 String::String(float rhs)
 {
 	// TODO: Get decimal part of float
 	const int DIFF = '0' - 0;
 
+	int neg = 0;
+	if(rhs < 0)
+	{
+		neg = 1;
+		rhs = -rhs;
+	}
+
 	Array<char> buffer(8);
 	int intPart = (int)rhs;
 	while(intPart > 0)
@@ -79,18 +112,31 @@ String::String(float rhs)
 	}
 
 	this->size = buffer.size();
-	this->array = new char[buffer.size() + 1];
+	this->array = new char[buffer.size() + 1 + neg];
 	for(int j = 0; j < buffer.size(); j++)
 	{
-		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
+		this->array[j + neg] = buffer[buffer.size() - j - 1] + DIFF;
 	}
-	this->array[buffer.size()] = 0x0;
+
+	if(neg == 1)
+	{
+		this->array[0] = '-';
+	}
+
+	this->array[buffer.size() + neg] = 0x0;
 }
 String::String(double rhs)
 {
 	// TODO: Get decimal part of double
 	const int DIFF = '0' - 0;
 
+	int neg = 0;
+	if(rhs < 0)
+	{
+		neg = 1;
+		rhs = -rhs;
+	}
+
 	Array<char> buffer(8);
 	int intPart = (int)rhs;
 	while(intPart > 0)
@@ -100,12 +146,18 @@ String::String(double rhs)
 	}
 
 	this->size = buffer.size();
-	this->array = new char[buffer.size() + 1];
+	this->array = new char[buffer.size() + 1 + neg];
 	for(int j = 0; j < buffer.size(); j++)
 	{
-		this->array[j] = buffer[buffer.size() - j - 1] + DIFF;
+		this->array[j + neg] = buffer[buffer.size() - j - 1] + DIFF;
 	}
-	this->array[buffer.size()] = 0x0;
+
+	if(neg == 1)
+	{
+		this->array[0] = '-';
+	}
+
+	this->array[buffer.size() + neg] = 0x0;
 }
 
 String::~String()
@@ -398,6 +450,35 @@ String& String::operator>>(String& rhs)
 		*this = String();
 	}
 
+	return *this;
+}
+
+String& String::operator>>(int& rhs)
+{
+	String value;
+	*this >> value;
+	rhs = value.toInt();
+	return *this;
+}
+String& String::operator>>(long& rhs)
+{
+	String value;
+	*this >> value;
+	rhs = value.toLong();
+	return *this;
+}
+String& String::operator>>(float& rhs)
+{
+	String value;
+	*this >> value;
+	rhs = value.toFloat();
+	return *this;
+}
+String& String::operator>>(double& rhs)
+{
+	String value;
+	*this >> value;
+	rhs = value.toDouble();
 	return *this;
 }
 
@@ -996,8 +1077,20 @@ int String::toInt()
 {
 	const int DIFF = '0' - 0;
 
+	bool neg = false;
+	long i = 0;
+	if(this->array[i] == '-')
+	{
+		i++;
+		neg = true;
+	}
+	else if(this->array[i] == '+')
+	{
+		i++;
+	}
+
 	int num = 0;
-	for(long i = 0; i < this->size; i++)
+	for(i = i; i < this->size; i++)
 	{
 		// Ingore everything after .
 		if(this->array[i] == '.')
@@ -1014,14 +1107,34 @@ int String::toInt()
 		num *= 10;
 	}
 	num = num / 10;
-	return num;
+
+	if(neg)
+	{
+		return -num;
+	}
+	else
+	{
+		return num;
+	}
 }
 long String::toLong()
 {
 	const int DIFF = '0' - 0;
 
+	bool neg = false;
+	long i = 0;
+	if(this->array[i] == '-')
+	{
+		i++;
+		neg = true;
+	}
+	else if(this->array[i] == '+')
+	{
+		i++;
+	}
+
 	long num = 0;
-	for(long i = 0; i < this->size; i++)
+	for(long i = i; i < this->size; i++)
 	{
 		// Ingore everything after .
 		if(this->array[i] == '.')
@@ -1038,14 +1151,34 @@ long String::toLong()
 		num *= 10;
 	}
 	num = num / 10;
-	return num;
+
+	if(neg)
+	{
+		return -num;
+	}
+	else
+	{
+		return num;
+	}
 }
 float String::toFloat()
 {
 	const int DIFF = '0' - 0;
 
+	bool neg = false;
+	long i = 0;
+	if(this->array[i] == '-')
+	{
+		i++;
+		neg = true;
+	}
+	else if(this->array[i] == '+')
+	{
+		i++;
+	}
+
 	float num = 0.0f;
-	for(long i = 0; i < this->size; i++)
+	for(i = i; i < this->size; i++)
 	{
 		// Compute decimal part seperately
 		if(this->array[i] == '.')
@@ -1055,6 +1188,21 @@ float String::toFloat()
 			{
 				if(this->array[i + j] == 'f')
 				{
+					break;
+				}
+				else if(this->array[i + j] == 'e')
+				{
+					i += j;
+					String expString = this->subStr(i + 1);
+					int exp = expString.toInt();
+					for(int j = 0; exp < j; j--)
+					{
+						num = num / 10;
+					}
+					for(int j = 0; j < exp; j++)
+					{
+						num = num * 10;
+					}
 					break;
 				}
 				else if(this->array[i + j] < '0' || this->array[i + j] > '9')
@@ -1068,6 +1216,20 @@ float String::toFloat()
 
 			break;
 		}
+		else if(this->array[i] == 'e')
+		{
+			String expString = this->subStr(i + 1);
+			int exp = expString.toInt();
+			for(int j = 0; exp < j; j--)
+			{
+				num = num / 10;
+			}
+			for(int j = 0; j < exp; j++)
+			{
+				num = num * 10;
+			}
+			break;
+		}
 		// Check that its a number
 		else if(this->array[i] < '0' || this->array[i] > '9')
 		{
@@ -1078,14 +1240,34 @@ float String::toFloat()
 		num *= 10;
 	}
 	num = num / 10;
-	return num;
+
+	if(neg)
+	{
+		return -num;
+	}
+	else
+	{
+		return num;
+	}
 }
 double String::toDouble()
 {
 	const int DIFF = '0' - 0;
 
+	bool neg = false;
+	long i = 0;
+	if(this->array[i] == '-')
+	{
+		i++;
+		neg = true;
+	}
+	else if(this->array[i] == '+')
+	{
+		i++;
+	}
+
 	double num = 0.0;
-	for(long i = 0; i < this->size; i++)
+	for(long i = i; i < this->size; i++)
 	{
 		// Compute decimal part seperately
 		if(this->array[i] == '.')
@@ -1115,5 +1297,13 @@ double String::toDouble()
 		num *= 10;
 	}
 	num = num / 10;
-	return num;
+
+	if(neg)
+	{
+		return -num;
+	}
+	else
+	{
+		return num;
+	}
 }
