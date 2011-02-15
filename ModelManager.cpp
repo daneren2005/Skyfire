@@ -10,6 +10,7 @@
 #include "conversion.h"
 #include <fstream>
 #include <sstream>
+#include "File.h"
 
 ModelManager modelManager = ModelManager();
 
@@ -47,17 +48,17 @@ void ModelManager::loadObj(String filename)
 
 	if(!file.good())
 	{
-		std::cout << "ModelManager::loadModels error: Failed to load " << filename.cStr() << std::endl;
+		console << "ModelManager::loadModels error: Failed to load " << filename << newline;
 		return;
 	}
 
-	std::string cmd;
+	String cmd;
 
 	Model* model = new Model(1);
-	std::string modelName = "";
+	String modelName;
 	int model_i = 0;
 	Mesh* mesh = new Mesh(10);
-	std::string meshName = "";
+	String meshName;
 	int mesh_i = 0;
 
 	Array<Vector> geometricVectors(10);
@@ -76,12 +77,8 @@ void ModelManager::loadObj(String filename)
 
 	while(file.good())
 	{
-		std::string lineString(line);
-		std::stringstream ss;
-		ss << lineString;
-
-		cmd = "";
-		ss >> cmd;
+		String lineString(line);
+		lineString >> cmd;
 
 		switch(cmd[0])
 		{
@@ -99,89 +96,85 @@ void ModelManager::loadObj(String filename)
 					mesh_i = 0;
 				}
 
-				ss >> modelName;
+				lineString >> modelName;
 				break;
 			}
 			case 'g':
 			{
 				if(meshName != "")
 				{
-					// mesh->resize(mesh->size());
 					model->insert(mesh);
 					model_i++;
 					mesh = new Mesh(10);
 					mesh_i = 0;
 				}
 
-				ss >> meshName;
+				lineString >> meshName;
 				break;
 			}
 			case 'v':
 			{
 				float v1, v2, v3;
 
-				if(cmd.length() == 1)
+				if(cmd == "v")
 				{
-					ss >> v1 >> v2 >> v3;
+					lineString >> v1 >> v2 >> v3;
 					geometricVectors.insert(Vector(v1, v2, v3));
 					geometric_i++;
 				}
-				else
+				else if(cmd == "vt")
 				{
-					switch(cmd[1])
-					{
-					case 't':
-						ss >> v1 >> v2;
-						textureVectors.insert(Vector(v1, v2, 0.0f));
-						texture_i++;
-						break;
-					case 'n':
-						ss >> v1 >> v2 >> v3;
-						normalVectors.insert(Vector(v1, v2, v3));
-						normal_i++;
-						break;
-					case 'p':
-						ss >> v1 >> v2 >> v3;
-						parametricVectors.insert(Vector(v1, v2, v3));
-						parametric_i++;
-						break;
-					};
+					lineString >> v1 >> v2;
+					textureVectors.insert(Vector(v1, v2, 0.0f));
+					texture_i++;
+				}
+				else if(cmd == "vn")
+				{
+					lineString >> v1 >> v2 >> v3;
+					normalVectors.insert(Vector(v1, v2, v3));
+					normal_i++;
+				}
+				else if(cmd == "vp")
+				{
+					lineString >> v1 >> v2 >> v3;
+					parametricVectors.insert(Vector(v1, v2, v3));
+					parametric_i++;
 				}
 				break;
 			}
 			case 'f':
 			{
-				std::string r1, r2, r3;
-				ss >> r1 >> r2 >> r3;
+				String r1, r2, r3;
+				lineString >> r1 >> r2 >> r3;
 
 				bool work = true;
 				while(work)
 				{
 					// Run 1 more iteration after last input then exit
-					if(ss.eof())
+					if(lineString.length() == 0)
 					{
 						work = false;
 					}
 
-					int pos = r1.find_first_of('/');
-					if(pos == std::string::npos)
+					int pos = r1.strPos('/');
+					if(pos == String::npos)
 					{
 						int rg1, rg2, rg3;
-						rg1 = atof(r1.c_str());
+						rg1 = r1.toInt();
 						Vertex v1;
 						v1.position[0] = geometricVectors[rg1 - 1][0];
 						v1.position[1] = geometricVectors[rg1 - 1][1];
 						v1.position[2] = geometricVectors[rg1 - 1][2];
 						mesh->insert(v1);
 						mesh_i++;
-						rg2 = atof(r2.c_str());
+						rg2 = r2.toInt();
 						Vertex v2;
 						v2.position[0] = geometricVectors[rg2 - 1][0];
 						v2.position[1] = geometricVectors[rg2 - 1][1];
 						v2.position[2] = geometricVectors[rg2 - 1][2];
 						mesh->insert(v2);
 						mesh_i++;
-						rg3 = atof(r3.c_str());
+						rg3 = r3.toInt();
 						Vertex v3;
 						v3.position[0] = geometricVectors[rg3 - 1][0];
 						v3.position[1] = geometricVectors[rg3 - 1][1];
@@ -194,7 +187,7 @@ void ModelManager::loadObj(String filename)
 						int rg1, rg2, rg3;
 						int rn1, rn2, rn3;
 						int rt1, rt2, rt3;
-						rg1 = atof(r1.substr(0, pos + 1).c_str());
+						rg1 = r1.subStr(0, pos).toInt();
 						Vertex v1;
 						v1.position[0] = geometricVectors[rg1 - 1][0];
 						v1.position[1] = geometricVectors[rg1 - 1][1];
@@ -202,8 +195,8 @@ void ModelManager::loadObj(String filename)
 						mesh->insert(v1);
 						mesh_i++;
 
-						pos = r2.find_first_of('/');
-						rg2 = atof(r2.substr(0, pos + 1).c_str());
+						pos = r2.strPos('/');
+						rg2 = r2.subStr(0, pos).toInt();
 						Vertex v2;
 						v2.position[0] = geometricVectors[rg2 - 1][0];
 						v2.position[1] = geometricVectors[rg2 - 1][1];
@@ -211,8 +204,8 @@ void ModelManager::loadObj(String filename)
 						mesh->insert(v2);
 						mesh_i++;
 
-						pos = r3.find_first_of('/');
-						rg3 = atof(r3.substr(0, pos + 1).c_str());
+						pos = r3.strPos('/');
+						rg3 = r3.subStr(0, pos).toInt();
 						Vertex v3;
 						v3.position[0] = geometricVectors[rg3 - 1][0];
 						v3.position[1] = geometricVectors[rg3 - 1][1];
@@ -224,7 +217,7 @@ void ModelManager::loadObj(String filename)
 					if(work)
 					{
 						r2 = r3;
-						ss >> r3;
+						lineString >> r3;
 					}
 				}
 
@@ -234,11 +227,11 @@ void ModelManager::loadObj(String filename)
 			{
 				if(cmd == "mtllib")
 				{
-					std::string libraryFileName;
-					ss >> libraryFileName;
-					libraryFileName = "data/Danube/" + libraryFileName;
+					String libraryFileName2;
+					lineString >> libraryFileName2;
+					libraryFileName2 = String("data/Danube/") + libraryFileName2;
 
-					materials = this->loadMtl(String(libraryFileName.c_str()));
+					materials = this->loadMtl(libraryFileName2);
 				}
 
 				break;
@@ -247,12 +240,12 @@ void ModelManager::loadObj(String filename)
 			{
 				if(cmd == "usemtl")
 				{
-					std::string materialName;
-					ss >> materialName;
+					String materialName2;
+					lineString >> materialName2;
 
 					try
 					{
-						Material* temp = materials.search(String(materialName.c_str()));
+						Material* temp = materials.search(materialName2);
 						mesh->material = *temp;
 					}
 					catch(...)
@@ -283,11 +276,11 @@ void ModelManager::loadObj(String filename)
 	model->resize(model->size());
 	if(modelName != "")
 	{
-		models.insert(String(modelName.c_str()), model);
+		models.insert(modelName, model);
 	}
 	else
 	{
-		models.insert(String(meshName.c_str()), model);
+		models.insert(meshName, model);
 	}
 }
 
