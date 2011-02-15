@@ -35,8 +35,6 @@ public:
 	void setActiveRegion(Region* region);
 	Region* getActiveRegion();
 
-	virtual void render();
-
 	virtual void draw();
 	virtual void update(double interval);
 	virtual void load();

@@ -8,6 +8,8 @@
 #ifndef _SCENE_H
 #define	_SCENE_H
 
+#include "Rectangle2.h"
+
 class Scene
 {
 public:
@@ -15,9 +17,13 @@ public:
 	Scene(const Scene& orig);
 	virtual ~Scene();
 
-	virtual void render() = 0;
-private:
-
+	void render();
+	virtual void draw() = 0;
+protected:
+	Rectangle2 screenArea;
+	float aspectRatio;
+	float nearPerspective;
+	float farPerspective;
 };
 
 #endif	/* _SCENE_H */
