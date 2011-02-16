@@ -24,8 +24,20 @@ void Model::draw()
 {
 	glDisable(GL_BLEND);
 
+	// Draw bounding box outline
+	this->boundingBox.draw();
+
 	for(int i = 0; i < this->used; i++)
 	{
 		array[i]->draw();
 	}
+}
+
+Rectangle3 Model::getBoundingBox()
+{
+	return this->boundingBox;
+}
+void Model::setBoundingBox(Rectangle3 boundingBox)
+{
+	this->boundingBox = boundingBox;
 }

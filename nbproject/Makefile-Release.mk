@@ -40,6 +40,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Rate.o \
 	${OBJECTDIR}/BaseObject.o \
 	${OBJECTDIR}/Window.o \
+	${OBJECTDIR}/Rectangle3.o \
+	${OBJECTDIR}/Rectangle2.o \
 	${OBJECTDIR}/AxisObject.o \
 	${OBJECTDIR}/Particle.o \
 	${OBJECTDIR}/StopWatch.o \
@@ -129,6 +131,16 @@ ${OBJECTDIR}/Window.o: nbproject/Makefile-${CND_CONF}.mk Window.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Window.o Window.cpp
+
+${OBJECTDIR}/Rectangle3.o: nbproject/Makefile-${CND_CONF}.mk Rectangle3.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Rectangle3.o Rectangle3.cpp
+
+${OBJECTDIR}/Rectangle2.o: nbproject/Makefile-${CND_CONF}.mk Rectangle2.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Rectangle2.o Rectangle2.cpp
 
 ${OBJECTDIR}/AxisObject.o: nbproject/Makefile-${CND_CONF}.mk AxisObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
