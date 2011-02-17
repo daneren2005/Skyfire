@@ -23,7 +23,7 @@ struct Material
 	float ambient[3];
 	float diffuse[3];
 	float specular[3];
-	float specularExp;
+	float shininess;
 	float transparency; // 1 = normal, 0 = transparent
 	float refraction; // 1 = light doesnt bend, > 1 = light bends
 	float transmissionFiler[3]; // light filter for rgb, 1 = allows, 0 = disallows

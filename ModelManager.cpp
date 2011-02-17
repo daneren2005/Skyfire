@@ -384,6 +384,27 @@ Map<String, Material*> ModelManager::loadMtl(String filename)
 			material->specular[1] = r2;
 			material->specular[2] = r3;
 		}
+		else if(cmd == "Ns")
+		{
+			const float DIFF = 128 / 1000;
+			ss >> material->shininess;
+			// Normalize from 0-1000 to 0-128
+			material->shininess = material->shininess * DIFF;
+		}
+		else if(cmd == "Ni")
+		{
+			ss >> material->refraction;
+		}
+		else if(cmd == "d")
+		{
+			ss >> material->transparency;
+		}
+		else if(cmd == "Tf")
+		{
+			ss >> material->transmissionFiler[0];
+			ss >> material->transmissionFiler[1];
+			ss >> material->transmissionFiler[2];
+		}
 
 		file.getline(line, 128);
 	}

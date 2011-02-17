@@ -156,6 +156,19 @@ void Camera::draw()
 		this->object->transformCamera();
 	}
 
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT1);
+
+	// Setup light for scene
+	float lightAmbient[] = {0.4f, 0.4f, 0.4f, 1.0f};
+	glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
+	float lightSpec[] = {1.0f, 1.0f, 1.0f, 1.0f};
+	glLightfv(GL_LIGHT1, GL_SPECULAR, lightSpec);
+	float lightDiff[] = {1.0f, 1.0f, 1.0f, 1.0f};
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDiff);
+	float lightPos[] = {0.0f, 0.0f, 10.0f, 1.0f};
+	glLightfv(GL_LIGHT1, GL_POSITION, lightPos);
+
 	if(this->activeRegion)
 		this->activeRegion->draw();
 }
