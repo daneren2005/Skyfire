@@ -13,8 +13,8 @@
 class Rectangle3 {
 public:
 	Rectangle3();
-	Rectangle3(Vector min, Vector max);
 	Rectangle3(float lx, float ly, float lz, float ux, float uy, float uz);
+	Rectangle3(Vector min, Vector max);
 	Rectangle3(const Rectangle3& orig);
 	virtual ~Rectangle3();
 

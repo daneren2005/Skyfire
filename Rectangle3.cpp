@@ -12,13 +12,6 @@ Rectangle3::Rectangle3()
 {
 
 }
-
-Rectangle3::Rectangle3(Vector min, Vector max)
-{
-	this->min = min;
-	this->max = max;
-}
-
 Rectangle3::Rectangle3(float lx, float ly, float lz, float ux, float uy, float uz)
 {
 	this->min[0] = lx;
@@ -28,7 +21,11 @@ Rectangle3::Rectangle3(float lx, float ly, float lz, float ux, float uy, float u
 	this->max[1] = uy;
 	this->max[2] = uz;
 }
-
+Rectangle3::Rectangle3(Vector min, Vector max)
+{
+	this->min = min;
+	this->max = max;
+}
 Rectangle3::Rectangle3(const Rectangle3& orig)
 {
 	this->min = orig.min;
@@ -154,13 +151,14 @@ bool Rectangle3::pointCollision(Vector position)
 }
 bool Rectangle3::rectangleCollision(Rectangle3 box)
 {
-	if(this->pointCollision(box.min[0], box.min[1], box.min[2]))
+	for(int i = 0; i < 3; i++)
 	{
-		return true;
+		if(this->max[i] < box.min[i] || this->min[i] > box.max[i])
+		{
+			return false;
+		}
 	}
-	else
-	{
-		return false;
-	}
+
+	return true;
 }
 
