@@ -13,15 +13,21 @@
 class Rectangle3 {
 public:
 	Rectangle3();
+	Rectangle3(Vector min, Vector max);
 	Rectangle3(float lx, float ly, float lz, float ux, float uy, float uz);
 	Rectangle3(const Rectangle3& orig);
 	virtual ~Rectangle3();
 
 	void draw();
-	bool pointIn(float x, float y, float z);
-	bool collision(Rectangle3 rhs);
 
-	float lx, ly, lz, ux, uy, uz;
+	Array<Vector> getPoints();
+	Rectangle3 transformBox(Vector position, Vector angle); 
+
+	bool pointCollision(float x, float y, float z);
+	bool pointCollision(Vector position);
+	bool rectangleCollision(Rectangle3 box);
+private:
+	Vector min, max;
 };
 
 #endif	/* _RECTANGLE3_H */
