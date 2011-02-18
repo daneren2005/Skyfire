@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Rate.o \
 	${OBJECTDIR}/BaseObject.o \
 	${OBJECTDIR}/Window.o \
+	${OBJECTDIR}/FileDirectory.o \
 	${OBJECTDIR}/Rectangle3.o \
 	${OBJECTDIR}/Rectangle2.o \
 	${OBJECTDIR}/AxisObject.o \
@@ -55,6 +56,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/CString.o \
 	${OBJECTDIR}/ParticleSystem.o \
 	${OBJECTDIR}/AnimateObject.o \
+	${OBJECTDIR}/File.o \
 	${OBJECTDIR}/Matrix.o \
 	${OBJECTDIR}/Quaternion.o \
 	${OBJECTDIR}/Region.o \
@@ -132,6 +134,11 @@ ${OBJECTDIR}/Window.o: nbproject/Makefile-${CND_CONF}.mk Window.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Window.o Window.cpp
 
+${OBJECTDIR}/FileDirectory.o: nbproject/Makefile-${CND_CONF}.mk FileDirectory.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/FileDirectory.o FileDirectory.cpp
+
 ${OBJECTDIR}/Rectangle3.o: nbproject/Makefile-${CND_CONF}.mk Rectangle3.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -206,6 +213,11 @@ ${OBJECTDIR}/AnimateObject.o: nbproject/Makefile-${CND_CONF}.mk AnimateObject.cp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/AnimateObject.o AnimateObject.cpp
+
+${OBJECTDIR}/File.o: nbproject/Makefile-${CND_CONF}.mk File.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/File.o File.cpp
 
 ${OBJECTDIR}/Matrix.o: nbproject/Makefile-${CND_CONF}.mk Matrix.cpp 
 	${MKDIR} -p ${OBJECTDIR}
