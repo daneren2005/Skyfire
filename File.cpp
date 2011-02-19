@@ -8,6 +8,7 @@
 #include "File.h"
 #include "Console.h"
 #include <iostream>
+#include <sstream>
 
 File::File(const char* filename)
 {
@@ -20,7 +21,6 @@ File::File(const String& filename)
 File::File(const File& orig)
 {
 	this->filename = orig.filename;
-	// this->handler = orig.handler;
 }
 
 File::~File()
@@ -104,5 +104,6 @@ String File::getLine()
 {
 	std::string temp;
 	getline(this->handler, temp);
-	return String(temp.c_str());
+	String line(temp.c_str());
+	return line;
 }

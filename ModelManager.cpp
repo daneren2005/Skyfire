@@ -43,12 +43,11 @@ Model* ModelManager::getModel(String name)
 
 void ModelManager::loadObj(String filename)
 {
-	std::ifstream file;
-	file.open(filename.cStr());
-
-	if(!file.good())
+	File file(filename);
+	file.open();
+	if(!file.isOpen())
 	{
-		console << "ModelManager::loadModels error: Failed to load " << filename << newline;
+		console << "ModelManager::loadModls error: Faled to load model from file " << filename << newline;
 		return;
 	}
 
@@ -71,9 +70,9 @@ void ModelManager::loadObj(String filename)
 	int parametric_i = 0;
 
 	Map<String, Material*> materials;
-	
-	char line[10240];
-	file.getline(line, 10240);
+
+	String line;
+	line = file.getLine();
 
 	float lx = 1000.0f;
 	float ly = 1000.0f;
@@ -82,10 +81,9 @@ void ModelManager::loadObj(String filename)
 	float uy = -1000.0f;
 	float uz = -1000.0f;
 
-	while(file.good())
+	while(!file.eof())
 	{
-		String lineString(line);
-		lineString >> cmd;
+		line >> cmd;
 
 		switch(cmd[0])
 		{
@@ -103,7 +101,7 @@ void ModelManager::loadObj(String filename)
 					mesh_i = 0;
 				}
 
-				lineString >> modelName;
+				line >> modelName;
 				break;
 			}
 			case 'g':
@@ -116,7 +114,7 @@ void ModelManager::loadObj(String filename)
 					mesh_i = 0;
 				}
 
-				lineString >> meshName;
+				line >> meshName;
 				break;
 			}
 			case 'v':
@@ -125,7 +123,7 @@ void ModelManager::loadObj(String filename)
 
 				if(cmd == "v")
 				{
-					lineString >> v1 >> v2 >> v3;
+					line >> v1 >> v2 >> v3;
 					geometricVectors.insert(Vector(v1, v2, v3));
 					geometric_i++;
 
@@ -159,19 +157,19 @@ void ModelManager::loadObj(String filename)
 				}
 				else if(cmd == "vt")
 				{
-					lineString >> v1 >> v2;
+					line >> v1 >> v2;
 					textureVectors.insert(Vector(v1, v2, 0.0f));
 					texture_i++;
 				}
 				else if(cmd == "vn")
 				{
-					lineString >> v1 >> v2 >> v3;
+					line >> v1 >> v2 >> v3;
 					normalVectors.insert(Vector(v1, v2, v3));
 					normal_i++;
 				}
 				else if(cmd == "vp")
 				{
-					lineString >> v1 >> v2 >> v3;
+					line >> v1 >> v2 >> v3;
 					parametricVectors.insert(Vector(v1, v2, v3));
 					parametric_i++;
 				}
@@ -180,13 +178,13 @@ void ModelManager::loadObj(String filename)
 			case 'f':
 			{
 				String r1, r2, r3;
-				lineString >> r1 >> r2 >> r3;
+				line >> r1 >> r2 >> r3;
 
 				bool work = true;
 				while(work)
 				{
 					// Run 1 more iteration after last input then exit
-					if(lineString.length() == 0)
+					if(line.length() == 0)
 					{
 						work = false;
 					}
@@ -252,7 +250,7 @@ void ModelManager::loadObj(String filename)
 					if(work)
 					{
 						r2 = r3;
-						lineString >> r3;
+						line >> r3;
 					}
 				}
 
@@ -263,10 +261,17 @@ void ModelManager::loadObj(String filename)
 				if(cmd == "mtllib")
 				{
 					String libraryFileName2;
-					lineString >> libraryFileName2;
+					line >> libraryFileName2;
 					libraryFileName2 = String("data/Danube/") + libraryFileName2;
 
-					materials = this->loadMtl(libraryFileName2);
+					try
+					{
+						materials = this->loadMtl(libraryFileName2);
+					}
+					catch(...)
+					{
+						console << "ModelManage::loadMtl error: Failed to load material file " << "data/Danube/" << libraryFileName2 << newline;
+					}
 				}
 
 				break;
@@ -276,7 +281,7 @@ void ModelManager::loadObj(String filename)
 				if(cmd == "usemtl")
 				{
 					String materialName2;
-					lineString >> materialName2;
+					line >> materialName2;
 
 					try
 					{
@@ -303,7 +308,7 @@ void ModelManager::loadObj(String filename)
 			}
 		}
 
-		file.getline(line, 10240);
+		line = file.getLine();
 	}
 
 	mesh->resize(mesh->size());
@@ -326,44 +331,39 @@ Map<String, Material*> ModelManager::loadMtl(String filename)
 {
 	Map<String, Material*> materials;
 
-	std::ifstream file;
-	file.open(filename.cStr());
-
-	if(!file.good())
+	File file(filename);
+	file.open();
+	if(!file.isOpen())
 	{
-		std::cout << "ModelManager::loadModels error: Failed to load file " << filename.cStr() << std::endl;
+		console << "ModelManage::loadMtl error: Failed to load material file " << filename << newline;
 		return materials;
 	}
 
-	std::string name = "";
+	String name;
 	Material* material = new Material;
 
-	char line[128];
-	file.getline(line, 128);
+	String line;
+	line = file.getLine();
 
-	while(file.good())
+	while(!file.eof())
 	{
-		std::string lineString(line);
-		std::stringstream ss;
-		ss << lineString;
-
-		std::string cmd;
-		ss >> cmd;
+		String cmd;
+		line >> cmd;
 
 		if(cmd == "newmtl")
 		{
 			if(name != "")
 			{
-				materials.insert(String(name.c_str()), material);
+				materials.insert(name, material);
 			}
 
 			material = new Material;
-			ss >> name;
+			line >> name;
 		}
 		else if(cmd == "Ka")
 		{
 			float r1, r2, r3;
-			ss >> r1 >> r2 >> r3;
+			line >> r1 >> r2 >> r3;
 			material->ambient[0] = r1;
 			material->ambient[1] = r2;
 			material->ambient[2] = r3;
@@ -371,7 +371,7 @@ Map<String, Material*> ModelManager::loadMtl(String filename)
 		else if(cmd == "Kd")
 		{
 			float r1, r2, r3;
-			ss >> r1 >> r2 >> r3;
+			line >> r1 >> r2 >> r3;
 			material->diffuse[0] = r1;
 			material->diffuse[1] = r2;
 			material->diffuse[2] = r3;
@@ -379,7 +379,7 @@ Map<String, Material*> ModelManager::loadMtl(String filename)
 		else if(cmd == "Ks")
 		{
 			float r1, r2, r3;
-			ss >> r1 >> r2 >> r3;
+			line >> r1 >> r2 >> r3;
 			material->specular[0] = r1;
 			material->specular[1] = r2;
 			material->specular[2] = r3;
@@ -387,31 +387,31 @@ Map<String, Material*> ModelManager::loadMtl(String filename)
 		else if(cmd == "Ns")
 		{
 			const float DIFF = 128 / 1000;
-			ss >> material->shininess;
+			line >> material->shininess;
 			// Normalize from 0-1000 to 0-128
 			material->shininess = material->shininess * DIFF;
 		}
 		else if(cmd == "Ni")
 		{
-			ss >> material->refraction;
+			line >> material->refraction;
 		}
 		else if(cmd == "d")
 		{
-			ss >> material->transparency;
+			line >> material->transparency;
 		}
 		else if(cmd == "Tf")
 		{
-			ss >> material->transmissionFiler[0];
-			ss >> material->transmissionFiler[1];
-			ss >> material->transmissionFiler[2];
+			line >> material->transmissionFiler[0];
+			line >> material->transmissionFiler[1];
+			line >> material->transmissionFiler[2];
 		}
 
-		file.getline(line, 128);
+		line = file.getLine();
 	}
 
 	if(name != "")
 	{
-		materials.insert(String(name.c_str()), material);
+		materials.insert(name, material);
 	}
 
 	return materials;

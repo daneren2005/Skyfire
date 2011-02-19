@@ -427,8 +427,16 @@ String& String::operator>>(String& rhs)
 		}
 	}
 
-	// Set the rhs to that word
-	rhs = this->subStr(j, i);
+	// If whitespace is whole word return nothing
+	if(j + 1 > this->size)
+	{
+		rhs = String();
+	}
+	// Else set the rhs to that word
+	else
+	{
+		rhs = this->subStr(j, i);
+	}
 
 	// Cycle through extra whitesace
 	for(i = i; i < this->size; i++)
