@@ -273,7 +273,7 @@ String& String::operator+=(const char& rhs)
 
 String& String::operator=(const String& rhs)
 {
-	delete this->array;
+	// TODO: need to delete old array
 
 	// Create new string
 	this->size = rhs.size;
@@ -550,7 +550,6 @@ Array<String> String::split(const String& delim)
 {
 	long pos1 = 0;
 	long pos2 = 0;
-	long count = 0;
 	Array<String> list;
 	for(long i = 0; i < this->size; i++)
 	{
@@ -561,8 +560,7 @@ Array<String> String::split(const String& delim)
 			{
 				pos1 = pos2;
 				pos2 = i;
-				list[count] = this->subStr(pos1, pos2 - pos1 - delim.size);
-				count++;
+				list.insert(this->subStr(pos1, pos2 - pos1 - delim.size));
 
 				if(j == 0)
 				{
@@ -574,22 +572,19 @@ Array<String> String::split(const String& delim)
 
 	if(pos2 == 0)
 	{
-		list[count] = *this;
+		list.insert(*this);
 	}
 	else
 	{
-		list[count] = this->subStr(pos2);
+		list.insert(this->subStr(pos2));
 	}
-	count++;
-
-	list.resize(count);
+	
 	return list;
 }
 Array<String> String::split(const char* delim)
 {
 	long pos1 = 0;
 	long pos2 = 0;
-	long count = 0;
 	Array<String> list;
 	for(long i = 0; i < this->size; i++)
 	{
@@ -600,8 +595,7 @@ Array<String> String::split(const char* delim)
 			{
 				pos1 = pos2;
 				pos2 = i;
-				list[count] = this->subStr(pos1, pos2 - pos1 - j - 1);
-				count++;
+				list.insert(this->subStr(pos1, pos2 - pos1 - j - 1));
 
 				if(j == 0)
 				{
@@ -613,15 +607,13 @@ Array<String> String::split(const char* delim)
 
 	if(pos2 == 0)
 	{
-		list[count] = *this;
+		list.insert(*this);
 	}
 	else
 	{
-		list[count] = this->subStr(pos2);
+		list.insert(this->subStr(pos2));
 	}
-	count++;
 
-	list.resize(count);
 	return list;
 }
 Array<String> String::split(const char& delim)
@@ -636,22 +628,20 @@ Array<String> String::split(const char& delim)
 		{
 			pos1 = pos2 + 1;
 			pos2 = i;
-			list[count] = this->subStr(pos1, pos2 - pos1);
+			list.insert(this->subStr(pos1, pos2 - pos1));
 			count++;
 		}
 	}
 
 	if(pos2 == -1)
 	{
-		list[count] = *this;
+		list.insert(*this);
 	}
 	else
 	{
-		list[count] = this->subStr(pos2);
+		list.insert(this->subStr(pos2));
 	}
-	count++;
 
-	list.resize(count);
 	return list;
 }
 
