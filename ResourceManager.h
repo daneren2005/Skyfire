@@ -20,8 +20,13 @@ public:
 	ResourceManager(const ResourceManager& orig);
 	virtual ~ResourceManager();
 
+	void loadModel(char* filename, char* name);
+	void loadModel(char* filename, String name);
+	void loadModel(String filename, char* name);
 	void loadModel(String filename, String name);
+	void addModel(Model* model, char* name);
 	void addModel(Model* model, String name);
+	Model* getModel(char* name);
 	Model* getModel(String name);
 private:
 	Map<String, Model*> models;

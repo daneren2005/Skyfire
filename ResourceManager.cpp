@@ -23,6 +23,18 @@ ResourceManager::~ResourceManager()
 {
 }
 
+void ResourceManager::loadModel(char* filename, char* name)
+{
+	this->loadModel(String(filename), String(name));
+}
+void ResourceManager::loadModel(char* filename, String name)
+{
+	this->loadModel(String(filename), name);
+}
+void ResourceManager::loadModel(String filename, char* name)
+{
+	this->loadModel(filename, String(name));
+}
 void ResourceManager::loadModel(String filename, String name)
 {
 	File file(filename);
@@ -37,9 +49,18 @@ void ResourceManager::loadModel(String filename, String name)
 	}
 }
 
+void ResourceManager::addModel(Model* model, char* name)
+{
+	this->addModel(model, String(name));
+}
 void ResourceManager::addModel(Model* model, String name)
 {
 	models.insert(name, model);
+}
+
+Model* ResourceManager::getModel(char* name)
+{
+	return this->getModel(String(name));
 }
 
 Model* ResourceManager::getModel(String name)
