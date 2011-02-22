@@ -1,54 +1,59 @@
 /* 
- * File:   ModelManager.cpp
+ * File:   ResourceManager.cpp
  * Author: scott
  * 
  * Created on October 20, 2010, 1:25 PM
  */
 
-#include "ModelManager.h"
+#include "ResourceManager.h"
 
 #include "conversion.h"
-#include <fstream>
-#include <sstream>
-#include "File.h"
 
-ModelManager modelManager = ModelManager();
+ResourceManager resourceManager = ResourceManager();
 
-ModelManager::ModelManager()
+ResourceManager::ResourceManager()
 {
 }
 
-ModelManager::ModelManager(const ModelManager& orig)
+ResourceManager::ResourceManager(const ResourceManager& orig)
 {
 }
 
-ModelManager::~ModelManager()
+ResourceManager::~ResourceManager()
 {
 }
 
-void ModelManager::loadModels(String filename)
+void ResourceManager::loadModel(String filename, String name)
 {
-	this->loadObj(filename);
+	File file(filename);
+
+	if(file.fileType() == "obj")
+	{
+		Model* model = this->loadObj(file);
+		if(model != NULL)
+		{
+			this->models.insert(name, model);
+		}
+	}
 }
 
-void ModelManager::addModel(Model* model, String name)
+void ResourceManager::addModel(Model* model, String name)
 {
 	models.insert(name, model);
 }
 
-Model* ModelManager::getModel(String name)
+Model* ResourceManager::getModel(String name)
 {
 	return models.search(name);
 }
 
-void ModelManager::loadObj(String filename)
+Model* ResourceManager::loadObj(File file)
 {
-	File file(filename);
 	file.open();
 	if(!file.isOpen())
 	{
-		console << "ModelManager::loadModls error: Faled to load model from file " << filename << newline;
-		return;
+		console << "ResourceManager::loadModls error: Failed to load model from file " << file.fullPath() << newline;
+		return NULL;
 	}
 
 	String cmd;
@@ -87,36 +92,6 @@ void ModelManager::loadObj(String filename)
 
 		switch(cmd[0])
 		{
-			// Object naming
-			case 'o':
-			{
-				// If exiting one object to enter another
-				if(modelName != "")
-				{
-					// mesh->resize(mesh->size());
-					model->insert(mesh);
-					model = new Model(10);
-					model_i = 0;
-					mesh = new Mesh(10);
-					mesh_i = 0;
-				}
-
-				line >> modelName;
-				break;
-			}
-			case 'g':
-			{
-				if(meshName != "")
-				{
-					model->insert(mesh);
-					model_i++;
-					mesh = new Mesh(10);
-					mesh_i = 0;
-				}
-
-				line >> meshName;
-				break;
-			}
 			case 'v':
 			{
 				float v1, v2, v3;
@@ -189,6 +164,7 @@ void ModelManager::loadObj(String filename)
 						work = false;
 					}
 
+					// Array<String> parts = r1.split('/');
 					int pos = r1.strPos('/');
 					if(pos == String::npos)
 					{
@@ -260,17 +236,17 @@ void ModelManager::loadObj(String filename)
 			{
 				if(cmd == "mtllib")
 				{
-					String libraryFileName2;
-					line >> libraryFileName2;
-					libraryFileName2 = String("data/Danube/") + libraryFileName2;
+					String libraryFileName;
+					line >> libraryFileName;
+					File libraryFile(file.filePath() + libraryFileName);
 
 					try
 					{
-						materials = this->loadMtl(libraryFileName2);
+						materials = this->loadMtl(libraryFile);
 					}
 					catch(...)
 					{
-						console << "ModelManage::loadMtl error: Failed to load material file " << "data/Danube/" << libraryFileName2 << newline;
+						console << "ModelManage::loadMtl error: Failed to load material file " << libraryFile.fullPath() << newline;
 					}
 				}
 
@@ -293,15 +269,14 @@ void ModelManager::loadObj(String filename)
 						mesh->setWireFrame(true);
 					}
 
-					if(meshName != "" && mesh->size() != 0)
+					if(mesh->size() != 0)
 					{
-						// mesh->resize(mesh->size());
+						mesh->resize(mesh->size());
 						model->insert(mesh);
 						model_i++;
 						mesh = new Mesh(10);
 						mesh_i = 0;
 					}
-					// mesh->material.ambient[0] = 1.0f;
 				}
 
 				break;
@@ -311,31 +286,24 @@ void ModelManager::loadObj(String filename)
 		line = file.getLine();
 	}
 
+	file.close();
+
 	mesh->resize(mesh->size());
 	model->insert(mesh);
 	model->resize(model->size());
 
 	model->setBoundingBox(Rectangle3(lx, ly, lz, ux, uy, uz));
-
-	if(modelName != "")
-	{
-		models.insert(modelName, model);
-	}
-	else
-	{
-		models.insert(meshName, model);
-	}
+	return model;
 }
 
-Map<String, Material*> ModelManager::loadMtl(String filename)
+Map<String, Material*> ResourceManager::loadMtl(File file)
 {
 	Map<String, Material*> materials;
 
-	File file(filename);
 	file.open();
 	if(!file.isOpen())
 	{
-		console << "ModelManage::loadMtl error: Failed to load material file " << filename << newline;
+		console << "ModelManage::loadMtl error: Failed to load material file " << file.fullPath() << newline;
 		return materials;
 	}
 
@@ -362,27 +330,21 @@ Map<String, Material*> ModelManager::loadMtl(String filename)
 		}
 		else if(cmd == "Ka")
 		{
-			float r1, r2, r3;
-			line >> r1 >> r2 >> r3;
-			material->ambient[0] = r1;
-			material->ambient[1] = r2;
-			material->ambient[2] = r3;
+			line >> material->ambient[0];
+			line >> material->ambient[1];
+			line >> material->ambient[2];
 		}
 		else if(cmd == "Kd")
 		{
-			float r1, r2, r3;
-			line >> r1 >> r2 >> r3;
-			material->diffuse[0] = r1;
-			material->diffuse[1] = r2;
-			material->diffuse[2] = r3;
+			line >> material->diffuse[0];
+			line >> material->diffuse[1];
+			line >> material->diffuse[2];
 		}
 		else if(cmd == "Ks")
 		{
-			float r1, r2, r3;
-			line >> r1 >> r2 >> r3;
-			material->specular[0] = r1;
-			material->specular[1] = r2;
-			material->specular[2] = r3;
+			line >> material->specular[0];
+			line >> material->specular[1];
+			line >> material->specular[2];
 		}
 		else if(cmd == "Ns")
 		{

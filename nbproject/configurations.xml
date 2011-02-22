@@ -8,8 +8,8 @@
       <itemPath>Mesh.h</itemPath>
       <itemPath>Model.cpp</itemPath>
       <itemPath>Model.h</itemPath>
-      <itemPath>ModelManager.cpp</itemPath>
-      <itemPath>ModelManager.h</itemPath>
+      <itemPath>ResourceManager.cpp</itemPath>
+      <itemPath>ResourceManager.h</itemPath>
       <itemPath>Scene.cpp</itemPath>
       <itemPath>Scene.h</itemPath>
       <itemPath>Triangle.cpp</itemPath>

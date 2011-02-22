@@ -19,7 +19,7 @@
 #include "Console.h"
 #include "FileDirectory.h"
 
-#include "ModelManager.h"
+#include "ResourceManager.h"
 #include "BaseObject.h"
 #include "AxisObject.h"
 #include "StaticObject.h"

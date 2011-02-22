@@ -31,9 +31,10 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/ResourceManager.o \
 	${OBJECTDIR}/Thread.o \
-	${OBJECTDIR}/Triangle.o \
 	${OBJECTDIR}/StaticObject.o \
+	${OBJECTDIR}/Triangle.o \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Matrix4.o \
 	${OBJECTDIR}/Universe.o \
@@ -60,7 +61,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/Matrix.o \
 	${OBJECTDIR}/Quaternion.o \
 	${OBJECTDIR}/Region.o \
-	${OBJECTDIR}/ModelManager.o \
 	${OBJECTDIR}/Console.o
 
 # C Compiler Flags
@@ -89,20 +89,25 @@ dist/Debug/GNU-Linux-x86/libskyfire.a: ${OBJECTFILES}
 	${AR} rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libskyfire.a ${OBJECTFILES} 
 	$(RANLIB) dist/Debug/GNU-Linux-x86/libskyfire.a
 
+${OBJECTDIR}/ResourceManager.o: nbproject/Makefile-${CND_CONF}.mk ResourceManager.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/ResourceManager.o ResourceManager.cpp
+
 ${OBJECTDIR}/Thread.o: nbproject/Makefile-${CND_CONF}.mk Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
 
-${OBJECTDIR}/Triangle.o: nbproject/Makefile-${CND_CONF}.mk Triangle.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Triangle.o Triangle.cpp
-
 ${OBJECTDIR}/StaticObject.o: nbproject/Makefile-${CND_CONF}.mk StaticObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/StaticObject.o StaticObject.cpp
+
+${OBJECTDIR}/Triangle.o: nbproject/Makefile-${CND_CONF}.mk Triangle.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Triangle.o Triangle.cpp
 
 ${OBJECTDIR}/Input.o: nbproject/Makefile-${CND_CONF}.mk Input.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -233,11 +238,6 @@ ${OBJECTDIR}/Region.o: nbproject/Makefile-${CND_CONF}.mk Region.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Region.o Region.cpp
-
-${OBJECTDIR}/ModelManager.o: nbproject/Makefile-${CND_CONF}.mk ModelManager.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/ModelManager.o ModelManager.cpp
 
 ${OBJECTDIR}/Console.o: nbproject/Makefile-${CND_CONF}.mk Console.cpp 
 	${MKDIR} -p ${OBJECTDIR}
