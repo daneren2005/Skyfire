@@ -9,6 +9,10 @@
 
 #include "conversion.h"
 
+// Jpeg library
+#include "jpeglib.h"
+#include "setjmp.h"
+
 ResourceManager resourceManager = ResourceManager();
 
 ResourceManager::ResourceManager()
@@ -42,7 +46,7 @@ void ResourceManager::loadModel(String filename, String name)
 	if(file.fileType() == "obj")
 	{
 		Model* model = this->loadObj(file);
-		if(model != NULL)
+		if(model != 0x0)
 		{
 			this->models.insert(name, model);
 		}
@@ -73,8 +77,8 @@ Model* ResourceManager::loadObj(File file)
 	file.open();
 	if(!file.isOpen())
 	{
-		console << "ResourceManager::loadModls error: Failed to load model from file " << file.fullPath() << newline;
-		return NULL;
+		console << "ResourceManager::loadModls error: Failed to open model file " << file.fullPath() << newline;
+		return 0x0;
 	}
 
 	String cmd;
@@ -324,7 +328,7 @@ Map<String, Material*> ResourceManager::loadMtl(File file)
 	file.open();
 	if(!file.isOpen())
 	{
-		console << "ModelManage::loadMtl error: Failed to load material file " << file.fullPath() << newline;
+		console << "ResourceManager::loadMtl error: Failed to open material file " << file.fullPath() << newline;
 		return materials;
 	}
 
@@ -388,6 +392,27 @@ Map<String, Material*> ResourceManager::loadMtl(File file)
 			line >> material->transmissionFiler[1];
 			line >> material->transmissionFiler[2];
 		}
+		else if(cmd == "map_Kd")
+		{
+			String filename;
+			line >> filename;
+			File mapFile(file.filePath() + filename);
+			material->diffuseMap = this->loadJpeg(mapFile);
+		}
+		/*else if(cmd == "map_bump")
+		{
+			String filename;
+			line >> filename;
+			File mapFile(file.filePath() + filename);
+			this->loadJpeg(mapFile);
+		}*/
+		/*else if(cmd == "bump")
+		{
+			String filename;
+			line >> filename;
+			File mapFile(file.filePath() + filename);
+			this->loadJpeg(mapFile);
+		}*/
 
 		line = file.getLine();
 	}
@@ -398,4 +423,75 @@ Map<String, Material*> ResourceManager::loadMtl(File file)
 	}
 
 	return materials;
+}
+
+// Temporary crap
+struct my_error_mgr {
+  struct jpeg_error_mgr pub;	/* "public" fields */
+
+  jmp_buf setjmp_buffer;	/* for return to caller */
+};
+
+typedef struct my_error_mgr * my_error_ptr;
+
+METHODDEF(void)
+my_error_exit (j_common_ptr cinfo)
+{
+  /* cinfo->err really points to a my_error_mgr struct, so coerce pointer */
+  my_error_ptr myerr = (my_error_ptr) cinfo->err;
+
+  /* Always display the message. */
+  /* We could postpone this until after returning, if we chose. */
+  (*cinfo->err->output_message) (cinfo);
+  console << "ResourceManager::loadJpeg error: unknown error reading jpeg file" << newline;
+
+  /* Return control to the setjmp point */
+  longjmp(myerr->setjmp_buffer, 1);
+}
+
+Bitmap* ResourceManager::loadJpeg(File file)
+{
+	struct jpeg_decompress_struct cinfo;
+	struct my_error_mgr jerr;
+	
+	FILE* infile;
+	JSAMPARRAY buffer;
+	int row_stride;
+
+	if((infile = fopen(file.fullPath().cStr(), "rb")) == NULL)
+	{
+		console << "ResourceManager::loadJpeg error: Failed to open jpeg file " << file.fullPath() << newline;
+		return 0x0;
+	}
+
+	cinfo.err = jpeg_std_error(&jerr.pub);
+	jerr.pub.error_exit = my_error_exit;
+	if (setjmp(jerr.setjmp_buffer))
+	{
+		console << "ResourceManager::loadJpeg error: unknown error reading jpeg file " << file.fullPath() << newline;
+
+		jpeg_destroy_decompress(&cinfo);
+		fclose(infile);
+		return 0x0;
+	}
+
+	jpeg_create_decompress(&cinfo);
+	jpeg_stdio_src(&cinfo, infile);
+	jpeg_read_header(&cinfo, TRUE);
+	jpeg_start_decompress(&cinfo);
+	row_stride = cinfo.output_width * cinfo.output_components;
+	buffer = (*cinfo.mem->alloc_sarray) ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
+
+	Bitmap* bitmap = new Bitmap(cinfo.output_width, cinfo.output_height);
+	while (cinfo.output_scanline < cinfo.output_height)
+	{
+		jpeg_read_scanlines(&cinfo, buffer, 1);
+		// put_scanline_someplace(buffer[0], row_stride);
+	}
+
+	jpeg_finish_decompress(&cinfo);
+	jpeg_destroy_decompress(&cinfo);
+	fclose(infile);
+
+	return bitmap;
 }

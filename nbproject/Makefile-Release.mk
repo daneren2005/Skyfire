@@ -31,8 +31,9 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/ResourceManager.o \
+	${OBJECTDIR}/Bitmap.o \
 	${OBJECTDIR}/Thread.o \
+	${OBJECTDIR}/ResourceManager.o \
 	${OBJECTDIR}/StaticObject.o \
 	${OBJECTDIR}/Triangle.o \
 	${OBJECTDIR}/Input.o \
@@ -89,15 +90,20 @@ dist/Release/GNU-Linux-x86/libskyfire.a: ${OBJECTFILES}
 	${AR} rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libskyfire.a ${OBJECTFILES} 
 	$(RANLIB) dist/Release/GNU-Linux-x86/libskyfire.a
 
-${OBJECTDIR}/ResourceManager.o: nbproject/Makefile-${CND_CONF}.mk ResourceManager.cpp 
+${OBJECTDIR}/Bitmap.o: nbproject/Makefile-${CND_CONF}.mk Bitmap.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ResourceManager.o ResourceManager.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Bitmap.o Bitmap.cpp
 
 ${OBJECTDIR}/Thread.o: nbproject/Makefile-${CND_CONF}.mk Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
+
+${OBJECTDIR}/ResourceManager.o: nbproject/Makefile-${CND_CONF}.mk ResourceManager.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ResourceManager.o ResourceManager.cpp
 
 ${OBJECTDIR}/StaticObject.o: nbproject/Makefile-${CND_CONF}.mk StaticObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}

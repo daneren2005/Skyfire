@@ -12,6 +12,7 @@
 #include "Model.h"
 #include "File.h"
 #include "CString.h"
+#include "Bitmap.h"
 
 class ResourceManager
 {
@@ -34,6 +35,7 @@ private:
 	// Individual filetype load functions
 	Model* loadObj(File file);
 	Map<String, Material*> loadMtl(File file);
+	Bitmap* loadJpeg(File file);
 };
 
 extern ResourceManager resourceManager;

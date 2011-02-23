@@ -10,6 +10,7 @@
 
 #include "Array.h"
 #include "Triangle.h"
+#include "Bitmap.h"
 
 struct Vertex
 {
@@ -27,6 +28,8 @@ struct Material
 	float transparency; // 1 = normal, 0 = transparent
 	float refraction; // 1 = light doesnt bend, > 1 = light bends
 	float transmissionFiler[3]; // light filter for rgb, 1 = allows, 0 = disallows
+	Bitmap* diffuseMap;
+	Bitmap* bumpMap;
 };
 
 class Mesh : public Array<Vertex>

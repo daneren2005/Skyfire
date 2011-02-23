@@ -2,6 +2,8 @@
 <configurationDescriptor version="62">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <logicalFolder name="f6" displayName="Graphics" projectFiles="true">
+      <itemPath>Bitmap.cpp</itemPath>
+      <itemPath>Bitmap.h</itemPath>
       <itemPath>Camera.cpp</itemPath>
       <itemPath>Camera.h</itemPath>
       <itemPath>Mesh.cpp</itemPath>
