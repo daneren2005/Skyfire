@@ -13,6 +13,10 @@
 #include "jpeglib.h"
 #include "setjmp.h"
 
+extern "C" {
+#include "jpeglib.h"
+}
+
 ResourceManager resourceManager = ResourceManager();
 
 ResourceManager::ResourceManager()

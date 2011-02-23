@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;D:\Programming\Cpp\Skyfire\Include&quot;"
+				AdditionalIncludeDirectories="D:\Programming\Cpp\Skyfire\Include\jpeg;D:\Programming\Cpp\Skyfire\Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;GLUT_BUILDING_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -304,6 +304,14 @@
 			Name="Graphics"
 			>
 			<File
+				RelativePath=".\Bitmap.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Bitmap.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Camera.cpp"
 				>
 			</File>
@@ -328,11 +336,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ModelManager.cpp"
+				RelativePath=".\ResourceManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ModelManager.h"
+				RelativePath=".\ResourceManager.h"
 				>
 			</File>
 			<File
@@ -369,6 +377,22 @@
 			</File>
 			<File
 				RelativePath=".\Exceptions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\File.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\File.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileDirectory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FileDirectory.h"
 				>
 			</File>
 			<File
@@ -416,6 +440,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Rectangle3.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Rectangle3.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Vector.cpp"
 				>
 			</File>
@@ -423,6 +455,334 @@
 				RelativePath=".\Vector.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="External"
+			>
+			<Filter
+				Name="Jpeg"
+				>
+				<File
+					RelativePath=".\Include\jpeg\ansi2knr.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\cderror.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\cdjpeg.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\cdjpeg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\cjpeg.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\ckconfig.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\djpeg.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\example.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jaricom.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcapimin.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcapistd.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcarith.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jccoefct.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jccolor.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcdctmgr.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jchuff.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcinit.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcmainct.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcmarker.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcmaster.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcomapi.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jconfig.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcparam.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcprepct.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jcsample.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jctrans.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdapimin.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdapistd.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdarith.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdatadst.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdatasrc.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdcoefct.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdcolor.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdct.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jddctmgr.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdhuff.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdinput.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdmainct.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdmarker.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdmaster.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdmerge.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdpostct.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdsample.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jdtrans.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jerror.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jerror.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jfdctflt.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jfdctfst.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jfdctint.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jidctflt.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jidctfst.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jidctint.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jinclude.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jmemmgr.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jmemnobs.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jmemsys.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jmorecfg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jpegint.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jpeglib.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jpegtran.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jquant1.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jquant2.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jutils.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\jversion.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\rdbmp.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\rdcolmap.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\rdgif.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\rdjpgcom.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\rdppm.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\rdrle.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\rdswitch.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\rdtarga.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\transupp.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\transupp.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\wrbmp.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\wrgif.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\wrjpgcom.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\wrppm.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\wrrle.c"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\jpeg\wrtarga.c"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
