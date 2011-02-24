@@ -639,7 +639,14 @@ Array<String> String::split(const char& delim)
 	}
 	else
 	{
-		list.insert(this->subStr(pos2));
+		if(pos2 >= this->size - 1)
+		{
+			list.insert(String());
+		}
+		else
+		{
+			list.insert(this->subStr(pos2 + 1));
+		}
 	}
 
 	return list;
