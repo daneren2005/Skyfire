@@ -11,12 +11,13 @@
 #include "Array.h"
 #include "Triangle.h"
 #include "Bitmap.h"
+#include "Vector.h"
 
 struct Vertex
 {
-	float position[3];
-	float normal[3];
-	float texture[2];
+	Vector position;
+	Vector normal;
+	Vector texture;
 };
 
 struct Material

@@ -61,8 +61,11 @@ void Mesh::draw()
 
 	// Draw vertices + normals + textures of mesh
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), this->array->position);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), this->array->position.getPointer());
+	glNormalPointer(GL_FLOAT, sizeof(Vertex), this->array->normal.getPointer());
 	glDrawArrays(GL_TRIANGLES, 0, this->used);
+	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	glDisable(GL_LIGHTING);

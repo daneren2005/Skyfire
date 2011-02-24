@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   ResourceManager.cpp
  * Author: scott
- * 
+ *
  * Created on October 20, 2010, 1:25 PM
  */
 
@@ -12,10 +12,6 @@
 // Jpeg library
 #include "jpeglib.h"
 #include "setjmp.h"
-
-extern "C" {
-#include "jpeglib.h"
-}
 
 ResourceManager resourceManager = ResourceManager();
 
@@ -95,13 +91,9 @@ Model* ResourceManager::loadObj(File file)
 	int mesh_i = 0;
 
 	Array<Vector> geometricVectors(10);
-	int geometric_i = 0;
 	Array<Vector> textureVectors(10);
-	int texture_i = 0;
 	Array<Vector> normalVectors(10);
-	int normal_i = 0;
 	Array<Vector> parametricVectors(10);
-	int parametric_i = 0;
 
 	Map<String, Material*> materials;
 
@@ -129,7 +121,6 @@ Model* ResourceManager::loadObj(File file)
 				{
 					line >> v1 >> v2 >> v3;
 					geometricVectors.insert(Vector(v1, v2, v3));
-					geometric_i++;
 
 					// Try to get the bounding box for the model
 					if(v1 < lx)
@@ -163,19 +154,16 @@ Model* ResourceManager::loadObj(File file)
 				{
 					line >> v1 >> v2;
 					textureVectors.insert(Vector(v1, v2, 0.0f));
-					texture_i++;
 				}
 				else if(cmd == "vn")
 				{
 					line >> v1 >> v2 >> v3;
 					normalVectors.insert(Vector(v1, v2, v3));
-					normal_i++;
 				}
 				else if(cmd == "vp")
 				{
 					line >> v1 >> v2 >> v3;
 					parametricVectors.insert(Vector(v1, v2, v3));
-					parametric_i++;
 				}
 				break;
 			}
@@ -193,63 +181,76 @@ Model* ResourceManager::loadObj(File file)
 						work = false;
 					}
 
-					// Array<String> parts = r1.split('/');
-					int pos = r1.strPos('/');
-					if(pos == String::npos)
+					if(r1.strPos('/') == String::npos)
 					{
-						int rg1, rg2, rg3;
-						rg1 = r1.toInt();
-						Vertex v1;
-						v1.position[0] = geometricVectors[rg1 - 1][0];
-						v1.position[1] = geometricVectors[rg1 - 1][1];
-						v1.position[2] = geometricVectors[rg1 - 1][2];
-						mesh->insert(v1);
-						mesh_i++;
-						rg2 = r2.toInt();
-						Vertex v2;
-						v2.position[0] = geometricVectors[rg2 - 1][0];
-						v2.position[1] = geometricVectors[rg2 - 1][1];
-						v2.position[2] = geometricVectors[rg2 - 1][2];
-						mesh->insert(v2);
-						mesh_i++;
-						rg3 = r3.toInt();
-						Vertex v3;
-						v3.position[0] = geometricVectors[rg3 - 1][0];
-						v3.position[1] = geometricVectors[rg3 - 1][1];
-						v3.position[2] = geometricVectors[rg3 - 1][2];
-						mesh->insert(v3);
-						mesh_i++;
+						int pos = 0;
+						Vertex v;
+
+						pos = r1.toInt();
+						v.position = geometricVectors[pos - 1];
+						mesh->insert(v);
+
+						pos = r2.toInt();
+						v.position = geometricVectors[pos - 1];
+						mesh->insert(v);
+
+						pos = r3.toInt();
+						v.position = geometricVectors[pos - 1];
+						mesh->insert(v);
 					}
 					else
 					{
-						int rg1, rg2, rg3;
-						int rn1, rn2, rn3;
-						int rt1, rt2, rt3;
-						rg1 = r1.subStr(0, pos).toInt();
-						Vertex v1;
-						v1.position[0] = geometricVectors[rg1 - 1][0];
-						v1.position[1] = geometricVectors[rg1 - 1][1];
-						v1.position[2] = geometricVectors[rg1 - 1][2];
-						mesh->insert(v1);
-						mesh_i++;
+						int pos = 0;
+						Array<String> parts;
+						Vertex v;
 
-						pos = r2.strPos('/');
-						rg2 = r2.subStr(0, pos).toInt();
-						Vertex v2;
-						v2.position[0] = geometricVectors[rg2 - 1][0];
-						v2.position[1] = geometricVectors[rg2 - 1][1];
-						v2.position[2] = geometricVectors[rg2 - 1][2];
-						mesh->insert(v2);
-						mesh_i++;
+						// Vertex 1
+						parts = r1.split('/');
+						pos = parts[0].toInt();
+						v.position = geometricVectors[pos - 1];
+						if(parts[1].length() > 0)
+						{
+							pos = parts[1].toInt();
+							v.texture = textureVectors[pos - 1];
+						}
+						if(parts[2].length() > 0)
+						{
+							pos = parts[2].toInt();
+							v.normal = normalVectors[pos - 1];
+						}
+						mesh->insert(v);
 
-						pos = r3.strPos('/');
-						rg3 = r3.subStr(0, pos).toInt();
-						Vertex v3;
-						v3.position[0] = geometricVectors[rg3 - 1][0];
-						v3.position[1] = geometricVectors[rg3 - 1][1];
-						v3.position[2] = geometricVectors[rg3 - 1][2];
-						mesh->insert(v3);
-						mesh_i++;
+						// Vertex 2
+						parts = r2.split('/');
+						pos = parts[0].toInt();
+						v.position = geometricVectors[pos - 1];
+						if(parts[1].length() > 0)
+						{
+							pos = parts[1].toInt();
+							v.texture = textureVectors[pos - 1];
+						}
+						if(parts[2].length() > 0)
+						{
+							pos = parts[2].toInt();
+							v.normal = normalVectors[pos - 1];
+						}
+						mesh->insert(v);
+
+						// Vertex 3
+						parts = r3.split('/');
+						pos = parts[0].toInt();
+						v.position = geometricVectors[pos - 1];
+						if(parts[1].length() > 0)
+						{
+							pos = parts[1].toInt();
+							v.texture = textureVectors[pos - 1];
+						}
+						if(parts[2].length() > 0)
+						{
+							pos = parts[2].toInt();
+							v.normal = normalVectors[pos - 1];
+						}
+						mesh->insert(v);
 					}
 
 					if(work)
@@ -457,7 +458,7 @@ Bitmap* ResourceManager::loadJpeg(File file)
 {
 	struct jpeg_decompress_struct cinfo;
 	struct my_error_mgr jerr;
-	
+
 	FILE* infile;
 	JSAMPARRAY buffer;
 	int row_stride;
