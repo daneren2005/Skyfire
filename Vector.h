@@ -54,6 +54,8 @@ public:
 
 	Vector operator!();
 	Vector projection(const Vector& b) const;
+
+	float* getPointer();
 private:
 	float pos[3];
 };

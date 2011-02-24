@@ -241,3 +241,8 @@ Vector Vector::projection(const Vector& b) const
 
 	return *this * (dot / a);
 }
+
+float* Vector::getPointer()
+{
+	return &(pos[0]);
+}
