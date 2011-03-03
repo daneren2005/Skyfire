@@ -36,7 +36,7 @@ void ParticleEmitter::update(double interval)
 		if(ptr[i].life <= 0 && ptr[i].active)
 		{
 			ptr[i].active = false;
-			inactive.push_back(i);
+			inactive.pushBack(i);
 		}
 	}
 }
@@ -81,7 +81,7 @@ void ParticleEmitter::emitParticle(Vector speed, Vector color, float fade)
 	}
 	else
 	{
-		this->particles[inactive.pop_front()] = Particle(speed, color, fade);
+		this->particles[inactive.popFront()] = Particle(speed, color, fade);
 	}
 }
 void ParticleEmitter::emitParticle(Vector position, Vector speed, Vector color, float fade)
@@ -92,7 +92,7 @@ void ParticleEmitter::emitParticle(Vector position, Vector speed, Vector color, 
 	}
 	else
 	{
-		this->particles[inactive.pop_front()] = Particle(position, speed, color, fade);
+		this->particles[inactive.popFront()] = Particle(position, speed, color, fade);
 	}
 }
 void ParticleEmitter::emitParticle(Vector position, Vector speed, Vector acceleration, Vector color, float fade)
@@ -103,7 +103,7 @@ void ParticleEmitter::emitParticle(Vector position, Vector speed, Vector acceler
 	}
 	else
 	{
-		this->particles[inactive.pop_front()] = Particle(position, speed, acceleration, color, fade);
+		this->particles[inactive.popFront()] = Particle(position, speed, acceleration, color, fade);
 	}
 }
 

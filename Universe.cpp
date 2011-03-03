@@ -29,7 +29,7 @@ Universe::~Universe()
 	Region* region = NULL;
 	while(regions.size() > 0)
 	{
-		region = regions.pop_front();
+		region = regions.popFront();
 		delete region;
 	}
 }
@@ -99,7 +99,7 @@ Camera* Universe::getCamera()
 void Universe::addRegion(Region* region)
 {
 	region->universe = this;
-	this->regions.push_front(region);
+	this->regions.pushFront(region);
 }
 
 void Universe::setActiveRegion(Region* region)

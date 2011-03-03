@@ -42,7 +42,7 @@ void Region::draw()
 
 void Region::insertObject(BaseObject* object)
 {
-	this->objects.push_back(object);
+	this->objects.pushBack(object);
 }
 void Region::removeObject(BaseObject* object)
 {
