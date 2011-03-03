@@ -10,6 +10,7 @@
 #include "conversion.h"
 
 // Jpeg library
+#include <stdio.h>
 #include "jpeglib.h"
 #include "setjmp.h"
 #include <string.h>
@@ -101,13 +102,6 @@ Model* ResourceManager::loadObj(File file)
 	String line;
 	line = file.getLine();
 
-	float lx = 1000.0f;
-	float ly = 1000.0f;
-	float lz = 1000.0f;
-	float ux = -1000.0f;
-	float uy = -1000.0f;
-	float uz = -1000.0f;
-
 	while(!file.eof())
 	{
 		line >> cmd;
@@ -122,34 +116,6 @@ Model* ResourceManager::loadObj(File file)
 				{
 					line >> v1 >> v2 >> v3;
 					geometricVectors.insert(Vector(v1, v2, v3));
-
-					// Try to get the bounding box for the model
-					if(v1 < lx)
-					{
-						lx = v1;
-					}
-					if(v1 > ux)
-					{
-						ux = v1;
-					}
-
-					if(v2 < ly)
-					{
-						ly = v2;
-					}
-					if(v2 > uy)
-					{
-						uy = v2;
-					}
-
-					if(v3 < lz)
-					{
-						lz = v3;
-					}
-					if(v3 > uz)
-					{
-						uz = v3;
-					}
 				}
 				else if(cmd == "vt")
 				{
@@ -323,7 +289,7 @@ Model* ResourceManager::loadObj(File file)
 	model->insert(mesh);
 	model->resize(model->size());
 
-	model->setBoundingBox(Rectangle3(lx, ly, lz, ux, uy, uz));
+	model->computeBoundingBox();
 	return model;
 }
 

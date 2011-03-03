@@ -13,8 +13,8 @@ public:
 	virtual ~Model();
 
 	Rectangle3 getBoundingBox();
+	void computeBoundingBox();
 	void setBoundingBox(Rectangle3 boundingBox);
-
 
 	void draw();
 private:
