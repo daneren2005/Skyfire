@@ -12,6 +12,7 @@
 // Jpeg library
 #include "jpeglib.h"
 #include "setjmp.h"
+#include <string.h>
 
 ResourceManager resourceManager = ResourceManager();
 
@@ -461,7 +462,7 @@ Bitmap* ResourceManager::loadJpeg(File file)
 
 	FILE* infile;
 	JSAMPARRAY buffer;
-	int row_stride;
+	int width, height, size;
 
 	if((infile = fopen(file.fullPath().cStr(), "rb")) == NULL)
 	{
@@ -484,14 +485,19 @@ Bitmap* ResourceManager::loadJpeg(File file)
 	jpeg_stdio_src(&cinfo, infile);
 	jpeg_read_header(&cinfo, TRUE);
 	jpeg_start_decompress(&cinfo);
-	row_stride = cinfo.output_width * cinfo.output_components;
-	buffer = (*cinfo.mem->alloc_sarray) ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
 
-	Bitmap* bitmap = new Bitmap(cinfo.output_width, cinfo.output_height);
-	while (cinfo.output_scanline < cinfo.output_height)
+	width = cinfo.output_width * cinfo.output_components;
+	height = cinfo.output_height;
+	size = width * height;
+	buffer = (*cinfo.mem->alloc_sarray) ((j_common_ptr) &cinfo, JPOOL_IMAGE, size, 1);
+
+	Bitmap* bitmap = new Bitmap(width, height);
+	unsigned char* data = new unsigned char(size);
+
+	while(cinfo.output_scanline < cinfo.output_height)
 	{
 		jpeg_read_scanlines(&cinfo, buffer, 1);
-		// put_scanline_someplace(buffer[0], row_stride);
+		// memcpy(data, buffer[0], 50);
 	}
 
 	jpeg_finish_decompress(&cinfo);

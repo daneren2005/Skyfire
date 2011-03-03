@@ -14,10 +14,13 @@ public:
 	Bitmap(int width, int height);
 	Bitmap(const Bitmap& orig);
 	virtual ~Bitmap();
+
+	unsigned char* operator[](unsigned long row);
+	unsigned char* getPointer();
 private:
 	int width;
 	int height;
-	int* array;
+	unsigned char* array;
 };
 
 #endif	/* _BITMAP_H */
