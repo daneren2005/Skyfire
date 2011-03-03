@@ -29,6 +29,7 @@ void AxisObject::draw()
 	float INCREMENT = 5.0f;
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glDisable(GL_LIGHTING);
 
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
