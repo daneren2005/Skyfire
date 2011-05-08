@@ -159,15 +159,7 @@ void Camera::draw()
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPos);
 
 	// If a base object exists, transform on it as well
-	if(this->object == NULL)
-	{
-		this->transformCamera();
-	}
-	else
-	{
-		this->object->draw();
-		this->object->transformCamera();
-	}
+	this->transformInverse();
 
 	if(this->activeRegion)
 		this->activeRegion->draw();

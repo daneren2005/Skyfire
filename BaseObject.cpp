@@ -125,7 +125,7 @@ void BaseObject::setParentRegion(Region* region)
 	this->parentRegion = region;
 }
 
-void BaseObject::transformObject()
+void BaseObject::transform()
 {
 	Matrix4 rotate = Matrix4::rotateObject(this->directionForward);
 	Vector t(position[0], position[1], -position[2]);
@@ -135,7 +135,7 @@ void BaseObject::transformObject()
 	glMultMatrixf(translate.getMatrix());
 	glMultMatrixf(rotate.getMatrix());
 }
-void BaseObject::transformCamera()
+void BaseObject::transformInverse()
 {
 	if(this->attachedCamera == NULL)
 	{
@@ -149,14 +149,14 @@ void BaseObject::transformCamera()
 	}
 	else
 	{
-		Vector r(directionForward[0] + attachedCamera->directionForward[0], -directionForward[1] + attachedCamera->directionForward[1], -directionForward[2] + attachedCamera->directionForward[2]);
+		/*Vector r(directionForward[0] + attachedCamera->directionForward[0], -directionForward[1] + attachedCamera->directionForward[1], -directionForward[2] + attachedCamera->directionForward[2]);
 		Matrix4 rotate = Matrix4::rotateObject(r);
 		Vector t(-position[0] - attachedCamera->position[0], -position[1] - attachedCamera->position[1], -position[2] + attachedCamera->position[2]);
 		Matrix4 translate = Matrix4::translate(t);
 		// Matrix4 transform = rotate * translate;
 		// glMultMatrixf(transform.getMatrix());
 		glMultMatrixf(rotate.getMatrix());
-		glMultMatrixf(translate.getMatrix());
+		glMultMatrixf(translate.getMatrix());*/
 	}
 }
 
