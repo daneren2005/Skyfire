@@ -39,16 +39,17 @@ OBJECTFILES= \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Matrix4.o \
 	${OBJECTDIR}/Universe.o \
+	${OBJECTDIR}/ObjectOrientedBox.o \
+	${OBJECTDIR}/Rectangle.o \
 	${OBJECTDIR}/Rate.o \
 	${OBJECTDIR}/BaseObject.o \
 	${OBJECTDIR}/Window.o \
 	${OBJECTDIR}/FileDirectory.o \
-	${OBJECTDIR}/Rectangle3.o \
-	${OBJECTDIR}/Rectangle2.o \
 	${OBJECTDIR}/AxisObject.o \
 	${OBJECTDIR}/Particle.o \
 	${OBJECTDIR}/StopWatch.o \
 	${OBJECTDIR}/Camera.o \
+	${OBJECTDIR}/Sphere.o \
 	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/Key.o \
@@ -62,6 +63,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Matrix.o \
 	${OBJECTDIR}/Quaternion.o \
 	${OBJECTDIR}/Region.o \
+	${OBJECTDIR}/AxisAlignedBox.o \
 	${OBJECTDIR}/Console.o
 
 # C Compiler Flags
@@ -130,6 +132,16 @@ ${OBJECTDIR}/Universe.o: nbproject/Makefile-${CND_CONF}.mk Universe.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Universe.o Universe.cpp
 
+${OBJECTDIR}/ObjectOrientedBox.o: nbproject/Makefile-${CND_CONF}.mk ObjectOrientedBox.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ObjectOrientedBox.o ObjectOrientedBox.cpp
+
+${OBJECTDIR}/Rectangle.o: nbproject/Makefile-${CND_CONF}.mk Rectangle.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Rectangle.o Rectangle.cpp
+
 ${OBJECTDIR}/Rate.o: nbproject/Makefile-${CND_CONF}.mk Rate.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -150,16 +162,6 @@ ${OBJECTDIR}/FileDirectory.o: nbproject/Makefile-${CND_CONF}.mk FileDirectory.cp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/FileDirectory.o FileDirectory.cpp
 
-${OBJECTDIR}/Rectangle3.o: nbproject/Makefile-${CND_CONF}.mk Rectangle3.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Rectangle3.o Rectangle3.cpp
-
-${OBJECTDIR}/Rectangle2.o: nbproject/Makefile-${CND_CONF}.mk Rectangle2.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Rectangle2.o Rectangle2.cpp
-
 ${OBJECTDIR}/AxisObject.o: nbproject/Makefile-${CND_CONF}.mk AxisObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -179,6 +181,11 @@ ${OBJECTDIR}/Camera.o: nbproject/Makefile-${CND_CONF}.mk Camera.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Camera.o Camera.cpp
+
+${OBJECTDIR}/Sphere.o: nbproject/Makefile-${CND_CONF}.mk Sphere.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Sphere.o Sphere.cpp
 
 ${OBJECTDIR}/Model.o: nbproject/Makefile-${CND_CONF}.mk Model.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -244,6 +251,11 @@ ${OBJECTDIR}/Region.o: nbproject/Makefile-${CND_CONF}.mk Region.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Region.o Region.cpp
+
+${OBJECTDIR}/AxisAlignedBox.o: nbproject/Makefile-${CND_CONF}.mk AxisAlignedBox.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisAlignedBox.o AxisAlignedBox.cpp
 
 ${OBJECTDIR}/Console.o: nbproject/Makefile-${CND_CONF}.mk Console.cpp 
 	${MKDIR} -p ${OBJECTDIR}

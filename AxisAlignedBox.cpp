@@ -1,18 +1,22 @@
 /* 
- * File:   Rectangle3.cpp
+ * File:   AxisAlignedBox.cpp
  * Author: scott
  * 
  * Created on February 15, 2011, 2:58 PM
  */
 
-#include "Rectangle3.h"
+#include "AxisAlignedBox.h"
 #include <GL/gl.h>
 
-Rectangle3::Rectangle3()
+#include "Sphere.h"
+#include "ObjectOrientedBox.h"
+#include <stdlib.h>
+
+AxisAlignedBox::AxisAlignedBox()
 {
 
 }
-Rectangle3::Rectangle3(float lx, float ly, float lz, float ux, float uy, float uz)
+AxisAlignedBox::AxisAlignedBox(float lx, float ly, float lz, float ux, float uy, float uz)
 {
 	this->min[0] = lx;
 	this->min[1] = ly;
@@ -21,22 +25,22 @@ Rectangle3::Rectangle3(float lx, float ly, float lz, float ux, float uy, float u
 	this->max[1] = uy;
 	this->max[2] = uz;
 }
-Rectangle3::Rectangle3(Vector min, Vector max)
+AxisAlignedBox::AxisAlignedBox(Vector min, Vector max)
 {
 	this->min = min;
 	this->max = max;
 }
-Rectangle3::Rectangle3(const Rectangle3& orig)
+AxisAlignedBox::AxisAlignedBox(const AxisAlignedBox& orig)
 {
 	this->min = orig.min;
 	this->max = orig.max;
 }
 
-Rectangle3::~Rectangle3()
+AxisAlignedBox::~AxisAlignedBox()
 {
 }
 
-void Rectangle3::draw()
+void AxisAlignedBox::draw() const
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -81,7 +85,16 @@ void Rectangle3::draw()
 	glEnd();
 }
 
-Array<Vector> Rectangle3::getPoints()
+Vector AxisAlignedBox::getMin() const
+{
+	return min;
+}
+Vector AxisAlignedBox::getMax() const
+{
+	return max;
+}
+
+Array<Vector> AxisAlignedBox::getPoints() const
 {
 	Array<Vector> points(8);
 
@@ -98,7 +111,7 @@ Array<Vector> Rectangle3::getPoints()
 	return points;
 }
 
-Rectangle3 Rectangle3::transformBox(Vector position, Vector angle)
+AxisAlignedBox AxisAlignedBox::transformBox(Vector position, Vector angle) const
 {
 	// Get points that make up the box
 	Array<Vector> points = this->getPoints();
@@ -131,10 +144,10 @@ Rectangle3 Rectangle3::transformBox(Vector position, Vector angle)
 		}
 	}
 
-	return Rectangle3(min2, max2);
+	return AxisAlignedBox(min2, max2);
 }
 
-bool Rectangle3::pointCollision(float x, float y, float z)
+bool AxisAlignedBox::collision(float x, float y, float z) const
 {
 	if(x > this->min[0] && x < this->max[0] && y > this->min[1] && y < this->max[1] && z > this->min[2] && z < this->max[2])
 	{
@@ -145,11 +158,26 @@ bool Rectangle3::pointCollision(float x, float y, float z)
 		return false;
 	}
 }
-bool Rectangle3::pointCollision(Vector position)
+bool AxisAlignedBox::collision(const Vector& position) const
 {
-	return this->pointCollision(position[0], position[1], position[2]);
+	return this->collision(position[0], position[1], position[2]);
 }
-bool Rectangle3::rectangleCollision(Rectangle3 box)
+bool AxisAlignedBox::collision(const Sphere& sphere) const
+{
+	Vector width = (this->max - this->min) * 0.5f;
+	Vector midPoint = width + this->min;
+
+	for(int i = 0; i < 3; i++)
+	{
+		if(abs(sphere.getPosition()[i] - midPoint[i]) > sphere.getRadius() + width[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+bool AxisAlignedBox::collision(const AxisAlignedBox& box) const
 {
 	for(int i = 0; i < 3; i++)
 	{
@@ -160,5 +188,10 @@ bool Rectangle3::rectangleCollision(Rectangle3 box)
 	}
 
 	return true;
+}
+
+bool AxisAlignedBox::collision(const ObjectOrientedBox& box) const
+{
+
 }
 

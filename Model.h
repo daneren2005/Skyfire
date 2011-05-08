@@ -2,7 +2,7 @@
 #define	_MODEL_H
 
 #include "Mesh.h"
-#include "Rectangle3.h"
+#include "AxisAlignedBox.h"
 
 class Model : public Array<Mesh*>
 {
@@ -12,13 +12,14 @@ public:
 	Model(const Model& orig);
 	virtual ~Model();
 
-	Rectangle3 getBoundingBox();
+	AxisAlignedBox getBoundingBox();
 	void computeBoundingBox();
-	void setBoundingBox(Rectangle3 boundingBox);
+
+	long numTriangles();
 
 	void draw();
 private:
-	Rectangle3 boundingBox;
+	AxisAlignedBox boundingBox;
 };
 
 #endif

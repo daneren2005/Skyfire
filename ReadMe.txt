@@ -20,3 +20,18 @@ Universe:
 Window:
 -Render Thread
 	-Renders all active scenes (60x per second) + gets user input
+
+TODO:
+-Collision Detection
+    --Finish AABB
+    --Add sphere
+    --Add fine grained detection
+    --Add cache system (first AABB, then more accurate)
+-Speed up .obj loading
+-Fix jpeg loading
+-Add .3ds model loading
+-Seperate Cameras
+    --Make Camera a base class
+    --Add FPS Camera
+    --Add third person Camera
+-Seperate Vector out into Vector + Vector3 classes

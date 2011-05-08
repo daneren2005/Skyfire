@@ -1,13 +1,13 @@
-#include "Rectangle2.h"
+#include "Rectangle.h"
 
-Rectangle2::Rectangle2()
+Rectangle::Rectangle()
 {
 	this->lx = 0;
 	this->ly = 0;
 	this->ux = 0;
 	this->uy = 0;
 }
-Rectangle2::Rectangle2(int lx, int ly, int ux, int uy)
+Rectangle::Rectangle(int lx, int ly, int ux, int uy)
 {
 	this->lx = lx;
 	this->ly = ly;
@@ -15,6 +15,6 @@ Rectangle2::Rectangle2(int lx, int ly, int ux, int uy)
 	this->uy = uy;
 }
 
-Rectangle2::~Rectangle2()
+Rectangle::~Rectangle()
 {
 }

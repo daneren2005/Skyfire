@@ -92,10 +92,11 @@ Model* ResourceManager::loadObj(File file)
 	String meshName;
 	int mesh_i = 0;
 
-	Array<Vector> geometricVectors(10);
-	Array<Vector> textureVectors(10);
-	Array<Vector> normalVectors(10);
-	Array<Vector> parametricVectors(10);
+	// TODO: probably shouldn't start with such large vectors...
+	Array<Vector> geometricVectors(10000);
+	Array<Vector> textureVectors(10000);
+	Array<Vector> normalVectors(10000);
+	Array<Vector> parametricVectors(10000);
 
 	Map<String, Material*> materials;
 

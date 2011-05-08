@@ -32,16 +32,20 @@
       <itemPath>Map.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f9" displayName="Math" projectFiles="true">
+      <itemPath>AxisAlignedBox.cpp</itemPath>
+      <itemPath>AxisAlignedBox.h</itemPath>
       <itemPath>Matrix.cpp</itemPath>
       <itemPath>Matrix.h</itemPath>
       <itemPath>Matrix4.cpp</itemPath>
       <itemPath>Matrix4.h</itemPath>
+      <itemPath>ObjectOrientedBox.cpp</itemPath>
+      <itemPath>ObjectOrientedBox.h</itemPath>
       <itemPath>Quaternion.cpp</itemPath>
       <itemPath>Quaternion.h</itemPath>
-      <itemPath>Rectangle2.cpp</itemPath>
-      <itemPath>Rectangle2.h</itemPath>
-      <itemPath>Rectangle3.cpp</itemPath>
-      <itemPath>Rectangle3.h</itemPath>
+      <itemPath>Rectangle.cpp</itemPath>
+      <itemPath>Rectangle.h</itemPath>
+      <itemPath>Sphere.cpp</itemPath>
+      <itemPath>Sphere.h</itemPath>
       <itemPath>Vector.cpp</itemPath>
       <itemPath>Vector.h</itemPath>
     </logicalFolder>

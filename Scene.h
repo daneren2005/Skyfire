@@ -8,7 +8,7 @@
 #ifndef _SCENE_H
 #define	_SCENE_H
 
-#include "Rectangle2.h"
+#include "Rectangle.h"
 
 class Scene
 {
@@ -20,7 +20,7 @@ public:
 	void render();
 	virtual void draw() = 0;
 protected:
-	Rectangle2 screenArea;
+	Rectangle screenArea;
 	float aspectRatio;
 	float nearPerspective;
 	float farPerspective;

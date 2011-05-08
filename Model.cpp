@@ -21,6 +21,11 @@ Model::~Model()
 	
 }
 
+long Model::numTriangles()
+{
+	return this->used / 3;
+}
+
 void Model::draw()
 {
 	glDisable(GL_BLEND);
@@ -34,7 +39,7 @@ void Model::draw()
 	}
 }
 
-Rectangle3 Model::getBoundingBox()
+AxisAlignedBox Model::getBoundingBox()
 {
 	return this->boundingBox;
 }
@@ -77,9 +82,5 @@ void Model::computeBoundingBox()
 		}
 	}
 
-	this->boundingBox = Rectangle3(min, max);
-}
-void Model::setBoundingBox(Rectangle3 boundingBox)
-{
-	this->boundingBox = boundingBox;
+	this->boundingBox = AxisAlignedBox(min, max);
 }
