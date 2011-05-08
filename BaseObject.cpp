@@ -145,7 +145,7 @@ void BaseObject::transformInverse()
 	Matrix4 rotate = Matrix4::rotateObject(!this->directionForward);
 	Vector t(-position[0], -position[1], -position[2]);
 	Matrix4 translate = Matrix4::translate(t);
-	Matrix4 scale = Matrix4::scale(!this->scale);
+	Matrix4 scale = Matrix4::scale(Vector(1.0f / this->scale[0], 1.0f / this->scale[1], 1.0f / this->scale[2]));
 	// Matrix4 transform = rotate * translate;
 	// glMultMatrixf(transform.getMatrix());
 	glMultMatrixf(scale.getMatrix());
