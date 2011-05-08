@@ -28,6 +28,7 @@ BaseObject::BaseObject()
 
 	position = Vector(0.0f, 0.0f, 0.0f);
 	directionForward = Vector(0.0f, 0.0f, 0.0f);
+	this->scale = Vector(1.0f, 1.0f, 1.0f);
 	this->attachedCamera = NULL;
 	this->parentRegion = NULL;
 }
@@ -38,6 +39,7 @@ BaseObject::BaseObject(float x, float y, float z)
 
 	position = Vector(x, y, z);
 	directionForward = Vector(0.0f, 0.0f, 0.0f);
+	this->scale = Vector(1.0f, 1.0f, 1.0f);
 	this->attachedCamera = NULL;
 	this->parentRegion = NULL;
 }
@@ -49,6 +51,7 @@ BaseObject::BaseObject(const BaseObject& orig)
 	this->directionForward = orig.directionForward;
 	this->attachedCamera = orig.attachedCamera;
 	this->parentRegion = orig.parentRegion;
+	this->scale = orig.scale;
 }
 
 BaseObject::~BaseObject()
@@ -130,34 +133,24 @@ void BaseObject::transform()
 	Matrix4 rotate = Matrix4::rotateObject(this->directionForward);
 	Vector t(position[0], position[1], -position[2]);
 	Matrix4 translate = Matrix4::translate(t);
+	Matrix4 scale = Matrix4::scale(this->scale);
 	// Matrix4 transform = rotate * translate;
 	// glMultMatrixf(transform.getMatrix());
 	glMultMatrixf(translate.getMatrix());
 	glMultMatrixf(rotate.getMatrix());
+	glMultMatrixf(scale.getMatrix());
 }
 void BaseObject::transformInverse()
 {
-	if(this->attachedCamera == NULL)
-	{
-		Matrix4 rotate = Matrix4::rotateObject(!this->directionForward);
-		Vector t(-position[0], -position[1], -position[2]);
-		Matrix4 translate = Matrix4::translate(t);
-		// Matrix4 transform = rotate * translate;
-		// glMultMatrixf(transform.getMatrix());
-		glMultMatrixf(rotate.getMatrix());
-		glMultMatrixf(translate.getMatrix());
-	}
-	else
-	{
-		/*Vector r(directionForward[0] + attachedCamera->directionForward[0], -directionForward[1] + attachedCamera->directionForward[1], -directionForward[2] + attachedCamera->directionForward[2]);
-		Matrix4 rotate = Matrix4::rotateObject(r);
-		Vector t(-position[0] - attachedCamera->position[0], -position[1] - attachedCamera->position[1], -position[2] + attachedCamera->position[2]);
-		Matrix4 translate = Matrix4::translate(t);
-		// Matrix4 transform = rotate * translate;
-		// glMultMatrixf(transform.getMatrix());
-		glMultMatrixf(rotate.getMatrix());
-		glMultMatrixf(translate.getMatrix());*/
-	}
+	Matrix4 rotate = Matrix4::rotateObject(!this->directionForward);
+	Vector t(-position[0], -position[1], -position[2]);
+	Matrix4 translate = Matrix4::translate(t);
+	Matrix4 scale = Matrix4::scale(!this->scale);
+	// Matrix4 transform = rotate * translate;
+	// glMultMatrixf(transform.getMatrix());
+	glMultMatrixf(scale.getMatrix());
+	glMultMatrixf(rotate.getMatrix());
+	glMultMatrixf(translate.getMatrix());
 }
 
 bool BaseObject::operator==(const BaseObject& rhs)

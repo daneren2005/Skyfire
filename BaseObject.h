@@ -43,9 +43,9 @@ public:
 	// Called regularly to update based on how much time has passed since last called
 	virtual void update(double interval) = 0;
 	// Move object and rotate it around its own axis
-	virtual void transformObject();
+	virtual void transform();
 	// Move object and rotate it around cameras axis
-	virtual void transformCamera();
+	virtual void transformInverse();
 	// Called when trying to draw the object on the screen
 	virtual void draw() = 0;
 	// Called when intializing an object (loading model data, etc)
@@ -57,6 +57,7 @@ protected:
 	Vector position;
 	Vector directionForward;
 	Vector directionUp;
+	Vector scale;
 
 	Region* parentRegion;
 	Camera* attachedCamera;
