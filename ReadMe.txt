@@ -24,7 +24,6 @@ Window:
 TODO:
 -Collision Detection
     --Finish AABB
-    --Add sphere
     --Add fine grained detection
     --Add cache system (first AABB, then more accurate)
 -Speed up .obj loading
@@ -35,3 +34,5 @@ TODO:
     --Add FPS Camera
     --Add third person Camera
 -Seperate Vector out into Vector + Vector3 classes
+-Add Event System
+-Add Threaded Job system + Thread Manager
