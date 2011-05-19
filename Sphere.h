@@ -21,8 +21,14 @@ public:
 	Sphere(const Sphere& orig);
 	virtual ~Sphere();
 
+	void draw() const;
+
 	Vector getPosition() const;
 	float getRadius() const;
+
+	AxisAlignedBox getAxisAlignedBox() const;
+	ObjectOrientedBox getObjectOrientedBox() const;
+	Sphere transform(Vector position) const;
 
 	bool collision(float x, float y, float z) const;
 	bool collision(const Vector& position) const;

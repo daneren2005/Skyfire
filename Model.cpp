@@ -31,7 +31,7 @@ void Model::draw()
 	glDisable(GL_BLEND);
 
 	// Draw bounding box outline
-	this->boundingBox.draw();
+	// this->boundingBox.draw();
 
 	for(int i = 0; i < this->used; i++)
 	{

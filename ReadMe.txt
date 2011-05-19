@@ -23,10 +23,12 @@ Window:
 
 TODO:
 -Collision Detection
-    --Finish AABB
+	--Finish OOBB
+	--Finish Sphere
+	--Test collisions detections for AABB, OOBB, Sphere
     --Add fine grained detection
     --Add cache system (first AABB, then more accurate)
--Speed up .obj loading
+-Speed up .obj loading (especially windows)
 -Fix jpeg loading
 -Add .3ds model loading
 -Seperate Cameras
@@ -36,3 +38,6 @@ TODO:
 -Seperate Vector out into Vector + Vector3 classes
 -Add Event System
 -Add Threaded Job system + Thread Manager
+-Model Mesh relationship
+	--Seperate Mesh and materials, both under model
+	--Add MeshPart that is currently a Mesh

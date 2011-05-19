@@ -10,6 +10,7 @@
 
 #include "Sphere.h"
 #include "ObjectOrientedBox.h"
+#include "Matrix4.h"
 #include <stdlib.h>
 
 AxisAlignedBox::AxisAlignedBox()
@@ -111,18 +112,34 @@ Array<Vector> AxisAlignedBox::getPoints() const
 	return points;
 }
 
-AxisAlignedBox AxisAlignedBox::transformBox(Vector position, Vector angle) const
+ObjectOrientedBox AxisAlignedBox::getObjectOrientedBox() const
+{
+	return ObjectOrientedBox(this->getPoints());
+}
+Sphere AxisAlignedBox::getSphere() const
+{
+	Vector diff = (this->max - this->min) / 2.0f;
+	Vector mid = this->min + diff;
+
+	return Sphere(mid, diff.magnitude());
+}
+
+AxisAlignedBox AxisAlignedBox::transform(Vector position, Vector angle) const
 {
 	// Get points that make up the box
 	Array<Vector> points = this->getPoints();
 
-	// TODO: rotations on all points
-	// Translation
+	// Translation of all the points
 	for(int i = 0; i < points.size(); i++)
 	{
+		// Rotation
+		Matrix4 rotate = Matrix4::rotateObject(angle);
+		points[i] = rotate * points[i];
+
+		// Translation
 		points[i][0] += position[0];
 		points[i][1] += position[1];
-		points[i][2] += position[2];
+		points[i][2] -= position[2];
 	}
 
 	// Re axis align the new box
@@ -143,6 +160,10 @@ AxisAlignedBox AxisAlignedBox::transformBox(Vector position, Vector angle) const
 			}
 		}
 	}
+
+	/*console << "Orig: " << min[0] << " " << min[1] << " " << min[2] << "   " << max[0] << " " << max[1] << " " << max[2] << newline;
+	console << "Position: " << position[0] << " " << position[1] << " " << position[2] << newline;
+	console << "New: " << min2[0] << " " << min2[1] << " " << min2[2] << "   " << max2[0] << " " << max2[1] << " " << max2[2] << newline;*/
 
 	return AxisAlignedBox(min2, max2);
 }
@@ -192,6 +213,6 @@ bool AxisAlignedBox::collision(const AxisAlignedBox& box) const
 
 bool AxisAlignedBox::collision(const ObjectOrientedBox& box) const
 {
-
+    
 }
 

@@ -27,7 +27,10 @@ public:
 	Vector getMin() const;
 	Vector getMax() const;
 	Array<Vector> getPoints() const;
-	AxisAlignedBox transformBox(Vector position, Vector angle) const;
+
+	ObjectOrientedBox getObjectOrientedBox() const;
+	Sphere getSphere() const;
+	AxisAlignedBox transform(Vector position, Vector angle) const;
 
 	bool collision(float x, float y, float z) const;
 	bool collision(const Vector& position) const;

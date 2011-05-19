@@ -32,6 +32,11 @@ Sphere::~Sphere()
 {
 }
 
+void Sphere::draw() const
+{
+	
+}
+
 Vector Sphere::getPosition() const
 {
 	return position;
@@ -39,6 +44,20 @@ Vector Sphere::getPosition() const
 float Sphere::getRadius() const
 {
 	return radius;
+}
+
+AxisAlignedBox Sphere::getAxisAlignedBox() const
+{
+
+}
+ObjectOrientedBox Sphere::getObjectOrientedBox() const
+{
+	
+}
+
+Sphere Sphere::transform(Vector position) const
+{
+	
 }
 
 bool Sphere::collision(float x, float y, float z) const

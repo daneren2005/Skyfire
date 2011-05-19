@@ -6,6 +6,7 @@
  */
 
 #include "StaticObject.h"
+#include "ObjectOrientedBox.h"
 
 StaticObject::StaticObject() : BaseObject()
 {
@@ -34,6 +35,9 @@ void StaticObject::draw()
 		return;
 	}
 
+	// this->getBoundingBox().draw();
+	// this->model->getBoundingBox().getObjectOrientedBox().transform(position, directionForward).draw();
+
 	// If in select mode, write object id to top of stack
 	glLoadName(this->objectId());
 	// Start a new matrix
@@ -44,5 +48,10 @@ void StaticObject::draw()
 	// Draw then pop back down to old stack
 	this->model->draw();
 	glPopMatrix();
+}
+
+AxisAlignedBox StaticObject::getBoundingBox()
+{
+	return this->model->getBoundingBox().transform(this->position, this->directionForward);
 }
 

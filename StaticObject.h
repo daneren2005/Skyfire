@@ -21,6 +21,7 @@ public:
 	virtual ~StaticObject();
 
 	virtual void draw();
+	virtual AxisAlignedBox getBoundingBox();
 protected:
 	Model* model;
 private:

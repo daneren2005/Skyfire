@@ -18,8 +18,17 @@ class ObjectOrientedBox
 {
 public:
 	ObjectOrientedBox();
+        ObjectOrientedBox(Array<Vector> points);
 	ObjectOrientedBox(const ObjectOrientedBox& orig);
 	virtual ~ObjectOrientedBox();
+
+	void draw() const;
+
+	Array<Vector> getPoints() const;
+
+	AxisAlignedBox getAxisAlignedBox() const;
+	Sphere getSphere() const;
+	ObjectOrientedBox transform(Vector position, Vector angle) const;
 
 	bool collision(float x, float y, float z) const;
 	bool collision(const Vector& position) const;
@@ -27,7 +36,7 @@ public:
 	bool collision(const AxisAlignedBox& box) const;
 	bool collision(const ObjectOrientedBox& box) const;
 private:
-
+    Array<Vector> points;
 };
 
 #endif	/* _OBJECTORIENTEDBOX_H */
