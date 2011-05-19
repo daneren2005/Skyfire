@@ -69,7 +69,7 @@ template <class T>
 T& Array<T>::operator[](unsigned col)
 {
 	if(col > this->used)
-		this->used = col;
+		this->used = col + 1;
 
 	return this->array[col];
 }
