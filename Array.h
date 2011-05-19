@@ -16,7 +16,9 @@ public:
 	virtual const T& operator[](unsigned col) const; 
 
 	long size();
+	long size() const;
 	long reserved();
+	long reserved() const;
 
 	void insert(T value);
 	void resize(unsigned long newSize);
@@ -66,6 +68,9 @@ Array<T>::~Array()
 template <class T>
 T& Array<T>::operator[](unsigned col)
 {
+	if(col > this->used)
+		this->used = col;
+
 	return this->array[col];
 }
 
@@ -80,9 +85,19 @@ long Array<T>::size()
 {
 	return this->used;
 }
+template <class T>
+long Array<T>::size() const
+{
+	return this->used;
+}
 
 template <class T>
 long Array<T>::reserved()
+{
+	return this->used;
+}
+template <class T>
+long Array<T>::reserved() const
 {
 	return this->used;
 }
