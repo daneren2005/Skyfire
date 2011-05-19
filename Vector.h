@@ -45,6 +45,9 @@ public:
 	Vector operator*(const float& rhs);
 	Vector operator*(const float& rhs) const;
 	Vector& operator*=(const float& rhs);
+	Vector operator/(const float& rhs);
+	Vector operator/(const float& rhs) const;
+	Vector& operator/=(const float& rhs);
 	Vector operator%(const float& amount);
 	Vector operator%(const float& amount) const;
 	Vector& operator%=(const float& amount);
@@ -54,6 +57,7 @@ public:
 
 	Vector operator!();
 	Vector projection(const Vector& b) const;
+	float magnitude() const;
 
 	float* getPointer();
 private:

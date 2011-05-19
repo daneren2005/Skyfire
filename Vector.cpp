@@ -7,6 +7,7 @@
 
 #include "Vector.h"
 #include "Exceptions.h"
+#include <math.h>
 
 Vector::Vector()
 {
@@ -143,6 +144,21 @@ Vector& Vector::operator*=(const float& rhs)
 	this->pos[2] *= rhs;
 	return *this;
 }
+Vector Vector::operator/(const float& rhs)
+{
+	return Vector(pos[0] / rhs, pos[1] / rhs, pos[2] / rhs);
+}
+Vector Vector::operator/(const float& rhs) const
+{
+	return Vector(pos[0] / rhs, pos[1] / rhs, pos[2] / rhs);
+}
+Vector& Vector::operator/=(const float& rhs)
+{
+	this->pos[0] /= rhs;
+	this->pos[1] /= rhs;
+	this->pos[2] /= rhs;
+	return *this;
+}
 
 Vector Vector::operator%(const float& amount)
 {
@@ -240,6 +256,11 @@ Vector Vector::projection(const Vector& b) const
 	float a = pos[0] * pos[0] + pos[1] * pos[1] + pos[2] * pos[2];
 
 	return *this * (dot / a);
+}
+
+float Vector::magnitude() const
+{
+	return sqrt(pos[0] * pos[0] + pos[1] * pos[1] + pos[2] * pos[2]);
 }
 
 float* Vector::getPointer()
