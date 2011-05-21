@@ -18,7 +18,7 @@ class ObjectOrientedBox
 {
 public:
 	ObjectOrientedBox();
-        ObjectOrientedBox(Array<Vector> points);
+	ObjectOrientedBox(Array<Vector> points);
 	ObjectOrientedBox(const ObjectOrientedBox& orig);
 	virtual ~ObjectOrientedBox();
 

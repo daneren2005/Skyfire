@@ -24,7 +24,6 @@ Window:
 TODO:
 -Collision Detection
 	--Finish OOBB
-	--Finish Sphere
 	--Test collisions detections for AABB, OOBB, Sphere
     --Add fine grained detection
     --Add cache system (first AABB, then more accurate)
@@ -41,3 +40,6 @@ TODO:
 -Model Mesh relationship
 	--Seperate Mesh and materials, both under model
 	--Add MeshPart that is currently a Mesh
+-GUI System
+	--Menu system (buttons, etc)
+	--HUD system

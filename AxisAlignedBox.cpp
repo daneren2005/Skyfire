@@ -213,6 +213,6 @@ bool AxisAlignedBox::collision(const AxisAlignedBox& box) const
 
 bool AxisAlignedBox::collision(const ObjectOrientedBox& box) const
 {
-    
+    return box.collision(*this);
 }
 

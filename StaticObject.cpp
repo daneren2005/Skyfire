@@ -7,6 +7,7 @@
 
 #include "StaticObject.h"
 #include "ObjectOrientedBox.h"
+#include "Sphere.h"
 
 StaticObject::StaticObject() : BaseObject()
 {
@@ -37,6 +38,7 @@ void StaticObject::draw()
 
 	// this->getBoundingBox().draw();
 	// this->model->getBoundingBox().getObjectOrientedBox().transform(position, directionForward).draw();
+	// this->model->getBoundingBox().getSphere().transform(this->position).draw();
 
 	// If in select mode, write object id to top of stack
 	glLoadName(this->objectId());

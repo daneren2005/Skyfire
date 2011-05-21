@@ -143,7 +143,7 @@ bool ObjectOrientedBox::collision(const Sphere& sphere) const
 }
 bool ObjectOrientedBox::collision(const AxisAlignedBox& box) const
 {
-    return box.collision(*this);
+    
 }
 bool ObjectOrientedBox::collision(const ObjectOrientedBox& box) const
 {
