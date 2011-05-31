@@ -8,8 +8,8 @@
       <itemPath>Camera.h</itemPath>
       <itemPath>Mesh.cpp</itemPath>
       <itemPath>Mesh.h</itemPath>
-      <itemPath>Model.cpp</itemPath>
-      <itemPath>Model.h</itemPath>
+      <itemPath>MeshPart.cpp</itemPath>
+      <itemPath>MeshPart.h</itemPath>
       <itemPath>ResourceManager.cpp</itemPath>
       <itemPath>ResourceManager.h</itemPath>
       <itemPath>Scene.cpp</itemPath>

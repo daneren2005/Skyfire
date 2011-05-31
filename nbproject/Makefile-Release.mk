@@ -47,15 +47,15 @@ OBJECTFILES= \
 	${OBJECTDIR}/FileDirectory.o \
 	${OBJECTDIR}/AxisObject.o \
 	${OBJECTDIR}/Particle.o \
+	${OBJECTDIR}/MeshPart.o \
 	${OBJECTDIR}/StopWatch.o \
 	${OBJECTDIR}/Camera.o \
 	${OBJECTDIR}/Sphere.o \
-	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/Key.o \
+	${OBJECTDIR}/ParticleEmitter.o \
 	${OBJECTDIR}/Scene.o \
 	${OBJECTDIR}/Vector.o \
-	${OBJECTDIR}/ParticleEmitter.o \
 	${OBJECTDIR}/CString.o \
 	${OBJECTDIR}/ParticleSystem.o \
 	${OBJECTDIR}/AnimateObject.o \
@@ -172,6 +172,11 @@ ${OBJECTDIR}/Particle.o: nbproject/Makefile-${CND_CONF}.mk Particle.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Particle.o Particle.cpp
 
+${OBJECTDIR}/MeshPart.o: nbproject/Makefile-${CND_CONF}.mk MeshPart.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/MeshPart.o MeshPart.cpp
+
 ${OBJECTDIR}/StopWatch.o: nbproject/Makefile-${CND_CONF}.mk StopWatch.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -187,11 +192,6 @@ ${OBJECTDIR}/Sphere.o: nbproject/Makefile-${CND_CONF}.mk Sphere.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Sphere.o Sphere.cpp
 
-${OBJECTDIR}/Model.o: nbproject/Makefile-${CND_CONF}.mk Model.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Model.o Model.cpp
-
 ${OBJECTDIR}/Mesh.o: nbproject/Makefile-${CND_CONF}.mk Mesh.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -202,6 +202,11 @@ ${OBJECTDIR}/Key.o: nbproject/Makefile-${CND_CONF}.mk Key.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Key.o Key.cpp
 
+${OBJECTDIR}/ParticleEmitter.o: nbproject/Makefile-${CND_CONF}.mk ParticleEmitter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleEmitter.o ParticleEmitter.cpp
+
 ${OBJECTDIR}/Scene.o: nbproject/Makefile-${CND_CONF}.mk Scene.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -211,11 +216,6 @@ ${OBJECTDIR}/Vector.o: nbproject/Makefile-${CND_CONF}.mk Vector.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Vector.o Vector.cpp
-
-${OBJECTDIR}/ParticleEmitter.o: nbproject/Makefile-${CND_CONF}.mk ParticleEmitter.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleEmitter.o ParticleEmitter.cpp
 
 ${OBJECTDIR}/CString.o: nbproject/Makefile-${CND_CONF}.mk CString.cpp 
 	${MKDIR} -p ${OBJECTDIR}

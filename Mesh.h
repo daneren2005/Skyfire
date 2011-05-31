@@ -1,53 +1,25 @@
-/*
- * File:   Mesh.h
- * Author: scott
- *
- * Created on September 29, 2010, 4:04 PM
- */
+#ifndef _MESH_H
+#define	_MESH_H
 
-#ifndef _Mesh_H
-#define	_Mesh_H
+#include "MeshPart.h"
+#include "AxisAlignedBox.h"
 
-#include "Array.h"
-#include "Triangle.h"
-#include "Bitmap.h"
-#include "Vector.h"
-
-struct Vertex
-{
-	Vector position;
-	Vector normal;
-	Vector texture;
-};
-
-struct Material
-{
-	float ambient[3];
-	float diffuse[3];
-	float specular[3];
-	float shininess;
-	float transparency; // 1 = normal, 0 = transparent
-	float refraction; // 1 = light doesnt bend, > 1 = light bends
-	float transmissionFiler[3]; // light filter for rgb, 1 = allows, 0 = disallows
-	Bitmap* diffuseMap;
-	Bitmap* bumpMap;
-};
-
-class Mesh : public Array<Vertex>
+class Mesh : public Array<MeshPart*>
 {
 public:
 	Mesh();
-	Mesh(unsigned long size, bool wireFrame = false);
+	Mesh(unsigned long size);
 	Mesh(const Mesh& orig);
 	virtual ~Mesh();
 
-	void draw();
+	AxisAlignedBox getBoundingBox();
+	void computeBoundingBox();
 
-	Material material;
-	void setWireFrame(bool option);
+	long numTriangles();
+
+	void draw();
 private:
-	bool wireFrame;
+	AxisAlignedBox boundingBox;
 };
 
-#endif	/* _Mesh_H */
-
+#endif

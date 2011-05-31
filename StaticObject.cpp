@@ -11,17 +11,17 @@
 
 StaticObject::StaticObject() : BaseObject()
 {
-	this->model = NULL;
+	this->mesh = NULL;
 }
 
 StaticObject::StaticObject(float x, float y, float z) : BaseObject(x, y, z)
 {
-	this->model = NULL;
+	this->mesh = NULL;
 }
 
 StaticObject::StaticObject(const StaticObject& orig) : BaseObject(orig)
 {
-	this->model = orig.model;
+	this->mesh = orig.mesh;
 }
 
 StaticObject::~StaticObject()
@@ -31,14 +31,14 @@ StaticObject::~StaticObject()
 void StaticObject::draw()
 {
 	// Already drawn if camera is not null
-	if(this->model == NULL)
+	if(this->mesh == NULL)
 	{
 		return;
 	}
 
 	// this->getBoundingBox().draw();
-	// this->model->getBoundingBox().getObjectOrientedBox().transform(position, directionForward).draw();
-	// this->model->getBoundingBox().getSphere().transform(this->position).draw();
+	// this->mesh->getBoundingBox().getObjectOrientedBox().transform(position, directionForward).draw();
+	// this->mesh->getBoundingBox().getSphere().transform(this->position).draw();
 
 	// If in select mode, write object id to top of stack
 	glLoadName(this->objectId());
@@ -48,12 +48,12 @@ void StaticObject::draw()
 	this->transform();
 
 	// Draw then pop back down to old stack
-	this->model->draw();
+	this->mesh->draw();
 	glPopMatrix();
 }
 
 AxisAlignedBox StaticObject::getBoundingBox()
 {
-	return this->model->getBoundingBox().transform(this->position, this->directionForward);
+	return this->mesh->getBoundingBox().transform(this->position, this->directionForward);
 }
 

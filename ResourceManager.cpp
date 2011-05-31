@@ -29,52 +29,52 @@ ResourceManager::~ResourceManager()
 {
 }
 
-void ResourceManager::loadModel(char* filename, char* name)
+void ResourceManager::loadMesh(char* filename, char* name)
 {
-	this->loadModel(String(filename), String(name));
+	this->loadMesh(String(filename), String(name));
 }
-void ResourceManager::loadModel(char* filename, String name)
+void ResourceManager::loadMesh(char* filename, String name)
 {
-	this->loadModel(String(filename), name);
+	this->loadMesh(String(filename), name);
 }
-void ResourceManager::loadModel(String filename, char* name)
+void ResourceManager::loadMesh(String filename, char* name)
 {
-	this->loadModel(filename, String(name));
+	this->loadMesh(filename, String(name));
 }
-void ResourceManager::loadModel(String filename, String name)
+void ResourceManager::loadMesh(String filename, String name)
 {
 	File file(filename);
 
 	if(file.fileType() == "obj")
 	{
-		Model* model = this->loadObj(file);
+		Mesh* model = this->loadObj(file);
 		if(model != 0x0)
 		{
-			this->models.insert(name, model);
+			this->meshes.insert(name, model);
 		}
 	}
 }
 
-void ResourceManager::addModel(Model* model, char* name)
+void ResourceManager::addMesh(Mesh* mesh, char* name)
 {
-	this->addModel(model, String(name));
+	this->addMesh(mesh, String(name));
 }
-void ResourceManager::addModel(Model* model, String name)
+void ResourceManager::addMesh(Mesh* mesh, String name)
 {
-	models.insert(name, model);
-}
-
-Model* ResourceManager::getModel(char* name)
-{
-	return this->getModel(String(name));
+	meshes.insert(name, mesh);
 }
 
-Model* ResourceManager::getModel(String name)
+Mesh* ResourceManager::getMesh(char* name)
 {
-	return models.search(name);
+	return this->getMesh(String(name));
 }
 
-Model* ResourceManager::loadObj(File file)
+Mesh* ResourceManager::getMesh(String name)
+{
+	return meshes.search(name);
+}
+
+Mesh* ResourceManager::loadObj(File file)
 {
 	file.open();
 	if(!file.isOpen())
@@ -85,12 +85,8 @@ Model* ResourceManager::loadObj(File file)
 
 	String cmd;
 
-	Model* model = new Model(1);
-	String modelName;
-	int model_i = 0;
-	Mesh* mesh = new Mesh(10);
-	String meshName;
-	int mesh_i = 0;
+	Mesh* mesh = new Mesh(1);
+	MeshPart* meshPart = new MeshPart(10);
 
 	// TODO: probably shouldn't start with such large vectors...
 	Array<Vector> geometricVectors(10000);
@@ -156,15 +152,15 @@ Model* ResourceManager::loadObj(File file)
 
 						pos = r1.toInt();
 						v.position = geometricVectors[pos - 1];
-						mesh->insert(v);
+						meshPart->insert(v);
 
 						pos = r2.toInt();
 						v.position = geometricVectors[pos - 1];
-						mesh->insert(v);
+						meshPart->insert(v);
 
 						pos = r3.toInt();
 						v.position = geometricVectors[pos - 1];
-						mesh->insert(v);
+						meshPart->insert(v);
 					}
 					else
 					{
@@ -186,7 +182,7 @@ Model* ResourceManager::loadObj(File file)
 							pos = parts[2].toInt();
 							v.normal = normalVectors[pos - 1];
 						}
-						mesh->insert(v);
+						meshPart->insert(v);
 
 						// Vertex 2
 						parts = r2.split('/');
@@ -202,7 +198,7 @@ Model* ResourceManager::loadObj(File file)
 							pos = parts[2].toInt();
 							v.normal = normalVectors[pos - 1];
 						}
-						mesh->insert(v);
+						meshPart->insert(v);
 
 						// Vertex 3
 						parts = r3.split('/');
@@ -218,7 +214,7 @@ Model* ResourceManager::loadObj(File file)
 							pos = parts[2].toInt();
 							v.normal = normalVectors[pos - 1];
 						}
-						mesh->insert(v);
+						meshPart->insert(v);
 					}
 
 					if(work)
@@ -244,7 +240,7 @@ Model* ResourceManager::loadObj(File file)
 					}
 					catch(...)
 					{
-						console << "ModelManage::loadMtl error: Failed to load material file " << libraryFile.fullPath() << newline;
+						console << "MeshManage::loadMtl error: Failed to load material file " << libraryFile.fullPath() << newline;
 					}
 				}
 
@@ -260,20 +256,18 @@ Model* ResourceManager::loadObj(File file)
 					try
 					{
 						Material* temp = materials.search(materialName2);
-						mesh->material = *temp;
+						meshPart->material = *temp;
 					}
 					catch(...)
 					{
-						mesh->setWireFrame(true);
+						meshPart->setWireFrame(true);
 					}
 
-					if(mesh->size() != 0)
+					if(meshPart->size() != 0)
 					{
-						mesh->resize(mesh->size());
-						model->insert(mesh);
-						model_i++;
-						mesh = new Mesh(10);
-						mesh_i = 0;
+						meshPart->resize(meshPart->size());
+						mesh->insert(meshPart);
+						meshPart = new MeshPart(10);
 					}
 				}
 
@@ -286,12 +280,12 @@ Model* ResourceManager::loadObj(File file)
 
 	file.close();
 
+	meshPart->resize(meshPart->size());
+	mesh->insert(meshPart);
 	mesh->resize(mesh->size());
-	model->insert(mesh);
-	model->resize(model->size());
 
-	model->computeBoundingBox();
-	return model;
+	mesh->computeBoundingBox();
+	return mesh;
 }
 
 Map<String, Material*> ResourceManager::loadMtl(File file)

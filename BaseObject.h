@@ -8,7 +8,7 @@
 #ifndef _BASEOBJECT_H
 #define	_BASEOBJECT_H
 
-#include "Model.h"
+#include "Mesh.h"
 #include "Matrix4.h"
 #include "Vector.h"
 
