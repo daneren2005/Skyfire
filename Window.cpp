@@ -32,7 +32,6 @@ Window::Window()
 	pthread_mutex_init(&this->glLock, NULL);
 
 	this->input = new Input();
-	frameRate = Rate(60);
 }
 
 Window::Window(int width, int height)
@@ -58,7 +57,6 @@ Window::Window(int width, int height)
 	pthread_mutex_init(&this->glLock, NULL);
 
 	this->input = new Input();
-	frameRate = Rate(60);
 }
 
 Window::~Window()
@@ -80,6 +78,7 @@ Window::~Window()
 	#endif
 
 	// Start rendering
+	renderThread.setTicksPerSecond(60);
 	renderThread.start(renderFunction, this, initWin);
 }
 
@@ -248,7 +247,7 @@ void* Window::renderFunction(void* arg)
 	Thread* thread = (Thread*)arg;
 	Window* win = (Window*)thread->getArg();
 
-	win->frameRate.executeStart();
+	// win->frameRate.executeStart();
 
 	// Proccess events
 	#ifdef WIN32
@@ -285,7 +284,7 @@ void* Window::renderFunction(void* arg)
 	#endif
 
 	// Keep track of how many frames are being drawn person second
-	win->frameRate.executeEnd();
+	// win->frameRate.executeEnd();
 
 	#ifdef WIN32
 		// Set window title to current frame rate
@@ -296,7 +295,9 @@ void* Window::renderFunction(void* arg)
 		SetWindowText(win->winHandle, temp2.c_str());
 	#endif
 	#ifdef __linux__
-		// std::cout << win->frameRate.framesPerSecond() << std::endl;
+		int frames = thread->getTicksPerSecond();
+		String tmp(frames);
+		SDL_WM_SetCaption(tmp.cStr(), "Orcid");
 	#endif
 
 	// Doesn't compile without returning something

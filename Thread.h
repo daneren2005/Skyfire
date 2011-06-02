@@ -10,6 +10,7 @@
 #include <GL/glu.h>
 
 #include <pthread.h>
+#include "StopWatch.h"
 
 class Window;
 
@@ -26,6 +27,9 @@ public:
 	void waitFor();
 
 	void* getArg();
+
+	void setTicksPerSecond(int ticks = 0);
+	int getTicksPerSecond();
 private:
 	void* arg;
 
@@ -36,6 +40,11 @@ private:
 	pthread_t id;
 
 	static void* threadFunction(void* arg);
+
+	StopWatch clock;
+	double period;
+	int counter;
+	int returnCounter;
 };
 
 #endif

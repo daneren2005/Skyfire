@@ -41,7 +41,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/Universe.o \
 	${OBJECTDIR}/ObjectOrientedBox.o \
 	${OBJECTDIR}/Rectangle.o \
-	${OBJECTDIR}/Rate.o \
 	${OBJECTDIR}/BaseObject.o \
 	${OBJECTDIR}/Window.o \
 	${OBJECTDIR}/FileDirectory.o \
@@ -141,11 +140,6 @@ ${OBJECTDIR}/Rectangle.o: nbproject/Makefile-${CND_CONF}.mk Rectangle.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Rectangle.o Rectangle.cpp
-
-${OBJECTDIR}/Rate.o: nbproject/Makefile-${CND_CONF}.mk Rate.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Rate.o Rate.cpp
 
 ${OBJECTDIR}/BaseObject.o: nbproject/Makefile-${CND_CONF}.mk BaseObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -23,7 +23,6 @@
 
 #include "Scene.h"
 #include "Input.h"
-#include "Rate.h"
 
 #include "Thread.h"
 
@@ -79,7 +78,6 @@ private:
 
 	// Render scene, thread, and function
 	pthread_mutex_t glLock;
-	Rate frameRate;
 	Scene* renderScene;
 	Thread renderThread;
 	static void* renderFunction(void* arg);

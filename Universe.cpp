@@ -13,8 +13,6 @@ Universe::Universe()
 	this->running = false;
 	this->camera = new Camera();
 	this->input = NULL;
-
-	this->updateRate = Rate(60);
 }
 
 Universe::Universe(const Universe& orig)
@@ -43,6 +41,7 @@ void Universe::start()
 {
 	this->running = true;
 	this->timer.start();
+	updateThread.setTicksPerSecond(60);
 	updateThread.start(updateFunction, this);
 }
 void Universe::resume()
@@ -69,8 +68,6 @@ void* Universe::updateFunction(void* arg)
 	Thread* thread = (Thread*)arg;
 	Universe* uni = (Universe*)thread->getArg();
 
-	uni->updateRate.executeStart();
-
 	float interval = (float)uni->timer.elapsedTime();
 
 	if(uni->input != NULL)
@@ -85,8 +82,6 @@ void* Universe::updateFunction(void* arg)
 		region = it.value();
 		region->update(interval);
 	}
-
-	uni->updateRate.executeEnd();
 
 	return NULL;
 }

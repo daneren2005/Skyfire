@@ -78,8 +78,6 @@
       <itemPath>Window.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f4" displayName="Utilities" projectFiles="true">
-      <itemPath>Rate.cpp</itemPath>
-      <itemPath>Rate.h</itemPath>
       <itemPath>StopWatch.cpp</itemPath>
       <itemPath>StopWatch.h</itemPath>
       <itemPath>Thread.cpp</itemPath>
