@@ -19,6 +19,7 @@
 #define	_ResourceManager_H
 
 #include "Map.h"
+#include "Model.h"
 #include "Mesh.h"
 #include "File.h"
 #include "CString.h"
@@ -31,16 +32,16 @@ public:
 	ResourceManager(const ResourceManager& orig);
 	virtual ~ResourceManager();
 
-	void loadMesh(char* filename, char* name);
-	void loadMesh(char* filename, String name);
-	void loadMesh(String filename, char* name);
-	void loadMesh(String filename, String name);
-	void addMesh(Mesh* mesh, char* name);
-	void addMesh(Mesh* mesh, String name);
-	Mesh* getMesh(char* name);
-	Mesh* getMesh(String name);
+	void loadModel(char* filename, char* name);
+	void loadModel(char* filename, String name);
+	void loadModel(String filename, char* name);
+	void loadModel(String filename, String name);
+	void addModel(Model* mesh, char* name);
+	void addModel(Model* mesh, String name);
+	Model* getModel(char* name);
+	Model* getModel(String name);
 private:
-	Map<String, Mesh*> meshes;
+	Map<String, Model*> models;
 
 	// Individual filetype load functions
 	Mesh* loadObj(File file);

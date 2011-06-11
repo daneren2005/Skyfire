@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="62">
   <logicalFolder name="root" displayName="root" projectFiles="true">
-    <logicalFolder name="f6" displayName="Graphics" projectFiles="true">
-      <itemPath>Bitmap.cpp</itemPath>
-      <itemPath>Bitmap.h</itemPath>
-      <itemPath>Camera.cpp</itemPath>
-      <itemPath>Camera.h</itemPath>
-      <itemPath>Mesh.cpp</itemPath>
-      <itemPath>Mesh.h</itemPath>
-      <itemPath>MeshPart.cpp</itemPath>
-      <itemPath>MeshPart.h</itemPath>
-      <itemPath>ResourceManager.cpp</itemPath>
-      <itemPath>ResourceManager.h</itemPath>
-      <itemPath>Scene.cpp</itemPath>
-      <itemPath>Scene.h</itemPath>
-      <itemPath>Triangle.cpp</itemPath>
-      <itemPath>Triangle.h</itemPath>
-    </logicalFolder>
-    <logicalFolder name="f8" displayName="IO" projectFiles="true">
+    <logicalFolder name="f3" displayName="Core" projectFiles="true">
       <itemPath>Array.h</itemPath>
       <itemPath>CString.cpp</itemPath>
       <itemPath>CString.h</itemPath>
@@ -30,6 +14,38 @@
       <itemPath>FileDirectory.h</itemPath>
       <itemPath>List.h</itemPath>
       <itemPath>Map.h</itemPath>
+      <itemPath>StopWatch.cpp</itemPath>
+      <itemPath>StopWatch.h</itemPath>
+      <itemPath>Thread.cpp</itemPath>
+      <itemPath>Thread.h</itemPath>
+      <itemPath>const.h</itemPath>
+      <itemPath>conversion.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f6" displayName="Graphics" projectFiles="true">
+      <itemPath>Bitmap.cpp</itemPath>
+      <itemPath>Bitmap.h</itemPath>
+      <itemPath>Camera.cpp</itemPath>
+      <itemPath>Camera.h</itemPath>
+      <itemPath>Mesh.cpp</itemPath>
+      <itemPath>Mesh.h</itemPath>
+      <itemPath>MeshPart.cpp</itemPath>
+      <itemPath>MeshPart.h</itemPath>
+      <itemPath>Model.cpp</itemPath>
+      <itemPath>Model.h</itemPath>
+      <itemPath>ResourceManager.cpp</itemPath>
+      <itemPath>ResourceManager.h</itemPath>
+      <itemPath>Scene.cpp</itemPath>
+      <itemPath>Scene.h</itemPath>
+      <itemPath>Triangle.cpp</itemPath>
+      <itemPath>Triangle.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f2" displayName="GUI" projectFiles="true">
+      <itemPath>Input.cpp</itemPath>
+      <itemPath>Input.h</itemPath>
+      <itemPath>Key.cpp</itemPath>
+      <itemPath>Key.h</itemPath>
+      <itemPath>Window.cpp</itemPath>
+      <itemPath>Window.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f9" displayName="Math" projectFiles="true">
       <itemPath>AxisAlignedBox.cpp</itemPath>
@@ -68,22 +84,6 @@
       <itemPath>StaticObject.h</itemPath>
       <itemPath>Universe.cpp</itemPath>
       <itemPath>Universe.h</itemPath>
-    </logicalFolder>
-    <logicalFolder name="f2" displayName="UI" projectFiles="true">
-      <itemPath>Input.cpp</itemPath>
-      <itemPath>Input.h</itemPath>
-      <itemPath>Key.cpp</itemPath>
-      <itemPath>Key.h</itemPath>
-      <itemPath>Window.cpp</itemPath>
-      <itemPath>Window.h</itemPath>
-    </logicalFolder>
-    <logicalFolder name="f4" displayName="Utilities" projectFiles="true">
-      <itemPath>StopWatch.cpp</itemPath>
-      <itemPath>StopWatch.h</itemPath>
-      <itemPath>Thread.cpp</itemPath>
-      <itemPath>Thread.h</itemPath>
-      <itemPath>const.h</itemPath>
-      <itemPath>conversion.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

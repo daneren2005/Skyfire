@@ -15,33 +15,26 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _MESH_H
-#define	_MESH_H
+#ifndef _MODEL_H
+#define	_MODEL_H
 
-#include "Model.h"
-#include "MeshPart.h"
 #include "AxisAlignedBox.h"
 
-class Mesh : public Model
+class Model
 {
 public:
-	Mesh();
-	Mesh(unsigned long size);
-	Mesh(const Mesh& orig);
-	virtual ~Mesh();
+	Model();
+	Model(const Model& orig);
+	virtual ~Model();
 
-	void insert(MeshPart* mesh);
-	void remove(MeshPart* mesh);
-	long size();
+	virtual void computeBoundingBox() = 0;
+	virtual AxisAlignedBox getBoundingBox() = 0;
 
-	virtual void computeBoundingBox();
-	virtual AxisAlignedBox getBoundingBox();
-
-	virtual void draw();
-	virtual long numTriangles();
+	virtual void draw() = 0;
+	virtual long numTriangles() = 0;
 private:
-	Array<MeshPart*> meshParts;
-	AxisAlignedBox boundingBox;
+
 };
 
-#endif
+#endif	/* _MODEL_H */
+

@@ -18,19 +18,19 @@
 #include "Mesh.h"
 #include "const.h"
 
-Mesh::Mesh() : Array<MeshPart*>()
+Mesh::Mesh() : Model()
 {
 	
 }
 
-Mesh::Mesh(unsigned long size) : Array<MeshPart*>(size)
+Mesh::Mesh(unsigned long size) : Model()
 {
-	
+	meshParts = Array<MeshPart*>(size);
 }
 
-Mesh::Mesh(const Mesh& orig) : Array<MeshPart*>(orig)
+Mesh::Mesh(const Mesh& orig) : Model(orig)
 {
-	
+	meshParts = orig.meshParts;
 }
 
 Mesh::~Mesh()
@@ -38,42 +38,22 @@ Mesh::~Mesh()
 	
 }
 
-long Mesh::numTriangles()
+void Mesh::insert(MeshPart* mesh)
 {
-	long num = 0;
-	for(int i = 0; i < this->used; i++)
-	{
-		console << array[i]->size() << newline;
-		num += array[i]->size();
-	}
-
-	return num / 3;
+	meshParts.insert(mesh);
+}
+long Mesh::size()
+{
+	return meshParts.size();
 }
 
-void Mesh::draw()
-{
-	glDisable(GL_BLEND);
-
-	// Draw bounding box outline
-	// this->boundingBox.draw();
-
-	for(int i = 0; i < this->used; i++)
-	{
-		array[i]->draw();
-	}
-}
-
-AxisAlignedBox Mesh::getBoundingBox()
-{
-	return this->boundingBox;
-}
 void Mesh::computeBoundingBox()
 {
 	Vector min(MAXFLOAT, MAXFLOAT, MAXFLOAT);
 	Vector max(MINFLOAT, MINFLOAT, MINFLOAT);
-	for(int i = 0; i < this->used; i++)
+	for(int i = 0; i < meshParts.size(); i++)
 	{
-		MeshPart* mesh = array[i];
+		MeshPart* mesh = meshParts[i];
 		for(int j = 0; j < mesh->size(); j++)
 		{
 			Vector v = (*mesh)[j].position;
@@ -107,4 +87,32 @@ void Mesh::computeBoundingBox()
 	}
 
 	this->boundingBox = AxisAlignedBox(min, max);
+}
+AxisAlignedBox Mesh::getBoundingBox()
+{
+	return this->boundingBox;
+}
+
+void Mesh::draw()
+{
+	glDisable(GL_BLEND);
+
+	// Draw bounding box outline
+	// this->boundingBox.draw();
+
+	for(int i = 0; i < meshParts.size(); i++)
+	{
+		meshParts[i]->draw();
+	}
+}
+
+long Mesh::numTriangles()
+{
+	long num = 0;
+	for(int i = 0; i < meshParts.size(); i++)
+	{
+		num += meshParts[i]->size();
+	}
+
+	return num / 3;
 }

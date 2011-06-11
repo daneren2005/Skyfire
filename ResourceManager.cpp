@@ -39,19 +39,19 @@ ResourceManager::~ResourceManager()
 {
 }
 
-void ResourceManager::loadMesh(char* filename, char* name)
+void ResourceManager::loadModel(char* filename, char* name)
 {
-	this->loadMesh(String(filename), String(name));
+	this->loadModel(String(filename), String(name));
 }
-void ResourceManager::loadMesh(char* filename, String name)
+void ResourceManager::loadModel(char* filename, String name)
 {
-	this->loadMesh(String(filename), name);
+	this->loadModel(String(filename), name);
 }
-void ResourceManager::loadMesh(String filename, char* name)
+void ResourceManager::loadModel(String filename, char* name)
 {
-	this->loadMesh(filename, String(name));
+	this->loadModel(filename, String(name));
 }
-void ResourceManager::loadMesh(String filename, String name)
+void ResourceManager::loadModel(String filename, String name)
 {
 	File file(filename);
 
@@ -60,28 +60,28 @@ void ResourceManager::loadMesh(String filename, String name)
 		Mesh* model = this->loadObj(file);
 		if(model != 0x0)
 		{
-			this->meshes.insert(name, model);
+			this->models.insert(name, model);
 		}
 	}
 }
 
-void ResourceManager::addMesh(Mesh* mesh, char* name)
+void ResourceManager::addModel(Model* model, char* name)
 {
-	this->addMesh(mesh, String(name));
+	this->addModel(model, String(name));
 }
-void ResourceManager::addMesh(Mesh* mesh, String name)
+void ResourceManager::addModel(Model* model, String name)
 {
-	meshes.insert(name, mesh);
-}
-
-Mesh* ResourceManager::getMesh(char* name)
-{
-	return this->getMesh(String(name));
+	models.insert(name, model);
 }
 
-Mesh* ResourceManager::getMesh(String name)
+Model* ResourceManager::getModel(char* name)
 {
-	return meshes.search(name);
+	return this->getModel(String(name));
+}
+
+Model* ResourceManager::getModel(String name)
+{
+	return models.search(name);
 }
 
 Mesh* ResourceManager::loadObj(File file)
@@ -292,7 +292,7 @@ Mesh* ResourceManager::loadObj(File file)
 
 	meshPart->resize(meshPart->size());
 	mesh->insert(meshPart);
-	mesh->resize(mesh->size());
+	// mesh->resize(mesh->size());
 
 	mesh->computeBoundingBox();
 	return mesh;

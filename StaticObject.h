@@ -33,7 +33,7 @@ public:
 	virtual void draw();
 	virtual AxisAlignedBox getBoundingBox();
 protected:
-	Mesh* mesh;
+	Model* model;
 private:
 
 };

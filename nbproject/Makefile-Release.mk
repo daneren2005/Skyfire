@@ -50,6 +50,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/StopWatch.o \
 	${OBJECTDIR}/Camera.o \
 	${OBJECTDIR}/Sphere.o \
+	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/Key.o \
 	${OBJECTDIR}/ParticleEmitter.o \
@@ -185,6 +186,11 @@ ${OBJECTDIR}/Sphere.o: nbproject/Makefile-${CND_CONF}.mk Sphere.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Sphere.o Sphere.cpp
+
+${OBJECTDIR}/Model.o: nbproject/Makefile-${CND_CONF}.mk Model.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Model.o Model.cpp
 
 ${OBJECTDIR}/Mesh.o: nbproject/Makefile-${CND_CONF}.mk Mesh.cpp 
 	${MKDIR} -p ${OBJECTDIR}
