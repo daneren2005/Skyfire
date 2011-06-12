@@ -54,8 +54,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/Key.o \
 	${OBJECTDIR}/ParticleEmitter.o \
-	${OBJECTDIR}/Scene.o \
 	${OBJECTDIR}/Vector.o \
+	${OBJECTDIR}/Scene.o \
 	${OBJECTDIR}/CString.o \
 	${OBJECTDIR}/ParticleSystem.o \
 	${OBJECTDIR}/AnimateObject.o \
@@ -64,6 +64,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Quaternion.o \
 	${OBJECTDIR}/Region.o \
 	${OBJECTDIR}/AxisAlignedBox.o \
+	${OBJECTDIR}/Material.o \
 	${OBJECTDIR}/Console.o
 
 # C Compiler Flags
@@ -207,15 +208,15 @@ ${OBJECTDIR}/ParticleEmitter.o: nbproject/Makefile-${CND_CONF}.mk ParticleEmitte
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleEmitter.o ParticleEmitter.cpp
 
-${OBJECTDIR}/Scene.o: nbproject/Makefile-${CND_CONF}.mk Scene.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scene.o Scene.cpp
-
 ${OBJECTDIR}/Vector.o: nbproject/Makefile-${CND_CONF}.mk Vector.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Vector.o Vector.cpp
+
+${OBJECTDIR}/Scene.o: nbproject/Makefile-${CND_CONF}.mk Scene.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scene.o Scene.cpp
 
 ${OBJECTDIR}/CString.o: nbproject/Makefile-${CND_CONF}.mk CString.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -256,6 +257,11 @@ ${OBJECTDIR}/AxisAlignedBox.o: nbproject/Makefile-${CND_CONF}.mk AxisAlignedBox.
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisAlignedBox.o AxisAlignedBox.cpp
+
+${OBJECTDIR}/Material.o: nbproject/Makefile-${CND_CONF}.mk Material.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Material.o Material.cpp
 
 ${OBJECTDIR}/Console.o: nbproject/Makefile-${CND_CONF}.mk Console.cpp 
 	${MKDIR} -p ${OBJECTDIR}

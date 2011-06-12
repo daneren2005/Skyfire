@@ -22,25 +22,13 @@
 #include "Triangle.h"
 #include "Bitmap.h"
 #include "Vector.h"
+#include "Material.h"
 
 struct Vertex
 {
 	Vector position;
 	Vector normal;
 	Vector texture;
-};
-
-struct Material
-{
-	float ambient[3];
-	float diffuse[3];
-	float specular[3];
-	float shininess;
-	float transparency; // 1 = normal, 0 = transparent
-	float refraction; // 1 = light doesnt bend, > 1 = light bends
-	float transmissionFiler[3]; // light filter for rgb, 1 = allows, 0 = disallows
-	Bitmap* diffuseMap;
-	Bitmap* bumpMap;
 };
 
 class MeshPart : public Array<Vertex>
@@ -53,9 +41,32 @@ public:
 
 	void draw();
 
-	Material material;
+	Material getMaterial();
+	void setMaterial(const Material& material);
+	float* getAmbientMaterial();
+	void setAmbientMaterial(float r, float g, float b);
+	float* getDiffuseMaterial();
+	void setDiffuseMaterial(float r, float g, float b);
+	float* getSpecularMaterial();
+	void setSpecularMaterial(float r, float g, float b);
+	float getShininess();
+	void setShininess(float shine);
+	float getTransparency();
+	void setTransparency(float transparency);
+	float getRefraction();
+	void setRefraction(float refraction);
+	float* getTransmissionFilter();
+	void setTransmissionFilter(float r, float g, float b);
+	Bitmap* getTextureMap();
+	void setTextureMap(Bitmap* bitmap);
+	Bitmap* getDiffuseMap();
+	void setDiffuseMap(Bitmap* bitmap);
+	Bitmap* getBumpMap();
+	void setBumpMap(Bitmap* bitmap);
+
 	void setWireFrame(bool option);
 private:
+	Material material;
 	bool wireFrame;
 };
 

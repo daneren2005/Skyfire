@@ -81,6 +81,103 @@ void MeshPart::draw()
 	glDisable(GL_LIGHTING);
 }
 
+Material MeshPart::getMaterial()
+{
+	return this->material;
+}
+void MeshPart::setMaterial(const Material& material)
+{
+	this->material = material;
+}
+float* MeshPart::getAmbientMaterial()
+{
+	return this->material.ambient;
+}
+void MeshPart::setAmbientMaterial(float r, float g, float b)
+{
+	this->material.ambient[0] = r;
+	this->material.ambient[1] = g;
+	this->material.ambient[2] = b;
+}
+float* MeshPart::getDiffuseMaterial()
+{
+	return this->material.diffuse;
+}
+void MeshPart::setDiffuseMaterial(float r, float g, float b)
+{
+	this->material.diffuse[0] = r;
+	this->material.diffuse[1] = g;
+	this->material.diffuse[2] = b;
+}
+float* MeshPart::getSpecularMaterial()
+{
+	return this->material.specular;
+}
+void MeshPart::setSpecularMaterial(float r, float g, float b)
+{
+	this->material.specular[0] = r;
+	this->material.specular[1] = g;
+	this->material.specular[2] = b;
+}
+float MeshPart::getShininess()
+{
+	return this->material.shininess;
+}
+void MeshPart::setShininess(float shine)
+{
+	this->material.shininess = shine;
+}
+float MeshPart::getTransparency()
+{
+	return this->material.transparency;
+}
+void MeshPart::setTransparency(float transparency)
+{
+	this->material.transparency = transparency;
+}
+float MeshPart::getRefraction()
+{
+	return this->material.refraction;
+}
+void MeshPart::setRefraction(float refraction)
+{
+	this->material.refraction = refraction;
+}
+float* MeshPart::getTransmissionFilter()
+{
+	return this->material.transmissionFilter;
+}
+void MeshPart::setTransmissionFilter(float r, float g, float b)
+{
+	this->material.transmissionFilter[0] = r;
+	this->material.transmissionFilter[1] = g;
+	this->material.transmissionFilter[2] = b;
+}
+Bitmap* MeshPart::getTextureMap()
+{
+	return this->material.textureMap;
+}
+void MeshPart::setTextureMap(Bitmap* bitmap)
+{
+	this->material.textureMap = bitmap;
+}
+Bitmap* MeshPart::getDiffuseMap()
+{
+	return this->material.diffuseMap;
+}
+void MeshPart::setDiffuseMap(Bitmap* bitmap)
+{
+	this->material.diffuseMap = bitmap;
+}
+Bitmap* MeshPart::getBumpMap()
+{
+	return this->material.bumpMap;
+}
+void MeshPart::setBumpMap(Bitmap* bitmap)
+{
+	this->material.bumpMap = bitmap;
+}
+
 void MeshPart::setWireFrame(bool option)
 {
 	this->wireFrame = option;

@@ -266,7 +266,7 @@ Mesh* ResourceManager::loadObj(File file)
 					try
 					{
 						Material* temp = materials.search(materialName2);
-						meshPart->material = *temp;
+						meshPart->setMaterial(*temp);
 					}
 					catch(...)
 					{
@@ -365,9 +365,9 @@ Map<String, Material*> ResourceManager::loadMtl(File file)
 		}
 		else if(cmd == "Tf")
 		{
-			line >> material->transmissionFiler[0];
-			line >> material->transmissionFiler[1];
-			line >> material->transmissionFiler[2];
+			line >> material->transmissionFilter[0];
+			line >> material->transmissionFilter[1];
+			line >> material->transmissionFilter[2];
 		}
 		else if(cmd == "map_Kd")
 		{
