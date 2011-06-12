@@ -25,7 +25,7 @@ Mesh::Mesh() : Model()
 
 Mesh::Mesh(unsigned long size) : Model()
 {
-	meshParts = Array<MeshPart*>(size);
+	meshParts = Array<MeshPartPointer>(size);
 }
 
 Mesh::Mesh(const Mesh& orig) : Model(orig)
@@ -38,7 +38,7 @@ Mesh::~Mesh()
 	
 }
 
-void Mesh::insert(MeshPart* mesh)
+void Mesh::insert(MeshPartPointer mesh)
 {
 	meshParts.insert(mesh);
 }
@@ -53,7 +53,7 @@ void Mesh::computeBoundingBox()
 	Vector max(MINFLOAT, MINFLOAT, MINFLOAT);
 	for(int i = 0; i < meshParts.size(); i++)
 	{
-		MeshPart* mesh = meshParts[i];
+		MeshPartPointer mesh = meshParts[i];
 		for(int j = 0; j < mesh->size(); j++)
 		{
 			Vector v = (*mesh)[j].position;

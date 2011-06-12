@@ -30,8 +30,7 @@ public:
 	Mesh(const Mesh& orig);
 	virtual ~Mesh();
 
-	void insert(MeshPart* mesh);
-	void remove(MeshPart* mesh);
+	void insert(MeshPartPointer mesh);
 	long size();
 
 	virtual void computeBoundingBox();
@@ -40,7 +39,7 @@ public:
 	virtual void draw();
 	virtual long numTriangles();
 private:
-	Array<MeshPart*> meshParts;
+	Array<MeshPartPointer> meshParts;
 	AxisAlignedBox boundingBox;
 };
 

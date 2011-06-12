@@ -96,7 +96,7 @@ Mesh* ResourceManager::loadObj(File file)
 	String cmd;
 
 	Mesh* mesh = new Mesh(1);
-	MeshPart* meshPart = new MeshPart(10);
+	MeshPartPointer meshPart = new MeshPart(10);
 
 	// TODO: probably shouldn't start with such large vectors...
 	Array<Vector> geometricVectors(10000);

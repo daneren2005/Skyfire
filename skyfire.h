@@ -37,6 +37,7 @@
 
 #include "ParticleEmitter.h"
 #include "ParticleSystem.h"
+#include "SharedPointer.h"
 
 #endif	/* _SKYFIRE_H */
 

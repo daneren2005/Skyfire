@@ -14,6 +14,7 @@
       <itemPath>FileDirectory.h</itemPath>
       <itemPath>List.h</itemPath>
       <itemPath>Map.h</itemPath>
+      <itemPath>SharedPointer.h</itemPath>
       <itemPath>StopWatch.cpp</itemPath>
       <itemPath>StopWatch.h</itemPath>
       <itemPath>Thread.cpp</itemPath>

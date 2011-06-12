@@ -23,6 +23,7 @@
 #include "Bitmap.h"
 #include "Vector.h"
 #include "Material.h"
+#include "SharedPointer.h"
 
 struct Vertex
 {
@@ -69,6 +70,8 @@ private:
 	Material material;
 	bool wireFrame;
 };
+
+typedef SharedPointer<MeshPart> MeshPartPointer;
 
 #endif	/* _MeshPart_H */
 
