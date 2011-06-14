@@ -32,6 +32,11 @@ public:
 		// console << "SharedPointer constructor" << newline;
 		aquire(orig.counter);
 	}
+	template <class U>
+	SharedPointer(const SharedPointer<U> orig)
+	{
+		// this->counter = orig.counter;
+	}
 	virtual ~SharedPointer()
 	{
 		// console << "Destructor" << newline;
@@ -67,6 +72,23 @@ public:
 	inline int getCount()
 	{
 		return counter->count;
+	}
+
+	bool operator==(long rhs)
+	{
+		return this->counter->pointer == rhs;
+	}
+	bool operator==(const SharedPointer& rhs)
+	{
+		return this->counter == rhs.counter;
+	}
+	bool operator !=(long rhs)
+	{
+		return this->counter->pointer != rhs;
+	}
+	bool operator!=(const SharedPointer& rhs)
+	{
+		return this->counter != rhs.counter;
 	}
 private:
 	class Counter
