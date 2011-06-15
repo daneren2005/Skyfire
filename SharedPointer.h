@@ -25,17 +25,23 @@ public:
 	SharedPointer(T* pointer = 0x0)
 	{
 		// console << "Pointer constructor" << newline;
-		counter = new Counter(pointer);
+		this->pointer = pointer;
+		this->count = new long;
+		(*this->count) = 1;
 	}
 	SharedPointer(const SharedPointer& orig)
 	{
 		// console << "SharedPointer constructor" << newline;
-		aquire(orig.counter);
+		this->pointer = orig.pointer;
+		this->count = orig.count;
+		(*this->count)++;
 	}
 	template <class U>
 	SharedPointer(const SharedPointer<U> orig)
 	{
-		// this->counter = orig.counter;
+		this->pointer = (T*)orig.pointer;
+		this->count = orig.count;
+		(*this->count)++;
 	}
 	virtual ~SharedPointer()
 	{
@@ -47,87 +53,81 @@ public:
 	{
 		// console << "Pointer equal operator" << newline;
 		release();
-		counter = new Counter(pointer);
+		this->pointer = pointer;
+		this->count = new long;
+		(*this->count) = 1;
+	}
+	template <class U>
+	SharedPointer& operator=(const SharedPointer<U>& rhs)
+	{
+		// console << "SharedPointer equal operator" << newline;
+		release();
+		this->pointer = (T*)rhs.pointer;
+		this->count = rhs.count;
+		(*this->count)++;
+		return *this;
 	}
 	SharedPointer& operator=(const SharedPointer& rhs)
 	{
 		// console << "SharedPointer equal operator" << newline;
 		release();
-		aquire(rhs.counter);
+		this->pointer = rhs.pointer;
+		this->count = rhs.count;
+		(*this->count)++;
 		return *this;
 	}
 
 	inline T& operator*()
 	{
-		return *counter->pointer;
+		return *this->pointer;
 	}
 	inline T* operator->()
 	{
-		return counter->pointer;
+		return this->pointer;
 	}
 	inline T* getPointer()
 	{
-		return counter->pointer;
+		return this->pointer;
 	}
-	inline int getCount()
+	inline long getCount()
 	{
-		return counter->count;
+		return *this->count;
 	}
 
-	bool operator==(long rhs)
+	inline bool operator==(long rhs)
 	{
-		return this->counter->pointer == rhs;
+		return this->pointer == rhs;
 	}
-	bool operator==(const SharedPointer& rhs)
+	inline bool operator==(const SharedPointer& rhs)
 	{
-		return this->counter == rhs.counter;
+		return this->pointer == rhs.pointer;
 	}
-	bool operator !=(long rhs)
+	inline bool operator !=(long rhs)
 	{
-		return this->counter->pointer != rhs;
+		return this->pointer != rhs;
 	}
-	bool operator!=(const SharedPointer& rhs)
+	inline bool operator!=(const SharedPointer& rhs)
 	{
-		return this->counter != rhs.counter;
+		return this->pointer != rhs.pointer;
 	}
 private:
-	class Counter
+	T* pointer;
+	long* count;
+
+	void release()
 	{
-	public:
-		Counter(T* pointer)
+		// console << "Decreasing " << (long)pointer << newline;
+		(*count)--;
+		if(*count == 0)
 		{
-			// console << "Initializing " << (long)pointer << newline;
-			this->pointer = pointer;
-			count = 1;
-		}
-		~Counter()
-		{
+			// console << "Deleting " << (long)pointer << newline;
+			delete count;
 			if(pointer != 0x0)
 				delete pointer;
 		}
-
-		T* pointer;
-		int count;
-	};
-
-	Counter* counter;
-
-	void aquire(Counter* counter)
-	{
-		// console << "Increasing " << (long)counter->pointer << newline;
-		this->counter = counter;
-		this->counter->count++;
 	}
-	void release()
-	{
-		// console << "Decreasing " << (long)counter->pointer << newline;
-		counter->count--;
-		if(counter->count == 0)
-		{
-			// console << "Deleting " << (long)counter->pointer << newline;
-			delete counter;
-		}
-	}
+
+	template<class U> friend class SharedPointer;
 };
 
 #endif	/* _SHAREDPOINTER_H */
