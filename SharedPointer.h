@@ -96,7 +96,7 @@ public:
 
 	inline bool operator==(long rhs)
 	{
-		return this->pointer == rhs;
+		return (long)this->pointer == rhs;
 	}
 	inline bool operator==(const SharedPointer& rhs)
 	{
@@ -104,7 +104,7 @@ public:
 	}
 	inline bool operator !=(long rhs)
 	{
-		return this->pointer != rhs;
+		return (long)this->pointer != rhs;
 	}
 	inline bool operator!=(const SharedPointer& rhs)
 	{
