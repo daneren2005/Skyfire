@@ -36,15 +36,15 @@ public:
 	void loadModel(char* filename, String name);
 	void loadModel(String filename, char* name);
 	void loadModel(String filename, String name);
-	void addModel(Model* mesh, char* name);
-	void addModel(Model* mesh, String name);
-	Model* getModel(char* name);
-	Model* getModel(String name);
+	void addModel(ModelPointer mesh, char* name);
+	void addModel(ModelPointer mesh, String name);
+	ModelPointer getModel(char* name);
+	ModelPointer getModel(String name);
 private:
-	Map<String, Model*> models;
+	Map<String, ModelPointer> models;
 
 	// Individual filetype load functions
-	Mesh* loadObj(File file);
+	MeshPointer loadObj(File file);
 	Map<String, Material*> loadMtl(File file);
 	Bitmap* loadJpeg(File file);
 };

@@ -57,7 +57,7 @@ void ResourceManager::loadModel(String filename, String name)
 
 	if(file.fileType() == "obj")
 	{
-		Mesh* model = this->loadObj(file);
+		MeshPointer model = this->loadObj(file);
 		if(model != 0x0)
 		{
 			this->models.insert(name, model);
@@ -65,26 +65,26 @@ void ResourceManager::loadModel(String filename, String name)
 	}
 }
 
-void ResourceManager::addModel(Model* model, char* name)
+void ResourceManager::addModel(ModelPointer model, char* name)
 {
 	this->addModel(model, String(name));
 }
-void ResourceManager::addModel(Model* model, String name)
+void ResourceManager::addModel(ModelPointer model, String name)
 {
 	models.insert(name, model);
 }
 
-Model* ResourceManager::getModel(char* name)
+ModelPointer ResourceManager::getModel(char* name)
 {
 	return this->getModel(String(name));
 }
 
-Model* ResourceManager::getModel(String name)
+ModelPointer ResourceManager::getModel(String name)
 {
 	return models.search(name);
 }
 
-Mesh* ResourceManager::loadObj(File file)
+MeshPointer ResourceManager::loadObj(File file)
 {
 	file.open();
 	if(!file.isOpen())
@@ -95,7 +95,7 @@ Mesh* ResourceManager::loadObj(File file)
 
 	String cmd;
 
-	Mesh* mesh = new Mesh(1);
+	MeshPointer mesh = new Mesh(1);
 	MeshPartPointer meshPart = new MeshPart(10);
 
 	// TODO: probably shouldn't start with such large vectors...

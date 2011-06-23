@@ -43,4 +43,6 @@ private:
 	AxisAlignedBox boundingBox;
 };
 
+typedef SharedPointer<Mesh> MeshPointer;
+
 #endif

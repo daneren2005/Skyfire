@@ -19,6 +19,7 @@
 #define	_MODEL_H
 
 #include "AxisAlignedBox.h"
+#include "SharedPointer.h"
 
 class Model
 {
@@ -35,6 +36,8 @@ public:
 private:
 
 };
+
+typedef SharedPointer<Model> ModelPointer;
 
 #endif	/* _MODEL_H */
 
