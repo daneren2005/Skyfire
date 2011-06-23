@@ -394,6 +394,9 @@ bool String::operator==(const String& rhs) const
 }
 bool String::operator==(const char* rhs)
 {
+	if(this->size == 0 && rhs[0] != 0x0)
+		return false;
+
 	for(long i = 0; i < this->size; i++)
 	{
 		if(this->array[i] != rhs[i])
@@ -404,6 +407,9 @@ bool String::operator==(const char* rhs)
 }
 bool String::operator==(const char* rhs) const
 {
+	if(this->size == 0 && rhs[0] != 0x0)
+		return false;
+
 	for(long i = 0; i < this->size; i++)
 	{
 		if(this->array[i] != rhs[i])
@@ -444,6 +450,9 @@ bool String::operator!=(const String& rhs) const
 }
 bool String::operator!=(const char* rhs)
 {
+	if(this->size == 0 && rhs[0] != 0x0)
+		return true;
+
 	for(long i = 0; i < this->size; i++)
 	{
 		if(this->array[i] != rhs[i])
@@ -454,6 +463,9 @@ bool String::operator!=(const char* rhs)
 }
 bool String::operator!=(const char* rhs) const
 {
+	if(this->size == 0 && rhs[0] != 0x0)
+		return true;
+
 	for(long i = 0; i < this->size; i++)
 	{
 		if(this->array[i] != rhs[i])
