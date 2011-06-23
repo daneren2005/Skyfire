@@ -15,15 +15,15 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _Rectangle_H
-#define	_Rectangle_H
+#ifndef _Rectangle2_H
+#define	_Rectangle2_H
 
-class Rectangle
+class Rectangle2
 {
 public:
-	Rectangle();
-	Rectangle(int lx, int ly, int ux, int uy);
-	~Rectangle();
+	Rectangle2();
+	Rectangle2(int lx, int ly, int ux, int uy);
+	~Rectangle2();
 
 	int lx, ly, ux, uy;
 };

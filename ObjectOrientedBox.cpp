@@ -93,24 +93,24 @@ Array<Vector> ObjectOrientedBox::getPoints() const
 
 AxisAlignedBox ObjectOrientedBox::getAxisAlignedBox() const
 {
-	Vector min(points[0]);
-	Vector max(points[0]);
+	Vector minV(points[0]);
+	Vector maxV(points[0]);
 	for(int i = 1; i < points.size(); i++)
 	{
 		for(int j = 0; j < 3; j++)
 		{
-			if(points[i][j] < min[j])
+			if(points[i][j] < minV[j])
 			{
-				min[j] = points[i][j];
+				minV[j] = points[i][j];
 			}
-			if(points[i][j] > max[j])
+			if(points[i][j] > maxV[j])
 			{
-				max[j] = points[i][j];
+				maxV[j] = points[i][j];
 			}
 		}
 	}
 
-	return AxisAlignedBox(min, max);
+	return AxisAlignedBox(minV, maxV);
 }
 
 Sphere ObjectOrientedBox::getSphere() const
@@ -141,22 +141,22 @@ ObjectOrientedBox ObjectOrientedBox::transform(Vector position, Vector angle) co
 
 bool ObjectOrientedBox::collision(float x, float y, float z) const
 {
-
+	return false;
 }
 bool ObjectOrientedBox::collision(const Vector& position) const
 {
-
+	return false;
 }
 bool ObjectOrientedBox::collision(const Sphere& sphere) const
 {
-
+	return false;
 }
 bool ObjectOrientedBox::collision(const AxisAlignedBox& box) const
 {
-    
+	return false;
 }
 bool ObjectOrientedBox::collision(const ObjectOrientedBox& box) const
 {
-	
+	return false;
 }
 

@@ -233,74 +233,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Windows"
-			>
-			<File
-				RelativePath=".\Console.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Console.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Input.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Input.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Key.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Key.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Window.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Window.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Utilities"
-			>
-			<File
-				RelativePath=".\const.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Rate.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Rate.h"
-				>
-			</File>
-			<File
-				RelativePath=".\StopWatch.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\StopWatch.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Thread.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Thread.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Graphics"
 			>
 			<File
@@ -320,11 +252,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Material.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Material.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Mesh.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Mesh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MeshPart.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MeshPart.h"
 				>
 			</File>
 			<File
@@ -361,52 +309,16 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="IO"
-			>
-			<File
-				RelativePath=".\Array.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CString.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CString.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Exceptions.h"
-				>
-			</File>
-			<File
-				RelativePath=".\File.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\File.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FileDirectory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FileDirectory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\List.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Map.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Math"
 			>
+			<File
+				RelativePath=".\AxisAlignedBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AxisAlignedBox.h"
+				>
+			</File>
 			<File
 				RelativePath=".\Matrix.cpp"
 				>
@@ -424,6 +336,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ObjectOrientedBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ObjectOrientedBox.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Quaternion.cpp"
 				>
 			</File>
@@ -432,19 +352,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Rectangle2.cpp"
+				RelativePath=".\Rectangle.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Rectangle2.h"
+				RelativePath=".\Rectangle.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Rectangle3.cpp"
+				RelativePath=".\Sphere.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Rectangle3.h"
+				RelativePath=".\Sphere.h"
 				>
 			</File>
 			<File
@@ -783,6 +703,110 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="Core"
+			>
+			<File
+				RelativePath=".\Array.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Console.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Console.h"
+				>
+			</File>
+			<File
+				RelativePath=".\const.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CString.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CString.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Exceptions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\File.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\File.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileDirectory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FileDirectory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\List.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Map.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SharedPointer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StopWatch.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\StopWatch.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Thread.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Thread.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="UI"
+			>
+			<File
+				RelativePath=".\Input.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Input.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Key.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Key.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Window.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Window.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

@@ -30,7 +30,7 @@ public:
 	void render();
 	virtual void draw() = 0;
 protected:
-	Rectangle screenArea;
+	Rectangle2 screenArea;
 	float aspectRatio;
 	float nearPerspective;
 	float farPerspective;

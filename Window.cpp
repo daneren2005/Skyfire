@@ -298,11 +298,9 @@ void* Window::renderFunction(void* arg)
 
 	#ifdef WIN32
 		// Set window title to current frame rate
-		int frames = win->frameRate.ticksPerSecond();
-		char* temp = new char[256];
-		_itoa(frames, temp, 10);
-		std::string temp2(temp);
-		SetWindowText(win->winHandle, temp2.c_str());
+		int frames = thread->getTicksPerSecond();
+		String tmp(frames);
+		SetWindowText(win->winHandle, tmp.cStr());
 	#endif
 	#ifdef __linux__
 		int frames = thread->getTicksPerSecond();

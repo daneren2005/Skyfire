@@ -17,14 +17,14 @@
 
 #include "Rectangle.h"
 
-Rectangle::Rectangle()
+Rectangle2::Rectangle2()
 {
 	this->lx = 0;
 	this->ly = 0;
 	this->ux = 0;
 	this->uy = 0;
 }
-Rectangle::Rectangle(int lx, int ly, int ux, int uy)
+Rectangle2::Rectangle2(int lx, int ly, int ux, int uy)
 {
 	this->lx = lx;
 	this->ly = ly;
@@ -32,6 +32,6 @@ Rectangle::Rectangle(int lx, int ly, int ux, int uy)
 	this->uy = uy;
 }
 
-Rectangle::~Rectangle()
+Rectangle2::~Rectangle2()
 {
 }

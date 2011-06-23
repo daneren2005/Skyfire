@@ -21,7 +21,7 @@
 
 Scene::Scene()
 {
-	this->screenArea = Rectangle(0, 0, 1280, 720);
+	this->screenArea = Rectangle2(0, 0, 1280, 720);
 	this->aspectRatio = (float)(screenArea.ux - screenArea.lx) / (float)(screenArea.uy - screenArea.ly);
 	this->nearPerspective = 0.1f;
 	this->farPerspective = 100.0f;

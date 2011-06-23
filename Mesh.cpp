@@ -17,6 +17,7 @@
 
 #include "Mesh.h"
 #include "const.h"
+#include "Vector.h"
 
 Mesh::Mesh() : Model()
 {
@@ -49,44 +50,44 @@ long Mesh::size()
 
 void Mesh::computeBoundingBox()
 {
-	Vector min(MAXFLOAT, MAXFLOAT, MAXFLOAT);
-	Vector max(MINFLOAT, MINFLOAT, MINFLOAT);
+	Vector minV(MAXFLOAT, MAXFLOAT, MAXFLOAT);
+	Vector maxV(MINFLOAT, MINFLOAT, MINFLOAT);
 	for(int i = 0; i < meshParts.size(); i++)
 	{
 		MeshPartPointer mesh = meshParts[i];
 		for(int j = 0; j < mesh->size(); j++)
 		{
 			Vector v = (*mesh)[j].position;
-			if(v.x() < min.x())
+			if(v.x() < minV.x())
 			{
-				min[0] = v.x();
+				minV[0] = v.x();
 			}
-			if(v.x() > max.x())
+			if(v.x() > maxV.x())
 			{
-				max[0] = v.x();
-			}
-
-			if(v.y() < min.y())
-			{
-				min[1] = v.y();
-			}
-			if(v.y() > max.y())
-			{
-				max[1] = v.y();
+				maxV[0] = v.x();
 			}
 
-			if(v.z() < min.z())
+			if(v.y() < minV.y())
 			{
-				min[2] = v.z();
+				minV[1] = v.y();
 			}
-			if(v.z() > max.z())
+			if(v.y() > maxV.y())
 			{
-				max[2] = v.z();
+				maxV[1] = v.y();
+			}
+
+			if(v.z() < minV.z())
+			{
+				minV[2] = v.z();
+			}
+			if(v.z() > maxV.z())
+			{
+				maxV[2] = v.z();
 			}
 		}
 	}
 
-	this->boundingBox = AxisAlignedBox(min, max);
+	this->boundingBox = AxisAlignedBox(minV, maxV);
 }
 AxisAlignedBox Mesh::getBoundingBox()
 {
