@@ -37,7 +37,7 @@ private:
 	class Node
 	{
 	public:
-		Node(T value)
+		Node(const T& value)
 		{
 			this->value = value;
 			this->next = NULL;
@@ -207,8 +207,8 @@ public:
 	}
 
 	// Insert
-	void pushFront(T value);
-	void pushBack(T value);
+	void pushFront(const T& value);
+	void pushBack(const T& value);
 
 	// Delete
 	T popFront();
@@ -353,7 +353,7 @@ long List<T>::size()
 }
 
 template <class T>
-void List<T>::pushFront(T value)
+void List<T>::pushFront(const T& value)
 {
 	pthread_rwlock_wrlock(&this->headLock);
 	if(this->head == NULL)
@@ -381,7 +381,7 @@ void List<T>::pushFront(T value)
 }
 
 template <class T>
-void List<T>::pushBack(T value)
+void List<T>::pushBack(const T& value)
 {
 	pthread_rwlock_wrlock(&this->headLock);
 	if(head == NULL)

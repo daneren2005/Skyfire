@@ -28,7 +28,7 @@ private:
 	class Node
 	{
 	public:
-		Node(Key key, T value)
+		Node(const Key& key, const T& value)
 		{
 			this->key = key;
 			this->value = value;
@@ -51,10 +51,10 @@ public:
 	Map(const Map& orig);
 	virtual ~Map();
 
-	T& operator[](Key key);
-	const T& operator[](Key key) const;
+	T& operator[](const Key& key);
+	const T& operator[](const Key& key) const;
 
-	void insert(Key access, T value);
+	void insert(const Key& access, const T& value);
 	T search(const Key& key);
 
 	class Iterator
@@ -157,7 +157,7 @@ Map<Key, T>::~Map()
 }
 
 template <class Key, class T>
-T& Map<Key, T>::operator [](Key key)
+T& Map<Key, T>::operator [](const Key& key)
 {
 	// Write
 	if(head == NULL)
@@ -187,7 +187,7 @@ T& Map<Key, T>::operator [](Key key)
 }
 
 template <class Key, class T>
-const T& Map<Key, T>::operator[](Key key) const
+const T& Map<Key, T>::operator[](const Key& key) const
 {
 	// Read
 	if(head == NULL)
@@ -209,7 +209,7 @@ const T& Map<Key, T>::operator[](Key key) const
 }
 
 template <class Key, class T>
-void Map<Key, T>::insert(Key key, T value)
+void Map<Key, T>::insert(const Key& key, const T& value)
 {
 	Node* node = new Node(key, value);
 	if(head == NULL)

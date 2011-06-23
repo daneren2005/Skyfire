@@ -37,7 +37,7 @@ public:
 	long reserved();
 	long reserved() const;
 
-	void insert(T value);
+	void insert(const T& value);
 	void resize(unsigned long newSize);
 
 	T* getPointer();
@@ -120,7 +120,7 @@ long Array<T>::reserved() const
 }
 
 template <class T>
-void Array<T>::insert(T value)
+void Array<T>::insert(const T& value)
 {
 	if(this->used >= this->allocated)
 	{
