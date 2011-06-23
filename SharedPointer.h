@@ -18,20 +18,22 @@
 #ifndef _SHAREDPOINTER_H
 #define	_SHAREDPOINTER_H
 
+#include "Console.h"
+
 template <class T>
 class SharedPointer
 {
 public:
 	SharedPointer(T* pointer = 0x0)
 	{
-		// console << "Pointer constructor" << newline;
+		// console << "Pointer constructor: " << (long)pointer << newline;
 		this->pointer = pointer;
 		this->count = new long;
 		(*this->count) = 1;
 	}
 	SharedPointer(const SharedPointer& orig)
 	{
-		// console << "SharedPointer constructor" << newline;
+		// console << "SharedPointer copy constructor: " << (long)orig.pointer << newline;
 		this->pointer = orig.pointer;
 		this->count = orig.count;
 		(*this->count)++;
@@ -39,6 +41,7 @@ public:
 	template <class U>
 	SharedPointer(const SharedPointer<U> orig)
 	{
+		// console << "SharedPointer copy constructor: " << (long)orig.pointer << newline;
 		this->pointer = (T*)orig.pointer;
 		this->count = orig.count;
 		(*this->count)++;
@@ -51,27 +54,28 @@ public:
 
 	SharedPointer& operator=(T* pointer)
 	{
-		// console << "Pointer equal operator" << newline;
 		release();
+		// console << "Pointer equal operator: " << (long)pointer <<  newline;
 		this->pointer = pointer;
 		this->count = new long;
 		(*this->count) = 1;
-	}
-	template <class U>
-	SharedPointer& operator=(const SharedPointer<U>& rhs)
-	{
-		// console << "SharedPointer equal operator" << newline;
-		release();
-		this->pointer = (T*)rhs.pointer;
-		this->count = rhs.count;
-		(*this->count)++;
 		return *this;
 	}
 	SharedPointer& operator=(const SharedPointer& rhs)
 	{
-		// console << "SharedPointer equal operator" << newline;
 		release();
+		// console << "SharedPointer equal operator: " << (long)rhs.pointer << newline;
 		this->pointer = rhs.pointer;
+		this->count = rhs.count;
+		(*this->count)++;
+		return *this;
+	}
+	template <class U>
+	SharedPointer& operator=(const SharedPointer<U>& rhs)
+	{
+		release();
+		// console << "SharedPointer equal operator: " << (long)rhs.pointer << newline;
+		this->pointer = (T*)rhs.pointer;
 		this->count = rhs.count;
 		(*this->count)++;
 		return *this;
@@ -116,7 +120,7 @@ private:
 
 	void release()
 	{
-		// console << "Decreasing " << (long)pointer << newline;
+		// console << "Decreasing " << (long)pointer << " to " << *count - 1 << newline;
 		(*count)--;
 		if(*count == 0)
 		{
