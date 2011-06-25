@@ -30,6 +30,7 @@ public:
 	String();
 	String(const String& rhs);
 	String(const char* rhs);
+	String(const char* rhs, long size);
 	String(int rhs);
 	String(long rhs);
 	String(float rhs);

@@ -44,6 +44,12 @@ String::String(const char* rhs)
 	this->array = new char[this->size + 1];
 	memcpy(this->array, rhs, this->size + 1);
 }
+String::String(const char* rhs, long size)
+{
+	this->size = size;
+	this->array = new char[size + 1];
+	memcpy(this->array, rhs, size + 1);
+}
 String::String(int rhs)
 {
 	const int DIFF = '0' - 0;
