@@ -98,17 +98,17 @@ public:
 		return *this->count;
 	}
 
-	inline bool operator==(long rhs)
+	inline bool operator==(intptr_t rhs)
 	{
-		return (long)this->pointer == rhs;
+		return (intptr_t)this->pointer == rhs;
 	}
 	inline bool operator==(const SharedPointer& rhs)
 	{
 		return this->pointer == rhs.pointer;
 	}
-	inline bool operator !=(long rhs)
+	inline bool operator !=(intptr_t rhs)
 	{
-		return (long)this->pointer != rhs;
+		return (intptr_t)this->pointer != rhs;
 	}
 	inline bool operator!=(const SharedPointer& rhs)
 	{
