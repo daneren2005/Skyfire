@@ -35,7 +35,8 @@ File::File(const File& orig)
 
 File::~File()
 {
-	this->handler.close();
+	if(this->handler.is_open())
+		this->handler.close();
 }
 
 void File::open()
@@ -49,7 +50,8 @@ void File::open()
 }
 void File::close()
 {
-	this->handler.close();
+	if(this->handler.is_open())
+		this->handler.close();
 }
 bool File::isOpen()
 {
@@ -114,6 +116,5 @@ String File::getLine()
 {
 	std::string temp;
 	getline(this->handler, temp);
-	String line(temp.c_str());
-	return line;
+	return String(temp.c_str(), temp.length());
 }
