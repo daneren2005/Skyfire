@@ -111,7 +111,7 @@ void Window::quit()
 	#endif
 }
 
-void* Window::initWin(void* arg)
+void* Window::initWin(Thread* arg)
 {
 	Thread* thread = (Thread*)arg;
 	Window* win = (Window*)thread->getArg();
@@ -252,7 +252,7 @@ void Window::initOpenGL()
 	this->resetScreen();
 }
 
-void* Window::renderFunction(void* arg)
+void* Window::renderFunction(Thread* arg)
 {
 	Thread* thread = (Thread*)arg;
 	Window* win = (Window*)thread->getArg();

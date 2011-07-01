@@ -36,8 +36,10 @@ class Thread
 public:
 	Thread();
 
-	void start(void*(*function)(void *), void* arg);
-	void start(void*(*function)(void *), void* arg, void*(*startFunction)(void *));
+	void start(void*(*function)(Thread*), void* arg);
+	void start(void*(*function)(Thread*), void* arg, void*(*startFunction)(Thread*));
+	void startMain(void*(*function)(Thread*), void* arg);
+	void startMain(void*(*function)(Thread*), void* arg, void*(*startFunction)(Thread*));
 	void stop();
 	void pause();
 	void resume();
@@ -52,8 +54,8 @@ private:
 
 	bool quit;
 	bool running;
-	void*(*function)(void *);
-	void*(*startFunction)(void *);
+	void*(*function)(Thread*);
+	void*(*startFunction)(Thread*);
 	pthread_t id;
 
 	static void* threadFunction(void* arg);

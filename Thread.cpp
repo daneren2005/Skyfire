@@ -32,7 +32,7 @@ Thread::Thread()
 	this->returnCounter = 0;
 }
 
-void Thread::start(void*(*function)(void *), void* arg)
+void Thread::start(void*(*function)(Thread*), void* arg)
 {
 	this->arg = arg;
 	this->running = true;
@@ -43,7 +43,7 @@ void Thread::start(void*(*function)(void *), void* arg)
 
 	pthread_create(&this->id, NULL, threadFunction, (void*) this);
 }
-void Thread::start(void*(*function)(void *), void* arg, void*(*startFunction)(void *))
+void Thread::start(void*(*function)(Thread*), void* arg, void*(*startFunction)(Thread*))
 {
 	this->arg = arg;
 	this->quit = false;
@@ -53,6 +53,29 @@ void Thread::start(void*(*function)(void *), void* arg, void*(*startFunction)(vo
 	clock.start();
 
 	pthread_create(&this->id, NULL, threadFunction, (void*) this);
+}
+
+void Thread::startMain(void*(*function)(Thread*), void* arg)
+{
+	this->arg = arg;
+	this->running = true;
+	this->quit = false;
+	this->function = function;
+	this->startFunction = NULL;
+	clock.start();
+
+	Thread::threadFunction((void*)this);
+}
+void Thread::startMain(void*(*function)(Thread*), void* arg, void*(*startFunction)(Thread*))
+{
+	this->arg = arg;
+	this->quit = false;
+	this->running = true;
+	this->function = function;
+	this->startFunction = startFunction;
+	clock.start();
+
+	Thread::threadFunction((void*)this);
 }
 
 void Thread::stop()

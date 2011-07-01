@@ -73,7 +73,7 @@ void Universe::pause()
 	}
 }
 
-void* Universe::updateFunction(void* arg)
+void* Universe::updateFunction(Thread* arg)
 {
 	Thread* thread = (Thread*)arg;
 	Universe* uni = (Universe*)thread->getArg();
