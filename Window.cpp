@@ -75,15 +75,10 @@ Window::~Window()
 	this->quit();
 }
 
-#ifdef WIN32
-	void Window::start(HINSTANCE program)
-#endif
-#ifdef __linux__
-	void Window::start()
-#endif
+void Window::start()
 {
 	#ifdef WIN32
-		this->programHandle = program;
+		this->programHandle = GetModuleHandle(0);
 		_defaultCallback = this;
 	#endif
 

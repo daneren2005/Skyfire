@@ -49,12 +49,7 @@ public:
 	virtual ~Window();
 
 	// Initialize Window and start displaying
-	#ifdef WIN32
-		void start(HINSTANCE program);
-	#endif
-	#ifdef __linux__
-		void start();
-	#endif
+	void start();
 	// Calling thread waits for renderThread to exit
 	void wait();
 	// Make Window shutdown, close renderThread and eventsThread
