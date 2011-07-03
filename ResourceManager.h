@@ -45,7 +45,7 @@ private:
 
 	// Individual filetype load functions
 	MeshPointer loadObj(File file);
-	Map<String, Material*> loadMtl(File file);
+	Map<String, MaterialPointer> loadMtl(File file);
 	Bitmap* loadJpeg(File file);
 };
 

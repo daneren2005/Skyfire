@@ -41,9 +41,10 @@ public:
 	virtual ~MeshPart();
 
 	void draw();
+	void drawFrame();
 
-	Material getMaterial();
-	void setMaterial(const Material& material);
+	MaterialPointer getMaterial();
+	void setMaterial(MaterialPointer material);
 	float* getAmbientMaterial();
 	void setAmbientMaterial(float r, float g, float b);
 	float* getDiffuseMaterial();
@@ -64,11 +65,8 @@ public:
 	void setDiffuseMap(Bitmap* bitmap);
 	Bitmap* getBumpMap();
 	void setBumpMap(Bitmap* bitmap);
-
-	void setWireFrame(bool option);
 private:
-	Material material;
-	bool wireFrame;
+	MaterialPointer material;
 };
 
 typedef SharedPointer<MeshPart> MeshPartPointer;

@@ -37,6 +37,7 @@ public:
 	virtual AxisAlignedBox getBoundingBox();
 
 	virtual void draw();
+	virtual void drawFrame();
 	virtual long numTriangles();
 private:
 	Array<MeshPartPointer> meshParts;

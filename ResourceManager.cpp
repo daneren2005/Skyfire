@@ -24,6 +24,7 @@
 #include "jpeglib.h"
 #include "setjmp.h"
 #include <string.h>
+#include "StopWatch.h"
 
 ResourceManager resourceManager = ResourceManager();
 
@@ -104,11 +105,14 @@ MeshPointer ResourceManager::loadObj(File file)
 	Array<Vector> normalVectors(10000);
 	Array<Vector> parametricVectors(10000);
 
-	Map<String, Material*> materials;
+	Map<String, MaterialPointer> materials;
 
 	String line;
 	line = file.getLine();
 
+	StopWatch timer;
+	timer.start();
+	bool first = true;
 	while(!file.eof())
 	{
 		line >> cmd;
@@ -143,6 +147,13 @@ MeshPointer ResourceManager::loadObj(File file)
 			}
 			case 'f':
 			{
+				if(first)
+				{
+					// First 60k of 90k lines takes 3.5 seconds of ~13 seconds
+					first = false;
+					console << timer.totalTime() << newline;
+				}
+
 				String r1, r2, r3;
 				line >> r1 >> r2 >> r3;
 
@@ -265,12 +276,11 @@ MeshPointer ResourceManager::loadObj(File file)
 
 					try
 					{
-						Material* temp = materials.search(materialName2);
-						meshPart->setMaterial(*temp);
+						meshPart->setMaterial(materials.search(materialName2));
 					}
 					catch(...)
 					{
-						meshPart->setWireFrame(true);
+						
 					}
 
 					if(meshPart->size() != 0)
@@ -287,6 +297,7 @@ MeshPointer ResourceManager::loadObj(File file)
 
 		line = file.getLine();
 	}
+	console << timer.totalTime() << newline;
 
 	file.close();
 
@@ -298,9 +309,9 @@ MeshPointer ResourceManager::loadObj(File file)
 	return mesh;
 }
 
-Map<String, Material*> ResourceManager::loadMtl(File file)
+Map<String, MaterialPointer> ResourceManager::loadMtl(File file)
 {
-	Map<String, Material*> materials;
+	Map<String, MaterialPointer> materials;
 
 	file.open();
 	if(!file.isOpen())
@@ -310,7 +321,7 @@ Map<String, Material*> ResourceManager::loadMtl(File file)
 	}
 
 	String name;
-	Material* material = new Material;
+	MaterialPointer material = new Material;
 
 	String line;
 	line = file.getLine();

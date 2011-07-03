@@ -19,6 +19,7 @@
 #define	_MATERIAL_H
 
 #include "Bitmap.h"
+#include "SharedPointer.h"
 
 class Material
 {
@@ -38,6 +39,8 @@ public:
 	Bitmap* diffuseMap;
 	Bitmap* bumpMap;
 };
+
+typedef SharedPointer<Material> MaterialPointer;
 
 #endif	/* _MATERIAL_H */
 

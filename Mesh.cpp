@@ -106,6 +106,13 @@ void Mesh::draw()
 		meshParts[i]->draw();
 	}
 }
+void Mesh::drawFrame()
+{
+	for(int i = 0; i < meshParts.size(); i++)
+	{
+		meshParts[i]->drawFrame();
+	}
+}
 
 long Mesh::numTriangles()
 {
