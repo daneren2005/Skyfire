@@ -10,6 +10,27 @@
             <header-extensions>h</header-extensions>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
+            <sourceRootList>
+                <sourceRootElem>.</sourceRootElem>
+            </sourceRootList>
+            <confList>
+                <confElem>
+                    <name>Debug_Linux</name>
+                    <type>3</type>
+                </confElem>
+                <confElem>
+                    <name>Release_Linux</name>
+                    <type>3</type>
+                </confElem>
+                <confElem>
+                    <name>Debug_Win32</name>
+                    <type>3</type>
+                </confElem>
+                <confElem>
+                    <name>Release_Win32</name>
+                    <type>3</type>
+                </confElem>
+            </confList>
         </data>
     </configuration>
 </project>
