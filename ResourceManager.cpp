@@ -271,12 +271,12 @@ MeshPointer ResourceManager::loadObj(File file)
 			{
 				if(cmd == "usemtl")
 				{
-					String materialName2;
-					line >> materialName2;
+					String materialName;
+					line >> materialName;
 
 					try
 					{
-						meshPart->setMaterial(materials.search(materialName2));
+						meshPart->setMaterial(materials.search(materialName));
 					}
 					catch(...)
 					{
@@ -380,13 +380,13 @@ Map<String, MaterialPointer> ResourceManager::loadMtl(File file)
 			line >> material->transmissionFilter[1];
 			line >> material->transmissionFilter[2];
 		}
-		else if(cmd == "map_Kd")
+		/*else if(cmd == "map_Kd")
 		{
 			String filename;
 			line >> filename;
 			File mapFile(file.filePath() + filename);
 			material->diffuseMap = this->loadJpeg(mapFile);
-		}
+		}*/
 		/*else if(cmd == "map_bump")
 		{
 			String filename;
@@ -413,11 +413,12 @@ Map<String, MaterialPointer> ResourceManager::loadMtl(File file)
 	return materials;
 }
 
+/*
 // Temporary crap
 struct my_error_mgr {
-  struct jpeg_error_mgr pub;	/* "public" fields */
+  struct jpeg_error_mgr pub;	// "public" fields
 
-  jmp_buf setjmp_buffer;	/* for return to caller */
+  jmp_buf setjmp_buffer;	// for return to caller
 };
 
 typedef struct my_error_mgr * my_error_ptr;
@@ -425,21 +426,21 @@ typedef struct my_error_mgr * my_error_ptr;
 METHODDEF(void)
 my_error_exit (j_common_ptr cinfo)
 {
-  /* cinfo->err really points to a my_error_mgr struct, so coerce pointer */
+  //cinfo->err really points to a my_error_mgr struct, so coerce pointer
   my_error_ptr myerr = (my_error_ptr) cinfo->err;
 
-  /* Always display the message. */
-  /* We could postpone this until after returning, if we chose. */
+  // Always display the message.
+  // We could postpone this until after returning, if we chose.
   (*cinfo->err->output_message) (cinfo);
   console << "ResourceManager::loadJpeg error: unknown error reading jpeg file" << newline;
 
-  /* Return control to the setjmp point */
+  // Return control to the setjmp point
   longjmp(myerr->setjmp_buffer, 1);
-}
+}*/
 
 Bitmap* ResourceManager::loadJpeg(File file)
 {
-	struct jpeg_decompress_struct cinfo;
+	/*struct jpeg_decompress_struct cinfo;
 	struct my_error_mgr jerr;
 
 	FILE* infile;
@@ -486,5 +487,5 @@ Bitmap* ResourceManager::loadJpeg(File file)
 	jpeg_destroy_decompress(&cinfo);
 	fclose(infile);
 
-	return bitmap;
+	return bitmap;*/
 }

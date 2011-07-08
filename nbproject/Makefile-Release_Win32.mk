@@ -17,7 +17,7 @@ RANLIB=ranlib
 CC=gcc.exe
 CCC=g++.exe
 CXX=g++.exe
-FC=gfortran.exe
+FC=gfortran
 AS=as.exe
 
 # Macros
@@ -100,177 +100,177 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libskyfire.a: ${OBJECTFILES}
 ${OBJECTDIR}/ParticleSystem.o: ParticleSystem.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleSystem.o ParticleSystem.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleSystem.o ParticleSystem.cpp
 
 ${OBJECTDIR}/Matrix.o: Matrix.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix.o Matrix.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix.o Matrix.cpp
 
 ${OBJECTDIR}/Thread.o: Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
 
 ${OBJECTDIR}/BaseObject.o: BaseObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/BaseObject.o BaseObject.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/BaseObject.o BaseObject.cpp
 
 ${OBJECTDIR}/Camera.o: Camera.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Camera.o Camera.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Camera.o Camera.cpp
 
 ${OBJECTDIR}/Triangle.o: Triangle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Triangle.o Triangle.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Triangle.o Triangle.cpp
 
 ${OBJECTDIR}/File.o: File.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/File.o File.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/File.o File.cpp
 
 ${OBJECTDIR}/Scene.o: Scene.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scene.o Scene.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scene.o Scene.cpp
 
 ${OBJECTDIR}/Console.o: Console.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console.o Console.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console.o Console.cpp
 
 ${OBJECTDIR}/Input.o: Input.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Input.o Input.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Input.o Input.cpp
 
 ${OBJECTDIR}/Universe.o: Universe.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Universe.o Universe.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Universe.o Universe.cpp
 
 ${OBJECTDIR}/StaticObject.o: StaticObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/StaticObject.o StaticObject.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/StaticObject.o StaticObject.cpp
 
 ${OBJECTDIR}/AnimateObject.o: AnimateObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/AnimateObject.o AnimateObject.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/AnimateObject.o AnimateObject.cpp
 
 ${OBJECTDIR}/Region.o: Region.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Region.o Region.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Region.o Region.cpp
 
 ${OBJECTDIR}/Window.o: Window.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Window.o Window.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Window.o Window.cpp
 
 ${OBJECTDIR}/ObjectOrientedBox.o: ObjectOrientedBox.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/ObjectOrientedBox.o ObjectOrientedBox.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/ObjectOrientedBox.o ObjectOrientedBox.cpp
 
 ${OBJECTDIR}/Matrix4.o: Matrix4.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix4.o Matrix4.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix4.o Matrix4.cpp
 
 ${OBJECTDIR}/ParticleEmitter.o: ParticleEmitter.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleEmitter.o ParticleEmitter.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleEmitter.o ParticleEmitter.cpp
 
 ${OBJECTDIR}/StopWatch.o: StopWatch.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/StopWatch.o StopWatch.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/StopWatch.o StopWatch.cpp
 
 ${OBJECTDIR}/Model.o: Model.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Model.o Model.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Model.o Model.cpp
 
 ${OBJECTDIR}/MeshPart.o: MeshPart.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/MeshPart.o MeshPart.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/MeshPart.o MeshPart.cpp
 
 ${OBJECTDIR}/Particle.o: Particle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Particle.o Particle.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Particle.o Particle.cpp
 
 ${OBJECTDIR}/CString.o: CString.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/CString.o CString.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/CString.o CString.cpp
 
 ${OBJECTDIR}/ResourceManager.o: ResourceManager.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/ResourceManager.o ResourceManager.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/ResourceManager.o ResourceManager.cpp
 
 ${OBJECTDIR}/Vector.o: Vector.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Vector.o Vector.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Vector.o Vector.cpp
 
 ${OBJECTDIR}/FileDirectory.o: FileDirectory.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/FileDirectory.o FileDirectory.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/FileDirectory.o FileDirectory.cpp
 
 ${OBJECTDIR}/Bitmap.o: Bitmap.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Bitmap.o Bitmap.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Bitmap.o Bitmap.cpp
 
 ${OBJECTDIR}/Sphere.o: Sphere.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Sphere.o Sphere.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Sphere.o Sphere.cpp
 
 ${OBJECTDIR}/Mesh.o: Mesh.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mesh.o Mesh.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mesh.o Mesh.cpp
 
 ${OBJECTDIR}/AxisAlignedBox.o: AxisAlignedBox.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisAlignedBox.o AxisAlignedBox.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisAlignedBox.o AxisAlignedBox.cpp
 
 ${OBJECTDIR}/Rectangle.o: Rectangle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Rectangle.o Rectangle.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Rectangle.o Rectangle.cpp
 
 ${OBJECTDIR}/AxisObject.o: AxisObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisObject.o AxisObject.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisObject.o AxisObject.cpp
 
 ${OBJECTDIR}/Key.o: Key.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Key.o Key.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Key.o Key.cpp
 
 ${OBJECTDIR}/Quaternion.o: Quaternion.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Quaternion.o Quaternion.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Quaternion.o Quaternion.cpp
 
 ${OBJECTDIR}/Material.o: Material.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Material.o Material.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Material.o Material.cpp
 
 # Subprojects
 .build-subprojects:
