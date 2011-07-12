@@ -231,7 +231,7 @@ String::String(double rhs)
 
 String::~String()
 {
-	delete this->array;
+	delete[] this->array;
 }
 
 char& String::operator[](unsigned pos)
@@ -353,7 +353,7 @@ String& String::operator=(const String& rhs)
 }
 String& String::operator=(const char* rhs)
 {
-	delete this->array;
+	delete[] this->array;
 
 	long i = 0;
 	while(rhs[i] != NULL)
@@ -834,7 +834,7 @@ String String::subStr(long startPos)
 	String string;
 	char* array = new char[this->size - startPos + 1];
 	memcpy(array, this->array + startPos, this->size - startPos + 1);
-	delete string.array;
+	delete[] string.array;
 	string.array = array;
 	string.size = this->size - startPos;
 	return string;
@@ -861,7 +861,7 @@ String String::subStr(long startPos, long length)
 		char* array = new char[length + 1];
 		memcpy(array, this->array + startPos, length);
 		array[length] = 0x0;
-		delete string.array;
+		delete[] string.array;
 		string.array = array;
 		string.size = length;
 		return string;
@@ -1074,15 +1074,13 @@ long String::strLastPos(const char& search)
 Array<long> String::strAllPos(const String& search)
 {
 	Array<long> list;
-	long count = 0;
 	for(long i = 0; i < this->size; i++)
 	{
 		for(long j = 0; this->array[i + j] == search[j]; j++)
 		{
 			if((j + 1) >= search.size)
 			{
-				list[count] = i;
-				count++;
+				list.insert(i);
 				break;
 			}
 		}
@@ -1093,15 +1091,13 @@ Array<long> String::strAllPos(const char* search)
 {
 	// Go through every character in string and compare to delim
 	Array<long> list;
-	long count = 0;
 	for(long i = 0; i < this->size; i++)
 	{
 		for(long j = 0; this->array[i + j] == search[j]; j++)
 		{
 			if(search[j + 1] == 0x0)
 			{
-				list[count] = i;
-				count++;
+				list.insert(i);
 				break;
 			}
 		}
@@ -1113,13 +1109,11 @@ Array<long> String::strAllPos(const char& search)
 {
 	// Go through every character in string and compare to delim
 	Array<long> list;
-	long count = 0;
 	for(long i = 0; i < this->size; i++)
 	{
 		if(this->array[i] == search)
 		{
-			list[count] = i;
-			count++;
+			list.insert(i);
 		}
 	}
 
@@ -1257,7 +1251,7 @@ String String::remove(long startPos, long length)
 	}
 
 	String str;
-	delete str.array;
+	delete[] str.array;
 	str.array = new char[startPos + 1];
 	memcpy(str.array, this->array, startPos);
 	str.array[startPos] = 0x0;
@@ -1267,7 +1261,7 @@ String String::remove(long startPos, long length)
 	if(this->size - startPos > length && length != String::npos)
 	{
 		String str2;
-		delete str2.array;
+		delete[] str2.array;
 		str2.size = this->size - (startPos + length);
 		str2.array = new char[str2.size + 1];
 		memcpy(str2.array, this->array + startPos + length, str2.size + 1);
