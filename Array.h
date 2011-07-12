@@ -32,10 +32,10 @@ public:
 	virtual T& operator[](unsigned col);
 	virtual const T& operator[](unsigned col) const; 
 
-	long size();
-	long size() const;
-	long reserved();
-	long reserved() const;
+	unsigned long size();
+	unsigned long size() const;
+	unsigned long reserved();
+	unsigned long reserved() const;
 
 	void insert(const T& value);
 	void resize(unsigned long newSize);
@@ -70,7 +70,7 @@ Array<T>::Array(const Array<T> &orig)
 	this->used = orig.used;
 	this->allocated = orig.used;
 	this->array = new T[this->allocated];
-	for(int i = 0; i < this->used; i++)
+	for(unsigned long i = 0; i < this->used; i++)
 	{
 		this->array[i] = orig.array[i];
 	}
@@ -98,23 +98,23 @@ const T& Array<T>::operator[](unsigned col) const
 }
 
 template <class T>
-long Array<T>::size()
+unsigned long Array<T>::size()
 {
 	return this->used;
 }
 template <class T>
-long Array<T>::size() const
+unsigned long Array<T>::size() const
 {
 	return this->used;
 }
 
 template <class T>
-long Array<T>::reserved()
+unsigned long Array<T>::reserved()
 {
 	return this->used;
 }
 template <class T>
-long Array<T>::reserved() const
+unsigned long Array<T>::reserved() const
 {
 	return this->used;
 }

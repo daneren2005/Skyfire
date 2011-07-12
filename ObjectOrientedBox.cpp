@@ -95,7 +95,7 @@ AxisAlignedBox ObjectOrientedBox::getAxisAlignedBox() const
 {
 	Vector minV(points[0]);
 	Vector maxV(points[0]);
-	for(int i = 1; i < points.size(); i++)
+	for(unsigned int i = 1; i < points.size(); i++)
 	{
 		for(int j = 0; j < 3; j++)
 		{
@@ -124,7 +124,7 @@ ObjectOrientedBox ObjectOrientedBox::transform(Vector position, Vector angle) co
 	Array<Vector> newPoints = this->getPoints();
 
 	// Translation of all the points
-	for(int i = 0; i < newPoints.size(); i++)
+	for(unsigned int i = 0; i < newPoints.size(); i++)
 	{
 		// Rotation
 		Matrix4 rotate = Matrix4::rotateObject(angle);

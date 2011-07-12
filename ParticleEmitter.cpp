@@ -38,7 +38,7 @@ void ParticleEmitter::update(double interval)
 		this->emitParticles(interval);
 
 	Particle* ptr = this->particles.getPointer();
-	for(int i = 0; i < this->particles.size(); i++)
+	for(unsigned int i = 0; i < this->particles.size(); i++)
 	{
 		ptr[i].position = ptr[i].position + (ptr[i].speed * interval);
 		ptr[i].speed = ptr[i].speed + (ptr[i].acceleration * (interval * interval));
@@ -58,7 +58,7 @@ void ParticleEmitter::draw()
 	Particle* ptr = this->particles.getPointer();
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBegin(GL_TRIANGLES);
-	for(int i = 0; i < this->particles.size(); i++)
+	for(unsigned int i = 0; i < this->particles.size(); i++)
 	{
 		if(ptr[i].life >= 0)
 		{

@@ -488,4 +488,5 @@ Bitmap* ResourceManager::loadJpeg(File file)
 	fclose(infile);
 
 	return bitmap;*/
+	return 0x0;
 }

@@ -74,30 +74,5 @@ private:
 	float pos[3];
 };
 
-static Console& operator<<(Console& con, const Vector& vec)
-{
-	con << vec[0] << ' ' << vec[1] << ' ' << vec[2];
-	return con;
-}
-
-// Opengl functions
-static void glTranslatev(Vector vector)
-{
-	glTranslatef(vector[0], vector[1], vector[2]);
-}
-static void glRotatev(Vector vector)
-{
-	// Get max number
-	float max;
-	if(vector[0] > vector[1])
-		max = vector[0];
-	else
-		max = vector[1];
-	if(vector[2] > max)
-		max = vector[2];
-
-	glRotatef(max, vector[0] / max, vector[1] / max, vector[2] / max);
-}
-
 #endif	/* _VECTOR_H */
 

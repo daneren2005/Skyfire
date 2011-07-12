@@ -52,10 +52,10 @@ void Mesh::computeBoundingBox()
 {
 	Vector minV(MAXFLOAT, MAXFLOAT, MAXFLOAT);
 	Vector maxV(MINFLOAT, MINFLOAT, MINFLOAT);
-	for(int i = 0; i < meshParts.size(); i++)
+	for(unsigned int i = 0; i < meshParts.size(); i++)
 	{
 		MeshPartPointer mesh = meshParts[i];
-		for(int j = 0; j < mesh->size(); j++)
+		for(unsigned int j = 0; j < mesh->size(); j++)
 		{
 			Vector v = (*mesh)[j].position;
 			if(v.x() < minV.x())
@@ -101,14 +101,14 @@ void Mesh::draw()
 	// Draw bounding box outline
 	// this->boundingBox.draw();
 
-	for(int i = 0; i < meshParts.size(); i++)
+	for(unsigned int i = 0; i < meshParts.size(); i++)
 	{
 		meshParts[i]->draw();
 	}
 }
 void Mesh::drawFrame()
 {
-	for(int i = 0; i < meshParts.size(); i++)
+	for(unsigned int i = 0; i < meshParts.size(); i++)
 	{
 		meshParts[i]->drawFrame();
 	}
@@ -117,7 +117,7 @@ void Mesh::drawFrame()
 long Mesh::numTriangles()
 {
 	long num = 0;
-	for(int i = 0; i < meshParts.size(); i++)
+	for(unsigned int i = 0; i < meshParts.size(); i++)
 	{
 		num += meshParts[i]->size();
 	}

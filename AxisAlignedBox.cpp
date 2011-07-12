@@ -140,7 +140,7 @@ AxisAlignedBox AxisAlignedBox::transform(Vector position, Vector angle) const
 	Array<Vector> points = this->getPoints();
 
 	// Translation of all the points
-	for(int i = 0; i < points.size(); i++)
+	for(unsigned int i = 0; i < points.size(); i++)
 	{
 		// Rotation
 		Matrix4 rotate = Matrix4::rotateObject(angle);
@@ -156,7 +156,7 @@ AxisAlignedBox AxisAlignedBox::transform(Vector position, Vector angle) const
 	// Will not give as perfect of a bounding box as rerunning original algorithm on transformed object
 	Vector min2(points[0]);
 	Vector max2(points[0]);
-	for(int i = 1; i < points.size(); i++)
+	for(unsigned int i = 1; i < points.size(); i++)
 	{
 		for(int j = 0; j < 3; j++)
 		{

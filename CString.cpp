@@ -231,7 +231,7 @@ String::String(double rhs)
 
 String::~String()
 {
-	delete[] this->array;
+	// delete[] this->array;
 }
 
 char& String::operator[](unsigned pos)
@@ -1455,7 +1455,7 @@ long String::toLong()
 	}
 
 	long num = 0;
-	for(long i = i; i < this->size; i++)
+	for(i = i; i < this->size; i++)
 	{
 		// Ingore everything after .
 		if(this->array[i] == '.')
@@ -1588,7 +1588,7 @@ double String::toDouble()
 	}
 
 	double num = 0.0;
-	for(long i = i; i < this->size; i++)
+	for(i = i; i < this->size; i++)
 	{
 		// Compute decimal part seperately
 		if(this->array[i] == '.')
