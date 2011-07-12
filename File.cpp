@@ -20,46 +20,67 @@
 #include <iostream>
 #include <sstream>
 
+int File::CHAR_SIZE = 1;
+int File::BUFFER_SIZE = 16384; // 32768;
+
 File::File(const char* filename)
 {
 	this->filename = String(filename);
+	this->handle = 0x0;
 }
 File::File(const String& filename)
 {
 	this->filename = filename;
+	this->handle = 0x0;
 }
 File::File(const File& orig)
 {
 	this->filename = orig.filename;
+	this->handle = orig.handle;
 }
 
 File::~File()
 {
-	if(this->handler.is_open())
-		this->handler.close();
+	/*if(this->handler.is_open())
+		this->handler.close();*/
+	
+	if(this->handle != 0x0)
+	{
+		fclose(this->handle);
+	}
 }
 
 void File::open()
 {
-	this->handler.open(this->filename.cStr());
+	/*this->handler.open(this->filename.cStr());
 
 	if(!this->handler.good())
 	{
 		console << "File::open error: Failed to open file " << filename << newline;
-	}
+	}*/
+	
+	this->handle = fopen(this->filename.cStr(), "r");
+	bufferEmpty = true;
 }
 void File::close()
 {
-	if(this->handler.is_open())
-		this->handler.close();
+	/*if(this->handler.is_open())
+		this->handler.close();*/
+	
+	fclose(this->handle);
+	this->handle = 0x0;
 }
 bool File::isOpen()
 {
-	return this->handler.is_open();
+	// return this->handler.is_open();
+	return this->handle != 0x0;
 }
 bool File::eof()
 {
-	return !this->handler.good();
+	if(i != positions.size())
+		return false;
+	else
+		return feof(handle);
 }
 
 String File::fileName()
@@ -104,17 +125,55 @@ String File::fullPath()
 
 char File::getCharacter()
 {
-	char temp;
+	/*char temp;
 	handler.get(temp);
-	return temp;
+	return temp;*/
+	
+	return fgetc(handle);
 }
 char File::peekCharacter()
 {
-	return handler.peek();
+	// return handler.peek();
+	
+	char temp = fgetc(handle);
+	fseek(handle, -1, SEEK_CUR);
+	return temp;
 }
 String File::getLine()
 {
-	std::string temp;
+	/*std::string temp;
 	getline(this->handler, temp);
-	return String(temp.c_str(), temp.length());
+	return String(temp.c_str(), temp.length());*/
+	
+	if(bufferEmpty == true)
+	{
+		// Need to rewind to last \n so not losing data
+		if(positions.size() != 0)
+		{
+			long pos = positions[i - 1];
+			long end = buffer.length();
+			fseek(handle, pos - end, SEEK_CUR);
+		}
+		
+		char* buff = new char[BUFFER_SIZE + 1];
+		long read = fread(buff, CHAR_SIZE, BUFFER_SIZE, handle);
+		buffer = String(buff, read - 1);
+		delete[] buff;
+		positions = buffer.strAllPos('\n');
+		i = 0;
+		oldPos = 0;
+		
+		bufferEmpty = false;
+	}
+	
+	long pos = positions[i];
+	i++;
+	if(i == positions.size())
+	{
+		bufferEmpty = true;
+	}
+	
+	String line = buffer.subStr(oldPos, pos - oldPos - 1);
+	oldPos = pos + 1;
+	return line;
 }

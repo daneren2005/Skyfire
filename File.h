@@ -46,6 +46,17 @@ public:
 private:
 	String filename;
 	std::ifstream handler;
+	
+	FILE* handle;
+	
+	String buffer;
+	Array<long> positions;
+	long oldPos;
+	long i;
+	bool bufferEmpty;
+	
+	static int CHAR_SIZE;
+	static int BUFFER_SIZE;
 };
 
 #endif	/* _FILE_H */
