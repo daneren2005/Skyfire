@@ -33,6 +33,27 @@ class Iterator;
 template <class T>
 class List
 {
+public:
+	List();
+	List(const List<T>& list);
+	~List();
+
+	T front();
+	T back();
+	bool empty();
+	long size();
+
+	void pushFront(const T& value);
+	void pushBack(const T& value);
+	T popFront();
+	T popBack();
+	void remove(T value);
+	
+	class Iterator;
+	class WriteIterator;
+	
+	Iterator begin();
+	WriteIterator beginWrite();
 private:
 	class Node
 	{
@@ -68,152 +89,6 @@ private:
 	pthread_mutex_t countLock;
 	pthread_rwlock_t headLock;
 	pthread_rwlock_t tailLock;
-public:
-	class Iterator
-	{
-	private:
-		typename List<T>::Node* current;
-	public:
-		Iterator(List<T>* list)
-		{
-			pthread_rwlock_rdlock(&list->headLock);
-			this->current = list->head;
-			if(this->current != NULL)
-			{
-				pthread_rwlock_rdlock(&current->lock);
-			}
-			pthread_rwlock_unlock(&list->headLock);
-		}
-
-		T value()
-		{
-			if(current == NULL)
-				return NULL;
-			else
-				return this->current->value;
-		}
-
-		// Operator Overloading
-		bool operator !()
-		{
-			if(this->current == NULL)
-				return false;
-			else
-				return true;
-		}
-		void operator ++(int)
-		{
-			if(current->next != NULL)
-			{
-				pthread_rwlock_rdlock(&current->next->lock);
-				this->current = this->current->next;
-				pthread_rwlock_unlock(&current->prev->lock);
-			}
-			else
-			{
-				pthread_rwlock_unlock(&current->lock);
-				this->current = this->current->next;
-			}
-		}
-	};
-
-	class WriteIterator
-	{
-	private:
-		typename List<T>::Node* current;
-	public:
-		WriteIterator(List<T>* list)
-		{
-			pthread_rwlock_wrlock(&list->headLock);
-			this->current = list->head;
-			if(this->current != NULL)
-			{
-				pthread_rwlock_wrlock(&current->lock);
-			}
-			pthread_rwlock_unlock(&list->headLock);
-		}
-
-		T value()
-		{
-			if(current == NULL)
-				return NULL;
-			else
-				return this->current->value;
-		}
-
-		T remove()
-		{
-			// If trying to remove head
-			// popFront would wait forever for this node to be unlocked
-			if(current->prev == NULL)
-			{
-				// TODO: special case of head remove
-
-			}
-			// popBack would wait forever for this node to be unlocked
-			else if(current->next == NULL)
-			{
-				// TODO: special case of tail removal
-			}
-			else
-			{
-				pthread_rwlock_wrlock(&current->next->lock);
-				typename List<T>::Node* toDelete = current;
-				current->prev->next = current->next;
-				current->next->prev = current->prev;
-				current = current->next;
-
-				delete toDelete;
-			}
-		}
-
-		// Operator Overloading
-		bool operator !()
-		{
-			if(this->current == NULL)
-				return false;
-			else
-				return true;
-		}
-		void operator ++(int)
-		{
-			if(current->next != NULL)
-			{
-				pthread_rwlock_wrlock(&current->next->lock);
-				this->current = this->current->next;
-				pthread_rwlock_unlock(&current->prev->lock);
-			}
-			else
-			{
-				pthread_rwlock_unlock(&current->lock);
-				this->current = this->current->next;
-			}
-		}
-	};
-
-	// Constructor/Destructor
-	List();
-	List(const List<T>& list);
-	~List();
-
-	// General Access
-	T front();
-	T back();
-	bool empty();
-	long size();
-	Iterator begin()
-	{
-		return Iterator(this);
-	}
-
-	// Insert
-	void pushFront(const T& value);
-	void pushBack(const T& value);
-
-	// Delete
-	T popFront();
-	T popBack();
-	void remove(T value);
 };
 
 template <class T>
@@ -628,5 +503,140 @@ void List<T>::remove(T value)
 	count--;
 	pthread_mutex_unlock(&countLock);
 }
+
+template <class T>
+typename List<T>::Iterator List<T>::begin()
+{
+	return Iterator(this);
+}
+template <class T>
+typename List<T>::WriteIterator List<T>::beginWrite()
+{
+	return Iterator(this);
+}
+
+template <class T>
+class List<T>::Iterator
+{
+private:
+	typename List<T>::Node* current;
+public:
+	Iterator(List<T>* list)
+	{
+		pthread_rwlock_rdlock(&list->headLock);
+		this->current = list->head;
+		if(this->current != NULL)
+		{
+			pthread_rwlock_rdlock(&current->lock);
+		}
+		pthread_rwlock_unlock(&list->headLock);
+	}
+
+	T value()
+	{
+		if(current == NULL)
+			return NULL;
+		else
+			return this->current->value;
+	}
+
+	// Operator Overloading
+	bool operator !()
+	{
+		if(this->current == NULL)
+			return false;
+		else
+			return true;
+	}
+	void operator ++(int)
+	{
+		if(current->next != NULL)
+		{
+			pthread_rwlock_rdlock(&current->next->lock);
+			this->current = this->current->next;
+			pthread_rwlock_unlock(&current->prev->lock);
+		}
+		else
+		{
+			pthread_rwlock_unlock(&current->lock);
+			this->current = this->current->next;
+		}
+	}
+};
+
+template <class T>
+class List<T>::WriteIterator
+{
+private:
+	typename List<T>::Node* current;
+public:
+	WriteIterator(List<T>* list)
+	{
+		pthread_rwlock_wrlock(&list->headLock);
+		this->current = list->head;
+		if(this->current != NULL)
+		{
+			pthread_rwlock_wrlock(&current->lock);
+		}
+		pthread_rwlock_unlock(&list->headLock);
+	}
+
+	T value()
+	{
+		if(current == NULL)
+			return NULL;
+		else
+			return this->current->value;
+	}
+
+	T remove()
+	{
+		// If trying to remove head
+		// popFront would wait forever for this node to be unlocked
+		if(current->prev == NULL)
+		{
+			// TODO: special case of head remove
+
+		}
+		// popBack would wait forever for this node to be unlocked
+		else if(current->next == NULL)
+		{
+			// TODO: special case of tail removal
+		}
+		else
+		{
+			pthread_rwlock_wrlock(&current->next->lock);
+			typename List<T>::Node* toDelete = current;
+			current->prev->next = current->next;
+			current->next->prev = current->prev;
+			current = current->next;
+
+			delete toDelete;
+		}
+	}
+
+	// Operator Overloading
+	bool operator !()
+	{
+		if(this->current == NULL)
+			return false;
+		else
+			return true;
+	}
+	void operator ++(int)
+	{
+		if(current->next != NULL)
+		{
+			pthread_rwlock_wrlock(&current->next->lock);
+			this->current = this->current->next;
+			pthread_rwlock_unlock(&current->prev->lock);
+		}
+		else
+		{
+			pthread_rwlock_unlock(&current->lock);
+			this->current = this->current->next;
+		}
+	}
+};
 
 #endif	/* _LIST_H */
