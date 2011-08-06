@@ -15,11 +15,11 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Scene.h"
+#include "Renderer.h"
 #include "BaseObject.h"
 #include <GL/glu.h>
 
-Scene::Scene()
+Renderer::Renderer()
 {
 	this->screenArea = Rectangle2(0, 0, 1280, 720);
 	this->aspectRatio = (float)(screenArea.ux - screenArea.lx) / (float)(screenArea.uy - screenArea.ly);
@@ -27,7 +27,7 @@ Scene::Scene()
 	this->farPerspective = 100.0f;
 }
 
-Scene::Scene(const Scene& orig)
+Renderer::Renderer(const Renderer& orig)
 {
 	this->screenArea = orig.screenArea;
 	this->aspectRatio = orig.aspectRatio;
@@ -35,17 +35,6 @@ Scene::Scene(const Scene& orig)
 	this->farPerspective = orig.farPerspective;
 }
 
-Scene::~Scene()
+Renderer::~Renderer()
 {
-}
-
-void Scene::render()
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glViewport(this->screenArea.lx, this->screenArea.ly, this->screenArea.ux, this->screenArea.uy);
-	gluPerspective(45.0f, this->aspectRatio, this->nearPerspective, this->farPerspective);
-	glMatrixMode(GL_MODELVIEW);
-
-	this->draw();
 }

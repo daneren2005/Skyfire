@@ -17,13 +17,13 @@
 #ifndef _CAMERA_H
 #define	_CAMERA_H
 
-#include "Scene.h"
+#include "Renderer.h"
 #include "Region.h"
 #include "BaseObject.h"
 
 class Universe;
 
-class Camera : public Scene, public BaseObject
+class Camera : public BaseObject
 {
 public:
 	Camera();

@@ -36,12 +36,14 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/ParticleSystem.o \
 	${OBJECTDIR}/Matrix.o \
-	${OBJECTDIR}/Thread.o \
 	${OBJECTDIR}/BaseObject.o \
-	${OBJECTDIR}/Camera.o \
+	${OBJECTDIR}/FirstPersonCamera.o \
+	${OBJECTDIR}/Thread.o \
 	${OBJECTDIR}/Triangle.o \
+	${OBJECTDIR}/Camera.o \
+	${OBJECTDIR}/Renderer.o \
+	${OBJECTDIR}/CameraRenderer.o \
 	${OBJECTDIR}/File.o \
-	${OBJECTDIR}/Scene.o \
 	${OBJECTDIR}/Console.o \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Universe.o \
@@ -67,6 +69,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Rectangle.o \
 	${OBJECTDIR}/AxisObject.o \
 	${OBJECTDIR}/Key.o \
+	${OBJECTDIR}/ThirdPersonCamera.o \
 	${OBJECTDIR}/Quaternion.o \
 	${OBJECTDIR}/Material.o
 
@@ -107,35 +110,45 @@ ${OBJECTDIR}/Matrix.o: Matrix.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix.o Matrix.cpp
 
-${OBJECTDIR}/Thread.o: Thread.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
-
 ${OBJECTDIR}/BaseObject.o: BaseObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/BaseObject.o BaseObject.cpp
 
-${OBJECTDIR}/Camera.o: Camera.cpp 
+${OBJECTDIR}/FirstPersonCamera.o: FirstPersonCamera.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Camera.o Camera.cpp
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/FirstPersonCamera.o FirstPersonCamera.cpp
+
+${OBJECTDIR}/Thread.o: Thread.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
 
 ${OBJECTDIR}/Triangle.o: Triangle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Triangle.o Triangle.cpp
 
+${OBJECTDIR}/Camera.o: Camera.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Camera.o Camera.cpp
+
+${OBJECTDIR}/Renderer.o: Renderer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Renderer.o Renderer.cpp
+
+${OBJECTDIR}/CameraRenderer.o: CameraRenderer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/CameraRenderer.o CameraRenderer.cpp
+
 ${OBJECTDIR}/File.o: File.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/File.o File.cpp
-
-${OBJECTDIR}/Scene.o: Scene.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scene.o Scene.cpp
 
 ${OBJECTDIR}/Console.o: Console.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -261,6 +274,11 @@ ${OBJECTDIR}/Key.o: Key.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Key.o Key.cpp
+
+${OBJECTDIR}/ThirdPersonCamera.o: ThirdPersonCamera.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/ThirdPersonCamera.o ThirdPersonCamera.cpp
 
 ${OBJECTDIR}/Quaternion.o: Quaternion.cpp 
 	${MKDIR} -p ${OBJECTDIR}

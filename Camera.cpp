@@ -22,7 +22,7 @@
 
 #include <iostream>
 
-Camera::Camera() : Scene()
+Camera::Camera() : BaseObject()
 {
 	this->activeRegion = NULL;
 	this->object = NULL;
@@ -31,7 +31,7 @@ Camera::Camera() : Scene()
 	directionForward = Vector();
 }
 
-Camera::Camera(const Camera& orig) : Scene(orig)
+Camera::Camera(const Camera& orig) : BaseObject(orig)
 {
 
 }
@@ -210,7 +210,7 @@ BaseObject* Camera::getObjectAt(int x, int y)
 		gluPerspective(45.0f, (GLfloat) (view[2]-view[0])/(GLfloat) (view[3]-view[1]), 0.1f, 100.0f);
 
 		glMatrixMode(GL_MODELVIEW);
-		this->render();
+		// this->render();
 		glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 

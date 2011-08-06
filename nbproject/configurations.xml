@@ -25,8 +25,8 @@
     <logicalFolder name="f6" displayName="Graphics" projectFiles="true">
       <itemPath>Bitmap.cpp</itemPath>
       <itemPath>Bitmap.h</itemPath>
-      <itemPath>Camera.cpp</itemPath>
-      <itemPath>Camera.h</itemPath>
+      <itemPath>CameraRenderer.cpp</itemPath>
+      <itemPath>CameraRenderer.h</itemPath>
       <itemPath>Material.cpp</itemPath>
       <itemPath>Material.h</itemPath>
       <itemPath>Mesh.cpp</itemPath>
@@ -35,10 +35,10 @@
       <itemPath>MeshPart.h</itemPath>
       <itemPath>Model.cpp</itemPath>
       <itemPath>Model.h</itemPath>
+      <itemPath>Renderer.cpp</itemPath>
+      <itemPath>Renderer.h</itemPath>
       <itemPath>ResourceManager.cpp</itemPath>
       <itemPath>ResourceManager.h</itemPath>
-      <itemPath>Scene.cpp</itemPath>
-      <itemPath>Scene.h</itemPath>
       <itemPath>Triangle.cpp</itemPath>
       <itemPath>Triangle.h</itemPath>
     </logicalFolder>
@@ -75,6 +75,10 @@
       <itemPath>AxisObject.h</itemPath>
       <itemPath>BaseObject.cpp</itemPath>
       <itemPath>BaseObject.h</itemPath>
+      <itemPath>Camera.cpp</itemPath>
+      <itemPath>Camera.h</itemPath>
+      <itemPath>FirstPersonCamera.cpp</itemPath>
+      <itemPath>FirstPersonCamera.h</itemPath>
       <itemPath>Particle.cpp</itemPath>
       <itemPath>Particle.h</itemPath>
       <itemPath>ParticleEmitter.cpp</itemPath>
@@ -85,6 +89,8 @@
       <itemPath>Region.h</itemPath>
       <itemPath>StaticObject.cpp</itemPath>
       <itemPath>StaticObject.h</itemPath>
+      <itemPath>ThirdPersonCamera.cpp</itemPath>
+      <itemPath>ThirdPersonCamera.h</itemPath>
       <itemPath>Universe.cpp</itemPath>
       <itemPath>Universe.h</itemPath>
     </logicalFolder>
@@ -108,9 +114,6 @@
       </toolsSet>
       <compileType>
         <ccTool>
-          <incDir>
-            <pElem>Include</pElem>
-          </incDir>
           <warningLevel>2</warningLevel>
         </ccTool>
         <fortranCompilerTool>

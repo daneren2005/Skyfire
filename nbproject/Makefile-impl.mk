@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Skyfire
+PROJECTNAME=skyfire
 
 # Active Configuration
 DEFAULTCONF=Debug_Linux

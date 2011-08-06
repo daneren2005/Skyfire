@@ -30,10 +30,10 @@
 #endif
 // #include <SDL/SDL_opengl.h>
 
-#include "Scene.h"
+#include "Renderer.h"
 #include "Input.h"
-
 #include "Thread.h"
+#include "CameraRenderer.h"
 
 #include <iostream>
 
@@ -58,7 +58,8 @@ public:
 	void setResolution(GLdouble width, GLdouble height, GLdouble distance);
 
 	// Set the scene to render
-	void setScene(Scene* newScene);
+	void setRenderer(Renderer* newRenderer);
+	void setCamera(Camera* camera);
 
 	Input* getInput();
 private:
@@ -82,7 +83,7 @@ private:
 
 	// Render scene, thread, and function
 	pthread_mutex_t glLock;
-	Scene* renderScene;
+	Renderer* renderer;
 	Thread renderThread;
 	static void* renderFunction(Thread* arg);
 

@@ -15,20 +15,19 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _SCENE_H
-#define	_SCENE_H
+#ifndef _RENDERER_H
+#define	_RENDERER_H
 
 #include "Rectangle.h"
 
-class Scene
+class Renderer
 {
 public:
-	Scene();
-	Scene(const Scene& orig);
-	virtual ~Scene();
+	Renderer();
+	Renderer(const Renderer& orig);
+	virtual ~Renderer();
 
-	void render();
-	virtual void draw() = 0;
+	virtual void render() = 0;
 protected:
 	Rectangle2 screenArea;
 	float aspectRatio;

@@ -18,10 +18,11 @@
 #include <iostream>
 #include "Window.h"
 #include "BaseObject.h"
+#include "CameraRenderer.h"
 
 Window::Window()
 {
-	renderScene = NULL;
+	renderer = NULL;
 	this->terminate = false;
 	this->screenWidth = 640;
 	this->screenHeight = 480;
@@ -46,7 +47,7 @@ Window::Window()
 
 Window::Window(int width, int height)
 {
-	renderScene = NULL;
+	renderer = NULL;
 	this->terminate = false;
 	this->screenWidth = width;
 	this->screenHeight = height;
@@ -275,8 +276,8 @@ void* Window::renderFunction(Thread* arg)
 	// Start to draw
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if(win->renderScene != NULL)
-		win->renderScene->render();
+	if(win->renderer != NULL)
+		win->renderer->render();
 
 	// Update screen
 	glFlush();
@@ -631,8 +632,14 @@ void Window::resetScreen()
 	glLoadIdentity();*/
 }
 
-void Window::setScene(Scene* newScene)
+void Window::setRenderer(Renderer* newRenderer)
 {
-	this->renderScene = newScene;
+	this->renderer = newRenderer;
+}
+void Window::setCamera(Camera* camera)
+{
+	CameraRenderer* newRenderer = new CameraRenderer();
+	newRenderer->setCamera(camera);
+	this->renderer = newRenderer;
 }
 
