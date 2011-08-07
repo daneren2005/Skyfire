@@ -819,7 +819,7 @@ long String::length()
 
 const char* String::cStr() const
 {
-	char* cString = new char[this->size];
+	char* cString = new char[this->size + 1];
 	memcpy(cString, this->array, this->size + 1);
 	return cString;
 }
