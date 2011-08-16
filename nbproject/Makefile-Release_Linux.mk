@@ -55,7 +55,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/Matrix4.o \
 	${OBJECTDIR}/ParticleEmitter.o \
 	${OBJECTDIR}/GenericType.o \
-	${OBJECTDIR}/StopWatch.o \
 	${OBJECTDIR}/MeshPart.o \
 	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/Particle.o \
@@ -70,6 +69,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/AxisAlignedBox.o \
 	${OBJECTDIR}/Rectangle.o \
 	${OBJECTDIR}/AxisObject.o \
+	${OBJECTDIR}/Timer.o \
 	${OBJECTDIR}/Key.o \
 	${OBJECTDIR}/ThirdPersonCamera.o \
 	${OBJECTDIR}/Quaternion.o \
@@ -207,11 +207,6 @@ ${OBJECTDIR}/GenericType.o: GenericType.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/GenericType.o GenericType.cpp
 
-${OBJECTDIR}/StopWatch.o: StopWatch.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/StopWatch.o StopWatch.cpp
-
 ${OBJECTDIR}/MeshPart.o: MeshPart.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -281,6 +276,11 @@ ${OBJECTDIR}/AxisObject.o: AxisObject.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisObject.o AxisObject.cpp
+
+${OBJECTDIR}/Timer.o: Timer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/Timer.o Timer.cpp
 
 ${OBJECTDIR}/Key.o: Key.cpp 
 	${MKDIR} -p ${OBJECTDIR}

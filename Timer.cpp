@@ -15,9 +15,9 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "StopWatch.h"
+#include "Timer.h"
 
-StopWatch::StopWatch()
+Timer::Timer()
 {
 	this->running = false;
 	this->totalSeconds = 0;
@@ -29,7 +29,7 @@ StopWatch::StopWatch()
 	#endif
 }
 
-StopWatch::StopWatch(const StopWatch& orig)
+Timer::Timer(const Timer& orig)
 {
 	this->totalSeconds = orig.totalSeconds;
 	this->previousTotal = orig.previousTotal;
@@ -42,7 +42,7 @@ StopWatch::StopWatch(const StopWatch& orig)
 	#endif
 }
 
-void StopWatch::start()
+void Timer::start()
 {
 	if(this->running == false)
 	{
@@ -62,7 +62,7 @@ void StopWatch::start()
 	}
 }
 
-void StopWatch::stop()
+void Timer::stop()
 {
 	if(this->running == true)
 	{
@@ -80,7 +80,7 @@ void StopWatch::stop()
 	}
 }
 
-void StopWatch::reset()
+void Timer::reset()
 {
 	this->totalSeconds = 0;
 	
@@ -100,7 +100,7 @@ void StopWatch::reset()
 	}
 }
 
-double StopWatch::totalTime()
+double Timer::totalTime()
 {
 	if(this->running == true)
 	{
@@ -120,7 +120,7 @@ double StopWatch::totalTime()
 	return this->totalSeconds;
 }
 
-double StopWatch::elapsedTime()
+double Timer::elapsedTime()
 {
 	if(this->running == true)
 	{

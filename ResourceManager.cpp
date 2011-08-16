@@ -24,7 +24,7 @@
 #include "jpeglib.h"
 #include "setjmp.h"
 #include <string.h>
-#include "StopWatch.h"
+#include "Timer.h"
 
 ResourceManager resourceManager = ResourceManager();
 
@@ -110,7 +110,7 @@ MeshPointer ResourceManager::loadObj(File file)
 	String line;
 	line = file.getLine();
 
-	StopWatch timer;
+	Timer timer;
 	timer.start();
 	bool first = true;
 	while(!file.eof())

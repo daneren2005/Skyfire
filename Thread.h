@@ -22,7 +22,7 @@
 #include <GL/glu.h>
 
 #include <pthread.h>
-#include "StopWatch.h"
+#include "Timer.h"
 
 class Window;
 
@@ -55,7 +55,7 @@ private:
 
 	static void* threadFunction(void* arg);
 
-	StopWatch clock;
+	Timer clock;
 	double period;
 	int counter;
 	int returnCounter;

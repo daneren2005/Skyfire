@@ -15,8 +15,8 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _STOPWATCH_H
-#define	_STOPWATCH_H
+#ifndef _TIMER_H
+#define	_TIMER_H
 
 #ifdef WIN32
 	#include <windows.h>
@@ -26,12 +26,12 @@
 	#include <time.h>
 #endif
 
-class StopWatch
+class Timer
 {
 public:
 	// Initilization
-	StopWatch();
-	StopWatch(const StopWatch& orig);
+	Timer();
+	Timer(const Timer& orig);
 
 	// Run functions
 	void start();

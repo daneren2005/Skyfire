@@ -21,7 +21,7 @@
 #include "Window.h"
 #include "Universe.h"
 
-#include "StopWatch.h"
+#include "Timer.h"
 #include "List.h"
 #include "Vector.h"
 #include "Matrix4.h"

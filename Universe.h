@@ -21,7 +21,7 @@
 #include "Region.h"
 #include "Camera.h"
 #include "List.h"
-#include "StopWatch.h"
+#include "Timer.h"
 #include "Input.h"
 #include "Thread.h"
 
@@ -57,7 +57,7 @@ protected:
 
 	// Update thread + loop
 	bool running;
-	StopWatch timer;
+	Timer timer;
 	Thread updateThread;
 	static void* updateFunction(Thread* arg);
 };
