@@ -41,8 +41,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Thread.o \
 	${OBJECTDIR}/Triangle.o \
 	${OBJECTDIR}/Camera.o \
-	${OBJECTDIR}/Renderer.o \
 	${OBJECTDIR}/CameraRenderer.o \
+	${OBJECTDIR}/Renderer.o \
 	${OBJECTDIR}/File.o \
 	${OBJECTDIR}/Console.o \
 	${OBJECTDIR}/Input.o \
@@ -54,13 +54,15 @@ OBJECTFILES= \
 	${OBJECTDIR}/ObjectOrientedBox.o \
 	${OBJECTDIR}/Matrix4.o \
 	${OBJECTDIR}/ParticleEmitter.o \
+	${OBJECTDIR}/GenericType.o \
 	${OBJECTDIR}/StopWatch.o \
-	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/MeshPart.o \
+	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/Particle.o \
-	${OBJECTDIR}/CString.o \
 	${OBJECTDIR}/ResourceManager.o \
 	${OBJECTDIR}/Vector.o \
+	${OBJECTDIR}/GenericPointer.o \
+	${OBJECTDIR}/CString.o \
 	${OBJECTDIR}/FileDirectory.o \
 	${OBJECTDIR}/Bitmap.o \
 	${OBJECTDIR}/Sphere.o \
@@ -135,15 +137,15 @@ ${OBJECTDIR}/Camera.o: Camera.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Camera.o Camera.cpp
 
-${OBJECTDIR}/Renderer.o: Renderer.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Renderer.o Renderer.cpp
-
 ${OBJECTDIR}/CameraRenderer.o: CameraRenderer.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/CameraRenderer.o CameraRenderer.cpp
+
+${OBJECTDIR}/Renderer.o: Renderer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Renderer.o Renderer.cpp
 
 ${OBJECTDIR}/File.o: File.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -200,30 +202,30 @@ ${OBJECTDIR}/ParticleEmitter.o: ParticleEmitter.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleEmitter.o ParticleEmitter.cpp
 
+${OBJECTDIR}/GenericType.o: GenericType.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/GenericType.o GenericType.cpp
+
 ${OBJECTDIR}/StopWatch.o: StopWatch.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/StopWatch.o StopWatch.cpp
-
-${OBJECTDIR}/Model.o: Model.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Model.o Model.cpp
 
 ${OBJECTDIR}/MeshPart.o: MeshPart.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/MeshPart.o MeshPart.cpp
 
+${OBJECTDIR}/Model.o: Model.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Model.o Model.cpp
+
 ${OBJECTDIR}/Particle.o: Particle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Particle.o Particle.cpp
-
-${OBJECTDIR}/CString.o: CString.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/CString.o CString.cpp
 
 ${OBJECTDIR}/ResourceManager.o: ResourceManager.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -234,6 +236,16 @@ ${OBJECTDIR}/Vector.o: Vector.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Vector.o Vector.cpp
+
+${OBJECTDIR}/GenericPointer.o: GenericPointer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/GenericPointer.o GenericPointer.cpp
+
+${OBJECTDIR}/CString.o: CString.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/CString.o CString.cpp
 
 ${OBJECTDIR}/FileDirectory.o: FileDirectory.cpp 
 	${MKDIR} -p ${OBJECTDIR}

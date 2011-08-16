@@ -12,6 +12,10 @@
       <itemPath>File.h</itemPath>
       <itemPath>FileDirectory.cpp</itemPath>
       <itemPath>FileDirectory.h</itemPath>
+      <itemPath>GenericPointer.cpp</itemPath>
+      <itemPath>GenericPointer.h</itemPath>
+      <itemPath>GenericType.cpp</itemPath>
+      <itemPath>GenericType.h</itemPath>
       <itemPath>List.h</itemPath>
       <itemPath>Map.h</itemPath>
       <itemPath>SharedPointer.h</itemPath>

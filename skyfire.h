@@ -38,6 +38,8 @@
 #include "ParticleEmitter.h"
 #include "ParticleSystem.h"
 #include "SharedPointer.h"
+#include "GenericType.h"
+#include "GenericPointer.h"
 
 #endif	/* _SKYFIRE_H */
 
