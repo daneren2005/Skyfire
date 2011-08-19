@@ -18,9 +18,6 @@
 #ifndef _THREAD_H
 #define	_THREAD_H
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-
 #include <pthread.h>
 #include "Timer.h"
 
