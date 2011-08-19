@@ -494,7 +494,11 @@ bool String::operator<(const String& rhs)
 			return false;
 		}
 	}
-	return false;
+	
+	if(this->size < rhs.size)
+		return true;
+	else
+		return false;
 }
 bool String::operator<(const String& rhs) const
 {
@@ -509,11 +513,16 @@ bool String::operator<(const String& rhs) const
 			return false;
 		}
 	}
-	return false;
+	
+	if(this->size < rhs.size)
+		return true;
+	else
+		return false;
 }
 bool String::operator<(const char* rhs)
 {
-	for(long i = 0; i < this->size && rhs[i] != 0x0; i++)
+	long i;
+	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
 	{
 		if(this->array[i] < rhs[i])
 		{
@@ -524,11 +533,23 @@ bool String::operator<(const char* rhs)
 			return false;
 		}
 	}
-	return false;
+
+	if(this->size > i)
+	{
+		return false;
+	}
+	else
+	{
+		if(rhs[i] == 0x0)
+			return false;
+		else
+			return true;
+	}
 }
 bool String::operator<(const char* rhs) const
 {
-	for(long i = 0; i < this->size && rhs[i] != 0x0; i++)
+	long i;
+	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
 	{
 		if(this->array[i] < rhs[i])
 		{
@@ -539,7 +560,18 @@ bool String::operator<(const char* rhs) const
 			return false;
 		}
 	}
-	return false;
+
+	if(this->size > i)
+	{
+		return false;
+	}
+	else
+	{
+		if(rhs[i] == 0x0)
+			return false;
+		else
+			return true;
+	}
 }
 bool String::operator<=(const String& rhs)
 {
@@ -554,7 +586,11 @@ bool String::operator<=(const String& rhs)
 			return false;
 		}
 	}
-	return true;
+	
+	if(this->size <= rhs.size)
+		return true;
+	else
+		return false;
 }
 bool String::operator<=(const String& rhs) const
 {
@@ -569,11 +605,16 @@ bool String::operator<=(const String& rhs) const
 			return false;
 		}
 	}
-	return true;
+	
+	if(this->size <= rhs.size)
+		return true;
+	else
+		return false;
 }
 bool String::operator<=(const char* rhs)
 {
-	for(long i = 0; i < this->size && rhs[i] != 0x0; i++)
+	long i;
+	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
 	{
 		if(this->array[i] < rhs[i])
 		{
@@ -584,11 +625,16 @@ bool String::operator<=(const char* rhs)
 			return false;
 		}
 	}
-	return true;
+	
+	if(this->size > i)
+		return false;
+	else
+		return true;
 }
 bool String::operator<=(const char* rhs) const
 {
-	for(long i = 0; i < this->size && rhs[i] != 0x0; i++)
+	long i;
+	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
 	{
 		if(this->array[i] < rhs[i])
 		{
@@ -599,7 +645,11 @@ bool String::operator<=(const char* rhs) const
 			return false;
 		}
 	}
-	return true;
+	
+	if(this->size > i)
+		return false;
+	else
+		return true;
 }
 bool String::operator>(const String& rhs)
 {
@@ -614,7 +664,11 @@ bool String::operator>(const String& rhs)
 			return true;
 		}
 	}
-	return false;
+
+	if(this->size > rhs.size)
+		return true;
+	else
+		return false;
 }
 bool String::operator>(const String& rhs) const
 {
@@ -629,11 +683,16 @@ bool String::operator>(const String& rhs) const
 			return true;
 		}
 	}
-	return false;
+	
+	if(this->size > rhs.size)
+		return true;
+	else
+		return false;
 }
 bool String::operator>(const char* rhs)
 {
-	for(long i = 0; i < this->size && rhs[i] != 0x0; i++)
+	long i;
+	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
 	{
 		if(this->array[i] < rhs[i])
 		{
@@ -644,11 +703,16 @@ bool String::operator>(const char* rhs)
 			return true;
 		}
 	}
-	return false;
+	
+	if(this->size > i)
+		return true;
+	else
+		return false;
 }
 bool String::operator>(const char* rhs) const
 {
-	for(long i = 0; i < this->size && rhs[i] != 0x0; i++)
+	long i;
+	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
 	{
 		if(this->array[i] < rhs[i])
 		{
@@ -659,7 +723,11 @@ bool String::operator>(const char* rhs) const
 			return true;
 		}
 	}
-	return false;
+	
+	if(this->size > i)
+		return true;
+	else
+		return false;
 }
 bool String::operator>=(const String& rhs)
 {
@@ -674,7 +742,11 @@ bool String::operator>=(const String& rhs)
 			return true;
 		}
 	}
-	return true;
+	
+	if(this->size >= rhs.size)
+		return true;
+	else
+		return false;
 }
 bool String::operator>=(const String& rhs) const
 {
@@ -689,11 +761,16 @@ bool String::operator>=(const String& rhs) const
 			return true;
 		}
 	}
-	return true;
+	
+	if(this->size >= rhs.size)
+		return true;
+	else
+		return false;
 }
 bool String::operator>=(const char* rhs)
 {
-	for(long i = 0; i < this->size && rhs[i] != 0x0; i++)
+	long i;
+	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
 	{
 		if(this->array[i] < rhs[i])
 		{
@@ -704,11 +781,23 @@ bool String::operator>=(const char* rhs)
 			return true;
 		}
 	}
-	return true;
+	
+	if(this->size > i)
+	{
+		return true;
+	}
+	else
+	{
+		if(rhs[i] == 0x0)
+			return true;
+		else
+			return false;
+	}
 }
 bool String::operator>=(const char* rhs) const
 {
-	for(long i = 0; i < this->size && rhs[i] != 0x0; i++)
+	long i;
+	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
 	{
 		if(this->array[i] < rhs[i])
 		{
@@ -719,8 +808,20 @@ bool String::operator>=(const char* rhs) const
 			return true;
 		}
 	}
-	return true;
+	
+	if(this->size > i)
+	{
+		return true;
+	}
+	else
+	{
+		if(rhs[i] == 0x0)
+			return true;
+		else
+			return false;
+	}
 }
+
 
 String& String::operator>>(String& rhs)
 {
