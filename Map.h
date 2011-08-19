@@ -255,28 +255,6 @@ Map<Value, Key>& Map<Value, Key>::operator=(const Map& orig)
 	return *this;
 }
 
-
-template <class Value, class Key>
-typename Map<Value, Key>::Iterator Map<Value, Key>::begin()
-{
-	return Iterator(this);
-}
-template <class Value, class Key>
-typename Map<Value, Key>::InOrderIterator Map<Value, Key>::beginInOrder()
-{
-	return InOrderIterator(this);
-}
-template <class Value, class Key>
-typename Map<Value, Key>::DepthFirstIterator Map<Value, Key>::beginDepthFirst()
-{
-	return DepthFirstIterator(this);
-}
-template <class Value, class Key>
-typename Map<Value, Key>::BreadthFirstIterator Map<Value, Key>::beginBreadthFirst()
-{
-	return BreadthFirstIterator(this);
-}
-
 template <class Value, class Key>
 typename Map<Value, Key>::Node* Map<Value, Key>::findClosestMatch(const Key& key)
 {
@@ -812,5 +790,26 @@ private:
 	List<typename Map<Value, Key>::Node*> queue;
 	typename Map<Value, Key>::Node* current;
 };
+
+template <class Value, class Key>
+typename Map<Value, Key>::Iterator Map<Value, Key>::begin()
+{
+	return Iterator(this);
+}
+template <class Value, class Key>
+typename Map<Value, Key>::InOrderIterator Map<Value, Key>::beginInOrder()
+{
+	return InOrderIterator(this);
+}
+template <class Value, class Key>
+typename Map<Value, Key>::DepthFirstIterator Map<Value, Key>::beginDepthFirst()
+{
+	return DepthFirstIterator(this);
+}
+template <class Value, class Key>
+typename Map<Value, Key>::BreadthFirstIterator Map<Value, Key>::beginBreadthFirst()
+{
+	return BreadthFirstIterator(this);
+}
 
 #endif
