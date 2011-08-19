@@ -160,9 +160,6 @@ List<T>::~List()
 		delete toDelete;
 	}
 
-	delete head;
-	delete tail;
-
 	pthread_mutex_destroy(&countLock);
 	pthread_rwlock_destroy(&headLock);
 }
@@ -505,17 +502,6 @@ void List<T>::remove(T value)
 }
 
 template <class T>
-typename List<T>::Iterator List<T>::begin()
-{
-	return Iterator(this);
-}
-template <class T>
-typename List<T>::WriteIterator List<T>::beginWrite()
-{
-	return Iterator(this);
-}
-
-template <class T>
 class List<T>::Iterator
 {
 private:
@@ -638,5 +624,16 @@ public:
 		}
 	}
 };
+
+template <class T>
+typename List<T>::Iterator List<T>::begin()
+{
+	return Iterator(this);
+}
+template <class T>
+typename List<T>::WriteIterator List<T>::beginWrite()
+{
+	return Iterator(this);
+}
 
 #endif	/* _LIST_H */

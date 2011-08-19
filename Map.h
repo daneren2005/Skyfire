@@ -18,233 +18,799 @@
 #ifndef _MAP_H
 #define	_MAP_H
 
+#include "List.h"
 #include "Exceptions.h"
-#include <iostream>
 
-template <class Key, class T>
+#include "Console.h"
+
+template <class Value, class Key>
 class Map
 {
+public:
+	Map();
+	Map(const Map& orig);
+	~Map();
+
+	long size();
+	void insert(const Value& value, const Key& key);
+	Value remove(const Key& key);
+	Value search(const Key& key);
+	bool exists(const Key& key);
+
+	Value& operator[](const Key& key);
+	const Value& operator[](const Key& key) const;
+	Map& operator=(const Map& orig);
+
+	class InOrderIterator;
+	class DepthFirstIterator;
+	class BreadthFirstIterator;
+	typedef InOrderIterator Iterator;
+
+	Iterator begin();
+	InOrderIterator beginInOrder();
+	DepthFirstIterator beginDepthFirst();
+	BreadthFirstIterator beginBreadthFirst();
 private:
 	class Node
 	{
 	public:
-		Node(const Key& key, const T& value)
+		Node(const Value& value, const Key& key, bool red = true)
 		{
 			this->key = key;
 			this->value = value;
-			this->prev = NULL;
-			this->next = NULL;
+			this->parent = NULL;
+			this->left = NULL;
+			this->right = NULL;
+			this->red = red;
 		}
 
 		Key key;
-		T value;
-
-		Node* prev;
-		Node* next;
+		Value value;
+		Node* parent;
+		Node* left;
+		Node* right;
+		bool red;
 	};
 
-	Node* head;
-	Node* tail;
+	Node* root;
 	long count;
-public:
-	Map();
-	Map(const Map& orig);
-	virtual ~Map();
 
-	T& operator[](const Key& key);
-	const T& operator[](const Key& key) const;
+	Node* findClosestMatch(const Key& key);
+	Node* findUncle(Node* node);
+	Node* findGrandparent(Node* node);
+	Node* findSibling(Node* node);
 
-	void insert(const Key& access, const T& value);
-	T search(const Key& key);
-
-	class Iterator
-	{
-	private:
-		typename Map<Key, T>::Node* current;
-	public:
-		Iterator(Map<Key, T>* map)
-		{
-			this->current = map->head;
-		}
-
-		T value()
-		{
-			if(current == NULL)
-			{
-				return NULL;
-			}
-			else
-			{
-				return this->current->value;
-			}
-		}
-
-		// Operator Overloading
-		bool operator !()
-		{
-			if(this->current == NULL)
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
-		void operator ++()
-		{
-			if(current != NULL)
-			{
-				this->current = this->current->next;
-			}
-		}
-		void operator ++(int)
-		{
-			if(current != NULL)
-			{
-				this->current = this->current->next;
-			}
-		}
-	};
-
-	Iterator begin()
-	{
-		return Iterator(this);
-	}
+	void checkInsertion(Node* node);
+	void checkDeletion(Node* node);
+	void rotateLeft(Node* node);
+	void rotateRight(Node* node);
+	
+	void recursiveCopy(Node* thisNode, Node* origNode);
+	void recursiveRemove(Node* current);
 };
 
-template <class Key, class T>
-Map<Key, T>::Map()
+template <class Value, class Key>
+Map<Value, Key>::Map()
 {
-	head = NULL;
-	tail = NULL;
-	count = 0;
+	this->root = 0x0;
+	this->count = 0;
 }
 
-template <class Key, class T>
-Map<Key, T>::Map(const Map& orig)
+template <class Value, class Key>
+Map<Value, Key>::Map(const Map& orig)
 {
-	this->head = NULL;
-	this->tail = NULL;
-	Node* current = NULL;
-	for(Node* node = orig.head; node != NULL; node = node->next)
+	if(orig.root == 0x0)
 	{
-		if(this->head == NULL)
+		this->root = 0x0;
+		this->count = 0;
+	}
+	else
+	{
+		this->root = new Node(orig.root->value, orig.root->key, orig.root->red);
+		this->count = orig.count;
+
+		recursiveCopy(this->root, orig.root);
+	}
+}
+
+template <class Value, class Key>
+Map<Value, Key>::~Map()
+{
+	recursiveRemove(root);
+}
+
+template <class Value, class Key>
+long Map<Value, Key>::size()
+{
+	return this->count;
+}
+
+template <class Value, class Key>
+void Map<Value, Key>::insert(const Value& value, const Key& key)
+{
+	Node* closest = findClosestMatch(key);
+	Node* newNode = new Node(value, key);
+
+	// Empty tree
+	if(closest == 0x0)
+	{
+		root = newNode;
+	}
+	else
+	{
+		// Insert to left
+		if(key < closest->key)
 		{
-			this->head = new Node(node->key, node->value);
-			current = this->head;
+			closest->left = newNode;
+		}
+		// Insert to right
+		else
+		{
+			closest->right = newNode;
+		}
+
+		newNode->parent = closest;
+	}
+
+	checkInsertion(newNode);
+	this->count++;
+}
+
+template <class Value, class Key>
+Value Map<Value, Key>::remove(const Key& key)
+{
+	Node* node = findClosestMatch(key);
+
+	if(node == 0x0 || node->key != key)
+	{
+		throw OutOfRange();
+	}
+	else if(node->parent == 0x0)
+	{
+		root = 0x0;
+	}
+
+	checkDeletion(node);
+	this->count--;
+	return node->value;
+}
+
+template <class Value, class Key>
+Value Map<Value, Key>::search(const Key& key)
+{
+	Node* node = findClosestMatch(key);
+
+	if(node == 0x0 || node->key != key)
+	{
+		throw OutOfRange();
+	}
+
+	return node->value;
+}
+
+template <class Value, class Key>
+bool Map<Value, Key>::exists(const Key& key)
+{
+	Node* node = findClosestMatch(key);
+
+	if(node == 0x0 || node->key != key)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+template <class Value, class Key>
+Value& Map<Value, Key>::operator[](const Key& key)
+{
+	Node* closest = findClosestMatch(key);
+	if(closest->key == key)
+	{
+		return closest->value;
+	}
+	else
+	{
+		// TODO: speed up, waste of resources
+		Value value;
+		this->insert(value, key);
+		closest = findClosestMatch(key);
+		return closest->value;
+	}
+}
+template <class Value, class Key>
+const Value& Map<Value, Key>::operator[](const Key& key) const
+{
+	Node* closest = findClosestMatch(key);
+	if(closest->key == key)
+	{
+		return closest->value;
+	}
+	else
+	{
+		throw OutOfRange();
+	}
+}
+template <class Value, class Key>
+Map<Value, Key>& Map<Value, Key>::operator=(const Map& orig)
+{
+	if(this == &orig)
+		return *this;
+	
+	recursiveRemove(root);
+	
+	if(orig.root == 0x0)
+	{
+		this->root = 0x0;
+		this->count = 0;
+	}
+	else
+	{
+		this->root = new Node(orig.root->value, orig.root->key, orig.root->red);
+		this->count = orig.count;
+
+		recursiveCopy(this->root, orig.root);
+	}
+	
+	return *this;
+}
+
+
+template <class Value, class Key>
+typename Map<Value, Key>::Iterator Map<Value, Key>::begin()
+{
+	return Iterator(this);
+}
+template <class Value, class Key>
+typename Map<Value, Key>::InOrderIterator Map<Value, Key>::beginInOrder()
+{
+	return InOrderIterator(this);
+}
+template <class Value, class Key>
+typename Map<Value, Key>::DepthFirstIterator Map<Value, Key>::beginDepthFirst()
+{
+	return DepthFirstIterator(this);
+}
+template <class Value, class Key>
+typename Map<Value, Key>::BreadthFirstIterator Map<Value, Key>::beginBreadthFirst()
+{
+	return BreadthFirstIterator(this);
+}
+
+template <class Value, class Key>
+typename Map<Value, Key>::Node* Map<Value, Key>::findClosestMatch(const Key& key)
+{
+	if(root == 0x0)
+	{
+		return 0x0;
+	}
+
+	Node* current = root;
+	while(true)
+	{
+		// Exact match
+		if(key == current->key)
+		{
+			return current;
+		}
+		// Go left
+		else if(key < current->key)
+		{
+			// As far left as it will go
+			if(current->left == NULL)
+			{
+				return current;
+			}
+			// Go further down
+			else
+			{
+				current = current->left;
+			}
+		}
+		// Go right
+		else
+		{
+			// As far right as it will go
+			if(current->right == NULL)
+			{
+				return current;
+			}
+			// Go further down
+			else
+			{
+				current = current->right;
+			}
+		}
+	}
+}
+
+template <class Value, class Key>
+typename Map<Value, Key>::Node* Map<Value, Key>::findUncle(Node* node)
+{
+	Node* grandparent = findGrandparent(node);
+	if(grandparent == 0x0)
+	{
+		return 0x0;
+	}
+	else if(node->parent == grandparent->left)
+	{
+		return grandparent->right;
+	}
+	else
+	{
+		return grandparent->left;
+	}
+}
+template <class Value, class Key>
+typename Map<Value, Key>::Node* Map<Value, Key>::findGrandparent(Node* node)
+{
+	if(node->parent != 0x0)
+	{
+		return node->parent->parent;
+	}
+	else
+	{
+		return 0x0;
+	}
+}
+template <class Value, class Key>
+typename Map<Value, Key>::Node* Map<Value, Key>::findSibling(Node* node)
+{
+	if(node == node->parent->left)
+	{
+		return node->parent->right;
+	}
+	else
+	{
+		return node->parent->left;
+	}
+}
+
+template <class Value, class Key>
+void Map<Value, Key>::checkInsertion(Node* node)
+{
+	if(node->parent == 0x0)
+	{
+		node->red = false;
+	}
+	else if(node->parent->red == true)
+	{
+		Node* uncle = findUncle(node);
+		Node* grandparent = findGrandparent(node);
+
+		if(uncle != 0x0 && uncle->red == true)
+		{
+			node->parent->red = false;
+			uncle->red = false;
+			grandparent->red = true;
+			checkInsertion(grandparent);
 		}
 		else
 		{
-			current->next = new Node(node->key, node->value);
-			current = current->next;
-		}
-	}
-	this->tail = current;
-	this->count = orig.count;
-}
-
-template <class Key, class T>
-Map<Key, T>::~Map()
-{
-	// TODO: fix buggy destructor
-	/*while(this->head != NULL)
-	{
-		Node* toDelete = head;
-		this->head = toDelete->next;
-		delete toDelete;
-	}*/
-}
-
-template <class Key, class T>
-T& Map<Key, T>::operator [](const Key& key)
-{
-	// Write
-	if(head == NULL)
-	{
-		T empty;
-		this->head = new Node(key, empty);
-		this->tail = this->head;
-		return empty;
-	}
-	else
-	{
-		for(Node* node = head; node != NULL; node = node->next)
-		{
-			if(key == node->key)
+			if(node == node->parent->right && node->parent == grandparent->left)
 			{
-				return node->value;
+				rotateLeft(node->parent);
+				node = node->left;
+			}
+			else if(node == node->parent->left && node->parent == grandparent->right)
+			{
+				rotateRight(node->parent);
+				node = node->right;
+			}
+
+			node->parent->red = false;
+			grandparent->red = true;
+			if(node == node->parent->left && node->parent == grandparent->left)
+			{
+				rotateRight(grandparent);
+			}
+			else
+			{
+				rotateLeft(grandparent);
 			}
 		}
 	}
-
-	T empty;
-	Node* node = new Node(key, empty);
-	this->tail->next = node;
-	node->prev = this->tail;
-	this->tail = node;
-	return empty;
 }
-
-template <class Key, class T>
-const T& Map<Key, T>::operator[](const Key& key) const
+template <class Value, class Key>
+void Map<Value, Key>::checkDeletion(Node* node)
 {
-	// Read
-	if(head == NULL)
+	if(node->parent != 0x0)
 	{
-		throw OutOfRange();
-	}
-	else
-	{
-		for(Node* node = head; node != NULL; node = node->next)
+		Node* sibling = findSibling(node);
+		
+		if(sibling->red == true)
 		{
-			if(key == node->key)
+			node->parent->red = true;
+			sibling->red = false;
+			
+			if(node == node->parent->left)
 			{
-				return node->value;
+				rotateLeft(node->parent);
+			}
+			else
+			{
+				rotateRight(node->parent);
+			}
+
+			if(node->parent->red == false && sibling->red == false &&
+				sibling->left->red == false && sibling->right->red == false)
+			{
+				sibling->red = true;
+				checkDeletion(node->parent);
+			}
+			else
+			{
+				if(node->parent->red == true && sibling->red == false &&
+					sibling->left->red == false && sibling->right->red == false)
+				{
+					sibling->red = true;
+					node->parent->red = false;
+				}
+				else
+				{
+					if(sibling->red == false)
+					{
+						if(node == node->parent->left && sibling->right->red == false &&
+							sibling->left->red == true)
+						{
+							sibling->red = true;
+							sibling->left->red = false;
+							rotateRight(sibling);
+						}
+						else if(node == node->parent->right && sibling->left->color == false &&
+							sibling->right->red == true)
+						{
+							sibling->red = true;
+							sibling->right->red = false;
+							rotateLeft(sibling);
+						}
+
+						sibling->red = node->parent->red;
+						node->parent->red = false;
+
+						if(node == node->parent->left)
+						{
+							sibling->right->red = false;
+							rotateLeft(node->parent);
+						}
+						else
+						{
+							sibling->left->red = false;
+							rotateRight(node->parent);
+						}
+					}
+				}
 			}
 		}
 	}
-
-	throw OutOfRange();
 }
 
-template <class Key, class T>
-void Map<Key, T>::insert(const Key& key, const T& value)
+template <class Value, class Key>
+void Map<Value, Key>::rotateLeft(Node* node)
 {
-	Node* node = new Node(key, value);
-	if(head == NULL)
+	Node* temp = node->right;
+	node->right = temp->left;
+
+	if(temp->left != 0x0)
 	{
-		this->head = node;
-		this->tail = node;
+		temp->left->parent = node;
+	}
+
+	temp->parent = node->parent;
+	if(node->parent == 0x0)
+	{
+		this->root = temp;
+	}
+	else if(node == node->parent->left)
+	{
+		node->parent->left = temp;
 	}
 	else
 	{
-		this->tail->next = node;
-		node->prev = this->tail;
-		this->tail = node;
+		node->parent->right = temp;
 	}
-}
 
-template <class Key, class T>
-T Map<Key, T>::search(const Key& key)
+	node->right = temp->left;
+	temp->left = node;
+	node->parent = temp;
+}
+template <class Value, class Key>
+void Map<Value, Key>::rotateRight(Node* node)
 {
-	if(head == NULL)
+	Node* temp = node->left;
+	node->left = temp->right;
+
+	if(temp->right != 0x0)
 	{
-		throw OutOfRange();
+		temp->right->parent = node;
+	}
+
+	temp->parent = node->parent;
+	if(node->parent == 0x0)
+	{
+		this->root = temp;
+	}
+	else if(node == node->parent->right)
+	{
+		node->parent->right = temp;
 	}
 	else
 	{
-		for(Node* node = head; node != NULL; node = node->next)
+		node->parent->left = temp;
+	}
+
+	node->left = temp->right;
+	temp->right = node;
+	node->parent = temp;
+}
+
+template <class Value, class Key>
+void Map<Value, Key>::recursiveCopy(Node* thisNode, Node* origNode)
+{
+	Node* currentThis = thisNode;
+	Node* currentOrig = origNode;
+	List<typename Map<Value, Key>::Node*> stackThis;
+	List<typename Map<Value, Key>::Node*> stackOrig;
+
+	stackThis.pushBack(currentThis);
+	stackOrig.pushBack(currentOrig);
+	while(currentOrig->left != NULL)
+	{
+		Node* newNode = new Node(currentOrig->left->value, currentOrig->left->key, currentOrig->left->red);
+		newNode->parent = currentThis;
+		currentThis->left = newNode;
+
+		currentThis = currentThis->left;
+		currentOrig = currentOrig->left;
+
+		stackThis.pushBack(currentThis);
+		stackOrig.pushBack(currentOrig);
+	}
+
+	while(stackOrig.size() > 0)
+	{
+		currentThis = stackThis.popBack();
+		currentOrig = stackOrig.popBack();
+
+		if(currentOrig->right != 0x0)
 		{
-			if(key == node->key)
+			Node* newNode = new Node(currentOrig->right->value, currentOrig->right->key, currentOrig->right->red);
+			newNode->parent = currentThis;
+			currentThis->right = newNode;
+
+			currentThis = currentThis->right;
+			currentOrig = currentOrig->right;
+			while(currentOrig != 0x0)
 			{
-				return node->value;
+				if(currentOrig->left != 0x0)
+				{
+					Node* newNode = new Node(currentOrig->left->value, currentOrig->left->key, currentOrig->left->red);
+					newNode->parent = currentThis;
+					currentThis->left = newNode;
+				}
+
+				stackThis.pushBack(currentThis);
+				stackOrig.pushBack(currentOrig);
+				currentThis = currentThis->left;
+				currentOrig = currentOrig->left;
 			}
 		}
 	}
-
-	throw OutOfRange();
 }
 
-#endif	/* _MAP_H */
+template <class Value, class Key>
+void Map<Value, Key>::recursiveRemove(Node* current)
+{
+	List<typename Map<Value, Key>::Node*> stack;
 
+	if(current == NULL)
+		return;
+
+	stack.pushBack(current);
+	while(current->left != NULL)
+	{
+		current = current->left;
+		stack.pushBack(current);
+	}
+
+	while(stack.size() > 0)
+	{
+		current = stack.popBack();
+
+		if(current->right != NULL)
+		{
+			Node* temp = current->right;
+			while(temp != NULL)
+			{
+				stack.pushBack(temp);
+				temp = temp->left;
+			}
+		}
+
+		delete current;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////
+/////////////////////////// Iterators ///////////////////////////////
+/////////////////////////////////////////////////////////////////////
+
+template <class Value, class Key>
+class Map<Value, Key>::InOrderIterator
+{
+public:
+	InOrderIterator(Map<Value, Key>* tree)
+	{
+		this->current = tree->root;
+
+		if(this->current == NULL)
+			return;
+
+		this->stack.pushBack(this->current);
+		while(this->current->left != NULL)
+		{
+			this->current = this->current->left;
+			this->stack.pushBack(this->current);
+		}
+		this->stack.popBack();
+	}
+	InOrderIterator(const InOrderIterator& it)
+	{
+		this->current = it.current;
+		this->stack = it.stack;
+	}
+
+	Key key()
+	{
+		return current->key;
+	}
+	Value value()
+	{
+		return current->value;
+	}
+
+	bool operator!()
+	{
+		if(current != NULL)
+			return true;
+		else
+			return false;
+	}
+	void operator++(int)
+	{
+		if(stack.size() > 0)
+		{
+			current = stack.popBack();
+		}
+		else
+		{
+			current = NULL;
+			return;
+		}
+
+		if(current->right != NULL)
+		{
+			Node* temp = current->right;
+			while(temp != NULL)
+			{
+				stack.pushBack(temp);
+				temp = temp->left;
+			}
+		}
+	}
+private:
+	typename Map<Value, Key>::Node* current;
+	List<typename Map<Value, Key>::Node*> stack;
+};
+
+template <class Value, class Key>
+class Map<Value, Key>::DepthFirstIterator
+{
+public:
+	DepthFirstIterator(Map<Value, Key>* tree)
+	{
+		this->stack.pushBack(tree->root);
+		(*this)++;
+	}
+	DepthFirstIterator(const DepthFirstIterator& orig)
+	{
+		this->current = orig.current;
+		this->stack = orig.stack;
+	}
+
+	Key key()
+	{
+		return current->key;
+	}
+	Value value()
+	{
+		return current->value;
+	}
+
+	bool operator!()
+	{
+		if(current != NULL)
+			return true;
+		else
+			return false;
+	}
+	void operator++(int)
+	{
+		if(stack.size() > 0)
+		{
+			current = stack.popBack();
+		}
+		else
+		{
+			current = NULL;
+			return;
+		}
+
+		if(current->right != 0x0)
+		{
+			stack.pushBack(current->right);
+		}
+		if(current->left != 0x0)
+		{
+			stack.pushBack(current->left);
+		}
+	}
+
+private:
+	typename Map<Value, Key>::Node* current;
+	List<typename Map<Value, Key>::Node*> stack;
+};
+
+template <class Value, class Key>
+class Map<Value, Key>::BreadthFirstIterator
+{
+public:
+	BreadthFirstIterator(Map<Value, Key>* tree)
+	{
+		this->queue.pushBack(tree->root);
+		(*this)++;
+	}
+	BreadthFirstIterator(const BreadthFirstIterator& orig)
+	{
+		this->current = orig.current;
+		this->queue = orig.queue;
+	}
+
+	Key key()
+	{
+		return current->key;
+	}
+	Value value()
+	{
+		return current->value;
+	}
+
+	bool operator!()
+	{
+		if(current != 0x0)
+			return true;
+		else
+			return false;
+	}
+	void operator++(int)
+	{
+		if(queue.size() <= 0)
+		{
+			current = 0x0;
+		}
+		else
+		{
+			current = queue.popFront();
+			if(current->left != 0x0)
+				queue.pushBack(current->left);
+			if(current->right != 0x0)
+				queue.pushBack(current->right);
+		}
+	}
+
+private:
+	List<typename Map<Value, Key>::Node*> queue;
+	typename Map<Value, Key>::Node* current;
+};
+
+#endif

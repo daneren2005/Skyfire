@@ -54,7 +54,7 @@ private:
 	void* mouseArgs;
 	void*(*mouseHandler)(void* args, int x, int y);
 
-	Map<KeyType, Key*> keys;
+	Map<Key*, KeyType> keys;
 };
 
 #endif	/* _INPUT_H */

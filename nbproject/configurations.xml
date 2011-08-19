@@ -3,6 +3,7 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="f3" displayName="Core" projectFiles="true">
       <itemPath>Array.h</itemPath>
+      <itemPath>BasicList.h</itemPath>
       <itemPath>CString.cpp</itemPath>
       <itemPath>CString.h</itemPath>
       <itemPath>Console.cpp</itemPath>
@@ -96,7 +97,7 @@
       <itemPath>Universe.cpp</itemPath>
       <itemPath>Universe.h</itemPath>
     </logicalFolder>
-    <logicalFolder name="f4" displayName="Thread" projectFiles="true" kind="ROOT">
+    <logicalFolder name="f4" displayName="Thread" projectFiles="true">
       <itemPath>Thread.cpp</itemPath>
       <itemPath>Thread.h</itemPath>
     </logicalFolder>
