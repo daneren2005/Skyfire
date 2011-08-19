@@ -18,7 +18,7 @@
 #ifndef _MAP_H
 #define	_MAP_H
 
-#include "List.h"
+#include "BasicList.h"
 #include "Exceptions.h"
 
 #include "Console.h"
@@ -527,8 +527,8 @@ void Map<Value, Key>::recursiveCopy(Node* thisNode, Node* origNode)
 {
 	Node* currentThis = thisNode;
 	Node* currentOrig = origNode;
-	List<typename Map<Value, Key>::Node*> stackThis;
-	List<typename Map<Value, Key>::Node*> stackOrig;
+	BasicList<typename Map<Value, Key>::Node*> stackThis;
+	BasicList<typename Map<Value, Key>::Node*> stackOrig;
 
 	stackThis.pushBack(currentThis);
 	stackOrig.pushBack(currentOrig);
@@ -579,7 +579,7 @@ void Map<Value, Key>::recursiveCopy(Node* thisNode, Node* origNode)
 template <class Value, class Key>
 void Map<Value, Key>::recursiveRemove(Node* current)
 {
-	List<typename Map<Value, Key>::Node*> stack;
+	BasicList<typename Map<Value, Key>::Node*> stack;
 
 	if(current == NULL)
 		return;
@@ -678,7 +678,7 @@ public:
 	}
 private:
 	typename Map<Value, Key>::Node* current;
-	List<typename Map<Value, Key>::Node*> stack;
+	BasicList<typename Map<Value, Key>::Node*> stack;
 };
 
 template <class Value, class Key>
@@ -736,7 +736,7 @@ public:
 
 private:
 	typename Map<Value, Key>::Node* current;
-	List<typename Map<Value, Key>::Node*> stack;
+	BasicList<typename Map<Value, Key>::Node*> stack;
 };
 
 template <class Value, class Key>
@@ -787,7 +787,7 @@ public:
 	}
 
 private:
-	List<typename Map<Value, Key>::Node*> queue;
+	BasicList<typename Map<Value, Key>::Node*> queue;
 	typename Map<Value, Key>::Node* current;
 };
 
