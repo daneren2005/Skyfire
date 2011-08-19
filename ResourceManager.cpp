@@ -61,7 +61,7 @@ void ResourceManager::loadModel(String filename, String name)
 		MeshPointer model = this->loadObj(file);
 		if(model != 0x0)
 		{
-			this->models.insert(name, model);
+			this->models.insert(model, name);
 		}
 	}
 }
@@ -72,7 +72,7 @@ void ResourceManager::addModel(ModelPointer model, char* name)
 }
 void ResourceManager::addModel(ModelPointer model, String name)
 {
-	models.insert(name, model);
+	models.insert(model, name);
 }
 
 ModelPointer ResourceManager::getModel(char* name)
@@ -105,7 +105,7 @@ MeshPointer ResourceManager::loadObj(File file)
 	Array<Vector> normalVectors(10000);
 	Array<Vector> parametricVectors(10000);
 
-	Map<String, MaterialPointer> materials;
+	Map<MaterialPointer, String> materials;
 
 	String line;
 	line = file.getLine();
@@ -280,7 +280,7 @@ MeshPointer ResourceManager::loadObj(File file)
 					}
 					catch(...)
 					{
-						
+						console << "Failed to load " << materialName << newline;
 					}
 
 					if(meshPart->size() != 0)
@@ -309,9 +309,9 @@ MeshPointer ResourceManager::loadObj(File file)
 	return mesh;
 }
 
-Map<String, MaterialPointer> ResourceManager::loadMtl(File file)
+Map<MaterialPointer, String> ResourceManager::loadMtl(File file)
 {
-	Map<String, MaterialPointer> materials;
+	Map<MaterialPointer, String> materials;
 
 	file.open();
 	if(!file.isOpen())
@@ -335,7 +335,7 @@ Map<String, MaterialPointer> ResourceManager::loadMtl(File file)
 		{
 			if(name != "")
 			{
-				materials.insert(name, material);
+				materials.insert(material, name);
 			}
 
 			material = new Material;
@@ -407,8 +407,13 @@ Map<String, MaterialPointer> ResourceManager::loadMtl(File file)
 
 	if(name != "")
 	{
-		materials.insert(name, material);
+		materials.insert(material, name);
 	}
+	
+	/*for(Map<MaterialPointer, String>::Iterator it = materials.begin(); !it; it++)
+	{
+		console << it.key() << newline;
+	}*/
 
 	return materials;
 }

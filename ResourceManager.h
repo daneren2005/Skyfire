@@ -41,11 +41,11 @@ public:
 	ModelPointer getModel(char* name);
 	ModelPointer getModel(String name);
 private:
-	Map<String, ModelPointer> models;
+	Map<ModelPointer, String> models;
 
 	// Individual filetype load functions
 	MeshPointer loadObj(File file);
-	Map<String, MaterialPointer> loadMtl(File file);
+	Map<MaterialPointer, String> loadMtl(File file);
 	Bitmap* loadJpeg(File file);
 };
 

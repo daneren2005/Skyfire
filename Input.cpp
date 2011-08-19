@@ -27,8 +27,8 @@ Input::Input()
 	this->mouseHandler = 0x0;
 	this->mouseArgs = 0x0;
 
-	this->keys.insert(KEY_LEFT, new Key(KEY_LEFT));
-	this->keys.insert(KEY_RIGHT, new Key(KEY_RIGHT));
+	this->keys.insert(new Key(KEY_LEFT), KEY_LEFT);
+	this->keys.insert(new Key(KEY_RIGHT), KEY_RIGHT);
 
 	this->mouseX = 0;
 	this->mouseY = 0;
@@ -57,7 +57,7 @@ void Input::keyDown(KeyType key)
 	{
 		Key* pressed = new Key(key);
 		pressed->keyDown();
-		this->keys.insert(key, pressed);
+		this->keys.insert(pressed, key);
 	}
 }
 void Input::keyUp(KeyType key)
@@ -69,7 +69,7 @@ void Input::keyUp(KeyType key)
 	catch(Exception& e)
 	{
 		Key* pressed = new Key(key);
-		this->keys.insert(key, pressed);
+		this->keys.insert(pressed, key);
 	}
 }
 
@@ -123,7 +123,7 @@ void Input::setMousePressEventHandler(KeyType key, void*(*eventHandler)(void* ar
 	{
 		Key* pressed = new Key(key);
 		pressed->setMousePressEventHandler(eventHandler, args);
-		this->keys.insert(key, pressed);
+		this->keys.insert(pressed, key);
 	}
 }
 void Input::setMouseDownEventHandler(KeyType key, void*(*eventHandler)(void* args, double interval, int x, int y), void* args)
@@ -136,7 +136,7 @@ void Input::setMouseDownEventHandler(KeyType key, void*(*eventHandler)(void* arg
 	{
 		Key* pressed = new Key(key);
 		pressed->setMouseDownEventHandler(eventHandler, args);
-		this->keys.insert(key, pressed);
+		this->keys.insert(pressed, key);
 	}
 }
 void Input::setMouseMoveEventHandler(void*(*eventHandler)(void* args, int x, int y), void* args)
@@ -155,7 +155,7 @@ void Input::setKeyPressEventHandler(KeyType key, void*(*eventHandler)(void* args
 	{
 		Key* pressed = new Key(key);
 		pressed->setKeyPressEventHandler(eventHandler, args);
-		this->keys.insert(key, pressed);
+		this->keys.insert(pressed, key);
 	}
 }
 void Input::setKeyDownEventHandler(KeyType key, void*(*eventHandler)(void* args, double interval), void* args)
@@ -168,13 +168,13 @@ void Input::setKeyDownEventHandler(KeyType key, void*(*eventHandler)(void* args,
 	{
 		Key* pressed = new Key(key);
 		pressed->setKeyDownEventHandler(eventHandler, args);
-		this->keys.insert(key, pressed);
+		this->keys.insert(pressed, key);
 	}
 }
 
 void Input::update(double interval)
 {
-	for(Map<KeyType, Key*>::Iterator it = this->keys.begin(); !it; it++)
+	for(Map<Key*, KeyType>::Iterator it = this->keys.begin(); !it; it++)
 	{
 		if(it.value()->keyPressed())
 		{
