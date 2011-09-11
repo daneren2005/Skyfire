@@ -173,7 +173,16 @@ String File::getLine()
 		bufferEmpty = true;
 	}
 	
-	String line = buffer.subStr(oldPos, pos - oldPos - 1);
-	oldPos = pos + 1;
-	return line;
+	String line;
+    if(buffer[pos - 1] == '\r')
+    { 
+            line = buffer.subStr(oldPos, pos - oldPos - 1);
+    }
+    else
+    {
+            line = buffer.subStr(oldPos, pos - oldPos);
+    }
+
+    oldPos = pos + 1;
+    return line;
 }
