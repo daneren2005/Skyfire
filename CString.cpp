@@ -231,7 +231,7 @@ String::String(double rhs)
 
 String::~String()
 {
-	// delete[] this->array;
+	delete[] this->array;
 }
 
 char& String::operator[](unsigned pos)
@@ -252,15 +252,6 @@ const char& String::operator[](unsigned pos) const
 
 	return this->array[pos];
 }
-String String::operator+(const String& rhs)
-{
-	String str;
-	str.size = this->size + rhs.size;
-	str.array = new char[str.size + 1];
-	memcpy(str.array, this->array, this->size);
-	memcpy(str.array + this->size, rhs.array, rhs.size + 1);
-	return str;
-}
 String String::operator+(const String& rhs) const
 {
 	String str;
@@ -268,22 +259,6 @@ String String::operator+(const String& rhs) const
 	str.array = new char[str.size + 1];
 	memcpy(str.array, this->array, this->size);
 	memcpy(str.array + this->size, rhs.array, rhs.size + 1);
-	return str;
-}
-String String::operator+(const char* rhs)
-{
-	long i = 0;
-	while(rhs[i] != 0x0)
-	{
-		i++;
-	}
-
-	String str;
-	str.size = this->size + i;
-	str.array = new char[str.size + 1];
-	memcpy(str.array, this->array, this->size);
-	memcpy(str.array + this->size, rhs, i + 1);
-
 	return str;
 }
 String String::operator+(const char* rhs) const
@@ -299,17 +274,6 @@ String String::operator+(const char* rhs) const
 	str.array = new char[str.size + 1];
 	memcpy(str.array, this->array, this->size);
 	memcpy(str.array + this->size, rhs, i + 1);
-
-	return str;
-}
-String String::operator+(const char& rhs)
-{
-	String str;
-	str.size = this->size + 1;
-	str.array = new char[str.size + 1];
-	memcpy(str.array, this->array, this->size);
-	str.array[this->size] = rhs;
-	str.array[this->size + 1] = NULL;
 
 	return str;
 }
@@ -368,21 +332,7 @@ String& String::operator=(const char* rhs)
 	return *this;
 }
 
-bool String::operator==(const String& rhs)
-{
-	if(this->size != rhs.size)
-	{
-		return false;
-	}
 
-	for(long i = 0; i < this->size; i++)
-	{
-		if(this->array[i] != rhs.array[i])
-			return false;
-	}
-
-	return true;
-}
 bool String::operator==(const String& rhs) const
 {
 	if(this->size != rhs.size)
@@ -393,19 +343,6 @@ bool String::operator==(const String& rhs) const
 	for(long i = 0; i < this->size; i++)
 	{
 		if(this->array[i] != rhs.array[i])
-			return false;
-	}
-
-	return true;
-}
-bool String::operator==(const char* rhs)
-{
-	if(this->size == 0 && rhs[0] != 0x0)
-		return false;
-
-	for(long i = 0; i < this->size; i++)
-	{
-		if(this->array[i] != rhs[i])
 			return false;
 	}
 
@@ -424,21 +361,6 @@ bool String::operator==(const char* rhs) const
 
 	return true;
 }
-bool String::operator!=(const String& rhs)
-{
-	if(this->size != rhs.size)
-	{
-		return true;
-	}
-
-	for(long i = 0; i < this->size; i++)
-	{
-		if(this->array[i] != rhs.array[i])
-			return true;
-	}
-
-	return false;
-}
 bool String::operator!=(const String& rhs) const
 {
 	if(this->size != rhs.size)
@@ -449,19 +371,6 @@ bool String::operator!=(const String& rhs) const
 	for(long i = 0; i < this->size; i++)
 	{
 		if(this->array[i] != rhs.array[i])
-			return true;
-	}
-
-	return false;
-}
-bool String::operator!=(const char* rhs)
-{
-	if(this->size == 0 && rhs[0] != 0x0)
-		return true;
-
-	for(long i = 0; i < this->size; i++)
-	{
-		if(this->array[i] != rhs[i])
 			return true;
 	}
 
@@ -481,25 +390,6 @@ bool String::operator!=(const char* rhs) const
 	return false;
 }
 
-bool String::operator<(const String& rhs)
-{
-	for(long i = 0; i < this->size && i < rhs.size; i++)
-	{
-		if(this->array[i] < rhs[i])
-		{
-			return true;
-		}
-		else if(this->array[i] > rhs[i])
-		{
-			return false;
-		}
-	}
-	
-	if(this->size < rhs.size)
-		return true;
-	else
-		return false;
-}
 bool String::operator<(const String& rhs) const
 {
 	for(long i = 0; i < this->size && i < rhs.size; i++)
@@ -518,33 +408,6 @@ bool String::operator<(const String& rhs) const
 		return true;
 	else
 		return false;
-}
-bool String::operator<(const char* rhs)
-{
-	long i;
-	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
-	{
-		if(this->array[i] < rhs[i])
-		{
-			return true;
-		}
-		else if(this->array[i] > rhs[i])
-		{
-			return false;
-		}
-	}
-
-	if(this->size > i)
-	{
-		return false;
-	}
-	else
-	{
-		if(rhs[i] == 0x0)
-			return false;
-		else
-			return true;
-	}
 }
 bool String::operator<(const char* rhs) const
 {
@@ -573,25 +436,6 @@ bool String::operator<(const char* rhs) const
 			return true;
 	}
 }
-bool String::operator<=(const String& rhs)
-{
-	for(long i = 0; i < this->size && i < rhs.size; i++)
-	{
-		if(this->array[i] < rhs[i])
-		{
-			return true;
-		}
-		else if(this->array[i] > rhs[i])
-		{
-			return false;
-		}
-	}
-	
-	if(this->size <= rhs.size)
-		return true;
-	else
-		return false;
-}
 bool String::operator<=(const String& rhs) const
 {
 	for(long i = 0; i < this->size && i < rhs.size; i++)
@@ -610,26 +454,6 @@ bool String::operator<=(const String& rhs) const
 		return true;
 	else
 		return false;
-}
-bool String::operator<=(const char* rhs)
-{
-	long i;
-	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
-	{
-		if(this->array[i] < rhs[i])
-		{
-			return true;
-		}
-		else if(this->array[i] > rhs[i])
-		{
-			return false;
-		}
-	}
-	
-	if(this->size > i)
-		return false;
-	else
-		return true;
 }
 bool String::operator<=(const char* rhs) const
 {
@@ -651,25 +475,6 @@ bool String::operator<=(const char* rhs) const
 	else
 		return true;
 }
-bool String::operator>(const String& rhs)
-{
-	for(long i = 0; i < this->size && i < rhs.size; i++)
-	{
-		if(this->array[i] < rhs[i])
-		{
-			return false;
-		}
-		else if(this->array[i] > rhs[i])
-		{
-			return true;
-		}
-	}
-
-	if(this->size > rhs.size)
-		return true;
-	else
-		return false;
-}
 bool String::operator>(const String& rhs) const
 {
 	for(long i = 0; i < this->size && i < rhs.size; i++)
@@ -685,26 +490,6 @@ bool String::operator>(const String& rhs) const
 	}
 	
 	if(this->size > rhs.size)
-		return true;
-	else
-		return false;
-}
-bool String::operator>(const char* rhs)
-{
-	long i;
-	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
-	{
-		if(this->array[i] < rhs[i])
-		{
-			return false;
-		}
-		else if(this->array[i] > rhs[i])
-		{
-			return true;
-		}
-	}
-	
-	if(this->size > i)
 		return true;
 	else
 		return false;
@@ -729,25 +514,6 @@ bool String::operator>(const char* rhs) const
 	else
 		return false;
 }
-bool String::operator>=(const String& rhs)
-{
-	for(long i = 0; i < this->size && i < rhs.size; i++)
-	{
-		if(this->array[i] < rhs[i])
-		{
-			return false;
-		}
-		else if(this->array[i] > rhs[i])
-		{
-			return true;
-		}
-	}
-	
-	if(this->size >= rhs.size)
-		return true;
-	else
-		return false;
-}
 bool String::operator>=(const String& rhs) const
 {
 	for(long i = 0; i < this->size && i < rhs.size; i++)
@@ -766,33 +532,6 @@ bool String::operator>=(const String& rhs) const
 		return true;
 	else
 		return false;
-}
-bool String::operator>=(const char* rhs)
-{
-	long i;
-	for(i = 0; i < this->size && rhs[i] != 0x0; i++)
-	{
-		if(this->array[i] < rhs[i])
-		{
-			return false;
-		}
-		else if(this->array[i] > rhs[i])
-		{
-			return true;
-		}
-	}
-	
-	if(this->size > i)
-	{
-		return true;
-	}
-	else
-	{
-		if(rhs[i] == 0x0)
-			return true;
-		else
-			return false;
-	}
 }
 bool String::operator>=(const char* rhs) const
 {
@@ -821,7 +560,6 @@ bool String::operator>=(const char* rhs) const
 			return false;
 	}
 }
-
 
 String& String::operator>>(String& rhs)
 {
@@ -913,7 +651,7 @@ String& String::operator>>(double& rhs)
 	return *this;
 }
 
-long String::length()
+long String::length() const
 {
 	return this->size;
 }
@@ -925,7 +663,7 @@ const char* String::cStr() const
 	return cString;
 }
 
-String String::subStr(long startPos)
+String String::subStr(long startPos) const
 {
 	if(startPos >= this->size || startPos < 0)
 	{
@@ -940,7 +678,7 @@ String String::subStr(long startPos)
 	string.size = this->size - startPos;
 	return string;
 }
-String String::subStr(long startPos, long length)
+String String::subStr(long startPos, long length) const
 {
 	if(startPos >= this->size || startPos < 0)
 	{
@@ -969,7 +707,7 @@ String String::subStr(long startPos, long length)
 	}
 }
 
-Array<String> String::split(const String& delim)
+Array<String> String::split(const String& delim) const
 {
 	long pos1 = 0;
 	long pos2 = 0;
@@ -1004,7 +742,7 @@ Array<String> String::split(const String& delim)
 	
 	return list;
 }
-Array<String> String::split(const char* delim)
+Array<String> String::split(const char* delim) const
 {
 	long pos1 = 0;
 	long pos2 = 0;
@@ -1039,7 +777,7 @@ Array<String> String::split(const char* delim)
 
 	return list;
 }
-Array<String> String::split(const char& delim)
+Array<String> String::split(const char& delim) const
 {
 	long pos1 = 0;
 	long pos2 = -1;
@@ -1075,7 +813,7 @@ Array<String> String::split(const char& delim)
 	return list;
 }
 
-long String::strPos(const String& search)
+long String::strPos(const String& search) const
 {
 	// Go through every character in string and compare to delim
 	for(long i = 0; i < this->size; i++)
@@ -1092,7 +830,7 @@ long String::strPos(const String& search)
 
 	return String::npos;
 }
-long String::strPos(const char* search)
+long String::strPos(const char* search) const
 {
 	// Go through every character in string and compare to delim
 	for(long i = 0; i < this->size; i++)
@@ -1109,7 +847,7 @@ long String::strPos(const char* search)
 
 	return String::npos;
 }
-long String::strPos(const char& search)
+long String::strPos(const char& search) const
 {
 	// Go through every character in string and compare to delim
 	for(long i = 0; i < this->size; i++)
@@ -1122,7 +860,7 @@ long String::strPos(const char& search)
 
 	return String::npos;
 }
-long String::strLastPos(const String& search)
+long String::strLastPos(const String& search) const
 {
 	// Go through every character in string and compare to delim
 	long lastPos = String::npos;
@@ -1140,7 +878,7 @@ long String::strLastPos(const String& search)
 
 	return lastPos;
 }
-long String::strLastPos(const char* search)
+long String::strLastPos(const char* search) const
 {
 	// Go through every character in string and compare to delim
 	long lastPos = String::npos;
@@ -1158,7 +896,7 @@ long String::strLastPos(const char* search)
 
 	return lastPos;
 }
-long String::strLastPos(const char& search)
+long String::strLastPos(const char& search) const
 {
 	// Go through every character in string and compare to delim
 	long lastPos = String::npos;
@@ -1172,7 +910,7 @@ long String::strLastPos(const char& search)
 
 	return lastPos;
 }
-Array<long> String::strAllPos(const String& search)
+Array<long> String::strAllPos(const String& search) const
 {
 	Array<long> list;
 	for(long i = 0; i < this->size; i++)
@@ -1188,7 +926,7 @@ Array<long> String::strAllPos(const String& search)
 	}
 	return list;
 }
-Array<long> String::strAllPos(const char* search)
+Array<long> String::strAllPos(const char* search) const
 {
 	// Go through every character in string and compare to delim
 	Array<long> list;
@@ -1206,7 +944,7 @@ Array<long> String::strAllPos(const char* search)
 
 	return list;
 }
-Array<long> String::strAllPos(const char& search)
+Array<long> String::strAllPos(const char& search) const
 {
 	// Go through every character in string and compare to delim
 	Array<long> list;
@@ -1221,7 +959,7 @@ Array<long> String::strAllPos(const char& search)
 	return list;
 }
 
-Array<String> String::getWords()
+Array<String> String::getWords() const
 {
 	Array<String> parts;
 	String orig = *this;
@@ -1235,7 +973,7 @@ Array<String> String::getWords()
 	return parts;
 }
 
-String String::insert(long pos, const String& insert)
+String String::insert(long pos, const String& insert) const
 {
 	if((pos + 1) >= this->size)
 	{
@@ -1248,7 +986,7 @@ String String::insert(long pos, const String& insert)
 		return str;
 	}
 }
-String String::insert(long pos, const char* insert)
+String String::insert(long pos, const char* insert) const
 {
 	if((pos + 1) >= this->size)
 	{
@@ -1261,7 +999,7 @@ String String::insert(long pos, const char* insert)
 		return str;
 	}
 }
-String String::insert(long pos, const char& insert)
+String String::insert(long pos, const char& insert) const
 {
 	if((pos + 1) >= this->size)
 	{
@@ -1275,7 +1013,7 @@ String String::insert(long pos, const char& insert)
 	}
 }
 
-String String::remove(const String& find)
+String String::remove(const String& find) const
 {
 	String str;
 	long pos = 0;
@@ -1300,7 +1038,7 @@ String String::remove(const String& find)
 	}
 	return str;
 }
-String String::remove(const char* find)
+String String::remove(const char* find) const
 {
 	String str;
 	long pos = 0;
@@ -1325,7 +1063,7 @@ String String::remove(const char* find)
 	}
 	return str;
 }
-String String::remove(const char& find)
+String String::remove(const char& find) const
 {
 	String str;
 	long pos = 0;
@@ -1344,7 +1082,7 @@ String String::remove(const char& find)
 	}
 	return str;
 }
-String String::remove(long startPos, long length)
+String String::remove(long startPos, long length) const
 {
 	if(startPos >= this->size)
 	{
@@ -1371,7 +1109,7 @@ String String::remove(long startPos, long length)
 
 	return str;
 }
-String String::replace(const String& find, const String& replace)
+String String::replace(const String& find, const String& replace) const
 {
 	String str(*this);
 
@@ -1409,7 +1147,7 @@ String String::replace(const String& find, const String& replace)
 
 	return str;
 }
-String String::replace(const char* find, const char* replace)
+String String::replace(const char* find, const char* replace) const
 {
 	String str(*this);
 
@@ -1453,7 +1191,7 @@ String String::replace(const char* find, const char* replace)
 
 	return str;
 }
-String String::replace(const char& find, const char& replace)
+String String::replace(const char& find, const char& replace) const
 {
 	String str(*this);
 	for(long i = 0; i < this->size; i++)
@@ -1466,7 +1204,7 @@ String String::replace(const char& find, const char& replace)
 
 	return str;
 }
-String String::toLower()
+String String::toLower() const
 {
 	const int DIFF = 'a' - 'A';
 
@@ -1480,7 +1218,7 @@ String String::toLower()
 	}
 	return str;
 }
-String String::toUpper()
+String String::toUpper() const
 {
 	const int DIFF = 'a' - 'A';
 
@@ -1495,7 +1233,7 @@ String String::toUpper()
 	return str;
 }
 
-int String::toInt()
+int String::toInt() const
 {
 	const int DIFF = '0' - 0;
 
@@ -1539,7 +1277,7 @@ int String::toInt()
 		return num;
 	}
 }
-long String::toLong()
+long String::toLong() const
 {
 	const int DIFF = '0' - 0;
 
@@ -1583,7 +1321,7 @@ long String::toLong()
 		return num;
 	}
 }
-float String::toFloat()
+float String::toFloat() const
 {
 	const int DIFF = '0' - 0;
 
@@ -1672,7 +1410,7 @@ float String::toFloat()
 		return num;
 	}
 }
-double String::toDouble()
+double String::toDouble() const
 {
 	const int DIFF = '0' - 0;
 
