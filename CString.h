@@ -31,6 +31,7 @@ public:
 	String(const String& rhs);
 	String(const char* rhs);
 	String(const char* rhs, long size);
+	String(char rhs);
 	String(int rhs);
 	String(long rhs);
 	String(float rhs);
@@ -72,7 +73,7 @@ public:
 	const char* cStr() const;
 	String subStr(long startPos) const;
 	String subStr(long startPos, long length) const;
-	Array<String> split(const String& delim)const ;
+	Array<String> split(const String& delim) const;
 	Array<String> split(const char* delim) const;
 	Array<String> split(const char& delim) const;
 	long strPos(const String& search) const;
@@ -86,7 +87,7 @@ public:
 	Array<long> strAllPos(const char& search) const;
 	Array<String> getWords() const;
 
-	// String manuipulation
+	// String manipulation
 	String insert(long pos, const String& insert) const;
 	String insert(long pos, const char* insert) const;
 	String insert(long pos, const char& insert) const;
@@ -97,6 +98,8 @@ public:
 	String replace(const String& find, const String& replace) const;
 	String replace(const char* find, const char* replace) const;
 	String replace(const char& find, const char& replace) const;
+	String replace(int pos, int length, const String& replace) const;
+	String replace(int pos, int length, const char* replace) const;
 
 	// String conversions
 	String toLower() const;

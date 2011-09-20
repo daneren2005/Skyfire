@@ -18,7 +18,6 @@
 #include "CString.h"
 #include "Exceptions.h"
 #include <string.h>
-#include "Console.h"
 
 String::String()
 {
@@ -35,7 +34,7 @@ String::String(const String& rhs)
 String::String(const char* rhs)
 {
 	long i = 0;
-	while(rhs[i] != NULL)
+	while(rhs[i] != 0x0)
 	{
 		i++;
 	}
@@ -48,7 +47,15 @@ String::String(const char* rhs, long size)
 {
 	this->size = size;
 	this->array = new char[size + 1];
-	memcpy(this->array, rhs, size + 1);
+	memcpy(this->array, rhs, size);
+	this->array[size] = 0x0;
+}
+String::String(char rhs)
+{
+	this->size = 1;
+	this->array = new char[2];
+	this->array[0] = rhs;
+	this->array[1] = 0x0;
 }
 String::String(int rhs)
 {
@@ -62,10 +69,17 @@ String::String(int rhs)
 	}
 
 	Array<char> buffer(8);
-	while(rhs > 0)
+	if(rhs != 0)
 	{
-		buffer.insert(rhs % 10);
-		rhs = rhs / 10;
+		while(rhs > 0)
+		{
+			buffer.insert(rhs % 10);
+			rhs = rhs / 10;
+		}
+	}
+	else
+	{
+		buffer.insert(0);
 	}
 
 	this->size = buffer.size();
@@ -94,10 +108,17 @@ String::String(long rhs)
 	}
 
 	Array<char> buffer(8);
-	while(rhs > 0)
+	if(rhs != 0)
 	{
-		buffer.insert(rhs % 10);
-		rhs = rhs / 10;
+		while(rhs > 0)
+		{
+			buffer.insert(rhs % 10);
+			rhs = rhs / 10;
+		}
+	}
+	else
+	{
+		buffer.insert(0);
 	}
 
 	this->size = buffer.size();
@@ -127,10 +148,17 @@ String::String(float rhs)
 
 	Array<char> buffer(8);
 	int intPart = (int)rhs;
-	while(intPart > 0)
+	if(intPart != 0)
 	{
-		buffer.insert(intPart % 10);
-		intPart = intPart / 10;
+		while(intPart > 0)
+		{
+			buffer.insert(intPart % 10);
+			intPart = intPart / 10;
+		}
+	}
+	else
+	{
+		buffer.insert(0);
 	}
 
 	Array<char> buffer2(8);
@@ -231,7 +259,7 @@ String::String(double rhs)
 
 String::~String()
 {
-	delete[] this->array;
+	// delete[] this->array;
 }
 
 char& String::operator[](unsigned pos)
@@ -284,7 +312,7 @@ String String::operator+(const char& rhs) const
 	str.array = new char[str.size + 1];
 	memcpy(str.array, this->array, this->size);
 	str.array[this->size] = rhs;
-	str.array[this->size + 1] = NULL;
+	str.array[this->size + 1] = 0x0;
 
 	return str;
 }
@@ -320,7 +348,7 @@ String& String::operator=(const char* rhs)
 	delete[] this->array;
 
 	long i = 0;
-	while(rhs[i] != NULL)
+	while(rhs[i] != 0x0)
 	{
 		i++;
 	}
@@ -389,6 +417,7 @@ bool String::operator!=(const char* rhs) const
 
 	return false;
 }
+
 
 bool String::operator<(const String& rhs) const
 {
@@ -560,6 +589,7 @@ bool String::operator>=(const char* rhs) const
 			return false;
 	}
 }
+
 
 String& String::operator>>(String& rhs)
 {
@@ -1204,6 +1234,21 @@ String String::replace(const char& find, const char& replace) const
 
 	return str;
 }
+String String::replace(int pos, int length, const String& str) const
+{
+	if(this->size == pos + length)
+		return this->subStr(0, pos) + str;
+	else
+		return this->subStr(0, pos) + str + this->subStr(pos + length);
+}
+String String::replace(int pos, int length, const char* str) const
+{
+	if(this->size == pos + length)
+		return this->subStr(0, pos) + str;
+	else
+		return this->subStr(0, pos) + str + this->subStr(pos + length);
+}
+
 String String::toLower() const
 {
 	const int DIFF = 'a' - 'A';
