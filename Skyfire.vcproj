@@ -191,6 +191,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Camera.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Camera.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Particle.cpp"
 				>
 			</File>
@@ -251,11 +259,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Camera.cpp"
+				RelativePath=".\CameraRenderer.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Camera.h"
+				RelativePath=".\CameraRenderer.h"
 				>
 			</File>
 			<File
@@ -291,19 +299,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Renderer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Renderer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ResourceManager.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\ResourceManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Scene.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Scene.h"
 				>
 			</File>
 			<File
@@ -751,14 +759,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FileDirectory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FileDirectory.h"
-				>
-			</File>
-			<File
 				RelativePath=".\List.h"
 				>
 			</File>
@@ -771,24 +771,16 @@
 				>
 			</File>
 			<File
-				RelativePath=".\StopWatch.cpp"
+				RelativePath=".\Timer.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\StopWatch.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Thread.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Thread.h"
+				RelativePath=".\Timer.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="UI"
+			Name="GUI"
 			>
 			<File
 				RelativePath=".\Input.cpp"
@@ -812,6 +804,42 @@
 			</File>
 			<File
 				RelativePath=".\Window.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Thread"
+			>
+			<File
+				RelativePath=".\Condition.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Condition.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Lock.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Lock.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SharedLock.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SharedLock.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Thread.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Thread.h"
 				>
 			</File>
 		</Filter>
