@@ -747,6 +747,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Date.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Date.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Exceptions.h"
 				>
 			</File>
@@ -756,6 +764,22 @@
 			</File>
 			<File
 				RelativePath=".\File.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GenericPointer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GenericPointer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GenericType.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GenericType.h"
 				>
 			</File>
 			<File
