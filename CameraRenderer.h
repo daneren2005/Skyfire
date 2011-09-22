@@ -20,7 +20,6 @@ public:
 	virtual ~CameraRenderer();
 	
 	virtual void render();
-	virtual void draw();
 	
 	void setCamera(Camera* camera);
 	Camera* getCamera();
