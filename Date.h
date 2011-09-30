@@ -18,6 +18,7 @@
 #ifndef _DATE_H
 #define	_DATE_H
 
+#include "Time.h"
 #include "CString.h"
 
 class Date
@@ -57,12 +58,13 @@ public:
 	String toString(String format = "%l %m %D %Y %h:%i:%s %A GMT%E") const;
 
 	Date& operator=(const Date& rhs);
-	// TODO
-	// Date operator+(const Time& rhs);
-	// Date& operator+=(const Time& rhs);
-	// Time operator-(const Date& rhs);
-	// Date operator-(const Time& rhs);
-	// Date& operator-=(const Time& rhs);
+	Date operator+(const Time& rhs);
+	Date& operator+=(const Time& rhs);
+	// TODO: Get exact Time not average days per month/year
+	// year = static 365, month = static 30 days
+	Time operator-(const Date& rhs);
+	Date operator-(const Time& rhs);
+	Date& operator-=(const Time& rhs);
 	bool operator==(const Date& rhs) const;
 	bool operator!=(const Date& rhs) const;
 	bool operator<(const Date& rhs) const;

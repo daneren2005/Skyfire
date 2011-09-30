@@ -401,26 +401,68 @@ void Date::addTime(int hour, int minute, int second)
 void Date::addTime(int day, int hour, int minute, int second)
 {
 	this->second += second;
-
-	this->minute += this->second / 60 + minute;
-	this->second = this->second % 60;
-
-	this->hour += this->minute / 60 + hour;
-	this->minute = this->minute % 60;
-
-	this->day += this->hour / 24 + day;
-	this->hour = this->hour % 24;
-
-	int daysInMonth = getDaysInMonth();
-	while(this->day > daysInMonth)
+	if(this->second < 0)
 	{
-		this->month++;
-		this->day = this->day - daysInMonth;
-		daysInMonth = getDaysInMonth();
+		this->minute -= this->second / -60 + minute + 1;
+		this->second = 60 + this->second % 60; 
+	}
+	else
+	{
+		this->minute += this->second / 60 + minute;
+		this->second = this->second % 60;
 	}
 
-	this->year += this->month / 12;
-	this->month = this->month % 12;
+	if(this->minute < 0)
+	{
+		this->hour -= this->minute / -60 + hour + 1;
+		this->minute = 60 + this->minute % 60;
+	}
+	else
+	{
+		this->hour += this->minute / 60 + hour;
+		this->minute = this->minute % 60;
+	}
+
+	if(this->hour < 0)
+	{
+		this->day -= this->hour / -24 + 1;
+		this->hour = 24 + this->hour % 24;
+	}
+	else
+	{
+		this->day += this->hour / 24 + day;
+		this->hour = this->hour % 24;
+	}
+
+	if(this->day <= 0)
+	{
+		while(this->day <= 0)
+		{
+			this->day = this->day + getDaysInMonth();
+			this->month--;
+		}
+	}
+	else
+	{
+		int daysInMonth = getDaysInMonth();
+		while(this->day > daysInMonth)
+		{
+			this->month++;
+			this->day = this->day - daysInMonth;
+			daysInMonth = getDaysInMonth();
+		}
+	}
+
+	if(this->month <= 0)
+	{
+		this->year -= this->month / -12 + 1;
+		this->month = 12 + this->month % 12;
+	}
+	else
+	{
+		this->year += this->month / 12;
+		this->month = this->month % 12;
+	}
 }
 
 String Date::toString(String format) const
@@ -532,6 +574,34 @@ Date& Date::operator=(const Date& rhs)
 	this->day = rhs.day;
 	this->month = rhs.month;
 	this->year = rhs.year;
+	return *this;
+}
+Date Date::operator+(const Time& rhs)
+{
+	Date date(*this);
+	date.addTime(rhs.getDays(), rhs.getHours() % 24, rhs.getMinutes() % 60, rhs.getSeconds() % 60);
+
+	return date;
+}
+Date& Date::operator+=(const Time& rhs)
+{
+	this->addTime(rhs.getDays(), rhs.getHours() % 24, rhs.getMinutes() % 60, rhs.getSeconds() % 60);
+	return *this;
+}
+Time Date::operator-(const Date& rhs)
+{
+	return (this->year - rhs.year) * (long)31536000 + (this->month - rhs.month) * (long)2592000 + (this->day - rhs.day) * (long)86400 + (this->hour - rhs.hour) * (long)3600 + (this->minute - rhs.minute) * (long)60 + (this->second - rhs.second);
+}
+Date Date::operator-(const Time& rhs)
+{
+	Date date(*this);
+	date.addTime(-rhs.getDays(), -rhs.getHours() % 24, -rhs.getMinutes() % 60, -rhs.getSeconds() % 60);
+
+	return date;
+}
+Date& Date::operator-=(const Time& rhs)
+{
+	this->addTime(-rhs.getDays(), -rhs.getHours() % 24, -rhs.getMinutes() % 60, -rhs.getSeconds() % 60);
 	return *this;
 }
 bool Date::operator==(const Date& rhs) const

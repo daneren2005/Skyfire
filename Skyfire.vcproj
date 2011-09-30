@@ -795,11 +795,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Time.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Time.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Timer.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Timer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Types.h"
 				>
 			</File>
 		</Filter>
