@@ -41,8 +41,3 @@ void CameraRenderer::render()
 	
 	this->camera->draw();
 }
-
-void CameraRenderer::draw()
-{
-	
-}
