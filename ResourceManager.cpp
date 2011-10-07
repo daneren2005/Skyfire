@@ -56,7 +56,7 @@ void ResourceManager::loadModel(String filename, String name)
 {
 	File file(filename);
 
-	if(file.fileType() == "obj")
+	if(file.getFileType() == "obj")
 	{
 		MeshPointer model = this->loadObj(file);
 		if(model != 0x0)
@@ -90,7 +90,7 @@ MeshPointer ResourceManager::loadObj(File file)
 	file.open();
 	if(!file.isOpen())
 	{
-		console << "ResourceManager::loadModls error: Failed to open model file " << file.fullPath() << newline;
+		console << "ResourceManager::loadModls error: Failed to open model file " << file.getFullPath() << newline;
 		return 0x0;
 	}
 
@@ -253,7 +253,7 @@ MeshPointer ResourceManager::loadObj(File file)
 				{
 					String libraryFileName;
 					line >> libraryFileName;
-					File libraryFile(file.filePath() + libraryFileName);
+					File libraryFile(file.getParentPath() + libraryFileName);
 
 					try
 					{
@@ -261,7 +261,7 @@ MeshPointer ResourceManager::loadObj(File file)
 					}
 					catch(...)
 					{
-						console << "MeshManage::loadMtl error: Failed to load material file " << libraryFile.fullPath() << newline;
+						console << "MeshManage::loadMtl error: Failed to load material file " << libraryFile.getFullPath() << newline;
 					}
 				}
 
@@ -316,7 +316,7 @@ Map<MaterialPointer, String> ResourceManager::loadMtl(File file)
 	file.open();
 	if(!file.isOpen())
 	{
-		console << "ResourceManager::loadMtl error: Failed to open material file " << file.fullPath() << newline;
+		console << "ResourceManager::loadMtl error: Failed to open material file " << file.getFullPath() << newline;
 		return materials;
 	}
 
@@ -452,9 +452,9 @@ Bitmap* ResourceManager::loadJpeg(File file)
 	JSAMPARRAY buffer;
 	int width, height, size;
 
-	if((infile = fopen(file.fullPath().cStr(), "rb")) == NULL)
+	if((infile = fopen(file.getFullPath().cStr(), "rb")) == NULL)
 	{
-		console << "ResourceManager::loadJpeg error: Failed to open jpeg file " << file.fullPath() << newline;
+		console << "ResourceManager::loadJpeg error: Failed to open jpeg file " << file.getFullPath() << newline;
 		return 0x0;
 	}
 
@@ -462,7 +462,7 @@ Bitmap* ResourceManager::loadJpeg(File file)
 	jerr.pub.error_exit = my_error_exit;
 	if (setjmp(jerr.setjmp_buffer))
 	{
-		console << "ResourceManager::loadJpeg error: unknown error reading jpeg file " << file.fullPath() << newline;
+		console << "ResourceManager::loadJpeg error: unknown error reading jpeg file " << file.getFullPath() << newline;
 
 		jpeg_destroy_decompress(&cinfo);
 		fclose(infile);

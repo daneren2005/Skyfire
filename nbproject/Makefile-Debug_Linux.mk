@@ -53,6 +53,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Window.o \
 	${OBJECTDIR}/ObjectOrientedBox.o \
 	${OBJECTDIR}/Matrix4.o \
+	${OBJECTDIR}/Folder.o \
 	${OBJECTDIR}/ParticleEmitter.o \
 	${OBJECTDIR}/GenericType.o \
 	${OBJECTDIR}/MeshPart.o \
@@ -62,12 +63,13 @@ OBJECTFILES= \
 	${OBJECTDIR}/Vector.o \
 	${OBJECTDIR}/GenericPointer.o \
 	${OBJECTDIR}/CString.o \
-	${OBJECTDIR}/FileDirectory.o \
+	${OBJECTDIR}/Time.o \
 	${OBJECTDIR}/Bitmap.o \
 	${OBJECTDIR}/Sphere.o \
 	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/AxisAlignedBox.o \
 	${OBJECTDIR}/Rectangle.o \
+	${OBJECTDIR}/Date.o \
 	${OBJECTDIR}/AxisObject.o \
 	${OBJECTDIR}/Timer.o \
 	${OBJECTDIR}/Key.o \
@@ -197,6 +199,11 @@ ${OBJECTDIR}/Matrix4.o: Matrix4.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix4.o Matrix4.cpp
 
+${OBJECTDIR}/Folder.o: Folder.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Folder.o Folder.cpp
+
 ${OBJECTDIR}/ParticleEmitter.o: ParticleEmitter.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -242,10 +249,10 @@ ${OBJECTDIR}/CString.o: CString.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/CString.o CString.cpp
 
-${OBJECTDIR}/FileDirectory.o: FileDirectory.cpp 
+${OBJECTDIR}/Time.o: Time.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/FileDirectory.o FileDirectory.cpp
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Time.o Time.cpp
 
 ${OBJECTDIR}/Bitmap.o: Bitmap.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -271,6 +278,11 @@ ${OBJECTDIR}/Rectangle.o: Rectangle.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Rectangle.o Rectangle.cpp
+
+${OBJECTDIR}/Date.o: Date.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Date.o Date.cpp
 
 ${OBJECTDIR}/AxisObject.o: AxisObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
