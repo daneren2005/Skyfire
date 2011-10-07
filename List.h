@@ -49,6 +49,8 @@ public:
 	T popBack();
 	void remove(T value);
 	
+	List& operator=(const List& orig);
+	
 	class Iterator;
 	class WriteIterator;
 	
@@ -499,6 +501,65 @@ void List<T>::remove(T value)
 	pthread_mutex_lock(&countLock);
 	count--;
 	pthread_mutex_unlock(&countLock);
+}
+
+template <class T>
+List<T>& List<T>::operator=(const List& orig)
+{
+	pthread_mutex_lock(&countLock);
+	pthread_rwlock_wrlock(&headLock);
+	
+	// Delete old stuff
+	while(this->head != NULL)
+	{
+		pthread_rwlock_wrlock(&this->head->lock);
+		Node* toDelete = this->head;
+		this->head = toDelete->next;
+		delete toDelete;
+	}
+	
+	// Copy new stuff
+	pthread_rwlock_rdlock(&orig.headLock);
+	Node* current = NULL;
+	for(Node* node = orig.head; node != NULL; node = node->next)
+	{
+		pthread_rwlock_rdlock(&node->lock);
+		if(node->prev != NULL)
+			pthread_rwlock_unlock(&node->lock);
+
+		// If its the first run
+		if(this->head == NULL)
+		{
+			this->head = new Node(node->value);
+			current = head;
+		}
+		// Otherwise make the next
+		else
+		{
+			current->next = new Node(node->value);
+			current->next->prev = current;
+			current = current->next;
+		}
+
+		// If this is the last run
+		if(node->next == NULL)
+		{
+			pthread_rwlock_unlock(node->lock);
+		}
+	}
+
+	if(current == NULL)
+	{
+		this->head = NULL;
+		this->tail = NULL;
+	}
+	else
+	{
+		this->tail->node = current;
+	}
+	
+	pthread_mutex_unlock(&countLock);
+	pthread_rwlock_unlock(&headLock);
 }
 
 template <class T>

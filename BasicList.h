@@ -43,6 +43,8 @@ public:
 	T popBack();
 	void remove(T value);
 	
+	BasicList& operator=(const BasicList& orig);
+	
 	class Iterator;
 	class ReverseIterator;
 
@@ -362,6 +364,47 @@ void BasicList<T>::remove(T value)
 	}
 
 	count--;
+}
+
+template <class T>
+BasicList<T>& BasicList<T>::operator=(const BasicList& orig)
+{	
+	// Delete old stuff
+	while(this->head != NULL)
+	{
+		Node* toDelete = this->head;
+		this->head = toDelete->next;
+		delete toDelete;
+	}
+	
+	// Copy new stuff
+	Node* current = NULL;
+	for(Node* node = orig.head; node != NULL; node = node->next)
+	{
+		// If its the first run
+		if(this->head == NULL)
+		{
+			this->head = new Node(node->value);
+			current = head;
+		}
+		// Otherwise make the next
+		else
+		{
+			current->next = new Node(node->value);
+			current->next->prev = current;
+			current = current->next;
+		}
+	}
+
+	if(current == NULL)
+	{
+		this->head = NULL;
+		this->tail = NULL;
+	}
+	else
+	{
+		this->tail = current;
+	}
 }
 
 template <class T>
