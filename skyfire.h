@@ -32,8 +32,6 @@
 #include "ResourceManager.h"
 #include "BaseObject.h"
 #include "AxisObject.h"
-#include "StaticObject.h"
-#include "AnimateObject.h"
 
 #include "ParticleEmitter.h"
 #include "ParticleSystem.h"

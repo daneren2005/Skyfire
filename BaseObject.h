@@ -57,9 +57,11 @@ public:
 	// Move object and rotate it around cameras axis
 	virtual void transformInverse();
 	// Called when trying to draw the object on the screen
-	virtual void draw() = 0;
+	virtual void draw();
 	// Called when intializing an object (loading model data, etc)
 	virtual void load() = 0;
+	// Called to get a generic Bounding Box around a object
+	virtual AxisAlignedBox getBoundingBox();
 
 	bool operator==(const BaseObject& rhs);
 	bool operator!=(const BaseObject& rhs);
@@ -68,6 +70,7 @@ protected:
 	Vector directionForward;
 	Vector directionUp;
 	Vector scale;
+	ModelPointer model;
 
 	Region* parentRegion;
 	Camera* attachedCamera;

@@ -47,8 +47,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/Console.o \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Universe.o \
-	${OBJECTDIR}/StaticObject.o \
-	${OBJECTDIR}/AnimateObject.o \
 	${OBJECTDIR}/Region.o \
 	${OBJECTDIR}/Window.o \
 	${OBJECTDIR}/ObjectOrientedBox.o \
@@ -168,16 +166,6 @@ ${OBJECTDIR}/Universe.o: Universe.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Universe.o Universe.cpp
-
-${OBJECTDIR}/StaticObject.o: StaticObject.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/StaticObject.o StaticObject.cpp
-
-${OBJECTDIR}/AnimateObject.o: AnimateObject.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/AnimateObject.o AnimateObject.cpp
 
 ${OBJECTDIR}/Region.o: Region.cpp 
 	${MKDIR} -p ${OBJECTDIR}

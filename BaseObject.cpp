@@ -36,6 +36,7 @@ BaseObject::BaseObject()
 	this->objectID = BaseObject::objectIDCounter;
 	BaseObject::objectIDCounter++;
 
+	this->model = NULL;
 	position = Vector(0.0f, 0.0f, 0.0f);
 	directionForward = Vector(0.0f, 0.0f, 0.0f);
 	this->scale = Vector(1.0f, 1.0f, 1.0f);
@@ -47,6 +48,7 @@ BaseObject::BaseObject(float x, float y, float z)
 	this->objectID = BaseObject::objectIDCounter;
 	BaseObject::objectIDCounter++;
 
+	this->model = NULL;
 	position = Vector(x, y, z);
 	directionForward = Vector(0.0f, 0.0f, 0.0f);
 	this->scale = Vector(1.0f, 1.0f, 1.0f);
@@ -56,6 +58,7 @@ BaseObject::BaseObject(float x, float y, float z)
 
 BaseObject::BaseObject(const BaseObject& orig)
 {
+	this->model = orig.model;
 	objectID = orig.objectID;
 	this->position = orig.position;
 	this->directionForward = orig.directionForward;
@@ -161,6 +164,35 @@ void BaseObject::transformInverse()
 	glMultMatrixf(scale.getMatrix());
 	glMultMatrixf(rotate.getMatrix());
 	glMultMatrixf(translate.getMatrix());
+}
+
+void BaseObject::draw()
+{
+	// Already drawn if camera is not null
+	if(this->model == NULL)
+	{
+		return;
+	}
+
+	// this->getBoundingBox().draw();
+	// this->model->getBoundingBox().getObjectOrientedBox().transform(position, directionForward).draw();
+	// this->model->getBoundingBox().getSphere().transform(this->position).draw();
+
+	// If in select mode, write object id to top of stack
+	glLoadName(this->objectId());
+	// Start a new matrix
+	glPushMatrix();
+
+	this->transform();
+
+	// Draw then pop back down to old stack
+	this->model->draw();
+	glPopMatrix();
+}
+
+AxisAlignedBox BaseObject::getBoundingBox()
+{
+	return this->model->getBoundingBox().transform(this->position, this->directionForward);
 }
 
 bool BaseObject::operator==(const BaseObject& rhs)
