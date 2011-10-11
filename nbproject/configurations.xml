@@ -6,6 +6,7 @@
       <itemPath>BasicList.h</itemPath>
       <itemPath>CString.cpp</itemPath>
       <itemPath>CString.h</itemPath>
+      <itemPath>Comparison.h</itemPath>
       <itemPath>Console.cpp</itemPath>
       <itemPath>Console.h</itemPath>
       <itemPath>Date.cpp</itemPath>
@@ -21,11 +22,13 @@
       <itemPath>GenericType.h</itemPath>
       <itemPath>List.h</itemPath>
       <itemPath>Map.h</itemPath>
+      <itemPath>PriorityQueue.h</itemPath>
       <itemPath>SharedPointer.h</itemPath>
       <itemPath>Time.cpp</itemPath>
       <itemPath>Time.h</itemPath>
       <itemPath>Timer.cpp</itemPath>
       <itemPath>Timer.h</itemPath>
+      <itemPath>Types.h</itemPath>
       <itemPath>const.h</itemPath>
       <itemPath>conversion.h</itemPath>
     </logicalFolder>
