@@ -112,6 +112,7 @@ bool Folder::canRead() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(currDir.cStr(), R_OK) == 0;
@@ -121,6 +122,7 @@ bool Folder::canWrite() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(currDir.cStr(), W_OK) == 0;
@@ -130,6 +132,7 @@ bool Folder::canExecute() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(currDir.cStr(), X_OK) == 0;
@@ -140,6 +143,7 @@ int Folder::getPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -153,6 +157,7 @@ int Folder::getOwnerPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -166,6 +171,7 @@ int Folder::getGroupPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -179,6 +185,7 @@ int Folder::getOtherPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -192,6 +199,7 @@ int Folder::getOwnerID() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -205,6 +213,7 @@ int Folder::getGroupID() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -219,6 +228,7 @@ bool Folder::doesExist() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(currDir.cStr(), F_OK) == 0;
@@ -230,7 +240,7 @@ Array<File> Folder::getFiles() const
 	Array<File> array;
 
 	#ifdef WIN32
-		WIN32_FIND_DATA findData;
+		/*WIN32_FIND_DATA findData;
 		HANDLE fileHandle;
 
 		fileHandle = FindFirstFile(currDir.cStr(), &findData);
@@ -248,7 +258,7 @@ Array<File> Folder::getFiles() const
 				array.insert(file);
 			}
 		} while(FindNextFile(fileHandle, &findData));
-		FindClose(fileHandle);
+		FindClose(fileHandle);*/
 	#endif
 	#ifdef __linux__
 		DIR* dir;
@@ -278,7 +288,7 @@ Array<Folder> Folder::getFolders() const
 	Array<Folder> array;
 
 	#ifdef WIN32
-		WIN32_FIND_DATA findData;
+		/*WIN32_FIND_DATA findData;
 		HANDLE fileHandle;
 
 		fileHandle = FindFirstFile(currDir.cStr(), &findData);
@@ -296,7 +306,7 @@ Array<Folder> Folder::getFolders() const
 				array.insert(folder);
 			}
 		} while(FindNextFile(fileHandle, &findData));
-		FindClose(fileHandle);
+		FindClose(fileHandle);*/
 	#endif
 	#ifdef __linux__
 		DIR* dir;
@@ -462,6 +472,7 @@ Date Folder::getLastAccessed() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return Date();
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -474,6 +485,7 @@ Date Folder::getLastModified() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return Date();
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;

@@ -194,6 +194,7 @@ bool File::canRead() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(filename.cStr(), R_OK) == 0;
@@ -203,6 +204,7 @@ bool File::canWrite() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(filename.cStr(), W_OK) == 0;
@@ -212,6 +214,7 @@ bool File::canExecute() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(filename.cStr(), X_OK) == 0;
@@ -222,6 +225,7 @@ int File::getPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -235,6 +239,7 @@ int File::getOwnerPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -248,6 +253,7 @@ int File::getGroupPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -261,6 +267,7 @@ int File::getOtherPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -274,6 +281,7 @@ int File::getOwnerID() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -287,6 +295,7 @@ int File::getGroupID() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -301,6 +310,7 @@ bool File::doesExist() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(filename.cStr(), F_OK) == 0;
@@ -311,6 +321,7 @@ long File::getSize() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -337,6 +348,7 @@ long File::getPhysicalSize() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -367,6 +379,7 @@ Date File::getLastAccessed() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return Date();
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -379,6 +392,7 @@ Date File::getLastModified() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return Date();
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
