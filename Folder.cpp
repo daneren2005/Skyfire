@@ -45,8 +45,14 @@ Folder::Folder()
 }
 Folder::Folder(const String& location)
 {
-	if(location[0] == '/')
-		this->currDir = location;
+	#ifdef WIN32
+		if(location[1] == ':')
+			this->currDir = location;
+	#endif
+	#ifdef __linux__
+		if(location[0] == '/')
+			this->currDir = location;
+	#endif
 	else
 		this->currDir = Folder::getCWD() + "/" + location;
 }
@@ -80,10 +86,18 @@ Folder Folder::getRootFolder() const
 void Folder::changeLocation(const String& newLocation)
 {
 	// Completely new location
-	if(newLocation[0] == '/')
-	{
-		currDir = newLocation;
-	}
+	#ifdef WIN32
+		if(newLocation[1] == ':')
+		{
+			currDir = newLocation;
+		}
+	#endif
+	#ifdef __linux__
+		if(newLocation[0] == '/')
+		{
+			currDir = newLocation;
+		}
+	#endif
 	else
 	{
 		currDir += String("/") + newLocation;
@@ -334,15 +348,27 @@ Array<Folder> Folder::getFolders() const
 
 File Folder::getFile(String name)
 {
-	if(name[0] != '/')
-		name = this->currDir + "/" + name;
+	#ifdef WIN32
+		if(name[1] != ':')
+			name = this->currDir + "/" + name;
+	#endif
+	#ifdef __linux__
+		if(name[0] != '/')
+			name = this->currDir + "/" + name;
+	#endif
 
 	return File(name);
 }
 File Folder::createFile(String name)
 {
-	if(name[0] != '/')
-		name = this->currDir + "/" + name;
+	#ifdef WIN32
+		if(name[1] != ':')
+			name = this->currDir + "/" + name;
+	#endif
+	#ifdef __linux__
+		if(name[0] != '/')
+			name = this->currDir + "/" + name;
+	#endif
 
 	File file(name);
 	if(file.doesExist())
@@ -357,15 +383,27 @@ File Folder::createFile(String name)
 
 Folder Folder::getSubFolder(String name)
 {
-	if(name[0] != '/')
-		name = this->currDir + "/" + name;
+	#ifdef WIN32
+		if(name[1] != ':')
+			name = this->currDir + "/" + name;
+	#endif
+	#ifdef __linux__
+		if(name[0] != '/')
+			name = this->currDir + "/" + name;
+	#endif
 
 	return Folder(name);
 }
 Folder Folder::createSubFolder(String name)
 {
-	if(name[0] != '/')
-		name = this->currDir + "/" + name;
+	#ifdef WIN32
+		if(name[1] != ':')
+			name = this->currDir + "/" + name;
+	#endif
+	#ifdef __linux__
+		if(name[0] != '/')
+			name = this->currDir + "/" + name;
+	#endif
 
 	Folder folder(name);
 	if(folder.doesExist())

@@ -32,8 +32,14 @@ File::File()
 }
 File::File(const String& filename, const String& delim)
 {
-	if(filename[0] == '/')
-		this->filename = filename;
+	#ifdef WIN32
+		if(filename[1] == ':')
+			this->filename = filename;
+	#endif
+	#ifdef __linux__
+		if(filename[0] == '/')
+			this->filename = filename;
+	#endif
 	else
 		this->filename = Folder::getCWD() + "/" + filename;
 	
@@ -44,8 +50,14 @@ File::File(const String& filename, const String& delim)
 }
 File::File(const char* filename, const char* delim)
 {
-	if(filename[0] == '/')
-		this->filename = filename;
+	#ifdef WIN32
+		if(filename[1] == ':')
+			this->filename = filename;
+	#endif
+	#ifdef __linux__
+		if(filename[0] == '/')
+			this->filename = filename;
+	#endif
 	else
 		this->filename = Folder::getCWD() + "/" + String(filename);
 	this->handle = new FILE*;
