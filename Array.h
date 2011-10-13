@@ -19,33 +19,38 @@
 #define	_ARRAY_H
 
 #include <iostream>
+#include "Types.h"
+#include "Comparison.h"
 
 template <class T>
 class Array
 {
 public:
 	Array();
-	Array(unsigned long size);
+	Array(ulong size);
 	Array(const Array& orig);
-	~Array();
+	virtual ~Array();
 
 	virtual T& operator[](unsigned col);
 	virtual const T& operator[](unsigned col) const; 
 
-	unsigned long size();
-	unsigned long size() const;
-	unsigned long reserved();
-	unsigned long reserved() const;
+	ulong size();
+	ulong size() const;
+	ulong reserved();
+	ulong reserved() const;
 
 	void insert(const T& value);
-	void resize(unsigned long newSize);
+	void sort();
+	template <class Compare>
+	void sort(Compare c);
+	void resize(ulong newSize);
 
 	T* getPointer();
 	const T* getPointer() const;
 protected:
 	T* array;
-	unsigned long used;
-	unsigned long allocated;
+	ulong used;
+	ulong allocated;
 };
 
 template <class T>
@@ -57,7 +62,7 @@ Array<T>::Array()
 }
 
 template <class T>
-Array<T>::Array(unsigned long size)
+Array<T>::Array(ulong size)
 {
 	this->used = 0;
 	this->allocated = size;
@@ -70,7 +75,7 @@ Array<T>::Array(const Array<T> &orig)
 	this->used = orig.used;
 	this->allocated = orig.used;
 	this->array = new T[this->allocated];
-	for(unsigned long i = 0; i < this->used; i++)
+	for(ulong i = 0; i < this->used; i++)
 	{
 		this->array[i] = orig.array[i];
 	}
@@ -98,23 +103,23 @@ const T& Array<T>::operator[](unsigned col) const
 }
 
 template <class T>
-unsigned long Array<T>::size()
+ulong Array<T>::size()
 {
 	return this->used;
 }
 template <class T>
-unsigned long Array<T>::size() const
+ulong Array<T>::size() const
 {
 	return this->used;
 }
 
 template <class T>
-unsigned long Array<T>::reserved()
+ulong Array<T>::reserved()
 {
 	return this->used;
 }
 template <class T>
-unsigned long Array<T>::reserved() const
+ulong Array<T>::reserved() const
 {
 	return this->used;
 }
@@ -132,11 +137,83 @@ void Array<T>::insert(const T& value)
 }
 
 template <class T>
-void Array<T>::resize(unsigned long newSize)
+void Array<T>::sort()
+{
+	this->sort(LessThan<T>());
+}
+
+template <class T>
+template <class Compare>
+void Array<T>::sort(Compare c)
+{
+	// Heapify the array
+	for(long start = this->used / 2 - 1; start >= 0; start--)
+	{
+		// Bubble down
+		ulong i = start;
+		while(i * 2 + 2 <= this->used)
+		{
+			ulong swap = i;
+			ulong k = i * 2 + 1;
+			if(c(array[swap], array[k]))
+				swap = k;
+			if(k + 2 <= this->used && c(array[swap], array[k + 1]))
+				swap = k + 1;
+
+			if(swap != i)
+			{
+				T temp = array[i];
+				array[i] = array[swap];
+				array[swap] = temp;
+				i = swap;
+			}
+			else
+			{
+				i = this->used + 1;
+			}
+		}
+	}
+
+	// Pop top and move to back of array to sort
+	for(ulong end = this->used - 1; end > 0; end--)
+	{
+		// Swap top and end of heap
+		T temp = array[end];
+		array[end] = array[0];
+		array[0] = temp;
+
+		// Bubble down
+		ulong i = 0;
+		while(i * 2 + 2 <= end)
+		{
+			ulong swap = i;
+			ulong k = i * 2 + 1;
+			if(c(array[i], array[k]))
+				swap = k;
+			if(k + 2 <= end && c(array[swap], array[k + 1]))
+				swap = k + 1;
+
+			if(swap != i)
+			{
+				temp = array[i];
+				array[i] = array[swap];
+				array[swap] = temp;
+				i = swap;
+			}
+			else
+			{
+				i = this->used;
+			}
+		}
+	}
+}
+
+template <class T>
+void Array<T>::resize(ulong newSize)
 {
 	T* toDelete = this->array;
 	this->array = new T[newSize];
-	for(unsigned long i = 0; i < this->used && i < newSize; i++)
+	for(ulong i = 0; i < this->used && i < newSize; i++)
 	{
 		this->array[i] = toDelete[i];
 	}
