@@ -167,14 +167,6 @@
 			Name="Objects"
 			>
 			<File
-				RelativePath=".\AnimateObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\AnimateObject.h"
-				>
-			</File>
-			<File
 				RelativePath=".\AxisObject.cpp"
 				>
 			</File>
@@ -228,14 +220,6 @@
 			</File>
 			<File
 				RelativePath=".\Region.h"
-				>
-			</File>
-			<File
-				RelativePath=".\StaticObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\StaticObject.h"
 				>
 			</File>
 			<File
@@ -727,6 +711,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Comparison.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Console.cpp"
 				>
 			</File>
@@ -767,6 +755,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Folder.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Folder.h"
+				>
+			</File>
+			<File
 				RelativePath=".\GenericPointer.cpp"
 				>
 			</File>
@@ -788,6 +784,10 @@
 			</File>
 			<File
 				RelativePath=".\Map.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PriorityQueue.h"
 				>
 			</File>
 			<File
@@ -876,6 +876,18 @@
 			</File>
 			<File
 				RelativePath=".\Thread.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="AI"
+			>
+			<File
+				RelativePath=".\State.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\State.h"
 				>
 			</File>
 		</Filter>

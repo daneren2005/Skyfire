@@ -56,14 +56,8 @@ class File
 {
 public:
 	File();
-	#ifdef WIN32
-		File(const String& filename, const String& delim = "\r\n");
-		File(const char* filename, const char* delim = "\r\n");
-	#endif
-	#ifdef __linux__
-		File(const String& filename, const String& delim = '\n');
-		File(const char* filename, const char* delim = "\n");
-	#endif
+	File(const String& filename, const String& delim = '\n');
+	File(const char* filename, const char* delim = "\n");
 	File(const File& orig);
 	virtual ~File();
 

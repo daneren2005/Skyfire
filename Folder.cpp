@@ -45,8 +45,14 @@ Folder::Folder()
 }
 Folder::Folder(const String& location)
 {
-	if(location[0] == '/')
-		this->currDir = location;
+	#ifdef WIN32
+		if(location[1] == ':')
+			this->currDir = location;
+	#endif
+	#ifdef __linux__
+		if(location[0] == '/')
+			this->currDir = location;
+	#endif
 	else
 		this->currDir = Folder::getCWD() + "/" + location;
 }
@@ -80,10 +86,18 @@ Folder Folder::getRootFolder() const
 void Folder::changeLocation(const String& newLocation)
 {
 	// Completely new location
-	if(newLocation[0] == '/')
-	{
-		currDir = newLocation;
-	}
+	#ifdef WIN32
+		if(newLocation[1] == ':')
+		{
+			currDir = newLocation;
+		}
+	#endif
+	#ifdef __linux__
+		if(newLocation[0] == '/')
+		{
+			currDir = newLocation;
+		}
+	#endif
 	else
 	{
 		currDir += String("/") + newLocation;
@@ -112,6 +126,7 @@ bool Folder::canRead() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(currDir.cStr(), R_OK) == 0;
@@ -121,6 +136,7 @@ bool Folder::canWrite() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(currDir.cStr(), W_OK) == 0;
@@ -130,6 +146,7 @@ bool Folder::canExecute() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(currDir.cStr(), X_OK) == 0;
@@ -140,6 +157,7 @@ int Folder::getPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -153,6 +171,7 @@ int Folder::getOwnerPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -166,6 +185,7 @@ int Folder::getGroupPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -179,6 +199,7 @@ int Folder::getOtherPermissions() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -192,6 +213,7 @@ int Folder::getOwnerID() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -205,6 +227,7 @@ int Folder::getGroupID() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return 0;
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -219,6 +242,7 @@ bool Folder::doesExist() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return false;
 	#endif
 	#ifdef __linux__
 		return access(currDir.cStr(), F_OK) == 0;
@@ -230,7 +254,7 @@ Array<File> Folder::getFiles() const
 	Array<File> array;
 
 	#ifdef WIN32
-		WIN32_FIND_DATA findData;
+		/*WIN32_FIND_DATA findData;
 		HANDLE fileHandle;
 
 		fileHandle = FindFirstFile(currDir.cStr(), &findData);
@@ -248,7 +272,7 @@ Array<File> Folder::getFiles() const
 				array.insert(file);
 			}
 		} while(FindNextFile(fileHandle, &findData));
-		FindClose(fileHandle);
+		FindClose(fileHandle);*/
 	#endif
 	#ifdef __linux__
 		DIR* dir;
@@ -278,7 +302,7 @@ Array<Folder> Folder::getFolders() const
 	Array<Folder> array;
 
 	#ifdef WIN32
-		WIN32_FIND_DATA findData;
+		/*WIN32_FIND_DATA findData;
 		HANDLE fileHandle;
 
 		fileHandle = FindFirstFile(currDir.cStr(), &findData);
@@ -296,7 +320,7 @@ Array<Folder> Folder::getFolders() const
 				array.insert(folder);
 			}
 		} while(FindNextFile(fileHandle, &findData));
-		FindClose(fileHandle);
+		FindClose(fileHandle);*/
 	#endif
 	#ifdef __linux__
 		DIR* dir;
@@ -324,15 +348,27 @@ Array<Folder> Folder::getFolders() const
 
 File Folder::getFile(String name)
 {
-	if(name[0] != '/')
-		name = this->currDir + "/" + name;
+	#ifdef WIN32
+		if(name[1] != ':')
+			name = this->currDir + "/" + name;
+	#endif
+	#ifdef __linux__
+		if(name[0] != '/')
+			name = this->currDir + "/" + name;
+	#endif
 
 	return File(name);
 }
 File Folder::createFile(String name)
 {
-	if(name[0] != '/')
-		name = this->currDir + "/" + name;
+	#ifdef WIN32
+		if(name[1] != ':')
+			name = this->currDir + "/" + name;
+	#endif
+	#ifdef __linux__
+		if(name[0] != '/')
+			name = this->currDir + "/" + name;
+	#endif
 
 	File file(name);
 	if(file.doesExist())
@@ -347,15 +383,27 @@ File Folder::createFile(String name)
 
 Folder Folder::getSubFolder(String name)
 {
-	if(name[0] != '/')
-		name = this->currDir + "/" + name;
+	#ifdef WIN32
+		if(name[1] != ':')
+			name = this->currDir + "/" + name;
+	#endif
+	#ifdef __linux__
+		if(name[0] != '/')
+			name = this->currDir + "/" + name;
+	#endif
 
 	return Folder(name);
 }
 Folder Folder::createSubFolder(String name)
 {
-	if(name[0] != '/')
-		name = this->currDir + "/" + name;
+	#ifdef WIN32
+		if(name[1] != ':')
+			name = this->currDir + "/" + name;
+	#endif
+	#ifdef __linux__
+		if(name[0] != '/')
+			name = this->currDir + "/" + name;
+	#endif
 
 	Folder folder(name);
 	if(folder.doesExist())
@@ -462,6 +510,7 @@ Date Folder::getLastAccessed() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return Date();
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
@@ -474,6 +523,7 @@ Date Folder::getLastModified() const
 {
 	#ifdef WIN32
 		// TODO: fill out
+		return Date();
 	#endif
 	#ifdef __linux__
 		struct stat statBuffer;
