@@ -198,17 +198,20 @@ T PriorityQueue<T, Compare>::remove()
 	{
 		// Switch with min child
 		T val = curr->value[i];
+		bool done = true;
 		if(j < curr->next->max && c(curr->next->value[j], val))
 		{
 			val = curr->next->value[j];
+			done = false;
 		}
 		if(j + 1 < curr->next->max && c(curr->next->value[j + 1], val))
 		{
 			j++;
 			val = curr->next->value[j];
+			done = false;
 		}
 
-		if(val == curr->value[i])
+		if(done)
 			break;
 
 		curr->next->value[j] = curr->value[i];
