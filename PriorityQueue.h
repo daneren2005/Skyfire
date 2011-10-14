@@ -18,6 +18,7 @@
 #ifndef _PRIORITY_QUEUE_H
 #define	_PRIORITY_QUEUE_H
 
+#include "Exceptions.h"
 #include "Comparison.h"
 #include "Types.h"
 #include <cmath>
@@ -55,8 +56,9 @@ private:
 		}
 		~Node()
 		{
-			delete next;
-			delete value;
+			if(next != 0x0)
+				delete next;
+			delete[] value;
 		}
 
 		T* value;
@@ -167,6 +169,12 @@ void PriorityQueue<T, Compare>::insert(T value)
 template <class T, class Compare>
 T PriorityQueue<T, Compare>::remove()
 {
+	// Make sure not empty
+	if(root == 0x0)
+	{
+		throw InvalidOperation();
+	}
+
 	T temp = root->value[0];
 
 	// If returning root value
