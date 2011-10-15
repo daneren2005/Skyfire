@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories="D:\Programming\Cpp\Skyfire\Include\jpeg;D:\Programming\Cpp\Skyfire\Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;GLUT_BUILDING_LIB"
 				MinimalRebuild="true"
@@ -50,7 +51,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -883,11 +884,19 @@
 			Name="AI"
 			>
 			<File
-				RelativePath=".\State.cpp"
+				RelativePath=".\SearchState.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\State.h"
+				RelativePath=".\SearchState.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SearchStatePath.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SearchStatePath.h"
 				>
 			</File>
 		</Filter>
