@@ -21,6 +21,7 @@
 // For use of NULL
 #include <iostream>
 #include <pthread.h>
+#include "Console.h"
 
 // Pre declare
 template <class T>
@@ -48,6 +49,9 @@ public:
 	T popFront();
 	T popBack();
 	void remove(T value);
+	void sort();
+	template <class Compare>
+	void sort(Compare c);
 	
 	List& operator=(const List& orig);
 	
@@ -91,6 +95,9 @@ private:
 	pthread_mutex_t countLock;
 	pthread_rwlock_t headLock;
 	pthread_rwlock_t tailLock;
+	
+	template <class Compare>
+	Node* mergeSort(List<T>::Node* start, ulong size, Compare& c);
 };
 
 template <class T>
@@ -501,6 +508,84 @@ void List<T>::remove(T value)
 	pthread_mutex_lock(&countLock);
 	count--;
 	pthread_mutex_unlock(&countLock);
+}
+
+template <class T>
+void List<T>::sort()
+{	
+	LessThan<T> c;
+	mergeSort(head, count, c);
+}
+
+template <class T>
+template <class Compare>
+void List<T>::sort(Compare c)
+{	
+	mergeSort(head, count, c);	
+}
+
+template <class T>
+template <class Compare>
+typename List<T>::Node* List<T>::mergeSort(List<T>::Node* start, ulong size, Compare& c)
+{
+	if(size <= 1)
+		return start;
+	
+	ulong sizeLeft = size / 2;
+	ulong sizeRight = sizeLeft + size % 2;
+	Node* left = start;
+	Node* right = start;
+	for(ulong i = 0; i < sizeLeft; i++)
+	{
+		right = right->next;
+	}
+	
+	left = mergeSort(left, sizeLeft, c);
+	right = mergeSort(right, sizeRight, c);
+	start = left;
+	
+	// Sort
+	ulong i = 0;
+	ulong j = 0;
+	while(i < sizeLeft && j < sizeRight)
+	{
+		if(c(left->value, right->value))
+		{
+			left = left->next;
+			i++;
+		}
+		else
+		{
+			if(start == left)
+				start = right;
+			
+			// Remove right from Right list
+			Node* temp = right->next;
+			right->prev->next = right->next;
+			
+			if(right->next == 0x0)
+				tail = right->prev;
+			else
+				right->next->prev = right->prev;
+			
+			// Move Right to left of Left
+			right->prev = left->prev;
+			right->next = left;
+			
+			if(left->prev == 0x0)
+				head = right;
+			else
+				left->prev->next = right;
+			left->prev = right;
+			
+			// Advance left past moved node
+			right = temp;
+			
+			j++;
+		}
+	}
+	
+	return start;
 }
 
 template <class T>

@@ -41,8 +41,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/Thread.o \
 	${OBJECTDIR}/Triangle.o \
 	${OBJECTDIR}/Camera.o \
-	${OBJECTDIR}/CameraRenderer.o \
+	${OBJECTDIR}/SearchState.o \
 	${OBJECTDIR}/Renderer.o \
+	${OBJECTDIR}/CameraRenderer.o \
 	${OBJECTDIR}/File.o \
 	${OBJECTDIR}/Console.o \
 	${OBJECTDIR}/Input.o \
@@ -66,6 +67,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Sphere.o \
 	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/AxisAlignedBox.o \
+	${OBJECTDIR}/SearchStatePath.o \
 	${OBJECTDIR}/Rectangle.o \
 	${OBJECTDIR}/Date.o \
 	${OBJECTDIR}/AxisObject.o \
@@ -137,15 +139,20 @@ ${OBJECTDIR}/Camera.o: Camera.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Camera.o Camera.cpp
 
-${OBJECTDIR}/CameraRenderer.o: CameraRenderer.cpp 
+${OBJECTDIR}/SearchState.o: SearchState.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/CameraRenderer.o CameraRenderer.cpp
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/SearchState.o SearchState.cpp
 
 ${OBJECTDIR}/Renderer.o: Renderer.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Renderer.o Renderer.cpp
+
+${OBJECTDIR}/CameraRenderer.o: CameraRenderer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/CameraRenderer.o CameraRenderer.cpp
 
 ${OBJECTDIR}/File.o: File.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -261,6 +268,11 @@ ${OBJECTDIR}/AxisAlignedBox.o: AxisAlignedBox.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisAlignedBox.o AxisAlignedBox.cpp
+
+${OBJECTDIR}/SearchStatePath.o: SearchStatePath.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/SearchStatePath.o SearchStatePath.cpp
 
 ${OBJECTDIR}/Rectangle.o: Rectangle.cpp 
 	${MKDIR} -p ${OBJECTDIR}

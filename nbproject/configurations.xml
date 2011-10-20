@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="79">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="f5" displayName="AI" projectFiles="true">
+      <itemPath>SearchState.cpp</itemPath>
+      <itemPath>SearchState.h</itemPath>
+      <itemPath>SearchStatePath.cpp</itemPath>
+      <itemPath>SearchStatePath.h</itemPath>
+    </logicalFolder>
     <logicalFolder name="f3" displayName="Core" projectFiles="true">
       <itemPath>Array.h</itemPath>
       <itemPath>BasicList.h</itemPath>
