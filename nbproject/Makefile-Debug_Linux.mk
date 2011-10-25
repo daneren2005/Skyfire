@@ -42,8 +42,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Triangle.o \
 	${OBJECTDIR}/Camera.o \
 	${OBJECTDIR}/SearchState.o \
-	${OBJECTDIR}/Renderer.o \
 	${OBJECTDIR}/CameraRenderer.o \
+	${OBJECTDIR}/Renderer.o \
 	${OBJECTDIR}/File.o \
 	${OBJECTDIR}/Console.o \
 	${OBJECTDIR}/Input.o \
@@ -144,15 +144,15 @@ ${OBJECTDIR}/SearchState.o: SearchState.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/SearchState.o SearchState.cpp
 
-${OBJECTDIR}/Renderer.o: Renderer.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Renderer.o Renderer.cpp
-
 ${OBJECTDIR}/CameraRenderer.o: CameraRenderer.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/CameraRenderer.o CameraRenderer.cpp
+
+${OBJECTDIR}/Renderer.o: Renderer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Renderer.o Renderer.cpp
 
 ${OBJECTDIR}/File.o: File.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -59,7 +59,7 @@ protected:
 	bool running;
 	Timer timer;
 	Thread updateThread;
-	static void* updateFunction(Thread* arg);
+	static void updateFunction(Thread* arg);
 };
 
 #endif	/* _UNIVERSE_H */

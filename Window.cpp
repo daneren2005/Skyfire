@@ -107,7 +107,7 @@ void Window::quit()
 	#endif
 }
 
-void* Window::initWin(Thread* arg)
+void Window::initWin(Thread* arg)
 {
 	Thread* thread = (Thread*)arg;
 	Window* win = (Window*)thread->getArg();
@@ -231,9 +231,7 @@ void* Window::initWin(Thread* arg)
 		}
 	#endif
 
-		win->initOpenGL();
-
-	return NULL;
+	win->initOpenGL();
 }
 
 void Window::initOpenGL()
@@ -248,7 +246,7 @@ void Window::initOpenGL()
 	this->resetScreen();
 }
 
-void* Window::renderFunction(Thread* arg)
+void Window::renderFunction(Thread* arg)
 {
 	Thread* thread = (Thread*)arg;
 	Window* win = (Window*)thread->getArg();
@@ -303,9 +301,6 @@ void* Window::renderFunction(Thread* arg)
 		String tmp(frames);
 		SDL_WM_SetCaption(tmp.cStr(), "Orcid");
 	#endif
-
-	// Doesn't compile without returning something
-	return NULL;
 }
 
 #ifdef __linux__

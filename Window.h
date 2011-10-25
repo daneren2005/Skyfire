@@ -78,14 +78,14 @@ private:
 		SDL_Surface* surface;
 	#endif
 
-	static void* initWin(Thread* arg);
+	static void initWin(Thread* arg);
 	void initOpenGL();
 
 	// Render scene, thread, and function
 	pthread_mutex_t glLock;
 	Renderer* renderer;
 	Thread renderThread;
-	static void* renderFunction(Thread* arg);
+	static void renderFunction(Thread* arg);
 
 	// Events thread, loop function, and processing function
 	Input* input;

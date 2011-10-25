@@ -73,7 +73,7 @@ void Universe::pause()
 	}
 }
 
-void* Universe::updateFunction(Thread* arg)
+void Universe::updateFunction(Thread* arg)
 {
 	Thread* thread = (Thread*)arg;
 	Universe* uni = (Universe*)thread->getArg();
@@ -92,8 +92,6 @@ void* Universe::updateFunction(Thread* arg)
 		region = it.value();
 		region->update(interval);
 	}
-
-	return NULL;
 }
 
 Camera* Universe::getCamera()

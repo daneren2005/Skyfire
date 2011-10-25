@@ -18,36 +18,35 @@
 #ifndef _THREAD_H
 #define	_THREAD_H
 
+#include "GenericType.h"
 #include <pthread.h>
 #include "Timer.h"
-
-class Window;
 
 class Thread
 {
 public:
 	Thread();
 
-	void start(void*(*function)(Thread*), void* arg);
-	void start(void*(*function)(Thread*), void* arg, void*(*startFunction)(Thread*));
-	void startMain(void*(*function)(Thread*), void* arg);
-	void startMain(void*(*function)(Thread*), void* arg, void*(*startFunction)(Thread*));
+	void start(void(*function)(Thread*), GenericType arg);
+	void start(void(*function)(Thread*), GenericType arg, void(*startFunction)(Thread*));
+	void startMain(void(*function)(Thread*), GenericType arg);
+	void startMain(void(*function)(Thread*), GenericType arg, void(*startFunction)(Thread*));
 	void stop();
 	void pause();
 	void resume();
 	void waitFor();
 
-	void* getArg();
+	GenericType getArg();
 
 	void setTicksPerSecond(int ticks = 0);
 	int getTicksPerSecond();
 private:
-	void* arg;
+	GenericType arg;
 
 	bool quit;
 	bool running;
-	void*(*function)(Thread*);
-	void*(*startFunction)(Thread*);
+	void(*function)(Thread*);
+	void(*startFunction)(Thread*);
 	pthread_t id;
 
 	static void* threadFunction(void* arg);

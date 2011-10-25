@@ -16,8 +16,6 @@
 */
 
 #include "Thread.h"
-#include "Window.h"
-
 #include "Console.h"
 
 Thread::Thread()
@@ -32,7 +30,7 @@ Thread::Thread()
 	this->returnCounter = 0;
 }
 
-void Thread::start(void*(*function)(Thread*), void* arg)
+void Thread::start(void(*function)(Thread*), GenericType arg)
 {
 	this->arg = arg;
 	this->running = true;
@@ -43,7 +41,7 @@ void Thread::start(void*(*function)(Thread*), void* arg)
 
 	pthread_create(&this->id, NULL, threadFunction, (void*) this);
 }
-void Thread::start(void*(*function)(Thread*), void* arg, void*(*startFunction)(Thread*))
+void Thread::start(void(*function)(Thread*), GenericType arg, void(*startFunction)(Thread*))
 {
 	this->arg = arg;
 	this->quit = false;
@@ -55,7 +53,7 @@ void Thread::start(void*(*function)(Thread*), void* arg, void*(*startFunction)(T
 	pthread_create(&this->id, NULL, threadFunction, (void*) this);
 }
 
-void Thread::startMain(void*(*function)(Thread*), void* arg)
+void Thread::startMain(void(*function)(Thread*), GenericType arg)
 {
 	this->arg = arg;
 	this->running = true;
@@ -66,7 +64,7 @@ void Thread::startMain(void*(*function)(Thread*), void* arg)
 
 	Thread::threadFunction((void*)this);
 }
-void Thread::startMain(void*(*function)(Thread*), void* arg, void*(*startFunction)(Thread*))
+void Thread::startMain(void(*function)(Thread*), GenericType arg, void(*startFunction)(Thread*))
 {
 	this->arg = arg;
 	this->quit = false;
@@ -100,7 +98,7 @@ void Thread::waitFor()
 	pthread_join(this->id, &status);
 }
 
-void* Thread::getArg()
+GenericType Thread::getArg()
 {
 	return this->arg;
 }
