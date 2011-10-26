@@ -39,5 +39,8 @@
 #include "GenericType.h"
 #include "GenericPointer.h"
 
+#include "FirstPersonCamera.h"
+#include "ThirdPersonCamera.h"
+
 #endif	/* _SKYFIRE_H */
 
