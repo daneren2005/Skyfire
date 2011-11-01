@@ -21,6 +21,7 @@
 #include "GenericType.h"
 #include <pthread.h>
 #include "Timer.h"
+#include "Types.h"
 
 class Thread
 {
@@ -34,12 +35,16 @@ public:
 	void stop();
 	void pause();
 	void resume();
-	void waitFor();
+	void currentWaitFor();
+	
+	void sleep(double seconds);
 
 	GenericType getArg();
 
 	void setTicksPerSecond(int ticks = 0);
 	int getTicksPerSecond();
+	
+	static void currentSleep(double seconds);
 private:
 	GenericType arg;
 
@@ -55,6 +60,7 @@ private:
 	double period;
 	int counter;
 	int returnCounter;
+	ulong sleepTime;
 };
 
 #endif

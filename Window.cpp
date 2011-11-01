@@ -90,7 +90,7 @@ void Window::start()
 
 void Window::wait()
 {
-	renderThread.waitFor();
+	renderThread.currentWaitFor();
 }
 
 void Window::quit()

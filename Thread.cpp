@@ -28,6 +28,7 @@ Thread::Thread()
 	this->period = 0;
 	this->counter = 0;
 	this->returnCounter = 0;
+	this->sleepTime = 0;
 }
 
 void Thread::start(void(*function)(Thread*), GenericType arg)
@@ -92,10 +93,15 @@ void Thread::resume()
 	this->running = true;
 }
 
-void Thread::waitFor()
+void Thread::currentWaitFor()
 {
 	void* status;
 	pthread_join(this->id, &status);
+}
+
+void Thread::sleep(double seconds)
+{
+	sleepTime = seconds * 1000;
 }
 
 GenericType Thread::getArg()
@@ -105,11 +111,22 @@ GenericType Thread::getArg()
 
 void Thread::setTicksPerSecond(int ticks)
 {
-	this->period = 1.0 / ticks;
+	this->period = (ticks != 0) ? 1.0 / ticks : 0;
 }
 int Thread::getTicksPerSecond()
 {
 	return returnCounter;
+}
+
+void Thread::currentSleep(double seconds)
+{
+	ulong sleepTime = seconds * 1000;
+	#ifdef WIN32
+		Sleep(sleepTime);
+	#endif
+	#ifdef __linux__
+		usleep(sleepTime * 1000);
+	#endif
 }
 
 void* Thread::threadFunction(void* arg)
@@ -123,6 +140,18 @@ void* Thread::threadFunction(void* arg)
 	{
 		if(thread->running)
 		{
+			if(thread->sleepTime > 0)
+			{
+				#ifdef WIN32
+					Sleep(thread->sleepTime);
+				#endif
+				#ifdef __linux__
+					usleep(thread->sleepTime * 1000);
+				#endif
+
+				thread->sleepTime = 0;
+			}
+			
 			double startTime = thread->clock.totalTime();
 			thread->function(thread);
 			double endTime = thread->clock.totalTime();
