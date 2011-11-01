@@ -20,10 +20,6 @@
 SharedLock::SharedLock()
 {
 	this->buffer = new BUFFER();
-	this->buffer->readers = 0;
-	this->buffer->writing = false;
-	this->buffer->readWaiting = 0;
-	this->buffer->writeWaiting = 0;
 }
 
 SharedLock::SharedLock(const SharedLock& orig)
@@ -37,127 +33,58 @@ SharedLock::~SharedLock()
 
 void SharedLock::readLock()
 {
-	buffer->lock.lock();
-	if(buffer->writing || buffer->writeWaiting)
-	{
-		buffer->readWaiting++;
-		while(buffer->writing || buffer->writeWaiting)
-		{
-			buffer->read.wait(buffer->lock);
-		}
-		buffer->readWaiting--;
-	}
-
-	buffer->readers++;
-	buffer->lock.unlock();
+	pthread_rwlock_rdlock(&buffer->lock);
+	buffer->read = true;
 }
 void SharedLock::writeLock()
 {
-	buffer->lock.lock();
-	if(buffer->readers > 0 || buffer->writing)
-	{
-		buffer->writeWaiting++;
-		while(buffer->readers > 0 || buffer->writing)
-		{
-			buffer->write.wait(buffer->lock);
-		}
-		buffer->writeWaiting--;
-	}
-
-	buffer->writing = true;
-	buffer->lock.unlock();
+	pthread_rwlock_wrlock(&buffer->lock);
+	buffer->write = true;
 }
 
 bool SharedLock::tryReadLock()
 {
-	bool value;
-
-	buffer->lock.lock();
-	if(buffer->writing || buffer->writeWaiting)
+	if(pthread_rwlock_tryrdlock(&buffer->lock) == 0)
 	{
-		value = false;
+		buffer->read = true;
+		return true;
 	}
 	else
 	{
-		buffer->readers++;
-		value = true;
+		return false;
 	}
-
-	buffer->lock.unlock();
-	return value;
 }
 bool SharedLock::tryWriteLock()
 {
-	bool value;
-
-	buffer->lock.lock();
-	if(buffer->readers > 0 || buffer->writing)
+	if(pthread_rwlock_trywrlock(&buffer->lock) == 0)
 	{
-		value = false;
+		buffer->write = true;
+		return true;
 	}
 	else
 	{
-		buffer->writing = true;
-		value = true;
+		return false;
 	}
-
-	buffer->lock.unlock();
-	return value;
 }
 
 void SharedLock::unlock()
 {
-	buffer->lock.lock();
-
-	// Unlocking a writer
-	if(buffer->writing)
-	{
-		buffer->writing = false;
-		if(buffer->writeWaiting > 0)
-		{
-			buffer->write.signal();
-		}
-		else if(buffer->readWaiting > 0)
-		{
-			buffer->read.broadcast();
-		}
-	}
-	// Unlocking a reader
-	else if(buffer->readers > 0)
-	{
-		buffer->readers--;
-		if(buffer->readers <= 0 && buffer->writeWaiting > 0)
-		{
-			buffer->write.signal();
-		}
-	}
-
-	buffer->lock.unlock();
+	pthread_rwlock_unlock(&buffer->lock);
+	buffer->read = false;
+	buffer->write = false;
 }
 
 bool SharedLock::isLocked()
 {
-	buffer->lock.lock();
-	bool value = buffer->writing || (buffer->readers > 0);
-	buffer->lock.unlock();
-	
-	return value;
+	return buffer->read || buffer->write;
+}
+bool SharedLock::isReadLocked()
+{
+	return buffer->read;
 }
 bool SharedLock::isWriteLocked()
 {
-	buffer->lock.lock();
-	bool value = buffer->writing;
-	buffer->lock.unlock();
-	
-	return value;
-}
-long SharedLock::readLocks()
-{
-	buffer->lock.lock();
-	long value = buffer->readers;
-	buffer->lock.unlock();
-	
-	return value;
+	return buffer->write;
 }
 
 SharedLock& SharedLock::operator=(const SharedLock& rhs)
@@ -173,4 +100,3 @@ bool SharedLock::operator!=(const SharedLock& rhs)
 {
 	return this->buffer != rhs.buffer;
 }
-

@@ -19,7 +19,6 @@
 #define	_SHARED_LOCK_H
 
 #include "Condition.h"
-#include <pthread.h>
 
 class SharedLock
 {
@@ -34,8 +33,8 @@ public:
 	bool tryWriteLock();
 	void unlock();
 	bool isLocked();
+	bool isReadLocked();
 	bool isWriteLocked();
-	long readLocks();
 
 	SharedLock& operator=(const SharedLock& rhs);
 	bool operator==(const SharedLock& rhs);
@@ -43,11 +42,19 @@ public:
 private:
 	struct BUFFER
 	{
-		Lock lock;
-		Condition read, write;
-		long readers;
-		bool writing;
-		long readWaiting, writeWaiting;
+		BUFFER()
+		{
+			pthread_rwlock_init(&lock, 0x0);
+			read = false;
+			write = false;
+		}
+		~BUFFER()
+		{
+			pthread_rwlock_destroy(&lock);
+		}
+
+		pthread_rwlock_t lock;
+		bool read, write;
 	};
 
 	SharedPointer<BUFFER> buffer;

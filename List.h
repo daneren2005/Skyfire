@@ -15,12 +15,10 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _LIST_H
-#define	_LIST_H
+#ifndef _LIST_H_
+#define	_LIST_H_
 
-// For use of NULL
-#include <iostream>
-#include <pthread.h>
+#include "SharedLock.h"
 #include "Console.h"
 
 // Pre declare
@@ -67,21 +65,15 @@ private:
 		Node(const T& value)
 		{
 			this->value = value;
-			this->next = NULL;
-			this->prev = NULL;
-
-			pthread_rwlock_init(&this->lock, NULL);
-		}
-		~Node()
-		{
-			pthread_rwlock_destroy(&this->lock);
+			this->next = 0x0;
+			this->prev = 0x0;
 		}
 
 		T value;
 		Node* next;
 		Node* prev;
 
-		pthread_rwlock_t lock;
+		SharedLock lock;
 	};
 
 	// Double sided
@@ -92,9 +84,8 @@ private:
 	long count;
 
 	// Locks
-	pthread_mutex_t countLock;
-	pthread_rwlock_t headLock;
-	pthread_rwlock_t tailLock;
+	Lock countLock;
+	Lock headLock;
 	
 	template <class Compare>
 	Node* mergeSort(List<T>::Node* start, ulong size, Compare& c);
@@ -104,28 +95,23 @@ template <class T>
 List<T>::List()
 {
 	count = 0;
-	pthread_mutex_init(&countLock, NULL);
-	pthread_rwlock_init(&headLock, NULL);
 
-	head = NULL;
-	tail = NULL;
+	head = 0x0;
+	tail = 0x0;
 }
 template <class T>
 List<T>::List(const List<T>& list)
 {
-	pthread_mutex_init(&countLock, NULL);
-	pthread_rwlock_init(&headLock, NULL);
-
-	pthread_rwlock_rdlock(&list.headLock);
-	Node* current = NULL;
-	for(Node* node = list.head; node != NULL; node = node->next)
+	list.headLock.lock();
+	Node* current = 0x0;
+	for(Node* node = list.head; node != 0x0; node = node->next)
 	{
-		pthread_rwlock_rdlock(&node->lock);
-		if(node->prev != NULL)
-			pthread_rwlock_unlock(&node->lock);
+		node->lock.readLock();
+		if(node->prev != 0x0)
+			node->lock.readLock();
 
 		// If its the first run
-		if(this->head == NULL)
+		if(this->head == 0x0)
 		{
 			this->head = new Node(node->value);
 			current = head;
@@ -139,16 +125,16 @@ List<T>::List(const List<T>& list)
 		}
 
 		// If this is the last run
-		if(node->next == NULL)
+		if(node->next == 0x0)
 		{
-			pthread_rwlock_unlock(node->lock);
+			node->lock.unlock();
 		}
 	}
 
-	if(current == NULL)
+	if(current == 0x0)
 	{
-		this->head = NULL;
-		this->tail = NULL;
+		this->head = 0x0;
+		this->tail = 0x0;
 	}
 	else
 	{
@@ -159,33 +145,32 @@ List<T>::List(const List<T>& list)
 template <class T>
 List<T>::~List()
 {
-	pthread_mutex_lock(&countLock);
-	pthread_rwlock_wrlock(&headLock);
-	while(this->head != NULL)
+	countLock.lock();
+	headLock.lock();
+	while(this->head != 0x0)
 	{
-		pthread_rwlock_wrlock(&this->head->lock);
+		this->head->lock.writeLock();
 		Node* toDelete = this->head;
 		this->head = toDelete->next;
 		delete toDelete;
 	}
-
-	pthread_mutex_destroy(&countLock);
-	pthread_rwlock_destroy(&headLock);
 }
 
 template <class T>
 T List<T>::front()
 {
-	pthread_rwlock_rdlock(&this->headLock);
-	if(this->head == NULL)
+	headLock.lock();
+	if(this->head == 0x0)
 	{
-		pthread_rwlock_unlock(&this->headLock);
-		return NULL;
+		headLock.unlock();
+		return 0x0;
 	}
 	else
 	{
+		head->lock.readLock();
 		T value = this->head->value;
-		pthread_rwlock_unlock(&this->headLock);
+		head->lock.unlock();
+		headLock.unlock();
 		return value;
 	}
 }
@@ -193,16 +178,18 @@ T List<T>::front()
 template <class T>
 T List<T>::back()
 {
-	pthread_rwlock_rdlock(&this->headLock);
-	if(this->tail == NULL)
+	headLock.lock();
+	if(this->tail == 0x0)
 	{
-		pthread_rwlock_unlock(&this->headLock);
-		return NULL;
+		headLock.unlock();
+		return 0x0;
 	}
 	else
 	{
+		tail->lock.readLock();
 		T value = this->tail->value;
-		pthread_rwlock_unlock(&this->headLock);
+		tail->lock.unlock();
+		headLock.unlock();
 		return value;
 	}
 }
@@ -210,15 +197,15 @@ T List<T>::back()
 template <class T>
 bool List<T>::empty()
 {
-	pthread_rwlock_rdlock(&this->headLock);
-	if(this->head == NULL)
+	headLock.lock();
+	if(this->head == 0x0)
 	{
-		pthread_rwlock_unlock(&this->headLock);
+		headLock.unlock();
 		return true;
 	}
 	else
 	{
-		pthread_rwlock_unlock(&this->headLock);
+		headLock.unlock();
 		return false;
 	}
 }
@@ -227,17 +214,17 @@ template <class T>
 long List<T>::size()
 {
 	// Single operation, shouldn't need a lock
-	pthread_mutex_lock(&countLock);
+	countLock.lock();
 	long value = this->count;
-	pthread_mutex_unlock(&countLock);
+	countLock.unlock();
 	return value;
 }
 
 template <class T>
 void List<T>::pushFront(const T& value)
 {
-	pthread_rwlock_wrlock(&this->headLock);
-	if(this->head == NULL)
+	headLock.lock();
+	if(this->head == 0x0)
 	{
 		// Create new node and make it head and tail
 		this->head = new Node(value);
@@ -246,69 +233,69 @@ void List<T>::pushFront(const T& value)
 	else
 	{
 		// Make new node, set it as new head
-		pthread_rwlock_wrlock(&this->head->lock);
+		this->head->lock.writeLock();
 		Node* newNode = new Node(value);
 		newNode->next = this->head;
 		this->head->prev = newNode;
 		this->head = newNode;
-		pthread_rwlock_unlock(&this->head->next->lock);
+		this->head->next->lock.unlock();
 	}
-	pthread_rwlock_unlock(&this->headLock);
+	headLock.unlock();
 
 	// Increment counter
-	pthread_mutex_lock(&countLock);
+	countLock.lock();
 	count++;
-	pthread_mutex_unlock(&countLock);
+	countLock.unlock();
 }
 
 template <class T>
 void List<T>::pushBack(const T& value)
 {
-	pthread_rwlock_wrlock(&this->headLock);
-	if(head == NULL)
+	headLock.lock();
+	if(head == 0x0)
 	{
 		this->head = new Node(value);
 		this->tail = head;
 	}
 	else
 	{
-		pthread_rwlock_wrlock(&this->tail->lock);
+		this->tail->lock.writeLock();
 		Node* newNode = new Node(value);
 		this->tail->next = newNode;
 		newNode->prev = this->tail;
 		this->tail = newNode;
-		pthread_rwlock_unlock(&this->tail->prev->lock);
+		this->tail->prev->lock.unlock();
 	}
-	pthread_rwlock_unlock(&this->headLock);
+	headLock.unlock();
 
-	pthread_mutex_lock(&countLock);
+	countLock.lock();
 	count++;
-	pthread_mutex_unlock(&countLock);
+	countLock.unlock();
 }
 
 template <class T>
 T List<T>::popFront()
 {
-	pthread_rwlock_wrlock(&this->headLock);
-	if(this->head == NULL)
+	headLock.lock();
+	if(this->head == 0x0)
 	{
-		pthread_rwlock_unlock(&this->headLock);
-		return NULL;
+		headLock.unlock();
+		return 0x0;
 	}
 	else if(head == tail)
 	{
 		// lock node in case a iterator is currently on it
-		pthread_rwlock_wrlock(&this->head->lock);
+		this->head->lock.writeLock();
 		// set head and tail to null then unlock
 		Node* toDelete = this->head;
-		this->head = NULL;
-		this->tail = NULL;
-		pthread_rwlock_unlock(&this->headLock);
+		this->head = 0x0;
+		this->tail = 0x0;
+		headLock.unlock();
 
 		// increment counter
-		pthread_mutex_lock(&countLock);
+		countLock.lock();
 		count--;
-		pthread_mutex_unlock(&countLock);
+		countLock.unlock();
 
 		// delete old head node and return its value
 		T value = toDelete->value;
@@ -318,20 +305,20 @@ T List<T>::popFront()
 	else
 	{
 		// Lock head and next node, going to be changed
-		pthread_rwlock_wrlock(&this->head->lock);
-		pthread_rwlock_wrlock(&this->head->next->lock);
+		this->head->lock.writeLock();
+		this->head->next->lock.writeLock();
 
 		// Set next head and release headlock
 		Node* toDelete = this->head;
 		this->head = toDelete->next;
-		this->head->prev = NULL;
-		pthread_rwlock_unlock(&this->head->lock);
-		pthread_rwlock_unlock(&this->headLock);
+		this->head->prev = 0x0;
+		this->head->lock.unlock();
+		headLock.unlock();
 
 		// decrement counter
-		pthread_mutex_lock(&countLock);
+		countLock.lock();
 		count--;
-		pthread_mutex_unlock(&countLock);
+		countLock.unlock();
 
 		// delete old head node and return its value
 		T value = toDelete->value;
@@ -343,25 +330,25 @@ T List<T>::popFront()
 template <class T>
 T List<T>::popBack()
 {
-	pthread_rwlock_wrlock(&this->headLock);
-	if(tail == NULL)
+	headLock.lock();
+	if(tail == 0x0)
 	{
-		pthread_rwlock_unlock(&this->headLock);
-		return NULL;
+		headLock.unlock();
+		return 0x0;
 	}
 	else if(head == tail)
 	{
 		// lock node, fix pointers, unlock
-		pthread_rwlock_wrlock(&this->tail->lock);
+		this->tail->lock.writeLock();
 		Node* toDelete = this->tail;
-		this->head = NULL;
-		this->tail = NULL;
-		pthread_rwlock_unlock(&this->headLock);
+		this->head = 0x0;
+		this->tail = 0x0;
+		headLock.unlock();
 
 		// decrement counter
-		pthread_mutex_lock(&countLock);
+		countLock.lock();
 		count--;
-		pthread_mutex_unlock(&countLock);
+		countLock.unlock();
 
 		// delete node and return value
 		T value = toDelete->value;
@@ -372,20 +359,20 @@ T List<T>::popBack()
 	else
 	{
 		// Lock tail nodes
-		pthread_rwlock_wrlock(&this->tail->prev->lock);
-		pthread_rwlock_wrlock(&this->tail->lock);
+		this->tail->prev->lock.writeLock();
+		this->tail->lock.writeLock();
 
 		// set next tail and release headlock
 		Node* toDelete = this->tail;
 		this->tail = toDelete->prev;
-		this->tail->next = NULL;
-		pthread_rwlock_unlock(&this->tail->lock);
-		pthread_rwlock_unlock(&this->headLock);
+		this->tail->next = 0x0;
+		this->tail->lock.unlock();
+		headLock.unlock();
 
 		// decrement counter
-		pthread_mutex_lock(&countLock);
+		countLock.lock();
 		count--;
-		pthread_mutex_unlock(&countLock);
+		countLock.unlock();
 
 		// delete node and return value
 		T value = toDelete->value;
@@ -398,80 +385,56 @@ template <class T>
 void List<T>::remove(T value)
 {
 	// Lock head since starting there
-	pthread_rwlock_wrlock(&this->headLock);
-	Node* toDelete = NULL;
+	headLock.lock();
+	Node* toDelete = 0x0;
 	Node* current = this->head;
 	// Make sure not empty
-	if(current == NULL)
+	if(current == 0x0)
 	{
-		pthread_rwlock_unlock(&this->headLock);
+		headLock.unlock();
 		return;
 	}
 
 	// Check head, delete if it is head
-	pthread_rwlock_wrlock(&current->lock);
+	current->lock.writeLock();
 	if(current->value == value)
 	{
 		// Delete head then and exit
 		toDelete = current;
-		if(head->next == NULL)
+		if(head->next == 0x0)
 		{
 			delete this->head;
-			this->head = NULL;
-			this->tail = NULL;
+			this->head = 0x0;
+			this->tail = 0x0;
 		}
 		else
 		{
 			this->head = toDelete->next;
 			delete toDelete;
-			this->head->prev = NULL;
+			this->head->prev = 0x0;
 		}
 
-		pthread_rwlock_unlock(&this->headLock);
+		headLock.unlock();
 	}
 	// If only head then doesnt exist
-	else if(current->next == NULL)
+	else if(current->next == 0x0)
 	{
-		pthread_rwlock_unlock(&current->lock);
-		pthread_rwlock_unlock(&this->headLock);
+		current->lock.unlock();
+		headLock.unlock();
 		return;
-	}
-	// Check next as well to maintain 2 prev locks at all times
-	else if(current->next->value == value)
-	{
-		pthread_rwlock_wrlock(&current->next->lock);
-		toDelete = current->next;
-
-		// If deleting tail
-		if(toDelete->next == NULL)
-		{
-			toDelete->prev->next = NULL;
-			this->tail = toDelete->prev;
-			pthread_rwlock_unlock(&toDelete->prev->lock);
-			delete toDelete;
-		}
-		else
-		{
-			pthread_rwlock_wrlock(&toDelete->next->lock);
-			toDelete->prev->next = toDelete->next;
-			toDelete->next->prev = toDelete->prev;
-			pthread_rwlock_unlock(&toDelete->prev->lock);
-			pthread_rwlock_unlock(&toDelete->next->lock);
-			delete toDelete;
-		}
-
-		pthread_rwlock_unlock(&this->headLock);
 	}
 	// Otherwise search for and destroy the node
 	else
 	{
-		pthread_rwlock_unlock(&this->headLock);
+		headLock.unlock();
 
 		// Get the node that is to be deleted
-		while(current->next != NULL)
+		current = current->next;
+		current->lock.writeLock();
+		while(current->next != 0x0)
 		{
-			pthread_rwlock_wrlock(&current->next->lock);
-			pthread_rwlock_unlock(&current->prev->prev->lock);
+			current->next->lock.writeLock();
+				current->prev->lock.unlock();
 			current = current->next;
 			if(current->value == value)
 			{
@@ -480,48 +443,67 @@ void List<T>::remove(T value)
 			}
 		}
 
-		if(toDelete == NULL)
+		if(toDelete == 0x0)
 		{
-			pthread_rwlock_unlock(&current->prev->lock);
-			pthread_rwlock_unlock(&current->lock);
+			current->prev->lock.unlock();
+			current->lock.unlock();
 			return;
 		}
 		else
 		{
 			// If tail then must make sure pushBack or popBack not running
-			if(toDelete->next == NULL)
+			if(toDelete->next == 0x0)
 			{
 				// TODO: special case when deleting tail
+				// toDelete->prev->next = 0x0;
+				current->prev->lock.unlock();
+				current->lock.unlock();
+				// delete toDelete;
+				return;
 			}
 			else
 			{
-				pthread_rwlock_wrlock(&toDelete->next->lock);
+				toDelete->next->lock.writeLock();
 				toDelete->prev->next = toDelete->next;
 				toDelete->next->prev = toDelete->prev;
-				pthread_rwlock_unlock(&toDelete->prev->lock);
-				pthread_rwlock_unlock(&toDelete->next->lock);
+				toDelete->prev->lock.unlock();
+				toDelete->next->lock.unlock();
 				delete toDelete;
 			}
 		}
 	}
 
-	pthread_mutex_lock(&countLock);
+	countLock.lock();
 	count--;
-	pthread_mutex_unlock(&countLock);
+	countLock.unlock();
 }
 
 template <class T>
 void List<T>::sort()
 {	
 	LessThan<T> c;
-	mergeSort(head, count, c);
+	sort(c);
 }
 
 template <class T>
 template <class Compare>
 void List<T>::sort(Compare c)
-{	
-	mergeSort(head, count, c);	
+{
+	// Lock whole list
+	headLock.lock();
+	for(Node* node = this->head; node != 0x0; node = node->next)
+	{
+		node->lock.writeLock();
+	}
+
+	mergeSort(head, count, c);
+
+	// Unlock whole list
+	for(Node* node = this->head; node != 0x0; node = node->next)
+	{
+		node->lock.unlock();
+	}
+	headLock.unlock();
 }
 
 template <class T>
@@ -591,29 +573,29 @@ typename List<T>::Node* List<T>::mergeSort(List<T>::Node* start, ulong size, Com
 template <class T>
 List<T>& List<T>::operator=(const List& orig)
 {
-	pthread_mutex_lock(&countLock);
-	pthread_rwlock_wrlock(&headLock);
+	countLock.lock();
+	headLock.lock();
 	
 	// Delete old stuff
-	while(this->head != NULL)
+	while(this->head != 0x0)
 	{
-		pthread_rwlock_wrlock(&this->head->lock);
+		this->head->lock.writeLock();
 		Node* toDelete = this->head;
 		this->head = toDelete->next;
 		delete toDelete;
 	}
 	
 	// Copy new stuff
-	pthread_rwlock_rdlock(&orig.headLock);
-	Node* current = NULL;
-	for(Node* node = orig.head; node != NULL; node = node->next)
+	orig.headLock.lock();
+	Node* current = 0x0;
+	for(Node* node = orig.head; node != 0x0; node = node->next)
 	{
-		pthread_rwlock_rdlock(&node->lock);
-		if(node->prev != NULL)
-			pthread_rwlock_unlock(&node->lock);
+		node->lock.readLock();
+		if(node->prev != 0x0)
+			node->prev->lock.unlock();
 
 		// If its the first run
-		if(this->head == NULL)
+		if(this->head == 0x0)
 		{
 			this->head = new Node(node->value);
 			current = head;
@@ -627,24 +609,28 @@ List<T>& List<T>::operator=(const List& orig)
 		}
 
 		// If this is the last run
-		if(node->next == NULL)
+		if(node->next == 0x0)
 		{
-			pthread_rwlock_unlock(node->lock);
+			node->lock.unlock();
 		}
 	}
 
-	if(current == NULL)
+	if(current == 0x0)
 	{
-		this->head = NULL;
-		this->tail = NULL;
+		this->head = 0x0;
+		this->tail = 0x0;
 	}
 	else
 	{
 		this->tail->node = current;
 	}
-	
-	pthread_mutex_unlock(&countLock);
-	pthread_rwlock_unlock(&headLock);
+
+	orig.countLock.lock();
+	this->count = orig.count;
+	orig.countLock.unlock();
+	countLock.unlock();
+
+	headLock.unlock();
 }
 
 template <class T>
@@ -655,19 +641,19 @@ private:
 public:
 	Iterator(List<T>* list)
 	{
-		pthread_rwlock_rdlock(&list->headLock);
+		list->headLock.lock();
 		this->current = list->head;
-		if(this->current != NULL)
+		if(this->current != 0x0)
 		{
-			pthread_rwlock_rdlock(&current->lock);
+			current->lock.readLock();
 		}
-		pthread_rwlock_unlock(&list->headLock);
+		list->headLock.unlock();
 	}
 
 	T value()
 	{
-		if(current == NULL)
-			return NULL;
+		if(current == 0x0)
+			return 0x0;
 		else
 			return this->current->value;
 	}
@@ -675,22 +661,22 @@ public:
 	// Operator Overloading
 	bool operator !()
 	{
-		if(this->current == NULL)
+		if(this->current == 0x0)
 			return false;
 		else
 			return true;
 	}
 	void operator ++(int)
 	{
-		if(current->next != NULL)
+		if(current->next != 0x0)
 		{
-			pthread_rwlock_rdlock(&current->next->lock);
+			current->next->lock.readLock();
 			this->current = this->current->next;
-			pthread_rwlock_unlock(&current->prev->lock);
+			current->prev->lock.unlock();
 		}
 		else
 		{
-			pthread_rwlock_unlock(&current->lock);
+			current->lock.unlock();
 			this->current = this->current->next;
 		}
 	}
@@ -704,19 +690,19 @@ private:
 public:
 	WriteIterator(List<T>* list)
 	{
-		pthread_rwlock_wrlock(&list->headLock);
+		headLock.lock();
 		this->current = list->head;
-		if(this->current != NULL)
+		if(this->current != 0x0)
 		{
-			pthread_rwlock_wrlock(&current->lock);
+			current->lock.writeLock();
 		}
-		pthread_rwlock_unlock(&list->headLock);
+		headLock.unlock();
 	}
 
 	T value()
 	{
-		if(current == NULL)
-			return NULL;
+		if(current == 0x0)
+			return 0x0;
 		else
 			return this->current->value;
 	}
@@ -725,19 +711,19 @@ public:
 	{
 		// If trying to remove head
 		// popFront would wait forever for this node to be unlocked
-		if(current->prev == NULL)
+		if(current->prev == 0x0)
 		{
 			// TODO: special case of head remove
 
 		}
 		// popBack would wait forever for this node to be unlocked
-		else if(current->next == NULL)
+		else if(current->next == 0x0)
 		{
 			// TODO: special case of tail removal
 		}
 		else
 		{
-			pthread_rwlock_wrlock(&current->next->lock);
+			current->next->lock.writeLock();
 			typename List<T>::Node* toDelete = current;
 			current->prev->next = current->next;
 			current->next->prev = current->prev;
@@ -750,22 +736,22 @@ public:
 	// Operator Overloading
 	bool operator !()
 	{
-		if(this->current == NULL)
+		if(this->current == 0x0)
 			return false;
 		else
 			return true;
 	}
 	void operator ++(int)
 	{
-		if(current->next != NULL)
+		if(current->next != 0x0)
 		{
-			pthread_rwlock_wrlock(&current->next->lock);
+			current->next->lock.writeLock();
 			this->current = this->current->next;
-			pthread_rwlock_unlock(&current->prev->lock);
+			current->prev->lock.unlock();
 		}
 		else
 		{
-			pthread_rwlock_unlock(&current->lock);
+			current->lock.unlock();
 			this->current = this->current->next;
 		}
 	}
