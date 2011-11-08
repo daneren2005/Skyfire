@@ -112,7 +112,7 @@ void BaseObject::rotateBy(const Vector& amount)
 	this->rotateBy(amount[1], amount[0], amount[2]);
 }
 
-int BaseObject::objectId()
+int BaseObject::getObjectId()
 {
 	return this->objectID;
 }
@@ -139,6 +139,14 @@ Region* BaseObject::getParentRegion()
 void BaseObject::setParentRegion(Region* region)
 {
 	this->parentRegion = region;
+}
+void BaseObject::setModel(ModelPointer model)
+{
+	this->model = model;
+}
+ModelPointer BaseObject::getModel()
+{
+	return model;
 }
 
 void BaseObject::transform()
@@ -174,12 +182,10 @@ void BaseObject::draw()
 		return;
 	}
 
-	// this->getBoundingBox().draw();
+	this->getBoundingBox().draw();
 	// this->model->getBoundingBox().getObjectOrientedBox().transform(position, directionForward).draw();
 	// this->model->getBoundingBox().getSphere().transform(this->position).draw();
 
-	// If in select mode, write object id to top of stack
-	glLoadName(this->objectId());
 	// Start a new matrix
 	glPushMatrix();
 

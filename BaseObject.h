@@ -42,13 +42,15 @@ public:
 	virtual void rotateBy(float x, float y, float z);
 	virtual void rotateBy(const Vector& amount);
 
-	virtual int objectId();
+	virtual int getObjectId();
 	virtual Vector getPosition();
 	virtual Vector getAngle();
 	virtual Camera* getAttachedCamera();
 	virtual void setAttachedCamera(Camera* camera);
 	virtual Region* getParentRegion();
 	virtual void setParentRegion(Region* region);
+	virtual void setModel(ModelPointer model);
+	virtual ModelPointer getModel();
 
 	// Called regularly to update based on how much time has passed since last called
 	virtual void update(double interval) = 0;
