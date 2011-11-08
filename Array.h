@@ -33,6 +33,7 @@ public:
 
 	virtual T& operator[](unsigned col);
 	virtual const T& operator[](unsigned col) const; 
+	virtual T get(ulong col) const;	
 
 	ulong size();
 	ulong size() const;
@@ -98,6 +99,11 @@ T& Array<T>::operator[](unsigned col)
 
 template <class T>
 const T& Array<T>::operator[](unsigned col) const
+{
+	return this->array[col];
+}
+template <class T>
+T Array<T>::get(ulong col) const
 {
 	return this->array[col];
 }
