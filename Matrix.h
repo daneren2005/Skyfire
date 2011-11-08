@@ -33,10 +33,12 @@ public:
 	Matrix operator*(const Matrix& rhs);
 	Vector operator*(const Vector& rhs);
 	
-	float& operator()(uint row, uint col);
-	const float& operator()(uint row, uint col) const;
+	float& operator()(uint col, uint row);
+	const float& operator()(uint col, uint row) const;
 
 	virtual float* getMatrix();
+	
+	float getDet() const;
 
 	static Matrix identity(unsigned int dimensions);
 protected:

@@ -102,11 +102,11 @@ Vector Matrix::operator*(const Vector& rhs)
 	return result;
 }
 
-float& Matrix::operator()(uint row, uint col)
+float& Matrix::operator()(uint col, uint row)
 {
 	return matrix[row * dim + col];
 }
-const float& Matrix::operator()(uint row, uint col) const
+const float& Matrix::operator()(uint col, uint row) const
 {
 	return matrix[row * dim + col];
 }
@@ -114,6 +114,11 @@ const float& Matrix::operator()(uint row, uint col) const
 float* Matrix::getMatrix()
 {
 	return matrix;
+}
+
+float Matrix::getDet() const
+{
+	return 0.0f;
 }
 
 Matrix Matrix::identity(unsigned int dimensions)
