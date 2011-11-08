@@ -26,7 +26,10 @@
 #include <GL/gl.h>
 #include <pthread.h>
 
-class Vector {
+class Matrix4;
+
+class Vector
+{
 public:
 	Vector();
 	Vector(float x, float y);
@@ -68,6 +71,7 @@ public:
 	Vector operator!();
 	Vector projection(const Vector& b) const;
 	float magnitude() const;
+	Vector transform(Matrix4 matrix) const;
 
 	float* getPointer();
 private:

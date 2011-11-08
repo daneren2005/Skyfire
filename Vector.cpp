@@ -18,6 +18,7 @@
 #include "Vector.h"
 #include "Exceptions.h"
 #include <math.h>
+#include "Matrix4.h"
 
 Vector::Vector()
 {
@@ -271,6 +272,11 @@ Vector Vector::projection(const Vector& b) const
 float Vector::magnitude() const
 {
 	return sqrt(pos[0] * pos[0] + pos[1] * pos[1] + pos[2] * pos[2]);
+}
+
+Vector Vector::transform(Matrix4 matrix) const
+{
+	return matrix * (*this);
 }
 
 float* Vector::getPointer()
