@@ -118,7 +118,10 @@ float* Matrix::getMatrix()
 
 float Matrix::getDet() const
 {
-	return 0.0f;
+	// TODO: Needs to be generic (this is for 3x3 only)!
+	return (*this)(0, 0) * (*this)(1, 1) * (*this)(2, 2) + (*this)(0, 1) * (*this)(1, 2) * (*this)(2, 0) +
+		(*this)(0, 2) * (*this)(1, 0) * (*this)(2, 1) - (*this)(2, 0) * (*this)(1, 1) * (*this)(0, 2) -
+		(*this)(2, 1) * (*this)(1, 2) * (*this)(0, 0) - (*this)(2, 2) * (*this)(1, 0) * (*this)(0, 1);
 }
 
 Matrix Matrix::identity(unsigned int dimensions)
