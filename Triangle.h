@@ -24,14 +24,15 @@ class Triangle
 {
 public:
 	Triangle();
-	Triangle(Vector a, Vector b, Vector c, Vector color);
+	Triangle(const Vector& a, const Vector& b, const Vector& c);
 	Triangle(const Triangle& orig);
 	virtual ~Triangle();
+	
+	float getRayIntersection(Vector s, Vector r);
 
 	void draw();
 private:
 	Vector vertex[3];
-	Vector color;
 };
 
 #endif	/* _TRIANGLE_H */

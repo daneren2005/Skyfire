@@ -21,6 +21,7 @@
 #include "Model.h"
 #include "MeshPart.h"
 #include "AxisAlignedBox.h"
+#include "Triangle.h"
 
 class Mesh : public Model
 {
@@ -39,6 +40,8 @@ public:
 	virtual void draw();
 	virtual void drawFrame();
 	virtual long numTriangles();
+	
+	virtual float getRayIntersection(Vector s, Vector r);
 private:
 	Array<MeshPartPointer> meshParts;
 	AxisAlignedBox boundingBox;

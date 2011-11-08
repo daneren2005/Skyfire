@@ -34,6 +34,8 @@ public:
 	virtual void draw() = 0;
 	virtual void drawFrame() = 0;
 	virtual long numTriangles() = 0;
+	
+	virtual float getRayIntersection(Vector s, Vector r) = 0;
 private:
 
 };
