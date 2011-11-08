@@ -102,6 +102,15 @@ Vector Matrix::operator*(const Vector& rhs)
 	return result;
 }
 
+float& Matrix::operator()(uint row, uint col)
+{
+	return matrix[row * dim + col];
+}
+const float& Matrix::operator()(uint row, uint col) const
+{
+	return matrix[row * dim + col];
+}
+
 float* Matrix::getMatrix()
 {
 	return matrix;

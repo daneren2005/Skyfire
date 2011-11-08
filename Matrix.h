@@ -32,6 +32,9 @@ public:
 	const float* operator[](unsigned col) const;
 	Matrix operator*(const Matrix& rhs);
 	Vector operator*(const Vector& rhs);
+	
+	float& operator()(uint row, uint col);
+	const float& operator()(uint row, uint col) const;
 
 	virtual float* getMatrix();
 
