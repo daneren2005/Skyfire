@@ -35,6 +35,8 @@ public:
 	
 	float& operator()(uint col, uint row);
 	const float& operator()(uint col, uint row) const;
+	
+	Matrix& operator=(const Matrix& orig);
 
 	virtual float* getMatrix();
 	

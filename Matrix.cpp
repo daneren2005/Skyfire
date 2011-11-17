@@ -67,6 +67,19 @@ const float* Matrix::operator[](unsigned col) const
 	return matrix + (dim * col);
 }
 
+Matrix& Matrix::operator=(const Matrix& orig)
+{
+	delete matrix;
+	
+	matrix = new float[orig.size];
+	for(int i = 0; i < orig.size; i++)
+	{
+		matrix[i] = orig.matrix[i];
+	}
+	this->size = orig.size;
+	this->dim = orig.dim; 
+}
+
 Matrix Matrix::operator*(const Matrix& rhs)
 {
 	Matrix result(this->dim);
