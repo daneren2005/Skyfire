@@ -48,6 +48,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Console.o \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Universe.o \
+	${OBJECTDIR}/Condition.o \
 	${OBJECTDIR}/Region.o \
 	${OBJECTDIR}/Window.o \
 	${OBJECTDIR}/ObjectOrientedBox.o \
@@ -64,10 +65,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/CString.o \
 	${OBJECTDIR}/Time.o \
 	${OBJECTDIR}/Bitmap.o \
+	${OBJECTDIR}/Lock.o \
 	${OBJECTDIR}/Sphere.o \
 	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/AxisAlignedBox.o \
 	${OBJECTDIR}/SearchStatePath.o \
+	${OBJECTDIR}/SharedLock.o \
 	${OBJECTDIR}/Rectangle.o \
 	${OBJECTDIR}/Date.o \
 	${OBJECTDIR}/AxisObject.o \
@@ -174,6 +177,11 @@ ${OBJECTDIR}/Universe.o: Universe.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Universe.o Universe.cpp
 
+${OBJECTDIR}/Condition.o: Condition.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Condition.o Condition.cpp
+
 ${OBJECTDIR}/Region.o: Region.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -254,6 +262,11 @@ ${OBJECTDIR}/Bitmap.o: Bitmap.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Bitmap.o Bitmap.cpp
 
+${OBJECTDIR}/Lock.o: Lock.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Lock.o Lock.cpp
+
 ${OBJECTDIR}/Sphere.o: Sphere.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -273,6 +286,11 @@ ${OBJECTDIR}/SearchStatePath.o: SearchStatePath.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/SearchStatePath.o SearchStatePath.cpp
+
+${OBJECTDIR}/SharedLock.o: SharedLock.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/SharedLock.o SharedLock.cpp
 
 ${OBJECTDIR}/Rectangle.o: Rectangle.cpp 
 	${MKDIR} -p ${OBJECTDIR}

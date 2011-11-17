@@ -56,8 +56,10 @@ public:
 	virtual void update(double interval) = 0;
 	// Move object and rotate it around its own axis
 	virtual void transform();
+	virtual Matrix4 getTransform();
 	// Move object and rotate it around cameras axis
 	virtual void transformInverse();
+	virtual Matrix4 getTransformInverse();
 	// Called when trying to draw the object on the screen
 	virtual void draw();
 	// Called when intializing an object (loading model data, etc)

@@ -99,6 +99,12 @@ BaseObject* Camera::getObjectAt(int x, int y)
 	// Projection of point
 	Vector s;
 	Vector r(float(x - width2) + 0.5f, float(y - height2) + 0.5f, -z);
+	
+	// Transform points to world coordinates
+	Matrix4 transform = this->getTransform();
+	s = transform * s;
+	r = transform * s;
+	
 	// Farthest out the point could have hit
 	float minT = 100000.0f;
 	

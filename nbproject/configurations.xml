@@ -55,8 +55,6 @@
       <itemPath>Renderer.h</itemPath>
       <itemPath>ResourceManager.cpp</itemPath>
       <itemPath>ResourceManager.h</itemPath>
-      <itemPath>Triangle.cpp</itemPath>
-      <itemPath>Triangle.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f2" displayName="GUI" projectFiles="true">
       <itemPath>Input.cpp</itemPath>
@@ -81,6 +79,8 @@
       <itemPath>Rectangle.h</itemPath>
       <itemPath>Sphere.cpp</itemPath>
       <itemPath>Sphere.h</itemPath>
+      <itemPath>Triangle.cpp</itemPath>
+      <itemPath>Triangle.h</itemPath>
       <itemPath>Vector.cpp</itemPath>
       <itemPath>Vector.h</itemPath>
     </logicalFolder>
@@ -107,6 +107,12 @@
       <itemPath>Universe.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f4" displayName="Thread" projectFiles="true">
+      <itemPath>Condition.cpp</itemPath>
+      <itemPath>Condition.h</itemPath>
+      <itemPath>Lock.cpp</itemPath>
+      <itemPath>Lock.h</itemPath>
+      <itemPath>SharedLock.cpp</itemPath>
+      <itemPath>SharedLock.h</itemPath>
       <itemPath>Thread.cpp</itemPath>
       <itemPath>Thread.h</itemPath>
     </logicalFolder>

@@ -161,6 +161,17 @@ void BaseObject::transform()
 	glMultMatrixf(rotate.getMatrix());
 	glMultMatrixf(scale.getMatrix());
 }
+Matrix4 BaseObject::getTransform()
+{
+	Matrix4 rotate = Matrix4::rotateObject(this->directionForward);
+	Vector t(position[0], position[1], -position[2]);
+	Matrix4 translate = Matrix4::translate(t);
+	Matrix4 scale = Matrix4::scale(this->scale);
+	
+	Matrix4 transform = translate * rotate;
+	transform = transform * scale;
+	return transform;
+}
 void BaseObject::transformInverse()
 {
 	Matrix4 rotate = Matrix4::rotateObject(!this->directionForward);
@@ -172,6 +183,17 @@ void BaseObject::transformInverse()
 	glMultMatrixf(scale.getMatrix());
 	glMultMatrixf(rotate.getMatrix());
 	glMultMatrixf(translate.getMatrix());
+}
+Matrix4 BaseObject::getTransformInverse()
+{
+	Matrix4 rotate = Matrix4::rotateObject(this->directionForward);
+	Vector t(position[0], position[1], -position[2]);
+	Matrix4 translate = Matrix4::translate(t);
+	Matrix4 scale = Matrix4::scale(this->scale);
+	
+	Matrix4 transform = scale * rotate;
+	transform = transform * translate;
+	return transform;
 }
 
 void BaseObject::draw()
