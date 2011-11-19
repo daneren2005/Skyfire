@@ -39,7 +39,11 @@ Console::~Console()
 Console& Console::operator<<(const String& str)
 {
 	#ifdef WIN32
-		OutputDebugString(str.cStr());
+		#ifdef __MINGW32__
+			std::cout << str.cStr();
+		#else
+			OutputDebugString(str.cStr());
+		#endif
 	#endif
 	#ifdef __linux__
 		std::cout << str.cStr();
@@ -49,7 +53,11 @@ Console& Console::operator<<(const String& str)
 Console& Console::operator<<(const std::string& str)
 {
 	#ifdef WIN32
-		OutputDebugString(str.c_str());
+		#ifdef __MINGW32__
+			std::cout << str.c_str();
+		#else
+			OutputDebugString(str.c_str());
+		#endif
 	#endif
 	#ifdef __linux__
 		std::cout << str;
@@ -59,7 +67,11 @@ Console& Console::operator<<(const std::string& str)
 Console& Console::operator<<(const char* str)
 {
 	#ifdef WIN32
-		OutputDebugString(str);
+		#ifdef __MINGW32__
+			std::cout << str;
+		#else
+			OutputDebugString(str;
+		#endif
 	#endif
 	#ifdef __linux__
 		std::cout << str;
@@ -69,7 +81,14 @@ Console& Console::operator<<(const char* str)
 Console& Console::operator<<(const char& str)
 {
 	#ifdef WIN32
-		OutputDebugString(String(str).cStr());
+		#ifdef __MINGW32__
+			if(str == '\n')
+				std::cout << std::endl;
+			else
+				std::cout << str;
+		#else
+			OutputDebugString(String(str).cStr());
+		#endif
 	#endif
 	#ifdef __linux__
 		if(str == '\n')
@@ -83,7 +102,11 @@ Console& Console::operator<<(const char& str)
 Console& Console::operator<<(const int& num)
 {
 	#ifdef WIN32
-		OutputDebugString(String(num).cStr());
+		#ifdef __MINGW32__
+			std::cout << num;
+		#else
+			OutputDebugString(String(num).cStr());
+		#endif
 	#endif
 	#ifdef __linux__
 		std::cout << num;
@@ -93,7 +116,11 @@ Console& Console::operator<<(const int& num)
 Console& Console::operator<<(const long& num)
 {
 	#ifdef WIN32
-		OutputDebugString(String(num).cStr());
+		#ifdef __MINGW32__
+			std::cout << num;
+		#else
+			OutputDebugString(String(num).cStr());
+		#endif
 	#endif
 	#ifdef __linux__
 		std::cout << num;
@@ -103,7 +130,11 @@ Console& Console::operator<<(const long& num)
 Console& Console::operator<<(const float& num)
 {
 	#ifdef WIN32
-		OutputDebugString(String(num).cStr());
+		#ifdef __MINGW32__
+			std::cout << num;
+		#else
+			OutputDebugString(String(num).cStr());
+		#endif
 	#endif
 	#ifdef __linux__
 		std::cout << num;
@@ -113,7 +144,11 @@ Console& Console::operator<<(const float& num)
 Console& Console::operator<<(const double& num)
 {
 	#ifdef WIN32
-		OutputDebugString(String(num).cStr());
+		#ifdef __MINGW32__
+			std::cout << num;
+		#else
+			OutputDebugString(String(num).cStr());
+		#endif
 	#endif
 	#ifdef __linux__
 		std::cout << num;

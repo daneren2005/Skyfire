@@ -19,7 +19,11 @@
 #define	_CONSOLE_H
 
 #ifdef WIN32
-	#define newline "\r\n"
+	#ifdef __MINGW32__
+		#define newline '\n'
+	#else
+		#define newline "\r\n"
+	#endif
 #endif
 #ifdef __linux__
 	#define newline '\n'
