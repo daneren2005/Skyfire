@@ -15,8 +15,8 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _TIME_H_
-#define	_TIME_H_
+#ifndef __TIME_H_
+#define	__TIME_H_
 
 #include "CString.h"
 #include "Types.h"
