@@ -88,11 +88,6 @@ const float& Vector::operator[](unsigned col) const
 	}
 }
 
-Vector Vector::operator+(const Vector& rhs)
-{
-	Vector vec(this->x() + rhs.x(), this->y() + rhs.y(), this->z() + rhs.z());
-	return vec;
-}
 Vector Vector::operator+(const Vector& rhs) const
 {
 	Vector vec(this->x() + rhs.x(), this->y() + rhs.y(), this->z() + rhs.z());
@@ -107,11 +102,6 @@ Vector& Vector::operator+=(const Vector& rhs)
 	return *this;
 }
 
-Vector Vector::operator-(const Vector& rhs)
-{
-	Vector vec(this->x() - rhs.x(), this->y() - rhs.y(), this->z() - rhs.z());
-	return vec;
-}
 Vector Vector::operator-(const Vector& rhs) const
 {
 	Vector vec(this->x() - rhs.x(), this->y() - rhs.y(), this->z() - rhs.z());
@@ -125,11 +115,6 @@ Vector& Vector::operator-=(const Vector& rhs)
 
 	return *this;
 }
-Vector Vector::operator*(const Vector& rhs)
-{
-	Vector vec(this->pos[1] * rhs[2] - this->pos[2] * rhs[1], this->pos[2] * rhs[0] - this->pos[0] * rhs[2], this->pos[0] * rhs[1] - this->pos[1] * rhs[0]);
-	return vec;
-}
 Vector Vector::operator*(const Vector& rhs) const
 {
 	Vector vec(this->pos[1] * rhs[2] - this->pos[2] * rhs[1], this->pos[2] * rhs[0] - this->pos[0] * rhs[2], this->pos[0] * rhs[1] - this->pos[1] * rhs[0]);
@@ -139,10 +124,6 @@ Vector& Vector::operator*=(const Vector& rhs)
 {
 	*this = *this * rhs;
 	return *this;
-}
-Vector Vector::operator*(const float& rhs)
-{
-	return Vector(pos[0] * rhs, pos[1] * rhs, pos[2] * rhs);
 }
 Vector Vector::operator*(const float& rhs) const
 {
@@ -155,10 +136,6 @@ Vector& Vector::operator*=(const float& rhs)
 	this->pos[2] *= rhs;
 	return *this;
 }
-Vector Vector::operator/(const float& rhs)
-{
-	return Vector(pos[0] / rhs, pos[1] / rhs, pos[2] / rhs);
-}
 Vector Vector::operator/(const float& rhs) const
 {
 	return Vector(pos[0] / rhs, pos[1] / rhs, pos[2] / rhs);
@@ -169,27 +146,6 @@ Vector& Vector::operator/=(const float& rhs)
 	this->pos[1] /= rhs;
 	this->pos[2] /= rhs;
 	return *this;
-}
-
-Vector Vector::operator%(const float& amount)
-{
-	int x = (int)(this->x() / amount);
-	float x_val = this->x() - x * amount;
-	if(x_val < 0.0f)
-		x_val = amount + x_val;
-
-	int y = (int)(this->y() / amount);
-	float y_val = this->y() - y * amount;
-	if(y_val < 0.0f)
-		y_val = amount + y_val;
-
-	int z = (int)(this->z() / amount);
-	float z_val = this->z() - z * amount;
-	if(z_val < 0.0f)
-		z_val = amount + z_val;
-
-	Vector vec(x_val, y_val, z_val);
-	return vec;
 }
 
 Vector Vector::operator%(const float& amount) const
@@ -254,6 +210,11 @@ bool Vector::operator!=(const Vector& rhs)
 		return true;
 
 	return false;
+}
+
+float Vector::dot(const Vector& rhs) const
+{
+	return this->pos[0] * rhs.pos[0] + this->pos[1] * rhs.pos[1] + this->pos[2] * rhs.pos[2];
 }
 
 Vector Vector::operator!()

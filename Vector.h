@@ -46,22 +46,16 @@ public:
 	float& operator[](unsigned col);
 	const float& operator[](unsigned col) const;
 
-	Vector operator+(const Vector& rhs);
 	Vector operator+(const Vector& rhs) const;
 	Vector& operator+=(const Vector& rhs);
-	Vector operator-(const Vector& rhs);
 	Vector operator-(const Vector& rhs) const;
 	Vector& operator-=(const Vector& rhs);
-	Vector operator*(const Vector& rhs);
 	Vector operator*(const Vector& rhs) const;
 	Vector& operator*=(const Vector& rhs);
-	Vector operator*(const float& rhs);
 	Vector operator*(const float& rhs) const;
 	Vector& operator*=(const float& rhs);
-	Vector operator/(const float& rhs);
 	Vector operator/(const float& rhs) const;
 	Vector& operator/=(const float& rhs);
-	Vector operator%(const float& amount);
 	Vector operator%(const float& amount) const;
 	Vector& operator%=(const float& amount);
 
@@ -69,6 +63,7 @@ public:
 	bool operator!=(const Vector& rhs);
 
 	Vector operator!();
+	float dot(const Vector& rhs) const;
 	Vector projection(const Vector& b) const;
 	float magnitude() const;
 	Vector transform(Matrix4 matrix) const;
