@@ -75,6 +75,8 @@
       <itemPath>ObjectOrientedBox.h</itemPath>
       <itemPath>Quaternion.cpp</itemPath>
       <itemPath>Quaternion.h</itemPath>
+      <itemPath>Ray.cpp</itemPath>
+      <itemPath>Ray.h</itemPath>
       <itemPath>Rectangle.cpp</itemPath>
       <itemPath>Rectangle.h</itemPath>
       <itemPath>Sphere.cpp</itemPath>

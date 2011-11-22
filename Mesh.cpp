@@ -124,7 +124,23 @@ long Mesh::numTriangles()
 
 	return num / 3;
 }
-
+float Mesh::getRayIntersection(const Ray& ray)
+{
+	float minT = 100000.0f;
+	
+	for(ulong i = 0; i < meshParts.size(); i++)
+	{
+		MeshPartPointer meshPart = meshParts[i];
+		for(ulong j = 0; j + 3 < meshPart->size(); j += 3)
+		{
+			float t = ray.getIntersection(meshPart->get(i).position, meshPart->get(i+1).position, meshPart->get(i+2).position);
+			if(t > 0.0f)
+				return t;
+		}
+	}
+	
+	return (minT != 100000.0f) ? minT : -1.0f;
+}
 float Mesh::getRayIntersection(Vector s, Vector r)
 {
 	float minT = 100000.0f;

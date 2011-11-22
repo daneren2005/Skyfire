@@ -56,6 +56,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Folder.o \
 	${OBJECTDIR}/ParticleEmitter.o \
 	${OBJECTDIR}/GenericType.o \
+	${OBJECTDIR}/Ray.o \
 	${OBJECTDIR}/MeshPart.o \
 	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/Particle.o \
@@ -216,6 +217,11 @@ ${OBJECTDIR}/GenericType.o: GenericType.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/GenericType.o GenericType.cpp
+
+${OBJECTDIR}/Ray.o: Ray.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Ray.o Ray.cpp
 
 ${OBJECTDIR}/MeshPart.o: MeshPart.cpp 
 	${MKDIR} -p ${OBJECTDIR}

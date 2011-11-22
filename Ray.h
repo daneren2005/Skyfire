@@ -15,39 +15,23 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _MESH_H
-#define	_MESH_H
+#ifndef RAY_H
+#define	RAY_H
 
-#include "Model.h"
-#include "MeshPart.h"
-#include "AxisAlignedBox.h"
-#include "Triangle.h"
+#include "Vector.h"
 
-class Mesh : public Model
+class Ray
 {
 public:
-	Mesh();
-	Mesh(unsigned long size);
-	Mesh(const Mesh& orig);
-	virtual ~Mesh();
-
-	void insert(MeshPartPointer mesh);
-	long size();
-
-	virtual void computeBoundingBox();
-	virtual AxisAlignedBox getBoundingBox();
-
-	virtual void draw();
-	virtual void drawFrame();
-	virtual long numTriangles();
+	Ray(const Vector& start, const Vector& end);
+	Ray(const Ray& orig);
+	virtual ~Ray();
 	
-	virtual float getRayIntersection(const Ray& ray);
-	virtual float getRayIntersection(Vector s, Vector r);
+	float getIntersection(const Vector& a, const Vector& b, const Vector& c) const;
 private:
-	Array<MeshPartPointer> meshParts;
-	AxisAlignedBox boundingBox;
+	Vector start;
+	Vector end;
 };
 
-typedef SharedPointer<Mesh> MeshPointer;
+#endif	/* RAY_H */
 
-#endif

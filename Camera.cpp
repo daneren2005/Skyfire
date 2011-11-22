@@ -97,6 +97,7 @@ BaseObject* Camera::getObjectAt(int x, int y)
 	float z = height2 / tan(M_PI/8.0f);
 	
 	// Projection of point
+	Ray ray(Vector(), Vector(float(x - width2) + 0.5f, float(y - height2) + 0.5f, -z));
 	Vector s;
 	Vector r(float(x - width2) + 0.5f, float(y - height2) + 0.5f, -z);
 	
@@ -116,12 +117,11 @@ BaseObject* Camera::getObjectAt(int x, int y)
 		if(model == 0x0)
 			continue;
 		
-		float t = model->getRayIntersection(s, r);
+		// float t = model->getRayIntersection(s, r);
+		float t = model->getRayIntersection(ray);
+		console << t << newline;
 		if(t > 0.0f && t < minT)
-		{
-			minT = t;
-			object = it.value();
-		}
+			return it.value();
 	}
 	
 	return object;
