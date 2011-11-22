@@ -79,3 +79,9 @@ float Ray::getIntersection(const Vector& v1, const Vector& v2, const Vector& v3)
     return end.magnitude();
 }
 
+Console& operator<<(Console& c, const Ray& ray)
+{
+	c << "Start: " << ray.start.x() << "," << ray.start.y() << "," << ray.start.z() 
+			<< "; End: " << ray.end.x() << "," << ray.end.y() << "," << ray.end.z();
+}
+

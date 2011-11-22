@@ -19,6 +19,7 @@
 #define	RAY_H
 
 #include "Vector.h"
+#include "Console.h"
 
 class Ray
 {
@@ -28,6 +29,8 @@ public:
 	virtual ~Ray();
 	
 	float getIntersection(const Vector& a, const Vector& b, const Vector& c) const;
+	
+	friend Console& operator<<(Console& console, const Ray& ray);
 private:
 	Vector start;
 	Vector end;
