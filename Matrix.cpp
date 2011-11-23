@@ -80,7 +80,7 @@ Matrix& Matrix::operator=(const Matrix& orig)
 	this->dim = orig.dim; 
 }
 
-Matrix Matrix::operator*(const Matrix& rhs)
+Matrix Matrix::operator*(const Matrix& rhs) const
 {
 	Matrix result(this->dim);
 
@@ -101,7 +101,7 @@ Matrix Matrix::operator*(const Matrix& rhs)
 	return result;
 }
 
-Vector Matrix::operator*(const Vector& rhs)
+Vector Matrix::operator*(const Vector& rhs) const
 {
 	Vector result;
 
@@ -125,7 +125,7 @@ const float& Matrix::operator()(uint col, uint row) const
 	return matrix[row * dim + col];
 }
 
-float* Matrix::getMatrix()
+float* Matrix::getMatrix() const
 {
 	return matrix;
 }

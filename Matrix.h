@@ -30,15 +30,15 @@ public:
 
 	float* operator[](unsigned col);
 	const float* operator[](unsigned col) const;
-	Matrix operator*(const Matrix& rhs);
-	Vector operator*(const Vector& rhs);
+	Matrix operator*(const Matrix& rhs) const;
+	Vector operator*(const Vector& rhs) const;
 	
 	float& operator()(uint col, uint row);
 	const float& operator()(uint col, uint row) const;
 	
 	Matrix& operator=(const Matrix& orig);
 
-	virtual float* getMatrix();
+	virtual float* getMatrix() const;
 	
 	float getDet() const;
 
