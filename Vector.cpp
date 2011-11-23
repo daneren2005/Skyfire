@@ -244,3 +244,9 @@ float* Vector::getPointer()
 {
 	return &(pos[0]);
 }
+
+Console& operator<<(Console& c, const Vector& vector)
+{
+	c << vector.x() << "," << vector.y() << "," << vector.z();
+	return c;
+}

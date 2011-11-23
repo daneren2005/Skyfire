@@ -69,6 +69,8 @@ public:
 	Vector transform(Matrix4 matrix) const;
 
 	float* getPointer();
+	
+	friend Console& operator<<(Console& console, const Vector& vector);
 private:
 	float pos[3];
 };
