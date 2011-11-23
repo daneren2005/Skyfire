@@ -83,5 +83,6 @@ Console& operator<<(Console& c, const Ray& ray)
 {
 	c << "Start: " << ray.start.x() << "," << ray.start.y() << "," << ray.start.z() 
 			<< "; End: " << ray.end.x() << "," << ray.end.y() << "," << ray.end.z();
+	return c;
 }
 
