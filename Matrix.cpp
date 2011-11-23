@@ -110,6 +110,7 @@ Vector Matrix::operator*(const Vector& rhs)
 		result[i] += matrix[i] * rhs.x();
 		result[i] += matrix[dim + i] * rhs.y();
 		result[i] += matrix[dim * 2 + i] * rhs.z();
+		result[i] += matrix[dim * 3 + i];
 	}
 
 	return result;
