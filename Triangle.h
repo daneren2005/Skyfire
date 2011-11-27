@@ -18,6 +18,7 @@
 #ifndef _TRIANGLE_H
 #define	_TRIANGLE_H
 
+#include "Ray.h"
 #include "Vector.h"
 
 class Triangle

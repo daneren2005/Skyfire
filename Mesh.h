@@ -41,7 +41,7 @@ public:
 	virtual void drawFrame();
 	virtual long numTriangles();
 	
-	virtual float getRayIntersection(const Ray& ray);
+	virtual float getRayIntersection(const Ray& ray, const Matrix4& transform);
 	virtual float getRayIntersection(Vector s, Vector r);
 private:
 	Array<MeshPartPointer> meshParts;

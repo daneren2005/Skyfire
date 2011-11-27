@@ -21,6 +21,7 @@
 #include "AxisAlignedBox.h"
 #include "SharedPointer.h"
 #include "Ray.h"
+#include "Matrix4.h"
 
 class Model
 {
@@ -36,7 +37,7 @@ public:
 	virtual void drawFrame() = 0;
 	virtual long numTriangles() = 0;
 	
-	virtual float getRayIntersection(const Ray& ray) = 0;
+	virtual float getRayIntersection(const Ray& ray, const Matrix4& transform) = 0;
 	virtual float getRayIntersection(Vector s, Vector r) = 0;
 private:
 
