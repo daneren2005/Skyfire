@@ -42,5 +42,7 @@
 #include "FirstPersonCamera.h"
 #include "ThirdPersonCamera.h"
 
+#include "DataFile.h"
+
 #endif	/* _SKYFIRE_H */
 

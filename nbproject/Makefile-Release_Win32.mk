@@ -65,6 +65,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/GenericPointer.o \
 	${OBJECTDIR}/CString.o \
 	${OBJECTDIR}/Time.o \
+	${OBJECTDIR}/DataFile.o \
 	${OBJECTDIR}/Bitmap.o \
 	${OBJECTDIR}/Lock.o \
 	${OBJECTDIR}/Sphere.o \
@@ -262,6 +263,11 @@ ${OBJECTDIR}/Time.o: Time.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Time.o Time.cpp
+
+${OBJECTDIR}/DataFile.o: DataFile.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/DataFile.o DataFile.cpp
 
 ${OBJECTDIR}/Bitmap.o: Bitmap.cpp 
 	${MKDIR} -p ${OBJECTDIR}
