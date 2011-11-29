@@ -60,7 +60,8 @@ void DataFile::save()
 		fh.writeString(it.key());
 		fh.writeCharacter(IDENTIFIER);
 		
-		for(Map<String, String>::Iterator prop = it.value().properties.begin(); !prop; prop++)
+		DataFile::Object obj = it.value();
+		for(Map<String, String>::Iterator prop = obj.properties.begin(); !prop; prop++)
 		{
 			fh.writeCharacter(SEPARATOR);
 			fh.writeCharacter(IDENTIFIER);
