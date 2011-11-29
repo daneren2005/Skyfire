@@ -34,7 +34,7 @@ class List
 {
 public:
 	List();
-	List(const List<T>& list);
+	List(List<T>& list);
 	~List();
 
 	T front();
@@ -51,7 +51,7 @@ public:
 	template <class Compare>
 	void sort(Compare c);
 	
-	List& operator=(const List& orig);
+	List& operator=(List& orig);
 	
 	class Iterator;
 	class WriteIterator;
@@ -100,7 +100,7 @@ List<T>::List()
 	tail = 0x0;
 }
 template <class T>
-List<T>::List(const List<T>& list)
+List<T>::List(List<T>& list)
 {
 	list.headLock.lock();
 	Node* current = 0x0;
@@ -138,7 +138,7 @@ List<T>::List(const List<T>& list)
 	}
 	else
 	{
-		this->tail->node = current;
+		this->tail = current;
 	}
 }
 
@@ -571,7 +571,7 @@ typename List<T>::Node* List<T>::mergeSort(List<T>::Node* start, ulong size, Com
 }
 
 template <class T>
-List<T>& List<T>::operator=(const List& orig)
+List<T>& List<T>::operator=(List& orig)
 {
 	countLock.lock();
 	headLock.lock();

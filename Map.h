@@ -435,7 +435,7 @@ void Map<Value, Key>::checkDeletion(Node* node)
 							sibling->left->red = false;
 							rotateRight(sibling);
 						}
-						else if(node == node->parent->right && sibling->left->color == false &&
+						else if(node == node->parent->right && sibling->left->red == false &&
 							sibling->right->red == true)
 						{
 							sibling->red = true;
