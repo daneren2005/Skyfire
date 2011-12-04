@@ -25,9 +25,8 @@
 class DataFile
 {
 public:
-	static const char BLOCK_BRACKET;
-	static const char OBJECT_BRACKET;
-	static const char PROPERTY_BRACKET;
+	static const char START;
+	static const char END;
 	static const char SEPARATOR;
 	static const char IDENTIFIER;
 	
@@ -42,13 +41,13 @@ public:
 	class Property;
 	class Object;
 	
-	void insertObject(const DataFile::Object& obj);
-	void updateObject(const DataFile::Object& obj);
-	Object getObject(const String& name);
+	void insertObject(DataFile::Object* obj);
+	void updateObject(DataFile::Object* obj);
+	Object* getObject(const String& name);
 	void removeObject(const String& name);
 private:
 	File fh;
-	Map<DataFile::Object, String> objects;
+	Map<DataFile::Object*, String> objects;
 };
 
 class DataFile::Object
@@ -60,6 +59,7 @@ public:
 	
 	String name;
 	Map<String, String> properties;
+	Map<DataFile::Object*, String> objects;
 };
 
 #endif	/* DATAFILE_H */

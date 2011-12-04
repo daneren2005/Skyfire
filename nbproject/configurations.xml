@@ -38,6 +38,30 @@
       <itemPath>const.h</itemPath>
       <itemPath>conversion.h</itemPath>
     </logicalFolder>
+    <logicalFolder name="f1" displayName="Game" projectFiles="true">
+      <itemPath>AxisObject.cpp</itemPath>
+      <itemPath>AxisObject.h</itemPath>
+      <itemPath>BaseObject.cpp</itemPath>
+      <itemPath>BaseObject.h</itemPath>
+      <itemPath>Camera.cpp</itemPath>
+      <itemPath>Camera.h</itemPath>
+      <itemPath>DataFile.cpp</itemPath>
+      <itemPath>DataFile.h</itemPath>
+      <itemPath>FirstPersonCamera.cpp</itemPath>
+      <itemPath>FirstPersonCamera.h</itemPath>
+      <itemPath>Particle.cpp</itemPath>
+      <itemPath>Particle.h</itemPath>
+      <itemPath>ParticleEmitter.cpp</itemPath>
+      <itemPath>ParticleEmitter.h</itemPath>
+      <itemPath>ParticleSystem.cpp</itemPath>
+      <itemPath>ParticleSystem.h</itemPath>
+      <itemPath>Region.cpp</itemPath>
+      <itemPath>Region.h</itemPath>
+      <itemPath>ThirdPersonCamera.cpp</itemPath>
+      <itemPath>ThirdPersonCamera.h</itemPath>
+      <itemPath>Universe.cpp</itemPath>
+      <itemPath>Universe.h</itemPath>
+    </logicalFolder>
     <logicalFolder name="f6" displayName="Graphics" projectFiles="true">
       <itemPath>Bitmap.cpp</itemPath>
       <itemPath>Bitmap.h</itemPath>
@@ -85,28 +109,6 @@
       <itemPath>Triangle.h</itemPath>
       <itemPath>Vector.cpp</itemPath>
       <itemPath>Vector.h</itemPath>
-    </logicalFolder>
-    <logicalFolder name="f1" displayName="Objects" projectFiles="true">
-      <itemPath>AxisObject.cpp</itemPath>
-      <itemPath>AxisObject.h</itemPath>
-      <itemPath>BaseObject.cpp</itemPath>
-      <itemPath>BaseObject.h</itemPath>
-      <itemPath>Camera.cpp</itemPath>
-      <itemPath>Camera.h</itemPath>
-      <itemPath>FirstPersonCamera.cpp</itemPath>
-      <itemPath>FirstPersonCamera.h</itemPath>
-      <itemPath>Particle.cpp</itemPath>
-      <itemPath>Particle.h</itemPath>
-      <itemPath>ParticleEmitter.cpp</itemPath>
-      <itemPath>ParticleEmitter.h</itemPath>
-      <itemPath>ParticleSystem.cpp</itemPath>
-      <itemPath>ParticleSystem.h</itemPath>
-      <itemPath>Region.cpp</itemPath>
-      <itemPath>Region.h</itemPath>
-      <itemPath>ThirdPersonCamera.cpp</itemPath>
-      <itemPath>ThirdPersonCamera.h</itemPath>
-      <itemPath>Universe.cpp</itemPath>
-      <itemPath>Universe.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f4" displayName="Thread" projectFiles="true">
       <itemPath>Condition.cpp</itemPath>

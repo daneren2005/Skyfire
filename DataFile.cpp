@@ -16,16 +16,16 @@
 */
 
 #include "DataFile.h"
+#include "BasicList.h"
 
-const char DataFile::BLOCK_BRACKET = 0xB0;
-const char DataFile::OBJECT_BRACKET = 0xB1;
-const char DataFile::PROPERTY_BRACKET = 0xB2;
+const char DataFile::START = 0xB0;
+const char DataFile::END = 0xB1;
 const char DataFile::SEPARATOR = 0xB3;
 const char DataFile::IDENTIFIER = 0xB4;
 
 DataFile::DataFile(const String& filename)
 {
-	this->fh = File(filename);
+	this->fh = File(filename, END);
 }
 DataFile::DataFile(const File& fh)
 {
@@ -44,51 +44,78 @@ DataFile::~DataFile()
 
 void DataFile::load()
 {
-	
+	fh.open(File::READ);
+	BasicList<Object*> stack;
+	Object* current = 0x0;
+	while(!fh.eof())
+	{
+		String line = fh.getLine();
+		
+		// Go through each part of the line
+		for(ulong i = 0; i < line.length(); i++)
+		{
+			switch(line[i])
+			{
+				case START:
+					if(current != 0x0)
+						stack.pushBack(current);
+					current = new Object();
+					break;
+				case IDENTIFIER:
+					
+					break;
+			}
+		}
+		
+		if(stack.size() > 0)
+		{
+			stack.back()->objects.insert(current, current->name);
+			current = stack.popBack();
+		}
+		else
+		{
+			this->insertObject(current);
+		}
+	}
 }
 void DataFile::save()
 {
 	fh.open(File::WRITE);
-	for(Map<DataFile::Object, String>::Iterator it = objects.begin(); !it; it++)
+	for(Map<DataFile::Object*, String>::Iterator it = objects.begin(); !it; it++)
 	{
-		fh.writeCharacter(OBJECT_BRACKET);
-		
+		fh.writeCharacter(START);
 		fh.writeCharacter(IDENTIFIER);
 		fh.writeString("Name");
-		fh.writeCharacter(IDENTIFIER);
-		fh.writeCharacter(IDENTIFIER);
+		fh.writeCharacter(SEPARATOR);
 		fh.writeString(it.key());
 		fh.writeCharacter(IDENTIFIER);
 		
-		DataFile::Object obj = it.value();
-		for(Map<String, String>::Iterator prop = obj.properties.begin(); !prop; prop++)
+		for(Map<String, String>::Iterator prop = it.value()->properties.begin(); !prop; prop++)
 		{
-			fh.writeCharacter(SEPARATOR);
 			fh.writeCharacter(IDENTIFIER);
 			fh.writeString(prop.key());
-			fh.writeCharacter(IDENTIFIER);
-			fh.writeCharacter(IDENTIFIER);
+			fh.writeCharacter(SEPARATOR);
 			fh.writeString(prop.value());
 			fh.writeCharacter(IDENTIFIER);
 		}
 		
-		fh.writeCharacter(OBJECT_BRACKET);
+		fh.writeCharacter(END);
 	}
 	fh.close();
 }
 
-void DataFile::insertObject(const DataFile::Object& obj)
+void DataFile::insertObject(DataFile::Object* obj)
 {
-	objects.insert(obj, obj.name);
+	objects.insert(obj, obj->name);
 }
-DataFile::Object DataFile::getObject(const String& name)
+void DataFile::updateObject(DataFile::Object* obj)
+{
+	objects.remove(obj->name);
+	objects.insert(obj, obj->name);
+}
+DataFile::Object* DataFile::getObject(const String& name)
 {
 	return objects.search(name);
-}
-void DataFile::updateObject(const DataFile::Object& obj)
-{
-	objects.remove(obj.name);
-	objects.insert(obj, obj.name);
 }
 void DataFile::removeObject(const String& name)
 {
