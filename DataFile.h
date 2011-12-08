@@ -28,7 +28,7 @@ public:
 	static const char START;
 	static const char END;
 	static const char SEPARATOR;
-	static const char IDENTIFIER;
+	static const char STRING_IDENTIFIER;
 	
 	DataFile(const String& filename);
 	DataFile(const File& fh);
@@ -45,6 +45,8 @@ public:
 	void updateObject(DataFile::Object* obj);
 	Object* getObject(const String& name);
 	void removeObject(const String& name);
+	
+	Map<Object*, String>::Iterator begin();
 private:
 	File fh;
 	Map<DataFile::Object*, String> objects;
