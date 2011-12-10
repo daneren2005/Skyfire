@@ -631,6 +631,8 @@ List<T>& List<T>::operator=(List& orig)
 	countLock.unlock();
 
 	headLock.unlock();
+	
+	return *this;
 }
 
 template <class T>

@@ -405,6 +405,8 @@ BasicList<T>& BasicList<T>::operator=(const BasicList& orig)
 	{
 		this->tail = current;
 	}
+	
+	return *this;
 }
 
 template <class T>
