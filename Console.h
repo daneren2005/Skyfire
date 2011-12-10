@@ -42,8 +42,11 @@ public:
 	Console& operator<<(const std::string& str);
 	Console& operator<<(const char* str);
 	Console& operator<<(const char& str);
+	Console& operator<<(const uchar& str);
 	Console& operator<<(const int& num);
+	Console& operator<<(const uint& num);
 	Console& operator<<(const long& num);
+	Console& operator<<(const ulong& num);
 	Console& operator<<(const float& num);
 	Console& operator<<(const double& num);
 private:

@@ -98,6 +98,26 @@ Console& Console::operator<<(const char& str)
 	#endif
 	return *this;
 }
+Console& Console::operator<<(const uchar& str)
+{
+	#ifdef WIN32
+		#ifdef __MINGW32__
+			if(str == '\n')
+				std::cout << std::endl;
+			else
+				std::cout << str;
+		#else
+			OutputDebugString(String(str).cStr());
+		#endif
+	#endif
+	#ifdef __linux__
+		if(str == '\n')
+			std::cout << std::endl;
+		else
+			std::cout << str;
+	#endif
+	return *this;
+}
 
 Console& Console::operator<<(const int& num)
 {
@@ -113,7 +133,35 @@ Console& Console::operator<<(const int& num)
 	#endif
 	return *this;
 }
+Console& Console::operator<<(const uint& num)
+{
+	#ifdef WIN32
+		#ifdef __MINGW32__
+			std::cout << num;
+		#else
+			OutputDebugString(String(num).cStr());
+		#endif
+	#endif
+	#ifdef __linux__
+		std::cout << num;
+	#endif
+	return *this;
+}
 Console& Console::operator<<(const long& num)
+{
+	#ifdef WIN32
+		#ifdef __MINGW32__
+			std::cout << num;
+		#else
+			OutputDebugString(String(num).cStr());
+		#endif
+	#endif
+	#ifdef __linux__
+		std::cout << num;
+	#endif
+	return *this;
+}
+Console& Console::operator<<(const ulong& num)
 {
 	#ifdef WIN32
 		#ifdef __MINGW32__
