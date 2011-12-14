@@ -543,7 +543,7 @@ void File::writeString(const String& str)
 	if(!isOpen())
 		throw FileNotOpen(filename);
 
-	fputs(str.cStr(), *handle);
+	fwrite(str.cStr(), 1, str.length(), *handle);
 }
 void File::writeString(const char* str)
 {
@@ -557,7 +557,7 @@ void File::writeLine(const String& str)
 	if(!isOpen())
 		throw FileNotOpen(filename);
 
-	fputs(str.cStr(), *handle);
+	fwrite(str.cStr(), 1, str.length(), *handle);
 	fputs(buffer->delim.cStr(), *handle);
 }
 void File::writeLine(const char* str)
