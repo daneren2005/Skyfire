@@ -37,13 +37,13 @@ public:
 	virtual void resume();
 	virtual void pause();
 	
-	Camera* getCamera();
-	void addRegion(Region* region);
-	void setActiveRegion(Region* region);
+	virtual Camera* getCamera();
+	virtual void addRegion(Region* region);
+	virtual void setActiveRegion(Region* region);
 
-	void setInput(Input* input);
+	virtual void setInput(Input* input);
 
-	double runningTime();
+	virtual double runningTime();
 
 	friend class Region;
 protected:
