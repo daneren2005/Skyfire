@@ -30,6 +30,11 @@ Region::~Region()
 {
 }
 
+void Region::load()
+{
+	
+}
+
 void Region::update(double interval)
 {
 	BaseObject* object = NULL;

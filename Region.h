@@ -29,6 +29,7 @@ public:
 	Region(const Region& orig);
 	virtual ~Region();
 
+	virtual void load();
 	virtual void update(double interval);
 	virtual void draw();
 
