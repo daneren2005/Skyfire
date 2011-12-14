@@ -64,6 +64,12 @@ void ResourceManager::loadModel(String filename, String name)
 			this->models.insert(model, name);
 		}
 	}
+	else if(file.getFileType() == "3ds")
+	{
+		MeshPointer model = this->load3ds(file);
+		if(model != 0x0)
+			this->models.insert(model, name);
+	}
 }
 
 void ResourceManager::addModel(ModelPointer model, char* name)
@@ -416,6 +422,11 @@ Map<MaterialPointer, String> ResourceManager::loadMtl(File file)
 	}*/
 
 	return materials;
+}
+
+MeshPointer ResourceManager::load3ds(File file)
+{
+	return 0x0;
 }
 
 /*
