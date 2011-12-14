@@ -595,6 +595,7 @@ String& String::operator>>(String& rhs)
 {
 	if(this->size == 0)
 	{
+		rhs = String();
 		return *this;
 	}
 
