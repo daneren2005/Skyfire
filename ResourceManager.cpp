@@ -159,7 +159,6 @@ MeshPointer ResourceManager::loadObj(File file)
 					first = false;
 					console << timer.totalTime() << newline;
 				}
-
 				String r1, r2, r3;
 				line >> r1 >> r2 >> r3;
 
@@ -204,7 +203,7 @@ MeshPointer ResourceManager::loadObj(File file)
 							pos = parts[1].toInt();
 							v.texture = textureVectors[pos - 1];
 						}
-						if(parts[2].length() > 0)
+						if(parts.size() > 2 && parts[2].length() > 0)
 						{
 							pos = parts[2].toInt();
 							v.normal = normalVectors[pos - 1];
@@ -220,7 +219,7 @@ MeshPointer ResourceManager::loadObj(File file)
 							pos = parts[1].toInt();
 							v.texture = textureVectors[pos - 1];
 						}
-						if(parts[2].length() > 0)
+						if(parts.size() > 2 && parts[2].length() > 0)
 						{
 							pos = parts[2].toInt();
 							v.normal = normalVectors[pos - 1];
@@ -236,7 +235,7 @@ MeshPointer ResourceManager::loadObj(File file)
 							pos = parts[1].toInt();
 							v.texture = textureVectors[pos - 1];
 						}
-						if(parts[2].length() > 0)
+						if(parts.size() > 2 && parts[2].length() > 0)
 						{
 							pos = parts[2].toInt();
 							v.normal = normalVectors[pos - 1];
