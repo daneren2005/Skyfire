@@ -630,6 +630,9 @@ void File::checkFillBuffer()
 		buffer->i = 0;
 		buffer->oldPos = 0;
 		
+		if(buffer->positions.size() == 0)
+			buffer->positions.insert(buffer->buffer.length());
+		
 		buffer->bufferEmpty = false;
 	}
 }
