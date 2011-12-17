@@ -108,9 +108,39 @@ public:
 	long toLong() const;
 	float toFloat() const;
 	double toDouble() const;
+	
+	// Binary conversions
+	template <class Type, int Precision>
+	Type binaryTo() const;
 private:
 	char* array;
 	long size;
 };
+
+template <class Type, int Precision>
+Type String::binaryTo() const
+{
+	union Combo
+	{
+		Type num;
+		char parts[Precision];
+	} combo;
+	for(int i = 0; i < Precision; i++)
+			combo.parts[i] = this->array[i];
+	return combo.num; 
+}
+
+template <class Type, int Precision>
+String toBinaryString(Type num)
+{
+	union Combo
+	{
+		Type num;
+		char parts[Precision];
+	} combo;
+
+	combo.num = num;
+	return String(combo.parts, Precision);
+}
 
 #endif
