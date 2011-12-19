@@ -445,10 +445,10 @@ String File::getString(int num)
 	checkFillBuffer();
 
 	ulong pos = buffer->oldPos;
-	buffer->oldPos+= num;
-
+	buffer->oldPos += num;
+	
 	String oldBuffer;
-	while(buffer->oldPos >= buffer->positions[buffer->i])
+	if(buffer->oldPos >= buffer->positions[buffer->i])
 	{
 		// Skip to next char if oldPos = newline character
 		if(buffer->oldPos == buffer->positions[buffer->i])
@@ -630,6 +630,8 @@ void File::checkFillBuffer()
 		buffer->i = 0;
 		buffer->oldPos = 0;
 		
+		if(feof(*handle) && buffer->positions[buffer->positions.size() - 1] != buffer->buffer.length() - 1)
+			buffer->positions.insert(buffer->buffer.length());
 		if(buffer->positions.size() == 0)
 			buffer->positions.insert(buffer->buffer.length());
 		

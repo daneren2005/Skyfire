@@ -25,33 +25,6 @@
 
 class Folder;
 
-/*
-	TODO
-	
-	Binary will be a major problem in this implementation.
-	The whole buffer format that is currently being used will
-	not work for binary files because of the fact that it will
-	be looking for newline characters and comparing the current pos
-	with them which will cause unknown behaviour.  Time to test!
-
-	Possible solution: TextFile and BinaryFile classes with a base
-	class File that only implements basic stuff that is true for all
-	files.
-
-	Also possible to give entirely different behaviour/return a different
-	instance based on what the user passes in for the mode.  IE if 
-	the user passes in without binary it will return this, overwise
-	it will return a overloaded Binary class that has different behaviour
-	defined for it that is more inline with a binary file.  Only problem
-	would be that if the user used getLine with a binary file what would
-	the behaviour be?
-
-	Also need to Bad FileException that other File Exceptions inherit
-	from so that way you could catch for FileException instead of being
-	limited to only using Exception or the specifying the individual
-	File Exception classes.
-*/
-
 class File
 {
 public:
