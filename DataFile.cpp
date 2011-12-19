@@ -19,13 +19,12 @@
 #include "BasicList.h"
 
 const char DataFile::START = 0xB0;
-const char DataFile::END = 0xB1;
-const char DataFile::SEPARATOR = 0xB3;
-const char DataFile::STRING_IDENTIFIER = 0xB4;
+const char DataFile::STRING_IDENTIFIER = 0xB1;
+const char DataFile::FLOAT_IDENTIFIER = 0xB2;
 
 DataFile::DataFile(const String& filename)
 {
-	this->fh = File(filename, END);
+	this->fh = File(filename);
 }
 DataFile::DataFile(const File& fh)
 {
@@ -45,90 +44,110 @@ DataFile::~DataFile()
 void DataFile::load()
 {
 	fh.open(File::READ);
-	BasicList<Object*> stack;
-	Object* current = 0x0;
 	while(!fh.eof())
 	{
-		String line = fh.getLine();
-		Array<long> ids = line.strAllPos(STRING_IDENTIFIER);
-		long j = 0;
-		Array<long> seps = line.strAllPos(SEPARATOR);
-		long k = 0;
+		// START
+		fh.getCharacter();
+		// console << fh.getCharacter() << newline;
 		
-		// Go through each part of the line
-		for(long i = 0; i < line.length(); i++)
+		DataFile::Object* obj = new DataFile::Object();
+
+		// Get size of this chunk
+		int size = fh.getString(4).binaryTo<int, 4>();
+
+		// Read each property
+		String str = fh.getString(size);
+		// console << str << " " << str.length() << " " << size << newline;
+		for(long i = 0; i < str.length(); )
 		{
-			switch(line[i])
+			switch(str[i])
 			{
-				case START:
-				{
-					if(current != 0x0)
-						stack.pushBack(current);
-					current = new Object();
-					break;
-				}
 				case STRING_IDENTIFIER:
 				{
-					// Increment i past id
-					i++;
-					
-					// Get the j = next id
-					j++;
-					long end = ids[j];
-					j++;
-					
-					// Get separator
-					long middle = seps[k];
-					k++;
-					
-					// Get values and insert them in
-					String name = line.subStr(i, middle - i);
-					String value = line.subStr(middle + 1, end - middle - 1);
+					int size1 = str[i + 1];
+					int size2 = str[i + 2];
+		
+					String name = str.subStr(i + 3, size1);
+					String value = str.subStr(i + 3 + size1, size2);
 					if(name == "Name")
-						current->name = value;
+						obj->name = value;
 					else
-						current->properties.insert(value, name);
-					
-					i = end;
+						obj->strings.insert(value, name);
+					// console << name << "   " << value << " " << size1 + size2 + 3 << newline;
+		
+					i += size1 + size2 + 3;
+					break;
+				}
+				case FLOAT_IDENTIFIER:
+				{
+					int size1 = str[i + 1];
+					String name = str.subStr(i + 2, size1);
+					String value = str.subStr(i + 2 + size1, 4);
+
+					obj->floats.insert(value.binaryTo<float, 4>(), name);
+					// console << name << "   " << value.binaryTo<float, 4>() << newline;
+					i += 5;
+					break;
+				}
+				default:
+				{
+					// Prevent infinite loop
+					// console << "NO" << newline;
+					i++;
 					break;
 				}
 			}
 		}
 		
-		if(stack.size() > 0)
-		{
-			stack.back()->objects.insert(current, current->name);
-			current = stack.popBack();
-		}
-		else
-		{
-			this->insertObject(current);
-			current = 0x0;
-		}
+		this->insertObject(obj);
 	}
+
+	fh.close();
 }
 void DataFile::save()
 {
-	fh.open(File::WRITE);
+	fh.open(File::BINARY_WRITE);
 	for(Map<DataFile::Object*, String>::Iterator it = objects.begin(); !it; it++)
 	{
-		fh.writeCharacter(START);
-		fh.writeCharacter(STRING_IDENTIFIER);
-		fh.writeString("Name");
-		fh.writeCharacter(SEPARATOR);
-		fh.writeString(it.key());
-		fh.writeCharacter(STRING_IDENTIFIER);
-		
-		for(Map<String, String>::Iterator prop = it.value()->properties.begin(); !prop; prop++)
+		DataFile::Object* obj = it.value();
+
+		Array<String> properties(obj->strings.size() + obj->floats.size() + obj->objects.size() + 1);
+		uint size = 0;
+
+		String prop = String(STRING_IDENTIFIER) + (uchar)4 + (uchar)obj->name.length() + String("Name") + obj->name;
+		size += obj->name.length() + 7;
+		properties.insert(prop);
+
+		// Strings
+		for(Map<String, String>::Iterator it2 = obj->strings.begin(); !it2; it2++)
 		{
-			fh.writeCharacter(STRING_IDENTIFIER);
-			fh.writeString(prop.key());
-			fh.writeCharacter(SEPARATOR);
-			fh.writeString(prop.value());
-			fh.writeCharacter(STRING_IDENTIFIER);
+			prop = String(STRING_IDENTIFIER) + (uchar)it2.key().length() + (uchar)it2.value().length() + it2.key() + it2.value();
+			size += it2.key().length() + it2.value().length() + 3;
+			properties.insert(prop);
 		}
-		
-		fh.writeCharacter(END);
+
+		// Floats
+		for(Map<float, String>::Iterator it2 = obj->floats.begin(); !it2; it2++)
+		{
+			prop = String(FLOAT_IDENTIFIER) + (uchar)it2.key().length() + it2.key() + toBinaryString<float, 4>(it2.value());
+			size += it2.key().length() + 6;
+			properties.insert(prop);
+		}
+
+		// Subobjects
+		for(Map<DataFile::Object*, String>::Iterator it2 = obj->objects.begin(); !it2; it2++)
+		{
+			prop = String(STRING_IDENTIFIER) + (uchar)it2.key().length() + (uchar)it2.value()->name.length() + it2.key() + it2.value()->name;
+			size += it2.key().length() + it2.value()->name.length() + 3;
+			properties.insert(prop);
+		}
+
+		fh.writeCharacter(START);
+		fh.writeString(toBinaryString<int, 4>(size));
+		for(ulong i = 0; i < properties.size(); i++)
+		{
+			fh.writeString(properties[i]);
+		}
 	}
 	fh.close();
 }

@@ -26,9 +26,8 @@ class DataFile
 {
 public:
 	static const char START;
-	static const char END;
-	static const char SEPARATOR;
 	static const char STRING_IDENTIFIER;
+	static const char FLOAT_IDENTIFIER;
 	
 	DataFile(const String& filename);
 	DataFile(const File& fh);
@@ -55,12 +54,13 @@ private:
 class DataFile::Object
 {
 public:
-	Object() {}
+	Object(){}
 	Object(String name) : name(name) {}
-	Object(const Object& orig) : name(orig.name), properties(orig.properties) {}
+	Object(const Object& orig) : name(orig.name), strings(orig.strings), floats(orig.floats), objects(orig.objects) {}
 	
 	String name;
-	Map<String, String> properties;
+	Map<String, String> strings;
+	Map<float, String> floats;
 	Map<DataFile::Object*, String> objects;
 };
 
