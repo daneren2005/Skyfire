@@ -15,8 +15,8 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _MAP_H
-#define	_MAP_H
+#ifndef _MAP_H_
+#define	_MAP_H_
 
 #include "BasicList.h"
 #include "Exceptions.h"
@@ -135,6 +135,11 @@ void Map<Value, Key>::insert(const Value& value, const Key& key)
 	if(closest == 0x0)
 	{
 		root = newNode;
+	}
+	else if(closest->key == key)
+	{
+		closest->value = value;
+		return;
 	}
 	else
 	{
@@ -630,7 +635,7 @@ public:
 			this->current = this->current->left;
 			this->stack.pushBack(this->current);
 		}
-		this->stack.popBack();
+		(*this)++;
 	}
 	InOrderIterator(const InOrderIterator& it)
 	{
@@ -659,21 +664,21 @@ public:
 		if(stack.size() > 0)
 		{
 			current = stack.popBack();
+
+			if(current->right != NULL)
+			{
+				Node* temp = current->right;
+				while(temp->left != NULL)
+				{
+					stack.pushBack(temp);
+					temp = temp->left;
+				}
+				stack.pushBack(temp);
+			}
 		}
 		else
 		{
 			current = NULL;
-			return;
-		}
-
-		if(current->right != NULL)
-		{
-			Node* temp = current->right;
-			while(temp != NULL)
-			{
-				stack.pushBack(temp);
-				temp = temp->left;
-			}
 		}
 	}
 private:
