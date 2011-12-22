@@ -425,6 +425,91 @@ Map<MaterialPointer, String> ResourceManager::loadMtl(File file)
 
 MeshPointer ResourceManager::load3ds(File file)
 {
+	file.open();
+	if(!file.isOpen())
+	{
+		console << "ResourceManager::load3ds error: Failed to open model file " << file.getFullPath() << newline;
+		return 0x0;
+	}
+	
+	MeshPointer mesh;
+	while(!file.eof())
+	{
+		String data = file.getString(2);
+		int length = file.getString(4).binaryTo<int, 4>();
+		switch(data[0])
+		{
+			// Main chunk
+			case 0x4D:
+			{
+				if(data[1] != 0x4D)
+					break;
+				
+				console << "Main Chunk " << length << newline;
+				mesh = new Mesh(1);
+				break;
+			}
+			// 3D Editor Chunk
+			case 0x3D:
+			{
+				if(data[1] != 0x3D)
+					break;
+				
+				console << "3D Editor Chunk " << length << newline;
+				break;
+			}
+			// Object Block
+			case 0x40:
+			{
+				
+				if(data[1] != 0x00)
+					break;
+				
+				console << "Object Chunk " << length << newline;
+				break;
+			}
+			// Triangular Mesh
+			case 0x41:
+			{
+				if(data[1] != 0x00)
+					break;
+				
+				console << "Triangular Mesh Chunk " << length << newline;
+				break;
+			}
+			// Material Block
+			case 0xFF:
+			{
+				if(data[1] != 0xAF)
+					break;
+				
+				console << "Material Chunk " << length << newline;
+				break;
+			}
+		};
+	}
+	exit(0);
+	
+	// Main chunk
+	String data = file.getString(2);
+	if(data[0] != 0x4D || data[1] != 0x4D)
+	{
+		console << "ResourceManager::load3ds error: Missing main chunk" << newline;
+		return 0x0;
+	}
+	
+	data = file.getString(4);
+	int length = data.binaryTo<int, 4>();
+	console << "Main chunk: " << length << newline;
+
+	// 3D Editor chunk
+	data = file.getString(2);
+	if(data[0] != 0x3D || data[1] != 0x3D)
+	{
+		console << "ResourceManager::load3ds error: Missing 3D Editor chunk" << newline;
+	}
+	
+	exit(0);
 	return 0x0;
 }
 
