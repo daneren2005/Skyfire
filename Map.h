@@ -31,11 +31,11 @@ public:
 	Map(const Map& orig);
 	~Map();
 
-	long size();
+	long size() const;
 	void insert(const Value& value, const Key& key);
 	Value remove(const Key& key);
-	Value search(const Key& key);
-	bool exists(const Key& key);
+	Value search(const Key& key) const;
+	bool exists(const Key& key) const;
 
 	Value& operator[](const Key& key);
 	const Value& operator[](const Key& key) const;
@@ -75,10 +75,10 @@ private:
 	Node* root;
 	long count;
 
-	Node* findClosestMatch(const Key& key);
-	Node* findUncle(Node* node);
-	Node* findGrandparent(Node* node);
-	Node* findSibling(Node* node);
+	Node* findClosestMatch(const Key& key) const;
+	Node* findUncle(Node* node) const;
+	Node* findGrandparent(Node* node) const;
+	Node* findSibling(Node* node) const;
 
 	void checkInsertion(Node* node);
 	void checkDeletion(Node* node);
@@ -120,7 +120,7 @@ Map<Value, Key>::~Map()
 }
 
 template <class Value, class Key>
-long Map<Value, Key>::size()
+long Map<Value, Key>::size() const
 {
 	return this->count;
 }
@@ -181,7 +181,7 @@ Value Map<Value, Key>::remove(const Key& key)
 }
 
 template <class Value, class Key>
-Value Map<Value, Key>::search(const Key& key)
+Value Map<Value, Key>::search(const Key& key) const
 {
 	Node* node = findClosestMatch(key);
 
@@ -194,7 +194,7 @@ Value Map<Value, Key>::search(const Key& key)
 }
 
 template <class Value, class Key>
-bool Map<Value, Key>::exists(const Key& key)
+bool Map<Value, Key>::exists(const Key& key) const
 {
 	Node* node = findClosestMatch(key);
 
@@ -261,7 +261,7 @@ Map<Value, Key>& Map<Value, Key>::operator=(const Map& orig)
 }
 
 template <class Value, class Key>
-typename Map<Value, Key>::Node* Map<Value, Key>::findClosestMatch(const Key& key)
+typename Map<Value, Key>::Node* Map<Value, Key>::findClosestMatch(const Key& key) const
 {
 	if(root == 0x0)
 	{
@@ -308,7 +308,7 @@ typename Map<Value, Key>::Node* Map<Value, Key>::findClosestMatch(const Key& key
 }
 
 template <class Value, class Key>
-typename Map<Value, Key>::Node* Map<Value, Key>::findUncle(Node* node)
+typename Map<Value, Key>::Node* Map<Value, Key>::findUncle(Node* node) const
 {
 	Node* grandparent = findGrandparent(node);
 	if(grandparent == 0x0)
@@ -325,7 +325,7 @@ typename Map<Value, Key>::Node* Map<Value, Key>::findUncle(Node* node)
 	}
 }
 template <class Value, class Key>
-typename Map<Value, Key>::Node* Map<Value, Key>::findGrandparent(Node* node)
+typename Map<Value, Key>::Node* Map<Value, Key>::findGrandparent(Node* node) const
 {
 	if(node->parent != 0x0)
 	{
@@ -337,7 +337,7 @@ typename Map<Value, Key>::Node* Map<Value, Key>::findGrandparent(Node* node)
 	}
 }
 template <class Value, class Key>
-typename Map<Value, Key>::Node* Map<Value, Key>::findSibling(Node* node)
+typename Map<Value, Key>::Node* Map<Value, Key>::findSibling(Node* node) const
 {
 	if(node == node->parent->left)
 	{

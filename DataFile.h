@@ -42,7 +42,7 @@ public:
 	
 	void insertObject(DataFile::Object* obj);
 	void updateObject(DataFile::Object* obj);
-	Object* getObject(const String& name);
+	Object* getObject(const String& name) const;
 	void removeObject(const String& name);
 	
 	Map<Object*, String>::Iterator begin();

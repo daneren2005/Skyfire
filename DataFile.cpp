@@ -161,7 +161,7 @@ void DataFile::updateObject(DataFile::Object* obj)
 	objects.remove(obj->name);
 	objects.insert(obj, obj->name);
 }
-DataFile::Object* DataFile::getObject(const String& name)
+DataFile::Object* DataFile::getObject(const String& name) const
 {
 	return objects.search(name);
 }
