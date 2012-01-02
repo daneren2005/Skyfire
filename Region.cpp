@@ -34,6 +34,10 @@ void Region::load()
 {
 	
 }
+void Region::load(const DataFile& world)
+{	
+	
+}
 
 void Region::update(double interval)
 {

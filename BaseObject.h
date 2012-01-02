@@ -21,6 +21,7 @@
 #include "Mesh.h"
 #include "Matrix4.h"
 #include "Vector.h"
+#include "DataFile.h"
 
 class Region;
 class Camera;
@@ -62,8 +63,10 @@ public:
 	virtual Matrix4 getTransformInverse();
 	// Called when trying to draw the object on the screen
 	virtual void draw();
-	// Called when intializing an object (loading model data, etc)
-	virtual void load() = 0;
+	// Called when initializing an object (loading model data, etc)
+	virtual void load();
+	// Called when initializing an object based off of a DataFile::Object
+	virtual void load(DataFile::Object* unit, DataFile::Object* instance);
 	// Called to get a generic Bounding Box around a object
 	virtual AxisAlignedBox getBoundingBox();
 

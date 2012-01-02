@@ -218,6 +218,15 @@ void BaseObject::draw()
 	glPopMatrix();
 }
 
+void BaseObject::load()
+{
+	
+}
+void BaseObject::load(DataFile::Object* unit, DataFile::Object* obj)
+{
+	
+}
+
 AxisAlignedBox BaseObject::getBoundingBox()
 {
 	return this->model->getBoundingBox().transform(this->position, this->directionForward);
