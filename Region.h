@@ -30,7 +30,7 @@ public:
 	virtual ~Region();
 
 	virtual void load();
-	virtual void load(const DataFile& world);
+	virtual void load(DataFile& world);
 	virtual void update(double interval);
 	virtual void draw();
 
