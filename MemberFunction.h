@@ -37,6 +37,7 @@ public:
 
 	MemberFunction& operator=(Return(Object::*function)(Param));
 	MemberFunction& operator=(const MemberFunction& rhs);
+	operator Function<Return, Param>();
 private:
 	class MemberPointer;
 
@@ -117,6 +118,14 @@ MemberFunction<Object, Return, Param>& MemberFunction<Object, Return, Param>::op
 	o = rhs.o;
 	
 	return *this;
+}
+
+template <class Object, class Return, class Param>
+MemberFunction<Object, Return, Param>::operator Function<Return, Param>()
+{
+	Function<Return, Param> function;
+	function.value = value;
+	return function;
 }
 
 template <class Object, class Return, class Param>
