@@ -31,20 +31,21 @@ public:
 	Array(const Array& orig);
 	virtual ~Array();
 
-	virtual T& operator[](unsigned col);
-	virtual const T& operator[](unsigned col) const; 
+	virtual T& operator[](ulong col);
+	virtual const T& operator[](ulong col) const; 
 	virtual T get(ulong col) const;	
 
-	ulong size();
 	ulong size() const;
-	ulong reserved();
 	ulong reserved() const;
+	void resize(ulong newSize);
+	void reserve(ulong newAllocated);
 
 	void insert(const T& value);
+	T remove();
 	void sort();
 	template <class Compare>
 	void sort(Compare c);
-	void resize(ulong newSize);
+	void swap(ulong i, ulong j);
 
 	T* getPointer();
 	const T* getPointer() const;
@@ -85,11 +86,12 @@ Array<T>::Array(const Array<T> &orig)
 template <class T>
 Array<T>::~Array()
 {
+	// TODO: Find way to safely delete old array
 	// delete[] array;
 }
 
 template <class T>
-T& Array<T>::operator[](unsigned col)
+inline T& Array<T>::operator[](ulong col)
 {
 	if(col > this->used)
 		this->used = col + 1;
@@ -98,7 +100,7 @@ T& Array<T>::operator[](unsigned col)
 }
 
 template <class T>
-const T& Array<T>::operator[](unsigned col) const
+inline const T& Array<T>::operator[](ulong col) const
 {
 	return this->array[col];
 }
@@ -109,25 +111,40 @@ T Array<T>::get(ulong col) const
 }
 
 template <class T>
-ulong Array<T>::size()
-{
-	return this->used;
-}
-template <class T>
 ulong Array<T>::size() const
-{
-	return this->used;
-}
-
-template <class T>
-ulong Array<T>::reserved()
 {
 	return this->used;
 }
 template <class T>
 ulong Array<T>::reserved() const
 {
-	return this->used;
+	return this->allocated;
+}
+
+template <class T>
+void Array<T>::resize(ulong newSize)
+{
+	if(allocated < newSize)
+		this->reserve(newSize);
+
+	this->used = newSize;
+}
+template <class T>
+void Array<T>::reserve(ulong newAllocated)
+{
+	T* toDelete = this->array;
+	this->array = new T[newAllocated];
+	this->allocated = newAllocated;
+	if(newAllocated < this->used)
+		this->used = newAllocated;
+
+	for(ulong i = 0; i < this->used; i++)
+	{
+		this->array[i] = toDelete[i];
+	}
+
+	// TODO: find a way to safely delete old array
+	// delete[] toDelete;
 }
 
 template <class T>
@@ -135,11 +152,26 @@ void Array<T>::insert(const T& value)
 {
 	if(this->used >= this->allocated)
 	{
-		this->resize(this->allocated * 2);
+		this->reserve(this->allocated * 2);
 	}
 
 	this->array[this->used] = value;
 	this->used++;
+}
+
+template <class T>
+T Array<T>::remove()
+{
+	used--;
+
+	if(used < allocated / 4)
+	{
+		T value = array[used + 1];
+		this->reserve(allocated / 2);
+		return value;
+	}
+
+	return array[used + 1];
 }
 
 template <class T>
@@ -215,23 +247,11 @@ void Array<T>::sort(Compare c)
 }
 
 template <class T>
-void Array<T>::resize(ulong newSize)
+void Array<T>::swap(ulong i, ulong j)
 {
-	T* toDelete = this->array;
-	this->array = new T[newSize];
-	for(ulong i = 0; i < this->used && i < newSize; i++)
-	{
-		this->array[i] = toDelete[i];
-	}
-	
-	this->allocated = newSize;
-	if(newSize < this->used)
-	{
-		this->used = newSize;
-	}
-
-	// TODO: find a way to safely delete old array
-	// delete[] toDelete;
+	T temp = array[i];
+	array[i] = array[j];
+	array[j] = temp;
 }
 
 template <class T>

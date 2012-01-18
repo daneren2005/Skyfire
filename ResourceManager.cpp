@@ -290,7 +290,7 @@ MeshPointer ResourceManager::loadObj(File file)
 
 					if(meshPart->size() != 0)
 					{
-						meshPart->resize(meshPart->size());
+						meshPart->reserve(meshPart->size());
 						mesh->insert(meshPart);
 						meshPart = new MeshPart(10);
 					}
@@ -306,9 +306,9 @@ MeshPointer ResourceManager::loadObj(File file)
 
 	file.close();
 
-	meshPart->resize(meshPart->size());
+	meshPart->reserve(meshPart->size());
 	mesh->insert(meshPart);
-	// mesh->resize(mesh->size());
+	// mesh->reserve(mesh->size());
 
 	mesh->computeBoundingBox();
 	return mesh;
