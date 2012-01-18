@@ -31,7 +31,9 @@ public:
 	Map(const Map& orig);
 	~Map();
 
+	bool empty() const;
 	long size() const;
+	
 	void insert(const Value& value, const Key& key);
 	Value remove(const Key& key);
 	Value search(const Key& key) const;
@@ -119,6 +121,11 @@ Map<Value, Key>::~Map()
 	recursiveRemove(root);
 }
 
+template <class Value, class Key>
+bool Map<Value, Key>::empty() const
+{
+	return root == 0x0;
+}
 template <class Value, class Key>
 long Map<Value, Key>::size() const
 {

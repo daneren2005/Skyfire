@@ -35,6 +35,7 @@ public:
 	virtual const T& operator[](ulong col) const; 
 	virtual T get(ulong col) const;	
 
+	bool empty() const;
 	ulong size() const;
 	ulong reserved() const;
 	void resize(ulong newSize);
@@ -42,6 +43,7 @@ public:
 
 	void insert(const T& value);
 	T remove();
+	bool exists(const T& value);
 	void sort();
 	template <class Compare>
 	void sort(Compare c);
@@ -111,6 +113,11 @@ T Array<T>::get(ulong col) const
 }
 
 template <class T>
+bool Array<T>::empty() const
+{
+	return this->used == 0;
+}
+template <class T>
 ulong Array<T>::size() const
 {
 	return this->used;
@@ -172,6 +179,17 @@ T Array<T>::remove()
 	}
 
 	return array[used + 1];
+}
+template <class T>
+bool Array<T>::exists(const T& value)
+{
+	for(ulong i = 0; i < used; i++)
+	{
+		if(value == array[i])
+			return true;
+	}
+	
+	return false;
 }
 
 template <class T>

@@ -46,7 +46,9 @@ public:
 	void pushBack(const T& value);
 	T popFront();
 	T popBack();
-	void remove(T value);
+	void insert(const T& value);
+	void remove(const T& value);
+	bool exists(const T& value);
 	void sort();
 	template <class Compare>
 	void sort(Compare c);
@@ -382,7 +384,12 @@ T List<T>::popBack()
 }
 
 template <class T>
-void List<T>::remove(T value)
+inline void List<T>::insert(const T& value)
+{
+	this->pushBack(value);
+}
+template <class T>
+void List<T>::remove(const T& value)
 {
 	// Lock head since starting there
 	headLock.lock();
@@ -476,6 +483,43 @@ void List<T>::remove(T value)
 	countLock.lock();
 	count--;
 	countLock.unlock();
+}
+template <class T>
+bool List<T>::exists(const T& value)
+{
+	// Lock head since starting there
+	headLock.lock();
+	if(head == 0x0)
+	{
+		headLock.unlock();
+		return false;
+	}
+	
+	Node* current = head;
+	current->lock.readLock();
+	headLock.unlock();
+	
+	while(current->next != 0x0)
+	{
+		if(current->value == value)
+		{
+			current->lock.unlock();
+			return true;
+		}
+		
+		current->next->lock.lock();
+		current = current->next;
+		current->prev->lock.unlock();
+	}
+	
+	if(current->value == value)
+	{
+		current->lock.unlock();
+		return true;
+	}
+
+	current->lock.unlock();
+	return false;
 }
 
 template <class T>

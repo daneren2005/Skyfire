@@ -32,9 +32,11 @@ public:
 	PriorityQueue(const PriorityQueue<T, Compare>& orig);
 	~PriorityQueue();
 
-	void insert(T value);
+	void insert(const T& value);
 	T remove();
 	T peek();
+	bool exists(const T& value);
+	
 	ulong size();
 	bool empty();
 
@@ -122,7 +124,7 @@ PriorityQueue<T, Compare>::~PriorityQueue()
 }
 
 template <class T, class Compare>
-void PriorityQueue<T, Compare>::insert(T value)
+void PriorityQueue<T, Compare>::insert(const T& value)
 {
 	// Starting out
 	if(root == 0x0)
@@ -237,6 +239,17 @@ template <class T, class Compare>
 T PriorityQueue<T, Compare>::peek()
 {
 	return root->value[0];
+}
+template <class T, class Compare>
+bool PriorityQueue<T, Compare>::exists(const T& value)
+{
+	for(PriorityQueue<T, Compare>::Iterator it = this->begin(); !it; it++)
+	{
+		if(it.value() == value)
+			return true;
+	}
+	
+	return false;
 }
 
 template <class T, class Compare>
