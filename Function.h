@@ -39,6 +39,7 @@ public:
 	template <class Object>
 	void setFunction(const Object& o);
 	void setFunction(Return(*function)(Param));
+	bool isSet();
 	Return execute(Param param);
 
 	Return operator()(Param param);
@@ -93,6 +94,11 @@ template <class Return, class Param>
 inline void Function<Return, Param>::setFunction(Return(*function)(Param))
 {
 	(*this) = function;
+}
+template <class Return, class Param>
+inline bool Function<Return, Param>::isSet()
+{
+	return value != 0x0;
 }
 template <class Return, class Param>
 Return Function<Return, Param>::execute(Param param)
