@@ -22,16 +22,17 @@
 #include <pthread.h>
 #include "Timer.h"
 #include "Types.h"
+#include "Function.h"
 
 class Thread
 {
 public:
 	Thread();
 
-	void start(void(*function)(Thread*), GenericType arg);
-	void start(void(*function)(Thread*), GenericType arg, void(*startFunction)(Thread*));
-	void startMain(void(*function)(Thread*), GenericType arg);
-	void startMain(void(*function)(Thread*), GenericType arg, void(*startFunction)(Thread*));
+	void start(Function<void, Thread*> function, GenericType arg);
+	void start(Function<void, Thread*> function, GenericType arg, Function<void, Thread*> startFunction);
+	void startMain(Function<void, Thread*> function, GenericType arg);
+	void startMain(Function<void, Thread*> function, GenericType arg, Function<void, Thread*> startFunction);
 	void stop();
 	void pause();
 	void resume();
@@ -42,6 +43,10 @@ public:
 	GenericType getArg();
 
 	void setTicksPerSecond(int ticks = 0);
+	void setTimeBetweenTicks(double seconds = 0);
+	// Get set tick period
+	double getTimeBetweenTicks();
+	// Get how many times per second thread is running
 	int getTicksPerSecond();
 	
 	static void currentSleep(double seconds);
@@ -50,8 +55,8 @@ private:
 
 	bool quit;
 	bool running;
-	void(*function)(Thread*);
-	void(*startFunction)(Thread*);
+	Function<void, Thread*> function;
+	Function<void, Thread*> startFunction;
 	pthread_t id;
 
 	static void* threadFunction(void* arg);

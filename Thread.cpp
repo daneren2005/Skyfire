@@ -20,8 +20,6 @@
 
 Thread::Thread()
 {
-	this->arg = NULL;
-
 	this->quit = false;
 	this->running = false;
 
@@ -31,18 +29,17 @@ Thread::Thread()
 	this->sleepTime = 0;
 }
 
-void Thread::start(void(*function)(Thread*), GenericType arg)
+void Thread::start(Function<void, Thread*> function, GenericType arg)
 {
 	this->arg = arg;
 	this->running = true;
 	this->quit = false;
 	this->function = function;
-	this->startFunction = NULL;
 	clock.start();
 
 	pthread_create(&this->id, NULL, threadFunction, (void*) this);
 }
-void Thread::start(void(*function)(Thread*), GenericType arg, void(*startFunction)(Thread*))
+void Thread::start(Function<void, Thread*> function, GenericType arg, Function<void, Thread*> startFunction)
 {
 	this->arg = arg;
 	this->quit = false;
@@ -54,18 +51,17 @@ void Thread::start(void(*function)(Thread*), GenericType arg, void(*startFunctio
 	pthread_create(&this->id, NULL, threadFunction, (void*) this);
 }
 
-void Thread::startMain(void(*function)(Thread*), GenericType arg)
+void Thread::startMain(Function<void, Thread*> function, GenericType arg)
 {
 	this->arg = arg;
 	this->running = true;
 	this->quit = false;
 	this->function = function;
-	this->startFunction = NULL;
 	clock.start();
 
 	Thread::threadFunction((void*)this);
 }
-void Thread::startMain(void(*function)(Thread*), GenericType arg, void(*startFunction)(Thread*))
+void Thread::startMain(Function<void, Thread*> function, GenericType arg, Function<void, Thread*> startFunction)
 {
 	this->arg = arg;
 	this->quit = false;
@@ -101,7 +97,7 @@ void Thread::currentWaitFor()
 
 void Thread::sleep(double seconds)
 {
-	sleepTime = seconds * 1000;
+	sleepTime = (ulong)(seconds * 1000);
 }
 
 GenericType Thread::getArg()
@@ -113,6 +109,14 @@ void Thread::setTicksPerSecond(int ticks)
 {
 	this->period = (ticks != 0) ? 1.0 / ticks : 0;
 }
+void Thread::setTimeBetweenTicks(double seconds)
+{
+	this->period = seconds;
+}
+double Thread::getTimeBetweenTicks()
+{
+	return this->period;
+}
 int Thread::getTicksPerSecond()
 {
 	return returnCounter;
@@ -120,7 +124,7 @@ int Thread::getTicksPerSecond()
 
 void Thread::currentSleep(double seconds)
 {
-	ulong sleepTime = seconds * 1000;
+	ulong sleepTime = (ulong)(seconds * 1000);
 	#ifdef WIN32
 		Sleep(sleepTime);
 	#endif
@@ -132,8 +136,7 @@ void Thread::currentSleep(double seconds)
 void* Thread::threadFunction(void* arg)
 {
 	Thread* thread = (Thread*)arg;
-
-	if(thread->startFunction != NULL)
+	if(thread->startFunction.isSet())
 		thread->startFunction(thread);
 	
 	while(!thread->quit)
@@ -172,7 +175,7 @@ void* Thread::threadFunction(void* arg)
 				// Only run if it took less than the period time
 				if(thread->period > diff)
 				{
-					int sleepTime = (thread->period - diff) * 1000;
+					ulong sleepTime = (ulong)((thread->period - diff) * 1000);
 					#ifdef WIN32
 						Sleep(sleepTime);
 					#endif
