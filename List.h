@@ -666,7 +666,7 @@ List<T>& List<T>::operator=(List& orig)
 	}
 	else
 	{
-		this->tail->node = current;
+		this->tail = current;
 	}
 
 	orig.countLock.lock();
