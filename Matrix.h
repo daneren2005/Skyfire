@@ -26,7 +26,7 @@ public:
 	Matrix(unsigned int dimensions);
 	Matrix(unsigned int dimensions, float* matrix);
 	Matrix(const Matrix& orig);
-	~Matrix();
+	virtual ~Matrix();
 
 	float* operator[](unsigned col);
 	const float* operator[](unsigned col) const;

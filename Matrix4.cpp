@@ -27,6 +27,10 @@ Matrix4::Matrix4(float* matrix) : Matrix(4, matrix)
 
 Matrix4::Matrix4(const Matrix& orig) : Matrix(orig)
 { }
+Matrix4::~Matrix4()
+{
+	delete this->matrix;
+}
 
 Matrix Matrix4::identity()
 {

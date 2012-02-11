@@ -78,6 +78,7 @@ Matrix& Matrix::operator=(const Matrix& orig)
 	}
 	this->size = orig.size;
 	this->dim = orig.dim; 
+	return *this;
 }
 
 Matrix Matrix::operator*(const Matrix& rhs) const

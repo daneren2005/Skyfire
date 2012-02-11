@@ -28,6 +28,7 @@ public:
 	Matrix4();
 	Matrix4(float* matrix);
 	Matrix4(const Matrix& orig);
+	virtual ~Matrix4();
 
 	static Matrix identity();
 
