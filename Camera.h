@@ -36,6 +36,10 @@ public:
 	virtual void draw();
 	virtual void update(double interval);
 	virtual void load();
+	
+	Vector projectMouseBack(int x, int y);
+	// Plane projectMousePlane(int x, int y, Vector v);
+	Ray projectMouseRay(int x, int y);
 
 	BaseObject* getObjectAt(int x, int y);
 	Array<BaseObject*> getOBjectsIn(int x, int y, int width, int height);

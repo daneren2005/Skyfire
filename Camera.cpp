@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <float.h>
 
 Camera::Camera() : BaseObject()
 {
@@ -87,29 +88,61 @@ void Camera::load()
 	
 }
 
+Vector Camera::projectMouseBack(int x, int y)
+{
+	GLdouble model_view[16];
+	GLint viewport[4];
+	GLdouble projection[16];
+
+	GLfloat winX, winY, winZ;
+	GLdouble dx, dy, dz;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, model_view);
+	glGetDoublev(GL_PROJECTION_MATRIX, projection);
+	glGetIntegerv(GL_VIEWPORT, viewport);
+
+	winX = (float)x;
+	winY = (float)viewport[3] - (float)y;
+
+	glReadPixels ((int)x, (int)winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ); 
+	gluUnProject(winX, winY, 1, model_view, projection, viewport, &dx, &dy, &dz);
+
+	return Vector(dx, -dy, dz);
+}
+Ray Camera::projectMouseRay(int x, int y)
+{
+	GLdouble model_view[16];
+	GLint viewport[4];
+	GLdouble projection[16];
+
+	GLfloat winX, winY, winZ;
+	GLdouble dx, dy, dz, bx, by, bz;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, model_view);
+	glGetDoublev(GL_PROJECTION_MATRIX, projection);
+	glGetIntegerv(GL_VIEWPORT, viewport);
+
+	winX = (float)x;
+	winY = (float)viewport[3] - (float)y;
+
+	glReadPixels ((int)x, (int)winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ); 
+	gluUnProject(winX, winY, 0, model_view, projection, viewport, &bx, &by, &bz);
+	gluUnProject(winX, winY, 1, model_view, projection, viewport, &dx, &dy, &dz);
+
+	return Ray(Vector(bx, by, bz), Vector(dx, -dy, dz));
+}
+
 BaseObject* Camera::getObjectAt(int x, int y)
 {
 	if(activeRegion == 0x0)
 		return 0x0;
 	
-	int width2 = 1280 / 2;
-	int height2 = 720 / 2;
-	float z = height2 / tan(M_PI/8.0f);
-	
 	// Projection of point
-	Ray ray(Vector(), Vector(float(x - width2) + 0.5f, float(height2 - y) + 0.5f, -z));
+	Ray ray = projectMouseRay(x, y);
 	console << ray << newline;
-	Vector s;
-	Vector r(float(x - width2) + 0.5f, float(y - height2) + 0.5f, -z);
-	
-	// Transform points to world coordinates
-	Matrix4 transform = this->getTransform();
-	s = transform * s;
-	r = transform * s;
 	
 	// Farthest out the point could have hit
-	float minT = 100000.0f;
-	
+	float minT = FLT_MAX;
 	BaseObject* object = 0x0;
 	
 	for(List<BaseObject*>::Iterator it = activeRegion->objects.begin(); !it; it++)
