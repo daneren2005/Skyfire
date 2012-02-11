@@ -40,14 +40,21 @@ public:
 	void setFunction(const Object& o);
 	void setFunction(Return(*function)(Param));
 	bool isSet();
-	Return execute(Param param);
 
+	Return execute(Param param);
 	Return operator()(Param param);
+	template <class Return2, class Param2>
+	operator Function<Return2, Param2>() const;
 
 	template <class Object>
 	Function& operator=(const Object& o);
 	Function& operator=(Return(*function)(Param));
 	Function& operator=(const Function& rhs);
+	template <class Return2, class Param2>
+	Function& operator=(const Function<Return2, Param2>& rhs);
+
+	template <class Return2, class Param2>
+	friend class Function;
 protected:
 	class ValueBase;
 	template <class Object>
@@ -114,6 +121,14 @@ inline Return Function<Return, Param>::operator()(Param param)
 
 	return (*value)(param);
 }
+template <class Return, class Param>
+template <class Return2, class Param2>
+Function<Return, Param>::operator Function<Return2, Param2>() const
+{
+	Function<Return2, Param2> func;
+	func->value = this->val;
+	return func;
+}
 
 template <class Return, class Param>
 template <class Object>
@@ -132,6 +147,13 @@ Function<Return, Param>& Function<Return, Param>::operator=(Return(*function)(Pa
 
 template <class Return, class Param>
 Function<Return, Param>& Function<Return, Param>::operator=(const Function& rhs)
+{
+	value = rhs.value;
+	return *this;
+}
+template <class Return, class Param>
+template <class Return2, class Param2>
+Function<Return, Param>& Function<Return, Param>::operator=(const Function<Return2, Param2>& rhs)
 {
 	value = rhs.value;
 	return *this;

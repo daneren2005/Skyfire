@@ -37,7 +37,15 @@ public:
 
 	MemberFunction& operator=(Return(Object::*function)(Param));
 	MemberFunction& operator=(const MemberFunction& rhs);
-	operator Function<Return, Param>();
+	template <class Object2, class Return2, class Param2>
+	MemberFunction& operator=(const MemberFunction<Object2, Return2, Param2>& rhs);
+
+	operator Function<Return, Param>() const;
+	template <class Object2, class Return2, class Param2>
+	operator MemberFunction<Object2, Return2, Param2>() const;
+
+	template <class Object2, class Return2, class Param2>
+	friend class MemberFunction;
 private:
 	class MemberPointer;
 
@@ -71,7 +79,7 @@ MemberFunction<Object, Return, Param>::MemberFunction(Return(Object::*function)(
 	this->o = o;
 }
 template <class Object, class Return, class Param>
-MemberFunction<Object, Return, Param>::MemberFunction(const MemberFunction& orig)
+MemberFunction<Object, Return, Param>::MemberFunction(const MemberFunction& orig) : Function<Return, Param>()
 {
 	value = orig.value;
 	o = orig.o;
@@ -119,11 +127,29 @@ MemberFunction<Object, Return, Param>& MemberFunction<Object, Return, Param>::op
 	
 	return *this;
 }
+template <class Object, class Return, class Param>
+template <class Object2, class Return2, class Param2>
+MemberFunction<Object, Return, Param>& MemberFunction<Object, Return, Param>::operator=(const MemberFunction<Object2, Return2, Param2>& rhs)
+{
+	value = rhs.value;
+	o = rhs.o;
+	
+	return *this;
+}
 
 template <class Object, class Return, class Param>
-MemberFunction<Object, Return, Param>::operator Function<Return, Param>()
+MemberFunction<Object, Return, Param>::operator Function<Return, Param>() const
 {
 	Function<Return, Param> function;
+	function.value = value;
+	return function;
+}
+
+template <class Object, class Return, class Param>
+template <class Object2, class Return2, class Param2>
+MemberFunction<Object, Return, Param>::operator MemberFunction<Object2, Return2, Param2>() const
+{
+	MemberFunction<Object2, Return2, Param2> function;
 	function.value = value;
 	return function;
 }
