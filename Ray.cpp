@@ -16,6 +16,7 @@
 */
 
 #include "Ray.h"
+#include "Matrix.h"
 #include <math.h>
 
 Ray::Ray(const Vector& start, const Vector& end)
@@ -35,48 +36,85 @@ Ray::~Ray()
 }
 
 float Ray::getIntersection(const Vector& v1, const Vector& v2, const Vector& v3) const
-{
-	Vector u, v, n;
-	u = v2 - v1;
-	v = v3 - v1;
-	n = u * v;
+{	
+	Vector E = v2 - v1;
+	Vector F = v3 - v1;
 	
-	if(n == Vector())
+	Matrix T(3);
+	T(0, 0) = -E[0];
+	T(1, 0) = -E[1];
+	T(2, 0) = -E[2];
+	T(0, 1) = -F[0];
+	T(1, 1) = -F[1];
+	T(2, 1) = -F[2];
+	T(0, 2) = v1[0] - start[0];
+	T(1, 2) = v1[1] - start[1];
+	T(2, 2) = v1[2] - start[2];
+	
+	Matrix C(3);
+	C(0, 0) = -E[0];
+	C(1, 0) = -E[1];
+	C(2, 0) = -E[2];
+	C(0, 1) = v1[0] - start[0];
+	C(1, 1) = v1[1] - start[1];
+	C(2, 1) = v1[2] - start[2];
+	C(0, 2) = end[0];
+	C(1, 2) = end[1];
+	C(2, 2) = end[2];
+	
+	Matrix B(3);
+	B(0, 0) = v1[0] - start[0];
+	B(1, 0) = v1[1] - start[1];
+	B(2, 0) = v1[2] - start[2];
+	B(0, 1) = -F[0];
+	B(1, 1) = -F[1];
+	B(2, 1) = -F[2];
+	B(0, 2) = end[0];
+	B(1, 2) = end[1];
+	B(2, 2) = end[2];
+	
+	Matrix A(3);
+	A(0, 0) = -E[0];
+	A(1, 0) = -E[1];
+	A(2, 0) = -E[2];
+	A(0, 1) = -F[0];
+	A(1, 1) = -F[1];
+	A(2, 1) = -F[2];
+	A(0, 2) = end[0];
+	A(1, 2) = end[1];
+	A(2, 2) = end[2];
+	
+	float detT = T.getDet();
+	float detA = A.getDet();
+	float detB = B.getDet();
+	float detC = C.getDet();
+	
+	float t = detT / detA;
+	float beta = detB / detA;
+	float ceti = detC / detA;
+	
+	if(t > 0)
+	{
+		if(beta > 0 && ceti > 0)
+		{
+			if(beta + ceti < 1)
+			{
+				return t;
+			}
+			else
+			{
+				return -1.0f;
+			}
+		}
+		else
+		{
+			return -1.0f;
+		}
+	}
+	else
+	{
 		return -1.0f;
-	
-	Vector dir = end - start;
-	Vector w1 = start - v1;
-	
-	float a = -n.dot(w1);
-	float b = n.dot(dir);
-	if(fabs(b) < 0.00000001)
-		return -1.0f;
-	
-	float r = a / b;
-	if(r < 0.0f)
-		return -1.0f;
-	
-	Vector end = dir * r;
-	Vector intersect = start + end;
-	
-	float uu = u.dot(u);
-	float uv = u.dot(v);
-	float vv = v.dot(v);
-	
-	Vector w2 = intersect + end;
-	float wu = w2.dot(u);
-	float wv = w2.dot(v);
-	float D = uv * uv - uu * vv;
-	
-	float s, t;
-	s = (uv * wv - vv * wu) / D;
-	if (s < 0.0 || s > 1.0)
-        return -1.0f;
-    t = (uv * wu - uu * wv) / D;
-    if (t < 0.0 || (s + t) > 1.0)
-        return -1.0f;
-
-    return end.magnitude();
+	}
 }
 
 Console& operator<<(Console& c, const Ray& ray)
