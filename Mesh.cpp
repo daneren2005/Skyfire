@@ -16,8 +16,8 @@
 */
 
 #include "Mesh.h"
-#include "const.h"
 #include "Vector.h"
+#include <float.h>
 
 Mesh::Mesh() : Model()
 {
@@ -50,8 +50,8 @@ long Mesh::size()
 
 void Mesh::computeBoundingBox()
 {
-	Vector minV(MAXFLOAT, MAXFLOAT, MAXFLOAT);
-	Vector maxV(MINFLOAT, MINFLOAT, MINFLOAT);
+	Vector minV(FLT_MAX, FLT_MAX, FLT_MAX);
+	Vector maxV(FLT_MIN, FLT_MIN, FLT_MIN);
 	for(unsigned int i = 0; i < meshParts.size(); i++)
 	{
 		MeshPartPointer mesh = meshParts[i];
@@ -133,7 +133,7 @@ float Mesh::getRayIntersection(const Ray& ray, const Matrix4& transform)
 		MeshPartPointer meshPart = meshParts[i];
 		for(ulong j = 0; j + 3 < meshPart->size(); j += 3)
 		{
-			// console << (transform * meshPart->get(j).position) << newline;
+			// console << (transform * meshPart->get(j).position) << "  " << (transform * meshPart->get(j + 1).position) << "  " << (transform * meshPart->get(j + 2).position) << newline;
 			float t = ray.getIntersection(transform * meshPart->get(j).position, transform * meshPart->get(j+1).position, transform * meshPart->get(j+2).position);
 			if(t > 0.0f)
 				return t;

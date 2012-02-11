@@ -16,7 +16,6 @@
 */
 
 #include "Quaternion.h"
-#include "const.h"
 #include <cmath>
 
 #include <iostream>
@@ -31,9 +30,9 @@ Quaternion::Quaternion()
 
 Quaternion::Quaternion(float x, float y, float z)
 {
-	float xAngle = (x / 180.0f) * PI;
-	float yAngle = (y / 180.0f) * PI;
-	float zAngle = (z / 180.0f) * PI;
+	float xAngle = (x / 180.0f) * M_PI;
+	float yAngle = (y / 180.0f) * M_PI;
+	float zAngle = (z / 180.0f) * M_PI;
 
 	pos[0] = std::sin(yAngle) * std::cos(xAngle) * std::cos(zAngle) - std::cos(yAngle) * std::sin(xAngle) * std::sin(zAngle);
 	pos[1] = std::cos(yAngle) * std::sin(xAngle) * std::cos(zAngle) + std::sin(yAngle) * std::cos(xAngle) * std::sin(zAngle);
@@ -45,7 +44,7 @@ Quaternion::Quaternion(float x, float y, float z)
 
 Quaternion::Quaternion(float x, float y, float z, float degrees)
 {
-	float angle = ((degrees / 180.0f) * PI);
+	float angle = ((degrees / 180.0f) * M_PI);
 	float result = std::sin(angle  / 2.0f);
 
 	pos[3] = std::cos(angle / 2.0f);
