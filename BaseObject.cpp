@@ -21,7 +21,6 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL/SDL.h>
-#include "const.h"
 #include <cmath>
 
 #include "Camera.h"
