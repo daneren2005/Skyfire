@@ -66,7 +66,7 @@ float Vector::z() const
 // Vector::operator Overloading
 float& Vector::operator[](unsigned col)
 {
-	if(col >= 0 && col < 3)
+	if(col < 3)
 	{
 		return pos[col];
 	}
@@ -78,7 +78,7 @@ float& Vector::operator[](unsigned col)
 
 const float& Vector::operator[](unsigned col) const
 {
-	if(col >= 0 && col < 3)
+	if(col < 3)
 	{
 		return pos[col];
 	}

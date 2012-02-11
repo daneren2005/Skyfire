@@ -15,8 +15,8 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _VECTOR_H
-#define	_VECTOR_H
+#ifndef _VECTOR_H__
+#define	_VECTOR_H__
 
 #ifdef WIN32
     #include <windows.h>
@@ -72,7 +72,11 @@ public:
 	
 	friend Console& operator<<(Console& console, const Vector& vector);
 private:
-	float pos[3];
+	#if defined __linux__ || defined __MINGW32__
+        float pos[4] __attribute__ ((aligned (16)));
+    #elif defined WIN32
+        __declspec(align(16)) float pos[4];
+    #endif
 };
 
 #endif	/* _VECTOR_H */
