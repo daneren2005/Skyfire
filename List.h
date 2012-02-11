@@ -40,7 +40,7 @@ public:
 	T front();
 	T back();
 	bool empty();
-	long size();
+	ulong size();
 
 	void pushFront(const T& value);
 	void pushBack(const T& value);
@@ -83,7 +83,7 @@ private:
 	Node* tail;
 
 	// Running size counter
-	long count;
+	ulong count;
 
 	// Locks
 	Lock countLock;
@@ -213,11 +213,11 @@ bool List<T>::empty()
 }
 
 template <class T>
-long List<T>::size()
+ulong List<T>::size()
 {
 	// Single operation, shouldn't need a lock
 	countLock.lock();
-	long value = this->count;
+	ulong value = this->count;
 	countLock.unlock();
 	return value;
 }
