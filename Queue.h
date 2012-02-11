@@ -44,16 +44,21 @@ public:
 	T remove();
 	// Remove value, wait on empty
 	T removeWait();
+	bool search(const T& value);
 
 	// Get size
 	ulong size();
 	// Get size of buffer
 	ulong reserved();
+	bool empty();
 
 	void waitTillEmpty();
 	ulong waitingThreads();
 
 	Queue& operator=(Queue& rhs);
+
+	class Iterator;
+	Iterator begin();
 protected:
 	T* array;
 	ulong _front;
@@ -61,7 +66,7 @@ protected:
 	ulong allocated;
 
 	Lock lock;
-	Condition empty, full;
+	Condition _empty, _full;
 	ulong waiting;
 };
 
@@ -159,13 +164,22 @@ void Queue<T>::insert(const T& value)
 		array = newArray;
 	}
 
-	empty.signal();
+	_empty.signal();
 	lock.unlock();
 }
 template <class T>
 void Queue<T>::insertWait(const T& value)
 {
 	lock.lock();
+	// Out of room, wait for room
+	ulong temp = _back + 1;
+	while((temp == _front) || (temp >= allocated && _front == 0))
+	{
+		waiting++;
+		_full.wait(lock);
+		waiting--;
+	}
+
 	array[_back] = value;
 
 	_back++;
@@ -174,15 +188,8 @@ void Queue<T>::insertWait(const T& value)
 	{
 		_back = 0;
 	}
-	// Out of room, resize
-	while(_back == _front)
-	{
-		waiting++;
-		full.wait(lock);
-		waiting--;
-	}
 
-	empty.signal();
+	_empty.signal();
 	lock.unlock();
 }
 
@@ -207,7 +214,7 @@ T Queue<T>::frontWait()
 	while(_front == _back)
 	{
 		waiting++;
-		empty.wait(lock);
+		_empty.wait(lock);
 		waiting--;
 	}
 
@@ -231,7 +238,7 @@ T Queue<T>::remove()
 	if(_front >= allocated)
 		_front = 0;
 
-	full.signal();
+	_full.signal();
 	lock.unlock();
 	return val;
 }
@@ -242,7 +249,7 @@ T Queue<T>::removeWait()
 	while(_front == _back)
 	{
 		waiting++;
-		empty.wait(lock);
+		_empty.wait(lock);
 		waiting--;
 	}
 
@@ -252,9 +259,49 @@ T Queue<T>::removeWait()
 	if(_front >= allocated)
 		_front = 0;
 
-	full.signal();
+	_full.signal();
 	lock.unlock();
 	return val;
+}
+template <class T>
+bool Queue<T>::search(const T& value)
+{
+	lock.lock();
+	if(_back == _front)
+	{
+		lock.unlock();
+		return false;
+	}
+
+	ulong end;
+	if(_back > _front)
+		end = _back;
+	else
+		end = allocated;
+
+	for(ulong i = _front; i < end; i++)
+	{
+		if(array[i] == value)
+		{
+			lock.unlock();
+			return true;
+		}
+	}
+
+	if(_back != end)
+	{
+		for(ulong i = 0; i < _back; i++)
+		{
+			if(array[i] == value)
+			{
+				lock.unlock();
+				return true;
+			}
+		}
+	}
+	
+	lock.unlock();
+	return false;
 }
 
 template <class T>
@@ -274,6 +321,14 @@ ulong Queue<T>::reserved()
 {
 	return allocated;
 }
+template <class T>
+bool Queue<T>::empty()
+{
+	lock.lock();
+	bool val = _back == _front;
+	lock.unlock();
+	return val;
+}
 
 template <class T>
 void Queue<T>::waitTillEmpty()
@@ -281,7 +336,9 @@ void Queue<T>::waitTillEmpty()
 	lock.lock();
 	while(_front != _back)
 	{
-		full.wait(lock);
+		waiting++;
+		_full.wait(lock);
+		waiting--;
 	}
 	lock.unlock();
 }
@@ -328,6 +385,26 @@ Queue<T>& Queue<T>::operator=(Queue& rhs)
 	rhs.lock.unlock();
 	this->lock.unlock();
 	return *this;
+}
+
+template <class T>
+class Queue<T>::Iterator
+{
+public:
+	Iterator(Queue<T>* queue)
+	{
+		this->queue = queue;
+		pos = queue->_front;
+	}
+private:
+	Queue<T>* queue;
+	ulong pos;
+};
+
+template <class T>
+typename Queue<T>::Iterator Queue<T>::begin()
+{
+	return Iterator(this);
 }
 
 #endif
