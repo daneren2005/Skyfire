@@ -1,4 +1,5 @@
 #include "GenericType.h"
+#include "Console.h"
 
 GenericType::GenericType()
 {
@@ -6,11 +7,15 @@ GenericType::GenericType()
 }
 GenericType::GenericType(const GenericType& orig)
 {
-	this->value = orig.value->copy();
+	if(orig.value == 0x0)
+		this->value = 0x0;
+	else
+		this->value = orig.value->copy();
 }
 GenericType::~GenericType()
 {
-	delete value;
+	if(this->value != 0x0)
+		delete value;
 }
 
 GenericType& GenericType::operator=(const GenericType& rhs)
@@ -18,7 +23,10 @@ GenericType& GenericType::operator=(const GenericType& rhs)
 	if(this->value != 0x0)
 		delete this->value;
 
-	this->value = rhs.value->copy();
+	if(rhs.value == 0x0)
+		this->value = 0x0;
+	else
+		this->value = rhs.value->copy();
 	return *this;
 }
 
