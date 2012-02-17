@@ -19,34 +19,48 @@
 
 #include "Renderer.h"
 #include "Region.h"
-#include "BaseObject.h"
 
 class Universe;
 
-class Camera : public BaseObject
+class Camera : public Renderer
 {
 public:
 	Camera();
 	Camera(const Camera& orig);
 	virtual ~Camera();
-
-	void setActiveRegion(Region* region);
-	Region* getActiveRegion();
-
-	virtual void draw();
-	virtual void update(double interval);
-	virtual void load();
 	
-	Vector projectMouseBack(int x, int y);
-	// Plane projectMousePlane(int x, int y, Vector v);
-	Ray projectMouseRay(int x, int y);
+	virtual void render();
 
-	BaseObject* getObjectAt(int x, int y);
-	Array<BaseObject*> getOBjectsIn(int x, int y, int width, int height);
+	virtual void setActiveRegion(Region* region);
+	virtual Region* getActiveRegion();
+	
+	// Change position within region
+	// TODO:
+	virtual void moveBy(float x, float y, float z);
+	virtual void moveBy(const Vector& amount);
+	virtual void moveByDirection(float x, float y, float z);
+	virtual void moveByDirection(const Vector& amount);
+	virtual void moveTo(float x, float y, float z);
+	virtual void moveTo(const Vector& amount);
+	virtual void rotateBy(float x, float y, float z);
+	virtual void rotateBy(const Vector& amount);
+	virtual void rotateTo(float x, float y, float z);
+	virtual void rotateTo(const Vector& amount);
+	virtual void transform();
+	virtual Matrix4 getTransform();
+	
+	// Get details of viewed region
+	virtual Vector projectMouseBack(int x, int y);
+	virtual Ray projectMouseRay(int x, int y);
+	virtual BaseObject* getObjectAt(int x, int y);
+	virtual Array<BaseObject*> getOBjectsIn(int x, int y, int width, int height);
 
 	friend class Universe;
 protected:
 	Region* activeRegion;
+	Vector position;
+	Vector direction;
+	Vector scale;
 };
 
 #endif	/* _CAMERA_H */

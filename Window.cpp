@@ -18,7 +18,6 @@
 #include <iostream>
 #include "Window.h"
 #include "BaseObject.h"
-#include "CameraRenderer.h"
 
 Window::Window()
 {
@@ -629,12 +628,6 @@ void Window::resetScreen()
 
 void Window::setRenderer(Renderer* newRenderer)
 {
-	this->renderer = newRenderer;
-}
-void Window::setCamera(Camera* camera)
-{
-	CameraRenderer* newRenderer = new CameraRenderer();
-	newRenderer->setCamera(camera);
 	this->renderer = newRenderer;
 }
 

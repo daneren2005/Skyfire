@@ -33,7 +33,6 @@
 #include "Renderer.h"
 #include "Input.h"
 #include "Thread.h"
-#include "CameraRenderer.h"
 
 #include <iostream>
 
@@ -59,7 +58,6 @@ public:
 
 	// Set the scene to render
 	void setRenderer(Renderer* newRenderer);
-	void setCamera(Camera* camera);
 
 	Input* getInput();
 private:

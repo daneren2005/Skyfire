@@ -24,19 +24,21 @@
 #include <cmath>
 #include <float.h>
 
-Camera::Camera() : BaseObject()
+Camera::Camera() : Renderer()
 {
 	this->activeRegion = NULL;
 
-	position = Vector();
-	directionForward = Vector();
+	this->position = Vector(0.0f, 0.0f, 0.0f);
+	this->direction = Vector(0.0f, 0.0f, 0.0f);
+	this->scale = Vector(1.0f, 1.0f, 1.0f);
 }
 
-Camera::Camera(const Camera& orig) : BaseObject(orig)
+Camera::Camera(const Camera& orig) : Renderer(orig)
 {
     this->activeRegion = orig.activeRegion;
     this->position = orig.position;
-    this->directionForward = orig.directionForward;
+    this->direction = orig.direction;
+	this->scale = orig.scale;
 }
 
 Camera::~Camera()
@@ -44,17 +46,14 @@ Camera::~Camera()
 
 }
 
-void Camera::setActiveRegion(Region* region)
+void Camera::render()
 {
-	this->activeRegion = region;
-}
-Region* Camera::getActiveRegion()
-{
-	return this->activeRegion;
-}
-
-void Camera::draw()
-{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glViewport(this->screenArea.lx, this->screenArea.ly, this->screenArea.ux, this->screenArea.uy);
+	gluPerspective(45.0f, this->aspectRatio, this->nearPerspective, this->farPerspective);
+	glMatrixMode(GL_MODELVIEW);
+	
 	glLoadIdentity();
 
 	glEnable(GL_LIGHTING);
@@ -71,21 +70,91 @@ void Camera::draw()
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPos);
 
 	// If a base object exists, transform on it as well
-	this->transformInverse();
+	this->transform();
 
 	if(this->activeRegion)
 		this->activeRegion->draw();
 }
 
-void Camera::update(double update)
+void Camera::setActiveRegion(Region* region)
 {
-
+	this->activeRegion = region;
+}
+Region* Camera::getActiveRegion()
+{
+	return this->activeRegion;
 }
 
-
-void Camera::load()
+void Camera::moveBy(float x, float y, float z)
 {
+	Vector amount(x, y, z);
+	this->moveBy(amount);
+}
+void Camera::moveBy(const Vector& amount)
+{
+	this->position = this->position + amount;
+}
+void Camera::moveByDirection(float x, float y, float z)
+{
+	Vector amount(x, y, z);
+	this->moveByDirection(amount);
+}
+void Camera::moveByDirection(const Vector& amount)
+{
+	Vector directionForward(this->direction[0], this->direction[1], this->direction[2]);
+	Matrix4 rotate = Matrix4::rotateMovement(directionForward);
+	Vector move = rotate * amount;
+
+	this->position = this->position + move;
+}
+void Camera::moveTo(float x, float y, float z)
+{
+	this->position = Vector(x, y, z);
+}
+void Camera::moveTo(const Vector& amount)
+{
+	this->position = amount;
+}
+void Camera::rotateBy(float x, float y, float z)
+{
+	Vector vec(-y, x, z);
+	this->direction = this->direction + vec;
+	this->direction = this->direction % 360;
+}
+void Camera::rotateBy(const Vector& amount)
+{
+	this->rotateBy(-amount[1], amount[0], amount[2]);
+}
+void Camera::rotateTo(float x, float y, float z)
+{
+	this->direction = Vector(y, x, z);
+}
+void Camera::rotateTo(const Vector& amount)
+{
+	this->direction = Vector(amount[1], amount[0], amount[2]);
+}
+
+void Camera::transform()
+{
+	Matrix4 rotate = Matrix4::rotateObject(!this->direction);
+	Vector t(-position[0], -position[1], -position[2]);
+	Matrix4 translate = Matrix4::translate(t);
+	Matrix4 scale = Matrix4::scale(Vector(1.0f / this->scale[0], 1.0f / this->scale[1], 1.0f / this->scale[2]));
+
+	glMultMatrixf(scale.getMatrix());
+	glMultMatrixf(rotate.getMatrix());
+	glMultMatrixf(translate.getMatrix());
+}
+Matrix4 Camera::getTransform()
+{
+	Matrix4 rotate = Matrix4::rotateObject(this->direction);
+	Vector t(position[0], position[1], -position[2]);
+	Matrix4 translate = Matrix4::translate(t);
+	Matrix4 scale = Matrix4::scale(this->scale);
 	
+	Matrix4 transform = scale * rotate;
+	transform = transform * translate;
+	return transform;
 }
 
 Vector Camera::projectMouseBack(int x, int y)
@@ -151,7 +220,6 @@ BaseObject* Camera::getObjectAt(int x, int y)
 		if(model == 0x0)
 			continue;
 		
-		// float t = model->getRayIntersection(s, r);
 		Matrix4 objectTransform = it.value()->getTransform();
 		float t = model->getRayIntersection(ray, objectTransform);
 		console << t << newline;
