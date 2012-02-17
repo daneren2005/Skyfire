@@ -35,7 +35,6 @@ public:
 	virtual Region* getActiveRegion();
 	
 	// Change position within region
-	// TODO:
 	virtual void moveBy(float x, float y, float z);
 	virtual void moveBy(const Vector& amount);
 	virtual void moveByDirection(float x, float y, float z);
@@ -60,7 +59,6 @@ protected:
 	Region* activeRegion;
 	Vector position;
 	Vector direction;
-	Vector scale;
 };
 
 #endif	/* _CAMERA_H */

@@ -30,7 +30,6 @@ Camera::Camera() : Renderer()
 
 	this->position = Vector(0.0f, 0.0f, 0.0f);
 	this->direction = Vector(0.0f, 0.0f, 0.0f);
-	this->scale = Vector(1.0f, 1.0f, 1.0f);
 }
 
 Camera::Camera(const Camera& orig) : Renderer(orig)
@@ -38,7 +37,6 @@ Camera::Camera(const Camera& orig) : Renderer(orig)
     this->activeRegion = orig.activeRegion;
     this->position = orig.position;
     this->direction = orig.direction;
-	this->scale = orig.scale;
 }
 
 Camera::~Camera()
@@ -139,9 +137,7 @@ void Camera::transform()
 	Matrix4 rotate = Matrix4::rotateObject(!this->direction);
 	Vector t(-position[0], -position[1], -position[2]);
 	Matrix4 translate = Matrix4::translate(t);
-	Matrix4 scale = Matrix4::scale(Vector(1.0f / this->scale[0], 1.0f / this->scale[1], 1.0f / this->scale[2]));
 
-	glMultMatrixf(scale.getMatrix());
 	glMultMatrixf(rotate.getMatrix());
 	glMultMatrixf(translate.getMatrix());
 }
@@ -150,10 +146,8 @@ Matrix4 Camera::getTransform()
 	Matrix4 rotate = Matrix4::rotateObject(this->direction);
 	Vector t(position[0], position[1], -position[2]);
 	Matrix4 translate = Matrix4::translate(t);
-	Matrix4 scale = Matrix4::scale(this->scale);
 	
-	Matrix4 transform = scale * rotate;
-	transform = transform * translate;
+	Matrix4 transform = rotate * translate;
 	return transform;
 }
 
