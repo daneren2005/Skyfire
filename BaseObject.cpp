@@ -203,8 +203,6 @@ void BaseObject::draw()
 		return;
 	}
 
-	this->drawEvent();
-
 	// Start a new matrix
 	glPushMatrix();
 
@@ -213,10 +211,6 @@ void BaseObject::draw()
 	// Draw then pop back down to old stack
 	this->model->draw();
 	glPopMatrix();
-}
-void BaseObject::drawEvent()
-{
-	
 }
 
 void BaseObject::load()

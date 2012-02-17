@@ -63,7 +63,6 @@ public:
 	virtual Matrix4 getTransformInverse();
 	// Called when trying to draw the object on the screen
 	virtual void draw();
-	virtual void drawEvent();
 	// Called when initializing an object (loading model data, etc)
 	virtual void load();
 	// Called when initializing an object based off of a DataFile::Object
