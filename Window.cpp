@@ -18,16 +18,13 @@
 #include <iostream>
 #include "Window.h"
 #include "BaseObject.h"
+#include "MemberFunction.h"
 
 Window::Window()
 {
 	renderer = NULL;
-	this->terminate = false;
 	this->screenWidth = 640;
 	this->screenHeight = 480;
-	this->resolutionWidth = this->screenWidth;
-	this->resolutionHeight = this->screenHeight;
-	this->resolutionDistance = 100.0f;
 
 	#ifdef WIN32
 		programHandle = NULL;
@@ -39,44 +36,8 @@ Window::Window()
 		surface = NULL;
 	#endif
 
-	pthread_mutex_init(&this->glLock, NULL);
-
 	this->input = new Input();
-}
-
-Window::Window(int width, int height)
-{
-	renderer = NULL;
-	this->terminate = false;
-	this->screenWidth = width;
-	this->screenHeight = height;
-	this->resolutionWidth = this->screenWidth;
-	this->resolutionHeight = this->screenHeight;
-	this->resolutionDistance = 100.0f;
-
-	#ifdef WIN32
-		programHandle = NULL;
-		winHandle = NULL;
-		device = NULL;
-		render = NULL;
-	#endif
-	#ifdef __linux__
-		surface = NULL;
-	#endif
-
-	pthread_mutex_init(&this->glLock, NULL);
-
-	this->input = new Input();
-}
-
-Window::~Window()
-{
-	pthread_mutex_destroy(&this->glLock);
-	this->quit();
-}
-
-void Window::start()
-{
+	
 	#ifdef WIN32
 		this->programHandle = GetModuleHandle(0);
 		_defaultCallback = this;
@@ -84,7 +45,51 @@ void Window::start()
 
 	// Start rendering
 	renderThread.setTicksPerSecond(60);
-	renderThread.start(renderFunction, this, initWin);
+	MemberFunction<Window, void, Thread*> func(this);
+	func = &Window::renderFunction;
+	MemberFunction<Window, void, Thread*> init(this);
+	init = &Window::initWin;
+	renderThread.start((Function<void, Thread*>)func, this, init);
+}
+
+Window::Window(int width, int height)
+{
+	renderer = NULL;
+	this->screenWidth = width;
+	this->screenHeight = height;
+
+	#ifdef WIN32
+		programHandle = NULL;
+		winHandle = NULL;
+		device = NULL;
+		render = NULL;
+	#endif
+	#ifdef __linux__
+		surface = NULL;
+	#endif
+
+	this->input = new Input();
+	
+	#ifdef WIN32
+		this->programHandle = GetModuleHandle(0);
+		_defaultCallback = this;
+	#endif
+
+	// Start rendering
+	renderThread.setTicksPerSecond(60);
+	MemberFunction<Window, void, Thread*> func(this);
+	func = &Window::renderFunction;
+	MemberFunction<Window, void, Thread*> init(this);
+	init = &Window::initWin;
+	renderThread.start((Function<void, Thread*>)func, this, init);
+}
+
+Window::~Window()
+{
+	this->quit();
+	
+	// delete input;
+	// delete renderer;
 }
 
 void Window::wait()
@@ -94,7 +99,7 @@ void Window::wait()
 
 void Window::quit()
 {
-	this->terminate = true;
+	renderThread.stop();
 
 	#ifdef WIN32
 		wglMakeCurrent(this->device, NULL);
@@ -106,11 +111,24 @@ void Window::quit()
 	#endif
 }
 
+void Window::setSize(int width, int height)
+{
+	this->screenWidth = width;
+	this->screenHeight = height;
+	// Rescale renderer viewing area accordingly
+	if(renderer)
+	{
+		renderer->setScreenArea(Rectangle2(0, 0, width, height));
+	}
+}
+
+void Window::setRenderer(Renderer* newRenderer)
+{
+	this->renderer = newRenderer;
+}
+
 void Window::initWin(Thread* arg)
 {
-	Thread* thread = (Thread*)arg;
-	Window* win = (Window*)thread->getArg();
-
 	#ifdef WIN32
 		// The window structure instance
 		WNDCLASSEX winStruct;
@@ -126,7 +144,7 @@ void Window::initWin(Thread* arg)
 		// Extra memory allocation per window
 		winStruct.cbWndExtra    = 0;
 		// Handle for window instance
-		winStruct.hInstance     = win->programHandle;
+		winStruct.hInstance     = programHandle;
 		// Icon displayed for alt + tab
 		winStruct.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
 		// Mouse cursor
@@ -148,9 +166,9 @@ void Window::initWin(Thread* arg)
 		}
 
 		// Create the actual window and pass paramaters in
-		win->winHandle = CreateWindowEx(WS_EX_STATICEDGE, TEXT("test"), TEXT("Test Form"),
-			WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT, win->screenWidth, win->screenHeight, NULL, NULL, win->programHandle, NULL);
-		if(win->winHandle == NULL)
+		winHandle = CreateWindowEx(WS_EX_STATICEDGE, TEXT("test"), TEXT("Test Form"),
+			WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT, screenWidth, screenHeight, NULL, NULL, programHandle, NULL);
+		if(winHandle == NULL)
 		{
 			MessageBox(0, TEXT("Error Creating Window!"), TEXT("Error!"), MB_ICONSTOP | MB_OK);
 			exit(0);
@@ -158,8 +176,8 @@ void Window::initWin(Thread* arg)
 
 		/// Enable opengl rendering
 		// Get Device Context for window
-		win->device = GetDC(win->winHandle);
-		if(win->device == NULL)
+		device = GetDC(winHandle);
+		if(device == NULL)
 		{
 			MessageBox(NULL, TEXT("ERROR: Could not create device context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
 			exit(0);
@@ -174,22 +192,22 @@ void Window::initWin(Thread* arg)
 		pixelFormat.cColorBits = 24;
 		pixelFormat.cDepthBits = 16;
 		pixelFormat.iLayerType = PFD_MAIN_PLANE;
-		int actualFormat = ChoosePixelFormat(win->device, &pixelFormat);
-		SetPixelFormat(win->device, actualFormat, &pixelFormat);
+		int actualFormat = ChoosePixelFormat(device, &pixelFormat);
+		SetPixelFormat(device, actualFormat, &pixelFormat);
 		// Initialize rendering context
-		win->render = wglCreateContext(win->device);
-		if(win->render == NULL)
+		render = wglCreateContext(device);
+		if(render == NULL)
 		{
 			MessageBox(NULL, TEXT("ERROR: Could not create rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
 		}
 		// Activate as current drawing window
-		if(!wglMakeCurrent(win->device, win->render))
+		if(!wglMakeCurrent(device, render))
 		{
 			MessageBox(NULL, TEXT("ERROR: Could not activate rendering context."), TEXT("Error!"), MB_OK | MB_ICONERROR);
 		}
 
-		ShowWindow(win->winHandle, 1);
-		UpdateWindow(win->winHandle);
+		ShowWindow(winHandle, 1);
+		UpdateWindow(winHandle);
 	#endif
 
 	#ifdef __linux__
@@ -205,32 +223,32 @@ void Window::initWin(Thread* arg)
 		videoInfo = SDL_GetVideoInfo();
 		if(!videoInfo)
 		{
-			std::cout << "Video Query failed" << std::endl;
+			console << "Video Query failed" << newline;
 			exit(1);
 		}
-		win->videoFlags = SDL_OPENGL;
-		win->videoFlags |= SDL_GL_DOUBLEBUFFER;
-		win->videoFlags |= SDL_HWPALETTE;
-		win->videoFlags |= SDL_RESIZABLE;
+		videoFlags = SDL_OPENGL;
+		videoFlags |= SDL_GL_DOUBLEBUFFER;
+		videoFlags |= SDL_HWPALETTE;
+		videoFlags |= SDL_RESIZABLE;
 		if(videoInfo->hw_available)
-			win->videoFlags |= SDL_HWSURFACE;
+			videoFlags |= SDL_HWSURFACE;
 		else
-			win->videoFlags |= SDL_SWSURFACE;
+			videoFlags |= SDL_SWSURFACE;
 		if(videoInfo->blit_hw)
-			win->videoFlags |= SDL_HWACCEL;
+			videoFlags |= SDL_HWACCEL;
 		// videoFlags |= SDL_FULLSCREEN;
 
 		// Setup SDL surface
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-		win->surface = SDL_SetVideoMode(win->screenWidth, win->screenHeight, 24, win->videoFlags);
-		if(!win->surface)
+		surface = SDL_SetVideoMode(screenWidth, screenHeight, 24, videoFlags);
+		if(!surface)
 		{
 			std::cout << "Video Mode Set failed" << std::endl;
 			exit(1);
 		}
 	#endif
 
-	win->initOpenGL();
+	initOpenGL();
 }
 
 void Window::initOpenGL()
@@ -241,14 +259,12 @@ void Window::initOpenGL()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
-	this->resetScreen();
 }
 
 void Window::renderFunction(Thread* arg)
 {
 	Thread* thread = (Thread*)arg;
-	Window* win = (Window*)thread->getArg();
+	// Window* win = (Window*)thread->getArg();
 
 	// win->frameRate.executeStart();
 
@@ -273,14 +289,14 @@ void Window::renderFunction(Thread* arg)
 	// Start to draw
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if(win->renderer != NULL)
-		win->renderer->render();
+	if(renderer != NULL)
+		renderer->render();
 
 	// Update screen
 	glFlush();
 
 	#ifdef WIN32
-		SwapBuffers(win->device);
+		SwapBuffers(device);
 	#endif
 	#ifdef __linux__
 		SDL_GL_SwapBuffers();
@@ -293,7 +309,7 @@ void Window::renderFunction(Thread* arg)
 		// Set window title to current frame rate
 		int frames = thread->getTicksPerSecond();
 		String tmp(frames);
-		SetWindowText(win->winHandle, tmp.cStr());
+		SetWindowText(winHandle, tmp.cStr());
 	#endif
 	#ifdef __linux__
 		int frames = thread->getTicksPerSecond();
@@ -474,6 +490,7 @@ LRESULT CALLBACK Window::WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM 
 			return 0;
 		case WM_CLOSE:
 			PostQuitMessage(0);
+			_defaultCallback->quit();
 			delete _defaultCallback;
 			return 0;
 		case WM_SIZE:
@@ -590,44 +607,4 @@ void Window::keyUp(int key)
 	}
 }
 #endif
-
-void Window::setSize(int width, int height)
-{
-	this->screenWidth = width;
-	this->screenHeight = height;
-
-	this->resetScreen();
-}
-void Window::setResolution(GLdouble width, GLdouble height, GLdouble distance)
-{
-	this->resolutionWidth = width;
-	this->resolutionHeight = height;
-	this->resolutionDistance = distance;
-
-	this->resetScreen();
-}
-void Window::resetScreen()
-{
-	// TODO: find out if this is actually keeping the same resolution
-	/*glViewport(0, 0, (GLsizei)this->screenWidth, (GLsizei)this->screenHeight);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	// gluPerspective(45, (float)this->width/this->height, 0.1f, 100.0f);
-	GLdouble aspectRatio = (GLdouble)this->screenWidth / (GLdouble)this->screenHeight;*/
-	/*if(this->screenWidth <= this->screenHeight)
-		glOrtho(-(this->resolutionWidth / 2), (this->resolutionWidth / 2),
-				-(this->resolutionHeight / 2 / aspectRatio), (this->resolutionHeight / 2 / aspectRatio) / aspectRatio,
-				this->resolutionDistance, -this->resolutionDistance);
-	else
-		glOrtho(-(this->resolutionWidth / 2 / aspectRatio), (this->resolutionWidth / 2 / aspectRatio)
-				, -(this->resolutionHeight / 2), (this->resolutionHeight / 2), this->resolutionDistance, -this->resolutionDistance);*/
-	/*gluPerspective( 45.0f, aspectRatio, 0.1f, this->resolutionDistance);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();*/
-}
-
-void Window::setRenderer(Renderer* newRenderer)
-{
-	this->renderer = newRenderer;
-}
 

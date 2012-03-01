@@ -38,31 +38,23 @@
 
 class Window
 {
-	friend class Thread;
 public:
-	// Create a window with default width/height
 	Window();
-	// Create a window with given width/height
 	Window(int width, int height);
 	virtual ~Window();
 
-	// Initialize Window and start displaying
-	void start();
 	// Calling thread waits for renderThread to exit
 	void wait();
-	// Make Window shutdown, close renderThread and eventsThread
 	void quit();
 
 	void setSize(int width, int height);
-	void setResolution(GLdouble width, GLdouble height, GLdouble distance);
-
-	// Set the scene to render
 	void setRenderer(Renderer* newRenderer);
 
 	Input* getInput();
 private:
-	// Threads continue running while this is false
-	bool terminate;
+	// width/height of the window
+	int screenWidth;
+	int screenHeight;
 
 	// Initilization of Window
 	#ifdef WIN32
@@ -76,14 +68,13 @@ private:
 		SDL_Surface* surface;
 	#endif
 
-	static void initWin(Thread* arg);
+	void initWin(Thread* arg);
 	void initOpenGL();
 
 	// Render scene, thread, and function
-	pthread_mutex_t glLock;
 	Renderer* renderer;
 	Thread renderThread;
-	static void renderFunction(Thread* arg);
+	void renderFunction(Thread* arg);
 
 	// Events thread, loop function, and processing function
 	Input* input;
@@ -103,17 +94,6 @@ private:
 		void keyDown(SDL_keysym* keysym);
 		void keyUp(SDL_keysym* keysym);
 	#endif
-
-	void resetScreen();
-
-	// width/height of the window
-	int screenWidth;
-	int screenHeight;
-
-	// Resolution
-	double resolutionWidth;
-	double resolutionHeight;
-	double resolutionDistance;
 };
 
 #ifdef WIN32
