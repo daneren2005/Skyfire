@@ -38,3 +38,21 @@ Renderer::Renderer(const Renderer& orig)
 Renderer::~Renderer()
 {
 }
+
+void Renderer::viewport()
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glViewport(this->screenArea.lx, this->screenArea.ly, this->screenArea.ux, this->screenArea.uy);
+	gluPerspective(45.0f, this->aspectRatio, this->nearPerspective, this->farPerspective);
+	glMatrixMode(GL_MODELVIEW);
+}
+
+Rectangle2 Renderer::getScreenArea()
+{
+	return screenArea;
+}
+void Renderer::setScreenArea(Rectangle2 area)
+{
+	screenArea = area;
+}

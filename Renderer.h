@@ -28,6 +28,10 @@ public:
 	virtual ~Renderer();
 
 	virtual void render() = 0;
+	virtual void viewport();
+	
+	Rectangle2 getScreenArea();
+	void setScreenArea(Rectangle2 area);
 protected:
 	Rectangle2 screenArea;
 	float aspectRatio;
