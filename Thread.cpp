@@ -126,6 +126,10 @@ double Thread::getTimeSinceTick()
 {
 	return timeSinceTick;
 }
+double Thread::getRunningTime()
+{
+	return clock.totalTime();
+}
 
 void Thread::currentSleep(double seconds)
 {

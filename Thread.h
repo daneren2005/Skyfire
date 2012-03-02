@@ -49,6 +49,7 @@ public:
 	// Get how many times per second thread is running
 	int getTicksPerSecond();
 	double getTimeSinceTick();
+	double getRunningTime();
 	
 	static void currentSleep(double seconds);
 private:
