@@ -48,6 +48,7 @@ public:
 	double getTimeBetweenTicks();
 	// Get how many times per second thread is running
 	int getTicksPerSecond();
+	double getTimeSinceTick();
 	
 	static void currentSleep(double seconds);
 private:
@@ -63,6 +64,7 @@ private:
 
 	Timer clock;
 	double period;
+	double timeSinceTick;
 	int counter;
 	int returnCounter;
 	ulong sleepTime;

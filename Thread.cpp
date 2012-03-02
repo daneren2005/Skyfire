@@ -24,6 +24,7 @@ Thread::Thread()
 	this->running = false;
 
 	this->period = 0;
+	this->timeSinceTick = 0.0f;
 	this->counter = 0;
 	this->returnCounter = 0;
 	this->sleepTime = 0;
@@ -121,6 +122,10 @@ int Thread::getTicksPerSecond()
 {
 	return returnCounter;
 }
+double Thread::getTimeSinceTick()
+{
+	return timeSinceTick;
+}
 
 void Thread::currentSleep(double seconds)
 {
@@ -139,6 +144,7 @@ void* Thread::threadFunction(void* arg)
 	if(thread->startFunction.isSet())
 		thread->startFunction(thread);
 	
+	thread->clock.elapsedTime();
 	while(!thread->quit)
 	{
 		if(thread->running)
@@ -156,6 +162,7 @@ void* Thread::threadFunction(void* arg)
 			}
 			
 			double startTime = thread->clock.totalTime();
+			thread->timeSinceTick = thread->clock.elapsedTime();
 			thread->function(thread);
 			double endTime = thread->clock.totalTime();
 
