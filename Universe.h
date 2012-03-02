@@ -32,7 +32,6 @@ public:
 	Universe(const Universe& orig);
 	virtual ~Universe();
 
-	virtual void load();
 	virtual void start();
 	virtual void resume();
 	virtual void pause();
@@ -57,9 +56,8 @@ protected:
 
 	// Update thread + loop
 	bool running;
-	Timer timer;
 	Thread updateThread;
-	static void updateFunction(Thread* arg);
+	void updateFunction(Thread* arg);
 };
 
 #endif	/* _UNIVERSE_H */

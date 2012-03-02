@@ -16,6 +16,7 @@
 */
 
 #include "Universe.h"
+#include "MemberFunction.h"
 
 Universe::Universe()
 {
@@ -23,6 +24,7 @@ Universe::Universe()
 	this->running = false;
 	this->camera = new Camera();
 	this->input = NULL;
+	updateThread.setTicksPerSecond(60);
 }
 
 Universe::Universe(const Universe& orig)
@@ -31,9 +33,9 @@ Universe::Universe(const Universe& orig)
 
 Universe::~Universe()
 {
-	delete this->input;
-	delete this->camera;
-
+	this->running = false;
+	updateThread.stop();
+	
 	Region* region = NULL;
 	while(regions.size() > 0)
 	{
@@ -42,23 +44,17 @@ Universe::~Universe()
 	}
 }
 
-void Universe::load()
-{
-	
-}
-
 void Universe::start()
 {
 	this->running = true;
-	this->timer.start();
-	updateThread.setTicksPerSecond(60);
-	updateThread.start(updateFunction, this);
+	MemberFunction<Universe, void, Thread*> func(this);
+	func = &Universe::updateFunction;
+	updateThread.start(func, this);
 }
 void Universe::resume()
 {
 	if(running == false)
 	{
-		timer.start();
 		running = true;
 		updateThread.resume();
 	}
@@ -67,7 +63,6 @@ void Universe::pause()
 {
 	if(running == true)
 	{
-		timer.stop();
 		running = false;
 		updateThread.pause();
 	}
@@ -75,22 +70,14 @@ void Universe::pause()
 
 void Universe::updateFunction(Thread* arg)
 {
-	Thread* thread = (Thread*)arg;
-	Universe* uni = (Universe*)thread->getArg();
-
-	float interval = (float)uni->timer.elapsedTime();
-
-	if(uni->input != NULL)
-	{
-		uni->input->update(interval);
-	}
+	float interval = (float)updateThread.getTimeSinceTick();
+	if(input != NULL)
+		input->update(interval);
 
 	// Update all regions
-	Region* region = NULL;
-	for(List<Region*>::Iterator it = uni->regions.begin(); !it; it++)
+	for(List<Region*>::Iterator it = regions.begin(); !it; it++)
 	{
-		region = it.value();
-		region->update(interval);
+		it.value()->update(interval);
 	}
 }
 
@@ -114,7 +101,7 @@ void Universe::setActiveRegion(Region* region)
 
 double Universe::runningTime()
 {
-	return timer.totalTime();
+	return updateThread.getRunningTime();
 }
 
 void Universe::setInput(Input* input)
