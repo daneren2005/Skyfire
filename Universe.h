@@ -40,19 +40,13 @@ public:
 	virtual void addRegion(Region* region);
 	virtual void setActiveRegion(Region* region);
 
-	virtual void setInput(Input* input);
-
 	virtual double runningTime();
 
 	friend class Region;
 protected:
-	bool quit;
-
 	List<Region*> regions;
 	Region* activeRegion;
 	Camera* camera;
-
-	Input* input;
 
 	// Update thread + loop
 	bool running;

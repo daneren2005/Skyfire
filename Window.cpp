@@ -50,6 +50,11 @@ Window::Window()
 	MemberFunction<Window, void, Thread*> init(this);
 	init = &Window::initWin;
 	renderThread.start((Function<void, Thread*>)func, this, init);
+	
+	// Start input
+	inputThread.setTicksPerSecond(30);
+	func = &Window::inputFunction;
+	inputThread.start((Function<void, Thread*>)func, this);
 }
 
 Window::Window(int width, int height)
@@ -82,6 +87,11 @@ Window::Window(int width, int height)
 	MemberFunction<Window, void, Thread*> init(this);
 	init = &Window::initWin;
 	renderThread.start((Function<void, Thread*>)func, this, init);
+	
+	// Start input
+	inputThread.setTicksPerSecond(30);
+	func = &Window::inputFunction;
+	inputThread.start((Function<void, Thread*>)func, this);
 }
 
 Window::~Window()
@@ -263,11 +273,6 @@ void Window::initOpenGL()
 
 void Window::renderFunction(Thread* arg)
 {
-	Thread* thread = (Thread*)arg;
-	// Window* win = (Window*)thread->getArg();
-
-	// win->frameRate.executeStart();
-
 	// Proccess events
 	#ifdef WIN32
 		MSG msg;
@@ -285,7 +290,6 @@ void Window::renderFunction(Thread* arg)
 		}
 	#endif
 
-	// render screen
 	// Start to draw
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -307,7 +311,7 @@ void Window::renderFunction(Thread* arg)
 
 	#ifdef WIN32
 		// Set window title to current frame rate
-		int frames = thread->getTicksPerSecond();
+		int frames = renderThread.getTicksPerSecond();
 		String tmp(frames);
 		SetWindowText(winHandle, tmp.cStr());
 	#endif
@@ -316,6 +320,10 @@ void Window::renderFunction(Thread* arg)
 		String tmp(frames);
 		SDL_WM_SetCaption(tmp.cStr(), "Orcid");
 	#endif
+}
+void Window::inputFunction(Thread* arg)
+{
+	input->update(inputThread.getTimeSinceTick());
 }
 
 #ifdef __linux__

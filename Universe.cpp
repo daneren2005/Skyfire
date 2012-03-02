@@ -20,10 +20,8 @@
 
 Universe::Universe()
 {
-	this->quit = false;
 	this->running = false;
 	this->camera = new Camera();
-	this->input = NULL;
 	updateThread.setTicksPerSecond(60);
 }
 
@@ -71,8 +69,6 @@ void Universe::pause()
 void Universe::updateFunction(Thread* arg)
 {
 	float interval = (float)updateThread.getTimeSinceTick();
-	if(input != NULL)
-		input->update(interval);
 
 	// Update all regions
 	for(List<Region*>::Iterator it = regions.begin(); !it; it++)
@@ -102,9 +98,4 @@ void Universe::setActiveRegion(Region* region)
 double Universe::runningTime()
 {
 	return updateThread.getRunningTime();
-}
-
-void Universe::setInput(Input* input)
-{
-	this->input = input;
 }

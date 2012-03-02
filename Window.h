@@ -74,7 +74,9 @@ private:
 	// Render scene, thread, and function
 	Renderer* renderer;
 	Thread renderThread;
+	Thread inputThread;
 	void renderFunction(Thread* arg);
+	void inputFunction(Thread* arg);
 
 	// Events thread, loop function, and processing function
 	Input* input;
