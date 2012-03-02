@@ -49,8 +49,6 @@ public:
 
 	void setSize(int width, int height);
 	void setRenderer(Renderer* newRenderer);
-
-	Input* getInput();
 private:
 	// width/height of the window
 	int screenWidth;

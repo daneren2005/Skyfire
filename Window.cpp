@@ -135,6 +135,7 @@ void Window::setSize(int width, int height)
 void Window::setRenderer(Renderer* newRenderer)
 {
 	this->renderer = newRenderer;
+	renderer->setEventHandlers(input);
 }
 
 void Window::initWin(Thread* arg)
@@ -511,29 +512,24 @@ LRESULT CALLBACK Window::WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM 
 			_defaultCallback->keyUp((int)wParam);
 			return 0;
 		case WM_LBUTTONDOWN:
-			_defaultCallback->getInput()->keyDown(BUTTON_LEFT);
+			_defaultCallback->input->keyDown(BUTTON_LEFT);
 			return 0;
 		case WM_LBUTTONUP:
-			_defaultCallback->getInput()->keyUp(BUTTON_LEFT);
+			_defaultCallback->input->keyUp(BUTTON_LEFT);
 			return 0;
 		case WM_RBUTTONDOWN:
-			_defaultCallback->getInput()->keyDown(BUTTON_RIGHT);
+			_defaultCallback->input->keyDown(BUTTON_RIGHT);
 			return 0;
 		case WM_RBUTTONUP:
-			_defaultCallback->getInput()->keyUp(BUTTON_RIGHT);
+			_defaultCallback->input->keyUp(BUTTON_RIGHT);
 			return 0;
 		case WM_MOUSEMOVE:
-			_defaultCallback->getInput()->mouseMove(LOWORD(lParam), HIWORD(lParam));
+			_defaultCallback->input->mouseMove(LOWORD(lParam), HIWORD(lParam));
 		default:
 			return DefWindowProc( hwnd, Message, wParam, lParam );
 	}
 }
 #endif
-
-Input* Window::getInput()
-{
-	return this->input;
-}
 
 #ifdef WIN32
 void Window::keyDown(int key)

@@ -19,6 +19,7 @@
 #define	_RENDERER_H
 
 #include "Rectangle.h"
+#include "Input.h"
 
 class Renderer
 {
@@ -30,8 +31,10 @@ public:
 	virtual void render() = 0;
 	virtual void viewport();
 	
-	Rectangle2 getScreenArea();
-	void setScreenArea(Rectangle2 area);
+	virtual Rectangle2 getScreenArea();
+	virtual void setScreenArea(Rectangle2 area);
+	
+	virtual void setEventHandlers(Input* input);
 protected:
 	Rectangle2 screenArea;
 	float aspectRatio;

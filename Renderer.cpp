@@ -56,3 +56,8 @@ void Renderer::setScreenArea(Rectangle2 area)
 {
 	screenArea = area;
 }
+
+void Renderer::setEventHandlers(Input* input)
+{
+	
+}
