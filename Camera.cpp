@@ -45,10 +45,10 @@ Camera::~Camera()
 }
 
 void Camera::render()
-{
-	this->viewport();
-	
-	glLoadIdentity();
+{	
+	this->viewport2D();
+	this->renderHUD();
+	this->viewport3D();
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT1);
@@ -68,6 +68,15 @@ void Camera::render()
 
 	if(this->activeRegion)
 		this->activeRegion->draw();
+}
+void Camera::renderHUD()
+{
+	glTranslatef(0.0f,0.0f,-1.0f);
+	
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glRasterPos2i(200, 200);
+	glPushAttrib(GL_LIST_BIT);
+	glCallLists(13, GL_UNSIGNED_BYTE, "OpenGL Rocks!");
 }
 
 void Camera::setActiveRegion(Region* region)

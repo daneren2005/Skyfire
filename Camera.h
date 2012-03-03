@@ -30,6 +30,7 @@ public:
 	virtual ~Camera();
 	
 	virtual void render();
+	virtual void renderHUD();
 
 	virtual void setActiveRegion(Region* region);
 	virtual Region* getActiveRegion();
