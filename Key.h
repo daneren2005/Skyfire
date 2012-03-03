@@ -46,7 +46,7 @@ public:
 
 	void update(double interval, int x = 0, int y = 0);
 
-	void setKeyPressEventHandler(void*(*eventHandler)(void* args), void* args);
+	void setKeyPressEventHandler(Function<void> eventHandler);
 	void setKeyDownEventHandler(Function<void, double> eventHandler);
 	void setMousePressEventHandler(Function<void, int, int> eventHandler);
 	void setMouseDownEventHandler(Function<void, double, int, int> eventHandler);
@@ -54,14 +54,14 @@ private:
 	KeyType type;
 	bool pressed;
 
-	// Function<void, void> keyPressHandler;
+	Function<void> keyPressHandler;
 	Function<void, double> keyDownHandler;
 	Function<void, int, int> mousePressHandler;
 	Function<void, double, int, int> mouseDownHandler;
 	
-	void*(*keyPressHandler)(void* args);
+	/*void*(*keyPressHandler)(void* args);
 	void* keyPressArgs;
-	/*void*(*keyDownHandler)(void* args, double interval);
+	void*(*keyDownHandler)(void* args, double interval);
 	void* keyDownArgs;
 	void*(*mousePressHandler)(void* args, int x, int y);
 	void* mousePressArgs;

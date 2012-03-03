@@ -24,18 +24,16 @@
 
 Input::Input()
 {
-	// this->mouseHandler = 0x0;
-
-	this->keys.insert(new Key(KEY_LEFT), KEY_LEFT);
-	this->keys.insert(new Key(KEY_RIGHT), KEY_RIGHT);
-
 	this->mouseX = 0;
 	this->mouseY = 0;
 }
 
 Input::Input(const Input& orig)
 {
-
+	this->mouseX = orig.mouseX;
+	this->mouseY = orig.mouseY;
+	this->mouseHandler = orig.mouseHandler;
+	this->keys = orig.keys;
 }
 
 Input::~Input()
@@ -143,16 +141,16 @@ void Input::setMouseMoveEventHandler(Function<void, int, int> eventHandler)
 	this->mouseHandler = eventHandler;
 }
 
-void Input::setKeyPressEventHandler(KeyType key, void*(*eventHandler)(void* args), void* args)
+void Input::setKeyPressEventHandler(KeyType key, Function<void> eventHandler)
 {
 	try
 	{
-		this->keys.search(key)->setKeyPressEventHandler(eventHandler, args);
+		this->keys.search(key)->setKeyPressEventHandler(eventHandler);
 	}
 	catch(Exception& e)
 	{
 		Key* pressed = new Key(key);
-		pressed->setKeyPressEventHandler(eventHandler, args);
+		pressed->setKeyPressEventHandler(eventHandler);
 		this->keys.insert(pressed, key);
 	}
 }

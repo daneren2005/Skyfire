@@ -21,34 +21,21 @@ Key::Key()
 {
 	this->type = NULL_KEY;
 	this->pressed = false;
-	this->keyPressHandler = 0x0;
-	this->keyPressArgs = 0x0;
-	/*this->keyDownHandler = 0x0;
-	this->keyDownArgs = 0x0;
-	this->mousePressHandler = 0x0;
-	this->mousePressArgs = 0x0;
-	this->mouseDownHandler = 0x0;
-	this->mouseDownArgs = 0x0;*/
 }
 Key::Key(KeyType type)
 {
 	this->type = type;
 	this->pressed = false;
-	this->keyPressHandler = 0x0;
-	this->keyPressArgs = 0x0;
-	/*this->keyDownHandler = 0x0;
-	this->keyDownArgs = 0x0;
-	this->mousePressHandler = 0x0;
-	this->mousePressArgs = 0x0;
-	this->mouseDownHandler = 0x0;
-	this->mouseDownArgs = 0x0;*/
 }
 
 Key::Key(const Key& orig)
 {
 	this->type = orig.type;
 	this->pressed = orig.pressed;
-	// TODO: finish copy constructor
+	this->keyDownHandler = orig.keyDownHandler;
+	this->keyPressHandler = orig.keyPressHandler;
+	this->mouseDownHandler = orig.mouseDownHandler;
+	this->mousePressHandler = orig.mousePressHandler;
 }
 
 Key::~Key()
@@ -62,9 +49,9 @@ void Key::keyDown(int x, int y)
 void Key::keyUp(int x , int y)
 {
 	this->pressed = false;
-	if(this->keyPressHandler != 0x0)
+	if(this->keyPressHandler.isSet())
 	{
-		this->keyPressHandler(this->keyPressArgs);
+		this->keyPressHandler();
 	}
 	else if(this->mousePressHandler.isSet())
 	{
@@ -108,10 +95,9 @@ void Key::update(double interval, int x, int y)
 	}
 }
 
-void Key::setKeyPressEventHandler(void*(*eventHandler)(void* args), void* args)
+void Key::setKeyPressEventHandler(Function<void> eventHandler)
 {
 	this->keyPressHandler = eventHandler;
-	this->keyPressArgs = args;
 }
 void Key::setKeyDownEventHandler(Function<void, double> eventHandler)
 {

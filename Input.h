@@ -44,7 +44,7 @@ public:
 	void setMousePressEventHandler(KeyType key, Function<void, int, int> eventHandler);
 	void setMouseDownEventHandler(KeyType key, Function<void, double, int, int> eventHandler);
 	void setMouseMoveEventHandler(Function<void, int, int> eventHandler);
-	void setKeyPressEventHandler(KeyType key, void*(*eventHandler)(void* args), void* args);
+	void setKeyPressEventHandler(KeyType key, Function<void> eventHandler);
 	void setKeyDownEventHandler(KeyType key, Function<void, double> eventHandler);
 
 	void update(double interval);
