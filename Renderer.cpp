@@ -46,6 +46,7 @@ void Renderer::viewport()
 	glViewport(this->screenArea.lx, this->screenArea.ly, this->screenArea.ux, this->screenArea.uy);
 	gluPerspective(45.0f, this->aspectRatio, this->nearPerspective, this->farPerspective);
 	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
 
 Rectangle2 Renderer::getScreenArea()
