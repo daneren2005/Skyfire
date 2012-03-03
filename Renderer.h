@@ -29,7 +29,8 @@ public:
 	virtual ~Renderer();
 
 	virtual void render() = 0;
-	virtual void viewport();
+	virtual void viewport2D();
+	virtual void viewport3D();
 	
 	virtual Rectangle2 getScreenArea();
 	virtual void setScreenArea(Rectangle2 area);

@@ -39,7 +39,16 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::viewport()
+void Renderer::viewport2D()
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glViewport(this->screenArea.lx, this->screenArea.ly, this->screenArea.ux, this->screenArea.uy);
+	gluOrtho2D(0, screenArea.ux, screenArea.uy, 0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+}
+void Renderer::viewport3D()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
