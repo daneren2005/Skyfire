@@ -70,13 +70,14 @@ MemberFunction<Object, Return, Param...>::MemberFunction(Object* o) : Function<R
 template <class Object, class Return, class... Param>
 MemberFunction<Object, Return, Param...>::MemberFunction(Return(Object::*function)(Param...))
 {
+	this->o = 0x0;
 	(*this) = function;
 }
 template <class Object, class Return, class... Param>
 MemberFunction<Object, Return, Param...>::MemberFunction(Return(Object::*function)(Param...), Object* o)
 {
-	(*this) = function;
 	this->o = o;
+	(*this) = function;
 }
 template <class Object, class Return, class... Param>
 MemberFunction<Object, Return, Param...>::MemberFunction(const MemberFunction& orig) : Function<Return, Param...>()
