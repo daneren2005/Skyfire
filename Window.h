@@ -66,7 +66,10 @@ private:
 		SDL_Surface* surface;
 	#endif
 
+	GLuint font;
+
 	void initWin(Thread* arg);
+	void initBitmapFonts();
 	void initOpenGL();
 
 	// Render scene, thread, and function

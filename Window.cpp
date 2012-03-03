@@ -259,7 +259,20 @@ void Window::initWin(Thread* arg)
 		}
 	#endif
 
+	initBitmapFonts();
 	initOpenGL();
+}
+
+void Window::initBitmapFonts()
+{
+	HFONT fontObj;
+	font = glGenLists(128);
+	fontObj = CreateFont(14, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS,
+		CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, "Courier New");
+	SelectObject(device, fontObj);
+	wglUseFontBitmaps(device, 0, 128, font);
+	DeleteObject(fontObj);
+	glListBase(font);
 }
 
 void Window::initOpenGL()
