@@ -25,7 +25,7 @@
 
 class InvalidFunctionCall;
 
-template <class Return, class Param>
+template <class Return, class... Param>
 class Function
 {
 public:
@@ -33,27 +33,27 @@ public:
 	Function(const Function& orig);
 	template <class Object>
 	Function(const Object& o);
-	Function(Return(*function)(Param));
+	Function(Return(*function)(Param...));
 	virtual ~Function();
 
 	template <class Object>
 	void setFunction(const Object& o);
-	void setFunction(Return(*function)(Param));
+	void setFunction(Return(*function)(Param...));
 	bool isSet();
 
-	Return execute(Param param);
-	Return operator()(Param param);
-	template <class Return2, class Param2>
-	operator Function<Return2, Param2>() const;
+	Return execute(Param... param);
+	Return operator()(Param... param);
+	template <class Return2, class... Param2>
+	operator Function<Return2, Param2...>() const;
 
 	template <class Object>
 	Function& operator=(const Object& o);
-	Function& operator=(Return(*function)(Param));
+	Function& operator=(Return(*function)(Param...));
 	Function& operator=(const Function& rhs);
-	template <class Return2, class Param2>
-	Function& operator=(const Function<Return2, Param2>& rhs);
+	template <class Return2, class... Param2>
+	Function& operator=(const Function<Return2, Param2...>& rhs);
 
-	template <class Return2, class Param2>
+	template <class Return2, class... Param2>
 	friend class Function;
 protected:
 	class ValueBase;
@@ -64,130 +64,130 @@ protected:
 	SharedPointer<ValueBase> value;
 };
 
-template <class Return, class Param>
-Function<Return, Param>::Function()
+template <class Return, class... Param>
+Function<Return, Param...>::Function()
 {
 	value = 0x0;
 }
-template <class Return, class Param>
-Function<Return, Param>::Function(const Function& orig)
+template <class Return, class... Param>
+Function<Return, Param...>::Function(const Function& orig)
 {
 	value = orig.value;
 }
-template <class Return, class Param>
+template <class Return, class... Param>
 template <class Object>
-Function<Return, Param>::Function(const Object& o)
+Function<Return, Param...>::Function(const Object& o)
 {
 	(*this) = o;
 }
-template <class Return, class Param>
-Function<Return, Param>::Function(Return(*function)(Param))
+template <class Return, class... Param>
+Function<Return, Param...>::Function(Return(*function)(Param...))
 {
 	(*this) = function;
 }
-template <class Return, class Param>
-Function<Return, Param>::~Function()
+template <class Return, class... Param>
+Function<Return, Param...>::~Function()
 {
 
 }
 
-template <class Return, class Param>
+template <class Return, class... Param>
 template <class Object>
-inline void Function<Return, Param>::setFunction(const Object& o)
+inline void Function<Return, Param...>::setFunction(const Object& o)
 {
 	(*this) = o;
 }
-template <class Return, class Param>
-inline void Function<Return, Param>::setFunction(Return(*function)(Param))
+template <class Return, class... Param>
+inline void Function<Return, Param...>::setFunction(Return(*function)(Param...))
 {
 	(*this) = function;
 }
-template <class Return, class Param>
-inline bool Function<Return, Param>::isSet()
+template <class Return, class... Param>
+inline bool Function<Return, Param...>::isSet()
 {
 	return value != 0x0;
 }
-template <class Return, class Param>
-Return Function<Return, Param>::execute(Param param)
+template <class Return, class... Param>
+Return Function<Return, Param...>::execute(Param... param)
 {
-	return (*this)(param);
+	return (*this)(param...);
 }
 
-template <class Return, class Param>
-inline Return Function<Return, Param>::operator()(Param param)
+template <class Return, class... Param>
+inline Return Function<Return, Param...>::operator()(Param... param)
 {
 	if(value == 0x0)
 		throw InvalidFunctionCall();
 
-	return (*value)(param);
+	return (*value)(param...);
 }
-template <class Return, class Param>
-template <class Return2, class Param2>
-Function<Return, Param>::operator Function<Return2, Param2>() const
+template <class Return, class... Param>
+template <class Return2, class... Param2>
+Function<Return, Param...>::operator Function<Return2, Param2...>() const
 {
-	Function<Return2, Param2> func;
+	Function<Return2, Param2...> func;
 	func->value = this->val;
 	return func;
 }
 
-template <class Return, class Param>
+template <class Return, class... Param>
 template <class Object>
-Function<Return, Param>& Function<Return, Param>::operator=(const Object& o)
+Function<Return, Param...>& Function<Return, Param...>::operator=(const Object& o)
 {
 	value = new Functor<Object>(o);
 	return *this;
 }
 
-template <class Return, class Param>
-Function<Return, Param>& Function<Return, Param>::operator=(Return(*function)(Param))
+template <class Return, class... Param>
+Function<Return, Param...>& Function<Return, Param...>::operator=(Return(*function)(Param...))
 {
 	value = new FunctionPointer(function);
 	return *this;
 }
 
-template <class Return, class Param>
-Function<Return, Param>& Function<Return, Param>::operator=(const Function& rhs)
+template <class Return, class... Param>
+Function<Return, Param...>& Function<Return, Param...>::operator=(const Function& rhs)
 {
 	value = rhs.value;
 	return *this;
 }
-template <class Return, class Param>
-template <class Return2, class Param2>
-Function<Return, Param>& Function<Return, Param>::operator=(const Function<Return2, Param2>& rhs)
+template <class Return, class... Param>
+template <class Return2, class... Param2>
+Function<Return, Param...>& Function<Return, Param...>::operator=(const Function<Return2, Param2...>& rhs)
 {
 	value = rhs.value;
 	return *this;
 }
 
-template <class Return, class Param>
-class Function<Return, Param>::ValueBase
+template <class Return, class... Param>
+class Function<Return, Param...>::ValueBase
 {
 public:
 	virtual ~ValueBase() {}
-	virtual Return operator()(Param param)= 0;
+	virtual Return operator()(Param... param)= 0;
 };
 
-template <class Return, class Param>
+template <class Return, class... Param>
 template <class Object>
-class Function<Return, Param>::Functor : public Function::ValueBase
+class Function<Return, Param...>::Functor : public Function::ValueBase
 {
 public:
 	Functor(Object o) : o(o) {}
-	virtual Return operator()(Param param) {return o(param);}
+	virtual Return operator()(Param... param) {return o(param...);}
 private:
 	Functor() {}
 	Object o;
 };
 
-template <class Return, class Param>
-class Function<Return, Param>::FunctionPointer : public Function::ValueBase
+template <class Return, class... Param>
+class Function<Return, Param...>::FunctionPointer : public Function::ValueBase
 {
 public:
-	FunctionPointer(Return(*function)(Param)) : function(function) {}
-	virtual Return operator()(Param param) {return function(param);}
+	FunctionPointer(Return(*function)(Param...)) : function(function) {}
+	virtual Return operator()(Param... param) {return function(param...);}
 private:
 	FunctionPointer() {}
-	Return(*function)(Param);
+	Return(*function)(Param...);
 };
 
 class InvalidFunctionCall : public Exception

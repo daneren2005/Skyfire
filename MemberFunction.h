@@ -20,98 +20,98 @@
 
 #include "Function.h"
 
-template <class Object, class Return, class Param>
-class MemberFunction : public Function<Return, Param>
+template <class Object, class Return, class... Param>
+class MemberFunction : public Function<Return, Param...>
 {
 public:
 	MemberFunction();
 	MemberFunction(Object* o);
-	MemberFunction(Return(Object::*function)(Param));
-	MemberFunction(Return(Object::*function)(Param), Object* o);
+	MemberFunction(Return(Object::*function)(Param...));
+	MemberFunction(Return(Object::*function)(Param...), Object* o);
 	MemberFunction(const MemberFunction& orig);
 	virtual ~MemberFunction();
 
 	void setObject(Object* obj);
 	Object* getObject();
-	void setFunction(Return(Object::*function)(Param));
+	void setFunction(Return(Object::*function)(Param...));
 
-	MemberFunction& operator=(Return(Object::*function)(Param));
+	MemberFunction& operator=(Return(Object::*function)(Param...));
 	MemberFunction& operator=(const MemberFunction& rhs);
-	template <class Object2, class Return2, class Param2>
-	MemberFunction& operator=(const MemberFunction<Object2, Return2, Param2>& rhs);
+	template <class Object2, class Return2, class... Param2>
+	MemberFunction& operator=(const MemberFunction<Object2, Return2, Param2...>& rhs);
 
-	operator Function<Return, Param>() const;
-	template <class Object2, class Return2, class Param2>
-	operator MemberFunction<Object2, Return2, Param2>() const;
+	operator Function<Return, Param...>() const;
+	template <class Object2, class Return2, class... Param2>
+	operator MemberFunction<Object2, Return2, Param2...>() const;
 
-	template <class Object2, class Return2, class Param2>
+	template <class Object2, class Return2, class... Param2>
 	friend class MemberFunction;
 private:
 	class MemberPointer;
 
-	Function<Return, Param>::value;
+	Function<Return, Param...>::value;
 	Object* o;
 
 	// Don't allow calling of these
 	void setFunction(const Object& o);
-	void setFunction(Return(*function)(Param));
+	void setFunction(Return(*function)(Param...));
 };
 
-template <class Object, class Return, class Param>
-MemberFunction<Object, Return, Param>::MemberFunction() : Function<Return, Param>()
+template <class Object, class Return, class... Param>
+MemberFunction<Object, Return, Param...>::MemberFunction() : Function<Return, Param...>()
 {
 	this->o = 0x0;
 }
-template <class Object, class Return, class Param>
-MemberFunction<Object, Return, Param>::MemberFunction(Object* o) : Function<Return, Param>()
+template <class Object, class Return, class... Param>
+MemberFunction<Object, Return, Param...>::MemberFunction(Object* o) : Function<Return, Param...>()
 {
 	this->o = o;
 }
-template <class Object, class Return, class Param>
-MemberFunction<Object, Return, Param>::MemberFunction(Return(Object::*function)(Param))
+template <class Object, class Return, class... Param>
+MemberFunction<Object, Return, Param...>::MemberFunction(Return(Object::*function)(Param...))
 {
 	(*this) = function;
 }
-template <class Object, class Return, class Param>
-MemberFunction<Object, Return, Param>::MemberFunction(Return(Object::*function)(Param), Object* o)
+template <class Object, class Return, class... Param>
+MemberFunction<Object, Return, Param...>::MemberFunction(Return(Object::*function)(Param...), Object* o)
 {
 	(*this) = function;
 	this->o = o;
 }
-template <class Object, class Return, class Param>
-MemberFunction<Object, Return, Param>::MemberFunction(const MemberFunction& orig) : Function<Return, Param>()
+template <class Object, class Return, class... Param>
+MemberFunction<Object, Return, Param...>::MemberFunction(const MemberFunction& orig) : Function<Return, Param...>()
 {
 	value = orig.value;
 	o = orig.o;
 }
-template <class Object, class Return, class Param>
-MemberFunction<Object, Return, Param>::~MemberFunction()
+template <class Object, class Return, class... Param>
+MemberFunction<Object, Return, Param...>::~MemberFunction()
 {
 	
 }
 
-template <class Object, class Return, class Param>
-void MemberFunction<Object, Return, Param>::setObject(Object* obj)
+template <class Object, class Return, class... Param>
+void MemberFunction<Object, Return, Param...>::setObject(Object* obj)
 {
 	this->o = obj;
 	if(value != 0x0)
 		((MemberPointer*)value.getPointer())->o = o;
 }
 
-template <class Object, class Return, class Param>
-Object* MemberFunction<Object, Return, Param>::getObject()
+template <class Object, class Return, class... Param>
+Object* MemberFunction<Object, Return, Param...>::getObject()
 {
 	return this->o;
 }
 
-template <class Object, class Return, class Param>
-void MemberFunction<Object, Return, Param>::setFunction(Return(Object::*function)(Param))
+template <class Object, class Return, class... Param>
+void MemberFunction<Object, Return, Param...>::setFunction(Return(Object::*function)(Param...))
 {
 	(*this) = function;
 }
 
-template <class Object, class Return, class Param>
-MemberFunction<Object, Return, Param>& MemberFunction<Object, Return, Param>::operator=(Return(Object::*function)(Param))
+template <class Object, class Return, class... Param>
+MemberFunction<Object, Return, Param...>& MemberFunction<Object, Return, Param...>::operator=(Return(Object::*function)(Param...))
 {
 	value = new MemberPointer(function);
 	if(o != 0x0)
@@ -119,17 +119,17 @@ MemberFunction<Object, Return, Param>& MemberFunction<Object, Return, Param>::op
 	
 	return *this;
 }
-template <class Object, class Return, class Param>
-MemberFunction<Object, Return, Param>& MemberFunction<Object, Return, Param>::operator=(const MemberFunction& rhs)
+template <class Object, class Return, class... Param>
+MemberFunction<Object, Return, Param...>& MemberFunction<Object, Return, Param...>::operator=(const MemberFunction& rhs)
 {
 	value = rhs.value;
 	o = rhs.o;
 	
 	return *this;
 }
-template <class Object, class Return, class Param>
-template <class Object2, class Return2, class Param2>
-MemberFunction<Object, Return, Param>& MemberFunction<Object, Return, Param>::operator=(const MemberFunction<Object2, Return2, Param2>& rhs)
+template <class Object, class Return, class... Param>
+template <class Object2, class Return2, class... Param2>
+MemberFunction<Object, Return, Param...>& MemberFunction<Object, Return, Param...>::operator=(const MemberFunction<Object2, Return2, Param2...>& rhs)
 {
 	value = rhs.value;
 	o = rhs.o;
@@ -137,40 +137,40 @@ MemberFunction<Object, Return, Param>& MemberFunction<Object, Return, Param>::op
 	return *this;
 }
 
-template <class Object, class Return, class Param>
-MemberFunction<Object, Return, Param>::operator Function<Return, Param>() const
+template <class Object, class Return, class... Param>
+MemberFunction<Object, Return, Param...>::operator Function<Return, Param...>() const
 {
-	Function<Return, Param> function;
+	Function<Return, Param...> function;
 	function.value = value;
 	return function;
 }
 
-template <class Object, class Return, class Param>
-template <class Object2, class Return2, class Param2>
-MemberFunction<Object, Return, Param>::operator MemberFunction<Object2, Return2, Param2>() const
+template <class Object, class Return, class... Param>
+template <class Object2, class Return2, class... Param2>
+MemberFunction<Object, Return, Param...>::operator MemberFunction<Object2, Return2, Param2...>() const
 {
-	MemberFunction<Object2, Return2, Param2> function;
+	MemberFunction<Object2, Return2, Param2...> function;
 	function.value = value;
 	return function;
 }
 
-template <class Object, class Return, class Param>
-class MemberFunction<Object, Return, Param>::MemberPointer : public Function<Return, Param>::ValueBase
+template <class Object, class Return, class... Param>
+class MemberFunction<Object, Return, Param...>::MemberPointer : public Function<Return, Param...>::ValueBase
 {
 public:
-	MemberPointer(Return(Object::*function)(Param)) : o(0x0), function(function) {}
-	virtual Return operator()(Param param)
+	MemberPointer(Return(Object::*function)(Param...)) : o(0x0), function(function) {}
+	virtual Return operator()(Param... param)
 	{
 		if(o == 0x0)
 			throw InvalidFunctionCall();
 
-		return ((*o).*function)(param);
+		return ((*o).*function)(param...);
 	}
 
 	Object* o;
 private:
 	MemberPointer() {}
-	Return(Object::*function)(Param);
+	Return(Object::*function)(Param...);
 };
 
 #endif
