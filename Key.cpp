@@ -23,12 +23,12 @@ Key::Key()
 	this->pressed = false;
 	this->keyPressHandler = 0x0;
 	this->keyPressArgs = 0x0;
-	this->keyDownHandler = 0x0;
+	/*this->keyDownHandler = 0x0;
 	this->keyDownArgs = 0x0;
 	this->mousePressHandler = 0x0;
 	this->mousePressArgs = 0x0;
 	this->mouseDownHandler = 0x0;
-	this->mouseDownArgs = 0x0;
+	this->mouseDownArgs = 0x0;*/
 }
 Key::Key(KeyType type)
 {
@@ -36,12 +36,12 @@ Key::Key(KeyType type)
 	this->pressed = false;
 	this->keyPressHandler = 0x0;
 	this->keyPressArgs = 0x0;
-	this->keyDownHandler = 0x0;
+	/*this->keyDownHandler = 0x0;
 	this->keyDownArgs = 0x0;
 	this->mousePressHandler = 0x0;
 	this->mousePressArgs = 0x0;
 	this->mouseDownHandler = 0x0;
-	this->mouseDownArgs = 0x0;
+	this->mouseDownArgs = 0x0;*/
 }
 
 Key::Key(const Key& orig)
@@ -66,9 +66,9 @@ void Key::keyUp(int x , int y)
 	{
 		this->keyPressHandler(this->keyPressArgs);
 	}
-	else if(this->mousePressHandler != 0x0)
+	else if(this->mousePressHandler.isSet())
 	{
-		this->mousePressHandler(this->mousePressArgs, x, y);
+		this->mousePressHandler(x, y);
 	}
 }
 bool Key::keyPressed()
@@ -98,13 +98,13 @@ bool Key::operator !=(const Key& rhs)
 
 void Key::update(double interval, int x, int y)
 {
-	if(keyDownHandler != 0x0)
+	if(keyDownHandler.isSet())
 	{
-		this->keyDownHandler(this->keyDownArgs, interval);
+		this->keyDownHandler(interval);
 	}
-	else if(mouseDownHandler != 0x0)
+	else if(mouseDownHandler.isSet())
 	{
-		this->mouseDownHandler(this->mouseDownArgs, interval, x, y);
+		this->mouseDownHandler(interval, x, y);
 	}
 }
 
@@ -113,21 +113,18 @@ void Key::setKeyPressEventHandler(void*(*eventHandler)(void* args), void* args)
 	this->keyPressHandler = eventHandler;
 	this->keyPressArgs = args;
 }
-void Key::setKeyDownEventHandler(void*(*eventHandler)(void* args, double interval), void* args)
+void Key::setKeyDownEventHandler(Function<void, double> eventHandler)
 {
 	this->keyDownHandler = eventHandler;
-	this->keyDownArgs = args;
 }
 
-void Key::setMousePressEventHandler(void*(*eventHandler)(void* args, int x, int y), void* args)
+void Key::setMousePressEventHandler(Function<void, int, int> eventHandler)
 {
 	this->mousePressHandler = eventHandler;
-	this->mousePressArgs = args;
 }
 
-void Key::setMouseDownEventHandler(void*(*eventHandler)(void* args, double interval, int x, int y), void* args)
+void Key::setMouseDownEventHandler(Function<void, double, int, int> eventHandler)
 {
 	this->mouseDownHandler = eventHandler;
-	this->mouseDownArgs = args;
 }
 

@@ -41,19 +41,18 @@ public:
 	int mouseLocationX();
 	int mouseLocationY();
 
-	void setMousePressEventHandler(KeyType key, void*(*eventHandler)(void* args, int x, int y), void* args);
-	void setMouseDownEventHandler(KeyType key, void*(*eventHandler)(void* args, double interval, int x, int y), void* args);
-	void setMouseMoveEventHandler(void*(*eventHandler)(void* args, int x, int y), void* args);
+	void setMousePressEventHandler(KeyType key, Function<void, int, int> eventHandler);
+	void setMouseDownEventHandler(KeyType key, Function<void, double, int, int> eventHandler);
+	void setMouseMoveEventHandler(Function<void, int, int> eventHandler);
 	void setKeyPressEventHandler(KeyType key, void*(*eventHandler)(void* args), void* args);
-	void setKeyDownEventHandler(KeyType key, void*(*eventHandler)(void* args, double interval), void* args);
+	void setKeyDownEventHandler(KeyType key, Function<void, double> eventHandler);
 
 	void update(double interval);
 private:
 	int mouseX;
 	int mouseY;
-	void* mouseArgs;
-	void*(*mouseHandler)(void* args, int x, int y);
-
+	Function<void, int, int> mouseHandler;
+	
 	Map<Key*, KeyType> keys;
 };
 

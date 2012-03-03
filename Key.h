@@ -18,6 +18,8 @@
 #ifndef _KEY_H
 #define	_KEY_H
 
+#include "Function.h"
+
 enum KeyType
 {
 	KEY_ESCAPE, KEY_UP, KEY_DOWN, KEY_RIGHT, KEY_LEFT, KEY_PAGEUP, KEY_PAGEDOWN, KEY_W, KEY_A, KEY_S, KEY_D,
@@ -45,21 +47,26 @@ public:
 	void update(double interval, int x = 0, int y = 0);
 
 	void setKeyPressEventHandler(void*(*eventHandler)(void* args), void* args);
-	void setKeyDownEventHandler(void*(*eventHandler)(void* args, double interval), void* args);
-	void setMousePressEventHandler(void*(*eventHandler)(void* args, int x, int y), void* args);
-	void setMouseDownEventHandler(void*(*eventHandler)(void* args, double interval, int x, int y), void* args);
+	void setKeyDownEventHandler(Function<void, double> eventHandler);
+	void setMousePressEventHandler(Function<void, int, int> eventHandler);
+	void setMouseDownEventHandler(Function<void, double, int, int> eventHandler);
 private:
 	KeyType type;
 	bool pressed;
 
+	// Function<void, void> keyPressHandler;
+	Function<void, double> keyDownHandler;
+	Function<void, int, int> mousePressHandler;
+	Function<void, double, int, int> mouseDownHandler;
+	
 	void*(*keyPressHandler)(void* args);
 	void* keyPressArgs;
-	void*(*keyDownHandler)(void* args, double interval);
+	/*void*(*keyDownHandler)(void* args, double interval);
 	void* keyDownArgs;
 	void*(*mousePressHandler)(void* args, int x, int y);
 	void* mousePressArgs;
 	void*(*mouseDownHandler)(void* args, double interval, int x, int y);
-	void* mouseDownArgs;
+	void* mouseDownArgs;*/
 };
 
 #endif	/* _KEY_H */

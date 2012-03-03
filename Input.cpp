@@ -24,8 +24,7 @@
 
 Input::Input()
 {
-	this->mouseHandler = 0x0;
-	this->mouseArgs = 0x0;
+	// this->mouseHandler = 0x0;
 
 	this->keys.insert(new Key(KEY_LEFT), KEY_LEFT);
 	this->keys.insert(new Key(KEY_RIGHT), KEY_RIGHT);
@@ -78,9 +77,9 @@ void Input::mouseMove(int x, int y)
 	this->mouseX = x;
 	this->mouseY = y;
 
-	if(this->mouseHandler != 0x0)
+	if(this->mouseHandler.isSet())
 	{
-		this->mouseHandler(this->mouseArgs, this->mouseX, this->mouseY);
+		this->mouseHandler(this->mouseX, this->mouseY);
 	}
 }
 
@@ -113,36 +112,35 @@ int Input::mouseLocationY()
 	return this->mouseY;
 }
 
-void Input::setMousePressEventHandler(KeyType key, void*(*eventHandler)(void* args, int x, int y), void* args)
+void Input::setMousePressEventHandler(KeyType key, Function<void, int, int> eventHandler)
 {
 	try
 	{
-		this->keys.search(key)->setMousePressEventHandler(eventHandler, args);
+		this->keys.search(key)->setMousePressEventHandler(eventHandler);
 	}
 	catch(Exception& e)
 	{
 		Key* pressed = new Key(key);
-		pressed->setMousePressEventHandler(eventHandler, args);
+		pressed->setMousePressEventHandler(eventHandler);
 		this->keys.insert(pressed, key);
 	}
 }
-void Input::setMouseDownEventHandler(KeyType key, void*(*eventHandler)(void* args, double interval, int x, int y), void* args)
+void Input::setMouseDownEventHandler(KeyType key, Function<void, double, int, int> eventHandler)
 {
 	try
 	{
-		this->keys.search(key)->setMouseDownEventHandler(eventHandler, args);
+		this->keys.search(key)->setMouseDownEventHandler(eventHandler);
 	}
 	catch(Exception& e)
 	{
 		Key* pressed = new Key(key);
-		pressed->setMouseDownEventHandler(eventHandler, args);
+		pressed->setMouseDownEventHandler(eventHandler);
 		this->keys.insert(pressed, key);
 	}
 }
-void Input::setMouseMoveEventHandler(void*(*eventHandler)(void* args, int x, int y), void* args)
+void Input::setMouseMoveEventHandler(Function<void, int, int> eventHandler)
 {
 	this->mouseHandler = eventHandler;
-	this->mouseArgs = args;
 }
 
 void Input::setKeyPressEventHandler(KeyType key, void*(*eventHandler)(void* args), void* args)
@@ -158,16 +156,16 @@ void Input::setKeyPressEventHandler(KeyType key, void*(*eventHandler)(void* args
 		this->keys.insert(pressed, key);
 	}
 }
-void Input::setKeyDownEventHandler(KeyType key, void*(*eventHandler)(void* args, double interval), void* args)
+void Input::setKeyDownEventHandler(KeyType key, Function<void, double> eventHandler)
 {
 	try
 	{
-		this->keys.search(key)->setKeyDownEventHandler(eventHandler, args);
+		this->keys.search(key)->setKeyDownEventHandler(eventHandler);
 	}
 	catch(Exception& e)
 	{
 		Key* pressed = new Key(key);
-		pressed->setKeyDownEventHandler(eventHandler, args);
+		pressed->setKeyDownEventHandler(eventHandler);
 		this->keys.insert(pressed, key);
 	}
 }
