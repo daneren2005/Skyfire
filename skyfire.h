@@ -44,5 +44,7 @@
 
 #include "DataFile.h"
 
+#include "MemberFunction.h"
+
 #endif	/* _SKYFIRE_H */
 
