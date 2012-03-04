@@ -17,7 +17,6 @@
 
 #include "Renderer.h"
 #include "BaseObject.h"
-#include <GL/glu.h>
 
 Renderer::Renderer()
 {

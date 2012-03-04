@@ -18,6 +18,9 @@
 #ifndef _RENDERER_H
 #define	_RENDERER_H
 
+#include <GL/gl.h>
+#include <GL/glu.h>
+
 #include "Rectangle.h"
 #include "Input.h"
 
