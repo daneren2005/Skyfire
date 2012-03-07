@@ -35,14 +35,13 @@ public:
 	void setString(const String& str);
 	int getX();
 	int getY();
+	Rectangle2 getArea();
 	void setPosition(int x, int y);
 	Vector getColor();
 	void setColor(const Vector& color);
 	
 	virtual void render();
 private:
-	int x;
-	int y;
 	String str;
 	Vector color;
 };

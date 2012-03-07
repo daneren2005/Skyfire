@@ -19,37 +19,30 @@
 
 Label::Label()
 {
-	this->x = 0;
-	this->y = 0;
 	this->str = "";
 	this->color = Vector(0.0f, 0.0f, 0.0f);
 }
 Label::Label(const String& str)
 {
-	this->x = 0;
-	this->y = 0;
 	this->str = str;
 	this->color = Vector(0.0f, 0.0f, 0.0f);
 }
 Label::Label(int x, int y)
 {
-	this->x = x;
-	this->y = y;
+	this->screenArea = Rectangle2(x, y, x, y);
 	this->color = Vector(0.0f, 0.0f, 0.0f);
 }
 Label::Label(const String& str, int x, int y)
 {
+	this->screenArea = Rectangle2(x, y, x, y);
 	this->str = str;
-	this->x = x;
-	this->y = y;
 	this->color = Vector(0.0f, 0.0f, 0.0f);
 }
 
 Label::Label(const Label& orig)
 {
 	this->str = orig.str;
-	this->x = orig.x;
-	this->y = orig.y;
+	this->screenArea = orig.screenArea;
 	this->color = orig.color;
 }
 
@@ -57,10 +50,44 @@ Label::~Label()
 {
 }
 
+String Label::getString()
+{
+	return str;
+}
+void Label::setString(const String& str)
+{
+	this->str = str;
+}
+int Label::getX()
+{
+	return screenArea.lx;
+}
+int Label::getY()
+{
+	return screenArea.ly;
+}
+Rectangle2 Label::getArea()
+{
+	return screenArea;
+}
+void Label::setPosition(int x, int y)
+{
+	screenArea.lx = x;
+	screenArea.ly = y;
+}
+Vector Label::getColor()
+{
+	return color;
+}
+void Label::setColor(const Vector& color)
+{
+	this->color = color;
+}
+
 void Label::render()
 {	
 	glColor3f(color[0], color[1], color[2]);
-	glRasterPos2i(x, y);
+	glRasterPos2i(screenArea.lx, screenArea.ly);
 	glCallLists(str.length(), GL_UNSIGNED_BYTE, str.cStr());
 }
 
