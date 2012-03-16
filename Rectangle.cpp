@@ -17,6 +17,9 @@
 
 #include "Rectangle.h"
 
+#include <GL/gl.h>
+#include <GL/glu.h>
+
 Rectangle2::Rectangle2()
 {
 	this->lx = 0;
@@ -34,4 +37,18 @@ Rectangle2::Rectangle2(int lx, int ly, int ux, int uy)
 
 Rectangle2::~Rectangle2()
 {
+}
+
+void Rectangle2::draw()
+{
+	glBegin(GL_LINES);
+		glVertex2i(lx, ly);
+		glVertex2i(lx, uy);
+		glVertex2i(lx, uy);
+		glVertex2i(ux, uy);
+		glVertex2i(ux, uy);
+		glVertex2i(ux, ly);
+		glVertex2i(ux, ly);
+		glVertex2i(lx, ly);
+	glEnd();
 }

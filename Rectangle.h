@@ -24,6 +24,8 @@ public:
 	Rectangle2();
 	Rectangle2(int lx, int ly, int ux, int uy);
 	~Rectangle2();
+	
+	void draw();
 
 	int lx, ly, ux, uy;
 };
