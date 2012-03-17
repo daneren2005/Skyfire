@@ -16,27 +16,33 @@
 */
 
 #include "Label.h"
+#include "Window.h"
+#include "Console.h"
 
 Label::Label()
 {
 	this->str = "";
 	this->color = Vector(0.0f, 0.0f, 0.0f);
+	font = _defaultCallback->getDefaultFont();
 }
 Label::Label(const String& str)
 {
 	this->str = str;
 	this->color = Vector(0.0f, 0.0f, 0.0f);
+	font = _defaultCallback->getDefaultFont();
 }
 Label::Label(int x, int y)
 {
 	this->screenArea = Rectangle2(x, y, x, y);
 	this->color = Vector(0.0f, 0.0f, 0.0f);
+	font = _defaultCallback->getDefaultFont();
 }
 Label::Label(const String& str, int x, int y)
 {
 	this->screenArea = Rectangle2(x, y, x, y);
 	this->str = str;
 	this->color = Vector(0.0f, 0.0f, 0.0f);
+	font = _defaultCallback->getDefaultFont();
 }
 
 Label::Label(const Label& orig)
@@ -44,6 +50,7 @@ Label::Label(const Label& orig)
 	this->str = orig.str;
 	this->screenArea = orig.screenArea;
 	this->color = orig.color;
+	this->font = orig.font;
 }
 
 Label::~Label()
@@ -82,6 +89,14 @@ Vector Label::getColor()
 void Label::setColor(const Vector& color)
 {
 	this->color = color;
+}
+Font2D Label::getFont()
+{
+	return this->font;
+}
+void Label::setFont(Font2D font)
+{
+	this->font = font;
 }
 
 void Label::render()

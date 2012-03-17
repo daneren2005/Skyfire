@@ -20,6 +20,10 @@
 #include "BaseObject.h"
 #include "MemberFunction.h"
 
+#ifdef WIN32
+	Window* _defaultCallback = 0;
+#endif
+
 Window::Window()
 {
 	renderer = NULL;
@@ -136,6 +140,15 @@ void Window::setRenderer(Renderer* newRenderer)
 {
 	this->renderer = newRenderer;
 	renderer->setEventHandlers(input);
+}
+
+Font2D Window::getDefaultFont()
+{
+	return font;
+}
+void Window::setDefaultFont(Font2D font)
+{
+	font = font;
 }
 
 void Window::initWin(Thread* arg)
@@ -259,20 +272,13 @@ void Window::initWin(Thread* arg)
 		}
 	#endif
 
-	initBitmapFonts();
+	initDefaultFont();
 	initOpenGL();
 }
 
-void Window::initBitmapFonts()
+void Window::initDefaultFont()
 {
-	HFONT fontObj;
-	font = glGenLists(128);
-	fontObj = CreateFont(14, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS,
-		CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, "Courier New");
-	SelectObject(device, fontObj);
-	wglUseFontBitmaps(device, 0, 128, font);
-	DeleteObject(fontObj);
-	glListBase(font);
+	font = Font2D("Courier New", 14);
 }
 
 void Window::initOpenGL()

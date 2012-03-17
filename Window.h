@@ -28,13 +28,11 @@
 #ifdef __linux__
 	#include <SDL/SDL.h>
 #endif
-// #include <SDL/SDL_opengl.h>
 
 #include "Renderer.h"
 #include "Input.h"
 #include "Thread.h"
-
-#include <iostream>
+#include "Font2D.h"
 
 class Window
 {
@@ -49,6 +47,9 @@ public:
 
 	void setSize(int width, int height);
 	void setRenderer(Renderer* newRenderer);
+	
+	Font2D getDefaultFont();
+	void setDefaultFont(Font2D font);
 private:
 	// width/height of the window
 	int screenWidth;
@@ -66,10 +67,11 @@ private:
 		SDL_Surface* surface;
 	#endif
 
-	GLuint font;
+	Font2D font;
+	friend class Font2D;
 
 	void initWin(Thread* arg);
-	void initBitmapFonts();
+	void initDefaultFont();
 	void initOpenGL();
 
 	// Render scene, thread, and function
@@ -100,7 +102,7 @@ private:
 };
 
 #ifdef WIN32
-	static Window* _defaultCallback;
+	extern Window* _defaultCallback;
 #endif
 
 #endif	/* _WINDOW_H */

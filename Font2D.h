@@ -15,40 +15,25 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LABEL_H_
-#define	LABEL_H_
+#ifndef FONT2D_H_
+#define	FONT2D_H_
 
-#include "Renderer.h"
-#include "Font2D.h"
-#include "Vector.h"
+#include "CString.h"
 
-class Label : public Renderer
+class Font2D
 {
 public:
-	Label();
-	Label(const String& str);
-	Label(int x, int y);
-	Label(const String& str, int x, int y);
-	Label(const Label& orig);
-	virtual ~Label();
+	Font2D();
+	Font2D(String name, int size);
+	Font2D(const Font2D& orig);
+	virtual ~Font2D();
 	
-	String getString();
-	void setString(const String& str);
-	int getX();
-	int getY();
-	Rectangle2 getArea();
-	void setPosition(int x, int y);
-	Vector getColor();
-	void setColor(const Vector& color);
-	Font2D getFont();
-	void setFont(Font2D font);
-	
-	virtual void render();
+	void draw(String str);
 private:
-	Font2D font;
-	String str;
-	Vector color;
+	uint list;
+	String name;
+	int size;
 };
 
-#endif	/* LABEL_H */
+#endif	/* FONT_H */
 
