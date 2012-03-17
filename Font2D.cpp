@@ -54,3 +54,19 @@ void Font2D::draw(const String& str)
 	glCallLists(str.length(), GL_UNSIGNED_BYTE, str.cStr());
 }
 
+int Font2D::getHeight()
+{
+	return this->size;
+}
+int Font2D::getWidth(const String& str)
+{
+	HFONT fontObj;
+	fontObj = CreateFont(size, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS,
+		CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, name.cStr());
+	SelectObject(_defaultCallback->device, fontObj);
+	RECT* rect = new RECT;
+	DrawText(_defaultCallback->device, str.cStr(), str.length(), rect, DT_CALCRECT);
+	DeleteObject(fontObj);
+	return rect->right - rect->left;
+}
+

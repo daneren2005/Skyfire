@@ -38,15 +38,15 @@ TextBox::TextBox(int x, int y)
 }
 TextBox::TextBox(const String& str, int x, int y)
 {
+	font = _defaultCallback->getDefaultFont();
 	this->str = str;
 	this->screenArea.lx = x;
 	this->screenArea.ly = y;
-	this->screenArea.ux = x + 20;
-	this->screenArea.uy = y - 14;
+	this->screenArea.ux = x + font.getWidth(str) + 4;
+	this->screenArea.uy = y - font.getHeight() - 2;
 	this->color = Vector(0.0f, 0.0f, 0.0f);
 	this->x = x + 2;
-	this->y = y - 2;
-	font = _defaultCallback->getDefaultFont();
+	this->y = y - 5;
 	this->color = Vector(0.0f, 0.0f, 0.0f);
 }
 

@@ -29,6 +29,8 @@ public:
 	virtual ~Font2D();
 	
 	void draw(const String& str);
+	int getHeight();
+	int getWidth(const String& str);
 private:
 	uint list;
 	String name;
