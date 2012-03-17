@@ -18,12 +18,12 @@
 #include "GUI.h"
 #include "Label.h"
 
-GUI::GUI()
+GUI::GUI() : Renderer()
 {
 	
 }
 
-GUI::GUI(GUI& orig)
+GUI::GUI(GUI& orig) : Renderer(orig)
 {
 	this->elements = orig.elements;
 }
