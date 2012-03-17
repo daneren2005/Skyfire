@@ -28,7 +28,7 @@ public:
 	Font2D(const Font2D& orig);
 	virtual ~Font2D();
 	
-	void draw(String str);
+	void draw(const String& str);
 private:
 	uint list;
 	String name;

@@ -48,7 +48,7 @@ Font2D::~Font2D()
 {
 }
 
-void Font2D::draw(String str)
+void Font2D::draw(const String& str)
 {
 	glListBase(list);
 	glCallLists(str.length(), GL_UNSIGNED_BYTE, str.cStr());

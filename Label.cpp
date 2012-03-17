@@ -103,6 +103,6 @@ void Label::render()
 {	
 	glColor3f(color[0], color[1], color[2]);
 	glRasterPos2i(screenArea.lx, screenArea.ly);
-	glCallLists(str.length(), GL_UNSIGNED_BYTE, str.cStr());
+	font.draw(str);
 }
 
