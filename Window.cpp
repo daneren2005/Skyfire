@@ -47,6 +47,8 @@ Window::Window()
 		_defaultCallback = this;
 	#endif
 
+	lock.lock();
+
 	// Start rendering
 	renderThread.setTicksPerSecond(60);
 	MemberFunction<Window, void, Thread*> func(this);
@@ -59,6 +61,9 @@ Window::Window()
 	inputThread.setTicksPerSecond(30);
 	func = &Window::inputFunction;
 	inputThread.start((Function<void, Thread*>)func, this);
+	
+	condition.wait(lock);
+	lock.unlock();
 }
 
 Window::Window(int width, int height)
@@ -84,6 +89,8 @@ Window::Window(int width, int height)
 		_defaultCallback = this;
 	#endif
 
+	lock.lock();
+
 	// Start rendering
 	renderThread.setTicksPerSecond(60);
 	MemberFunction<Window, void, Thread*> func(this);
@@ -96,6 +103,9 @@ Window::Window(int width, int height)
 	inputThread.setTicksPerSecond(30);
 	func = &Window::inputFunction;
 	inputThread.start((Function<void, Thread*>)func, this);
+	
+	condition.wait(lock);
+	lock.unlock();
 }
 
 Window::~Window()
@@ -140,6 +150,7 @@ void Window::setRenderer(Renderer* newRenderer)
 {
 	this->renderer = newRenderer;
 	renderer->setEventHandlers(input);
+	renderer->setScreenArea(Rectangle2(0, 0, screenWidth, screenHeight));
 }
 
 Font2D Window::getDefaultFont()
@@ -274,6 +285,10 @@ void Window::initWin(Thread* arg)
 
 	initDefaultFont();
 	initOpenGL();
+	
+	lock.lock();
+	condition.signal();
+	lock.unlock();
 }
 
 void Window::initDefaultFont()

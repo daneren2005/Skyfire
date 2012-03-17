@@ -33,6 +33,7 @@
 #include "Input.h"
 #include "Thread.h"
 #include "Font2D.h"
+#include "Condition.h"
 
 class Window
 {
@@ -80,6 +81,10 @@ private:
 	Thread inputThread;
 	void renderFunction(Thread* arg);
 	void inputFunction(Thread* arg);
+	
+	// Needed to wait for init to finish
+	Lock lock;
+	Condition condition;
 
 	// Events thread, loop function, and processing function
 	Input* input;
