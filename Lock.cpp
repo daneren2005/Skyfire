@@ -34,7 +34,7 @@ Lock::~Lock()
 void Lock::lock()
 {
 	pthread_mutex_lock(&buffer->lock);
-	buffer->locked = false;
+	buffer->locked = true;
 }
 bool Lock::tryLock()
 {
