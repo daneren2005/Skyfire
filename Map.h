@@ -19,6 +19,7 @@
 #define	_MAP_H_
 
 #include "BasicList.h"
+#include "Iterator.h"
 #include "Exceptions.h"
 
 #include "Console.h"
@@ -626,7 +627,7 @@ void Map<Value, Key>::recursiveRemove(Node* current)
 /////////////////////////////////////////////////////////////////////
 
 template <class Value, class Key>
-class Map<Value, Key>::InOrderIterator
+class Map<Value, Key>::InOrderIterator : public IteratorBase<Value>
 {
 public:
 	InOrderIterator(Map<Value, Key>* tree)
@@ -644,29 +645,29 @@ public:
 		}
 		(*this)++;
 	}
-	InOrderIterator(const InOrderIterator& it)
+	InOrderIterator(const InOrderIterator& it) : IteratorBase<Value>()
 	{
 		this->current = it.current;
 		this->stack = it.stack;
 	}
 
-	Key key()
+	virtual Key key()
 	{
 		return current->key;
 	}
-	Value value()
+	virtual Value value()
 	{
 		return current->value;
 	}
 
-	bool operator!()
+	virtual bool end()
 	{
 		if(current != NULL)
 			return true;
 		else
 			return false;
 	}
-	void operator++(int)
+	virtual void next()
 	{
 		if(stack.size() > 0)
 		{
@@ -694,7 +695,7 @@ private:
 };
 
 template <class Value, class Key>
-class Map<Value, Key>::DepthFirstIterator
+class Map<Value, Key>::DepthFirstIterator : public IteratorBase<Value>
 {
 public:
 	DepthFirstIterator(Map<Value, Key>* tree)
@@ -702,29 +703,29 @@ public:
 		this->stack.pushBack(tree->root);
 		(*this)++;
 	}
-	DepthFirstIterator(const DepthFirstIterator& orig)
+	DepthFirstIterator(const DepthFirstIterator& orig) : IteratorBase<Value>()
 	{
 		this->current = orig.current;
 		this->stack = orig.stack;
 	}
 
-	Key key()
+	virtual Key key()
 	{
 		return current->key;
 	}
-	Value value()
+	virtual Value value()
 	{
 		return current->value;
 	}
 
-	bool operator!()
+	virtual bool end()
 	{
 		if(current != NULL)
 			return true;
 		else
 			return false;
 	}
-	void operator++(int)
+	virtual void next()
 	{
 		if(stack.size() > 0)
 		{
@@ -752,7 +753,7 @@ private:
 };
 
 template <class Value, class Key>
-class Map<Value, Key>::BreadthFirstIterator
+class Map<Value, Key>::BreadthFirstIterator : public IteratorBase<Value>
 {
 public:
 	BreadthFirstIterator(Map<Value, Key>* tree)
@@ -760,29 +761,29 @@ public:
 		this->queue.pushBack(tree->root);
 		(*this)++;
 	}
-	BreadthFirstIterator(const BreadthFirstIterator& orig)
+	BreadthFirstIterator(const BreadthFirstIterator& orig) : IteratorBase<Value>()
 	{
 		this->current = orig.current;
 		this->queue = orig.queue;
 	}
 
-	Key key()
+	virtual Key key()
 	{
 		return current->key;
 	}
-	Value value()
+	virtual Value value()
 	{
 		return current->value;
 	}
 
-	bool operator!()
+	virtual bool end()
 	{
 		if(current != 0x0)
 			return true;
 		else
 			return false;
 	}
-	void operator++(int)
+	virtual void next()
 	{
 		if(queue.size() <= 0)
 		{

@@ -21,6 +21,7 @@
 #include "Exceptions.h"
 #include "Comparison.h"
 #include "Types.h"
+#include "Iterator.h"
 #include <cmath>
 
 // Default to min PriorityQueue
@@ -301,7 +302,7 @@ PriorityQueue<T, Compare>& PriorityQueue<T, Compare>::operator=(const PriorityQu
 }
 
 template <class T, class Compare>
-class PriorityQueue<T, Compare>::Iterator
+class PriorityQueue<T, Compare>::Iterator : public IteratorBase<T>
 {
 public:
 	Iterator(PriorityQueue<T, Compare>* PriorityQueue)
@@ -310,12 +311,12 @@ public:
 		i = 0;
 	}
 
-	T value()
+	virtual T value()
 	{
 		return curr->value[i];
 	}
 
-	bool operator!()
+	virtual bool end()
 	{
 		if(curr == 0x0)
 			return false;
@@ -325,7 +326,7 @@ public:
 			return i < curr->max;
 	}
 
-	void operator++(int)
+	virtual void next()
 	{
 		i++;
 		if(i >= curr->max && curr->next != 0x0)

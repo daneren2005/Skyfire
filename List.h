@@ -20,6 +20,7 @@
 
 #include "SharedLock.h"
 #include "Console.h"
+#include "Iterator.h"
 
 // Pre declare
 template <class T>
@@ -680,10 +681,8 @@ List<T>& List<T>::operator=(List& orig)
 }
 
 template <class T>
-class List<T>::Iterator
+class List<T>::Iterator : public IteratorBase<T>
 {
-private:
-	typename List<T>::Node* current;
 public:
 	Iterator(List<T>* list)
 	{
@@ -696,7 +695,7 @@ public:
 		list->headLock.unlock();
 	}
 
-	T value()
+	virtual T value()
 	{
 		if(current == 0x0)
 			return 0x0;
@@ -705,14 +704,14 @@ public:
 	}
 
 	// Operator Overloading
-	bool operator !()
+	virtual bool end()
 	{
 		if(this->current == 0x0)
 			return false;
 		else
 			return true;
 	}
-	void operator ++(int)
+	virtual void next()
 	{
 		if(current->next != 0x0)
 		{
@@ -726,13 +725,13 @@ public:
 			this->current = this->current->next;
 		}
 	}
+private:
+	typename List<T>::Node* current;
 };
 
 template <class T>
-class List<T>::WriteIterator
+class List<T>::WriteIterator : public List<T>::Iterator
 {
-private:
-	typename List<T>::Node* current;
 public:
 	WriteIterator(List<T>* list)
 	{
@@ -745,15 +744,7 @@ public:
 		headLock.unlock();
 	}
 
-	T value()
-	{
-		if(current == 0x0)
-			return 0x0;
-		else
-			return this->current->value;
-	}
-
-	T remove()
+	virtual T remove()
 	{
 		// If trying to remove head
 		// popFront would wait forever for this node to be unlocked
@@ -779,15 +770,7 @@ public:
 		}
 	}
 
-	// Operator Overloading
-	bool operator !()
-	{
-		if(this->current == 0x0)
-			return false;
-		else
-			return true;
-	}
-	void operator ++(int)
+	virtual void end()
 	{
 		if(current->next != 0x0)
 		{
@@ -801,6 +784,8 @@ public:
 			this->current = this->current->next;
 		}
 	}
+private:
+	typename List<T>::Node* current;
 };
 
 template <class T>
@@ -811,7 +796,7 @@ typename List<T>::Iterator List<T>::begin()
 template <class T>
 typename List<T>::WriteIterator List<T>::beginWrite()
 {
-	return Iterator(this);
+	return WriteIterator(this);
 }
 
 #endif	/* _LIST_H */
