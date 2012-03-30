@@ -23,7 +23,7 @@
 #include "List.h"
 #include "Timer.h"
 #include "Input.h"
-#include "Thread.h"
+#include "ThreadLoop.h"
 
 class Universe
 {
@@ -50,8 +50,8 @@ protected:
 
 	// Update thread + loop
 	bool running;
-	Thread updateThread;
-	void updateFunction(Thread* arg);
+	ThreadLoop updateThread;
+	void updateFunction(ThreadLoop* arg);
 };
 
 #endif	/* _UNIVERSE_H */

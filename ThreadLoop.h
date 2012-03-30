@@ -15,8 +15,8 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _THREAD_H
-#define	_THREAD_H
+#ifndef _THREAD_LOOP_H
+#define	_THREAD_LOOP_H
 
 #include "GenericType.h"
 #include <pthread.h>
@@ -24,15 +24,15 @@
 #include "Types.h"
 #include "Function.h"
 
-class Thread
+class ThreadLoop
 {
 public:
-	Thread();
+	ThreadLoop();
 
-	void start(Function<void, Thread*> function, GenericType arg);
-	void start(Function<void, Thread*> function, GenericType arg, Function<void, Thread*> startFunction);
-	void startMain(Function<void, Thread*> function, GenericType arg);
-	void startMain(Function<void, Thread*> function, GenericType arg, Function<void, Thread*> startFunction);
+	void start(Function<void, ThreadLoop*> function, GenericType arg);
+	void start(Function<void, ThreadLoop*> function, GenericType arg, Function<void, ThreadLoop*> startFunction);
+	void startMain(Function<void, ThreadLoop*> function, GenericType arg);
+	void startMain(Function<void, ThreadLoop*> function, GenericType arg, Function<void, ThreadLoop*> startFunction);
 	void stop();
 	void pause();
 	void resume();
@@ -57,8 +57,8 @@ private:
 
 	bool quit;
 	bool running;
-	Function<void, Thread*> function;
-	Function<void, Thread*> startFunction;
+	Function<void, ThreadLoop*> function;
+	Function<void, ThreadLoop*> startFunction;
 	pthread_t id;
 
 	static void* threadFunction(void* arg);

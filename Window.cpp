@@ -51,16 +51,16 @@ Window::Window()
 
 	// Start rendering
 	renderThread.setTicksPerSecond(60);
-	MemberFunction<Window, void, Thread*> func(this);
+	MemberFunction<Window, void, ThreadLoop*> func(this);
 	func = &Window::renderFunction;
-	MemberFunction<Window, void, Thread*> init(this);
+	MemberFunction<Window, void, ThreadLoop*> init(this);
 	init = &Window::initWin;
-	renderThread.start((Function<void, Thread*>)func, this, init);
+	renderThread.start((Function<void, ThreadLoop*>)func, this, init);
 	
 	// Start input
 	inputThread.setTicksPerSecond(30);
 	func = &Window::inputFunction;
-	inputThread.start((Function<void, Thread*>)func, this);
+	inputThread.start((Function<void, ThreadLoop*>)func, this);
 	
 	condition.wait(lock);
 	lock.unlock();
@@ -93,16 +93,16 @@ Window::Window(int width, int height)
 
 	// Start rendering
 	renderThread.setTicksPerSecond(60);
-	MemberFunction<Window, void, Thread*> func(this);
+	MemberFunction<Window, void, ThreadLoop*> func(this);
 	func = &Window::renderFunction;
-	MemberFunction<Window, void, Thread*> init(this);
+	MemberFunction<Window, void, ThreadLoop*> init(this);
 	init = &Window::initWin;
-	renderThread.start((Function<void, Thread*>)func, this, init);
+	renderThread.start((Function<void, ThreadLoop*>)func, this, init);
 	
 	// Start input
 	inputThread.setTicksPerSecond(30);
 	func = &Window::inputFunction;
-	inputThread.start((Function<void, Thread*>)func, this);
+	inputThread.start((Function<void, ThreadLoop*>)func, this);
 	
 	condition.wait(lock);
 	lock.unlock();
@@ -162,7 +162,7 @@ void Window::setDefaultFont(Font2D font)
 	font = font;
 }
 
-void Window::initWin(Thread* arg)
+void Window::initWin(ThreadLoop* arg)
 {
 	#ifdef WIN32
 		// The window structure instance
@@ -306,7 +306,7 @@ void Window::initOpenGL()
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 }
 
-void Window::renderFunction(Thread* arg)
+void Window::renderFunction(ThreadLoop* arg)
 {
 	// Proccess events
 	#ifdef WIN32
@@ -356,7 +356,7 @@ void Window::renderFunction(Thread* arg)
 		SDL_WM_SetCaption(tmp.cStr(), "Orcid");
 	#endif
 }
-void Window::inputFunction(Thread* arg)
+void Window::inputFunction(ThreadLoop* arg)
 {
 	input->update(inputThread.getTimeSinceTick());
 }

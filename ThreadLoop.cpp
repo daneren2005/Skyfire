@@ -15,10 +15,10 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Thread.h"
+#include "ThreadLoop.h"
 #include "Console.h"
 
-Thread::Thread()
+ThreadLoop::ThreadLoop()
 {
 	this->quit = false;
 	this->running = false;
@@ -30,7 +30,7 @@ Thread::Thread()
 	this->sleepTime = 0;
 }
 
-void Thread::start(Function<void, Thread*> function, GenericType arg)
+void ThreadLoop::start(Function<void, ThreadLoop*> function, GenericType arg)
 {
 	this->arg = arg;
 	this->running = true;
@@ -40,7 +40,7 @@ void Thread::start(Function<void, Thread*> function, GenericType arg)
 
 	pthread_create(&this->id, NULL, threadFunction, (void*) this);
 }
-void Thread::start(Function<void, Thread*> function, GenericType arg, Function<void, Thread*> startFunction)
+void ThreadLoop::start(Function<void, ThreadLoop*> function, GenericType arg, Function<void, ThreadLoop*> startFunction)
 {
 	this->arg = arg;
 	this->quit = false;
@@ -52,7 +52,7 @@ void Thread::start(Function<void, Thread*> function, GenericType arg, Function<v
 	pthread_create(&this->id, NULL, threadFunction, (void*) this);
 }
 
-void Thread::startMain(Function<void, Thread*> function, GenericType arg)
+void ThreadLoop::startMain(Function<void, ThreadLoop*> function, GenericType arg)
 {
 	this->arg = arg;
 	this->running = true;
@@ -60,9 +60,9 @@ void Thread::startMain(Function<void, Thread*> function, GenericType arg)
 	this->function = function;
 	clock.start();
 
-	Thread::threadFunction((void*)this);
+	ThreadLoop::threadFunction((void*)this);
 }
-void Thread::startMain(Function<void, Thread*> function, GenericType arg, Function<void, Thread*> startFunction)
+void ThreadLoop::startMain(Function<void, ThreadLoop*> function, GenericType arg, Function<void, ThreadLoop*> startFunction)
 {
 	this->arg = arg;
 	this->quit = false;
@@ -71,67 +71,67 @@ void Thread::startMain(Function<void, Thread*> function, GenericType arg, Functi
 	this->startFunction = startFunction;
 	clock.start();
 
-	Thread::threadFunction((void*)this);
+	ThreadLoop::threadFunction((void*)this);
 }
 
-void Thread::stop()
+void ThreadLoop::stop()
 {
 	clock.stop();
 	this->quit = true;
 }
-void Thread::pause()
+void ThreadLoop::pause()
 {
 	clock.stop();
 	this->running = false;
 }
-void Thread::resume()
+void ThreadLoop::resume()
 {
 	clock.start();
 	this->running = true;
 }
 
-void Thread::currentWaitFor()
+void ThreadLoop::currentWaitFor()
 {
 	void* status;
 	pthread_join(this->id, &status);
 }
 
-void Thread::sleep(double seconds)
+void ThreadLoop::sleep(double seconds)
 {
 	sleepTime = (ulong)(seconds * 1000);
 }
 
-GenericType Thread::getArg()
+GenericType ThreadLoop::getArg()
 {
 	return this->arg;
 }
 
-void Thread::setTicksPerSecond(int ticks)
+void ThreadLoop::setTicksPerSecond(int ticks)
 {
 	this->period = (ticks != 0) ? 1.0 / ticks : 0;
 }
-void Thread::setTimeBetweenTicks(double seconds)
+void ThreadLoop::setTimeBetweenTicks(double seconds)
 {
 	this->period = seconds;
 }
-double Thread::getTimeBetweenTicks()
+double ThreadLoop::getTimeBetweenTicks()
 {
 	return this->period;
 }
-int Thread::getTicksPerSecond()
+int ThreadLoop::getTicksPerSecond()
 {
 	return returnCounter;
 }
-double Thread::getTimeSinceTick()
+double ThreadLoop::getTimeSinceTick()
 {
 	return timeSinceTick;
 }
-double Thread::getRunningTime()
+double ThreadLoop::getRunningTime()
 {
 	return clock.totalTime();
 }
 
-void Thread::currentSleep(double seconds)
+void ThreadLoop::currentSleep(double seconds)
 {
 	ulong sleepTime = (ulong)(seconds * 1000);
 	#ifdef WIN32
@@ -142,9 +142,9 @@ void Thread::currentSleep(double seconds)
 	#endif
 }
 
-void* Thread::threadFunction(void* arg)
+void* ThreadLoop::threadFunction(void* arg)
 {
-	Thread* thread = (Thread*)arg;
+	ThreadLoop* thread = (ThreadLoop*)arg;
 	if(thread->startFunction.isSet())
 		thread->startFunction(thread);
 	

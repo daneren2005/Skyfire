@@ -45,7 +45,7 @@ Universe::~Universe()
 void Universe::start()
 {
 	this->running = true;
-	MemberFunction<Universe, void, Thread*> func(this);
+	MemberFunction<Universe, void, ThreadLoop*> func(this);
 	func = &Universe::updateFunction;
 	updateThread.start(func, this);
 }
@@ -66,7 +66,7 @@ void Universe::pause()
 	}
 }
 
-void Universe::updateFunction(Thread* arg)
+void Universe::updateFunction(ThreadLoop* arg)
 {
 	float interval = (float)updateThread.getTimeSinceTick();
 

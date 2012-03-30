@@ -31,7 +31,7 @@
 
 #include "Renderer.h"
 #include "Input.h"
-#include "Thread.h"
+#include "ThreadLoop.h"
 #include "Font2D.h"
 #include "Condition.h"
 
@@ -71,16 +71,16 @@ private:
 	Font2D font;
 	friend class Font2D;
 
-	void initWin(Thread* arg);
+	void initWin(ThreadLoop* arg);
 	void initDefaultFont();
 	void initOpenGL();
 
 	// Render scene, thread, and function
 	Renderer* renderer;
-	Thread renderThread;
-	Thread inputThread;
-	void renderFunction(Thread* arg);
-	void inputFunction(Thread* arg);
+	ThreadLoop renderThread;
+	ThreadLoop inputThread;
+	void renderFunction(ThreadLoop* arg);
+	void inputFunction(ThreadLoop* arg);
 	
 	// Needed to wait for init to finish
 	Lock lock;
