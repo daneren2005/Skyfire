@@ -41,7 +41,12 @@
 
 #include "FirstPersonCamera.h"
 #include "ThirdPersonCamera.h"
+#include "GUI.h"
+#include "Label.h"
+#include "TextBox.h"
 
+#include "Thread.h"
+#include "Tuple.h"
 #include "DataFile.h"
 
 #include "MemberFunction.h"
