@@ -25,7 +25,7 @@ Thread::Thread(Function<void> function)
 {
 	this->thread = new pthread_t*;
 	*this->thread = new pthread_t;
-	this->abstraction = new Thread::FunctionWrapper(function);
+	this->call = FunctionCall(function);
 	pthread_create(*this->thread, NULL, Thread::wrapper, (void*) this);
 }
 Thread::Thread(const Thread& orig)
@@ -72,7 +72,7 @@ void* Thread::wrapper(void* arg)
 {
 	Thread* thread = (Thread*)arg;
 	thread->timer.start();
-	thread->abstraction->execute();
+	thread->call.execute();
 	thread->timer.stop();
 	delete *thread->thread;
 	*thread->thread = 0x0;

@@ -18,6 +18,7 @@
 #ifndef _THREAD_H__
 #define	_THREAD_H__
 
+#include "FunctionCall.h"
 #include "Tuple.h"
 #include "Function.h"
 #include "Timer.h"
@@ -46,12 +47,7 @@ private:
 	SharedPointer<pthread_t*> thread;
 	Timer timer;
 
-	class ContainerBase;
-	template <class... Param>
-	class Container;
-	class FunctionWrapper;
-
-	SharedPointer<ContainerBase> abstraction;
+	FunctionCall call;
 };
 
 template <class Param>
@@ -59,53 +55,8 @@ Thread::Thread(Function<void, Param> function, Param arg)
 {
 	this->thread = new pthread_t*;
 	*this->thread = new pthread_t;
-	this->abstraction = new Thread::Container<Param>(function, arg);
+	this->call = FunctionCall(function, arg);
 	pthread_create(*this->thread, NULL, Thread::wrapper, (void*) this);
 }
-
-class Thread::ContainerBase
-{
-public:
-	ContainerBase() {}
-	virtual ~ContainerBase() {}
-	virtual void execute() = 0;
-};
-
-template <class Param>
-class Thread::Container : public ContainerBase
-{
-public:
-	Container(Function<void, Param> function, Param arg) : ContainerBase()
-	{
-		this->function = function;
-		this->arg = arg;
-	}
-	virtual ~Container() {}
-
-	virtual void execute()
-	{
-		function(arg);
-	}
-private:
-	Function<void, Param> function;
-	Param arg;
-};
-
-class Thread::FunctionWrapper : public ContainerBase
-{
-public:
-	FunctionWrapper(Function<void> function)
-	{
-		this->function = function;
-	}
-	virtual ~FunctionWrapper() {}
-
-	virtual void execute()
-	{
-		function();
-	}
-private:
-	Function<void> function;
-};
 
 #endif
