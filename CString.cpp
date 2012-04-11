@@ -627,7 +627,7 @@ String& String::operator>>(String& rhs)
 	// Else set the rhs to that word
 	else
 	{
-		rhs = this->subStr(j, i);
+		rhs = this->subStr(j, i - j);
 	}
 
 	// Cycle through extra whitesace
