@@ -603,7 +603,7 @@ String& String::operator>>(String& rhs)
 	int j = 0;
 	for(j = 0; j < this->size; j++)
 	{
-		if(this->array[j] != ' ' && this->array[j] != '\n'  && this->array[j] != '\r')
+		if(this->array[j] != ' ' && this->array[j] != '\n'  && this->array[j] != '\r'  && this->array[j] != '\t')
 		{
 			break;
 		}
@@ -613,7 +613,7 @@ String& String::operator>>(String& rhs)
 	int i = 0;
 	for(i = j; i < this->size; i++)
 	{
-		if(this->array[i] == ' ' || this->array[i] == '\n' || this->array[i] == '\r')
+		if(this->array[i] == ' ' || this->array[i] == '\n' || this->array[i] == '\r' || this->array[i] == '\t')
 		{
 			break;
 		}
@@ -633,7 +633,7 @@ String& String::operator>>(String& rhs)
 	// Cycle through extra whitesace
 	for(i = i; i < this->size; i++)
 	{
-		if(this->array[i] != ' ' && this->array[i] != '\n' && this->array[i] != '\r')
+		if(this->array[i] != ' ' && this->array[i] != '\n' && this->array[i] != '\r' && this->array[i] != '\t')
 		{
 			i--;
 			break;
