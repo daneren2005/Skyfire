@@ -17,12 +17,7 @@
 
 #include "ResourceManager.h"
 
-#include "conversion.h"
-
-// Jpeg library
 #include <stdio.h>
-#include "jpeglib.h"
-#include "setjmp.h"
 #include <string.h>
 #include "Timer.h"
 

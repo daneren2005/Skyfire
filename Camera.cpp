@@ -17,7 +17,6 @@
 
 #include "Camera.h"
 
-#include <SDL/SDL.h>
 #include <GL/glu.h>
 
 #include <iostream>
