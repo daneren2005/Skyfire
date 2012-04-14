@@ -17,23 +17,21 @@
 
 #include "Bitmap.h"
 #include "Console.h"
+#include <string.h>
 
 Bitmap::Bitmap(int width, int height)
 {
 	this->width = width;
 	this->height = height;
-	this->array = new unsigned char(width * height);
+	this->array = new unsigned char[width * height * 3];
 }
 
 Bitmap::Bitmap(const Bitmap& orig)
 {
 	this->width = orig.width;
 	this->height = orig.height;
-	this->array = new unsigned char(this->width * this->height * 3);
-	for(int i = 0; i < (width * height * 3); i++)
-	{
-		this->array[i] = orig.array[i];
-	}
+	this->array = new unsigned char[this->width * this->height * 3];
+	memcpy(this->array, orig.array, width * height * 3);
 }
 
 Bitmap::~Bitmap()
