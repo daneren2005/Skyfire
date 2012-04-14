@@ -15,32 +15,36 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _MATERIAL_H
-#define	_MATERIAL_H
-
 #include "Texture.h"
-#include "SharedPointer.h"
+#include "Console.h"
+#include <string.h>
 
-class Material
+Texture::Texture(int width, int height)
 {
-public:
-	Material();
-	Material(const Material& orig);
-	virtual ~Material();
+	this->width = width;
+	this->height = height;
+	this->array = new unsigned char[width * height * 3];
+}
 
-	float ambient[3];
-	float diffuse[3];
-	float specular[3];
-	float shininess;
-	float transparency; // 1 = normal, 0 = transparent
-	float refraction; // 1 = light doesnt bend, > 1 = light bends
-	float transmissionFilter[3]; // light filter for rgb, 1 = allows, 0 = disallows
-	Texture* ambientTexture;
-	Texture* diffuseTexture;
-	Texture* specularTexture;
-};
+Texture::Texture(const Texture& orig)
+{
+	this->width = orig.width;
+	this->height = orig.height;
+	this->array = new unsigned char[this->width * this->height * 3];
+	memcpy(this->array, orig.array, width * height * 3);
+}
 
-typedef SharedPointer<Material> MaterialPointer;
+Texture::~Texture()
+{
+	delete this->array;
+}
 
-#endif	/* _MATERIAL_H */
+unsigned char* Texture::operator[](unsigned long row)
+{
+	return array + (width * row);
+}
 
+unsigned char* Texture::getPointer()
+{
+	return this->array;
+}

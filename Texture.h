@@ -15,32 +15,23 @@
     along with Skyfire.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _MATERIAL_H
-#define	_MATERIAL_H
+#ifndef _TEXTURE_H
+#define	_TEXTURE_H
 
-#include "Texture.h"
-#include "SharedPointer.h"
-
-class Material
+class Texture
 {
 public:
-	Material();
-	Material(const Material& orig);
-	virtual ~Material();
+	Texture(int width, int height);
+	Texture(const Texture& orig);
+	virtual ~Texture();
 
-	float ambient[3];
-	float diffuse[3];
-	float specular[3];
-	float shininess;
-	float transparency; // 1 = normal, 0 = transparent
-	float refraction; // 1 = light doesnt bend, > 1 = light bends
-	float transmissionFilter[3]; // light filter for rgb, 1 = allows, 0 = disallows
-	Texture* ambientTexture;
-	Texture* diffuseTexture;
-	Texture* specularTexture;
+	unsigned char* operator[](unsigned long row);
+	unsigned char* getPointer();
+private:
+	int width;
+	int height;
+	unsigned char* array;
 };
 
-typedef SharedPointer<Material> MaterialPointer;
-
-#endif	/* _MATERIAL_H */
+#endif	/* _BITMAP_H */
 

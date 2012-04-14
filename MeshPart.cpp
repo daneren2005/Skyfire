@@ -152,27 +152,27 @@ void MeshPart::setTransmissionFilter(float r, float g, float b)
 	this->material->transmissionFilter[1] = g;
 	this->material->transmissionFilter[2] = b;
 }
-Bitmap* MeshPart::getTextureMap()
+Texture* MeshPart::getAmbientTexture()
 {
-	return this->material->textureMap;
+	return this->material->ambientTexture;
 }
-void MeshPart::setTextureMap(Bitmap* bitmap)
+void MeshPart::setAmbientTexture(Texture* bitmap)
 {
-	this->material->textureMap = bitmap;
+	this->material->ambientTexture = bitmap;
 }
-Bitmap* MeshPart::getDiffuseMap()
+Texture* MeshPart::getDiffuseTexture()
 {
-	return this->material->diffuseMap;
+	return this->material->diffuseTexture;
 }
-void MeshPart::setDiffuseMap(Bitmap* bitmap)
+void MeshPart::setDiffuseTexture(Texture* bitmap)
 {
-	this->material->diffuseMap = bitmap;
+	this->material->diffuseTexture = bitmap;
 }
-Bitmap* MeshPart::getBumpMap()
+Texture* MeshPart::getSpecularTexture()
 {
-	return this->material->bumpMap;
+	return this->material->specularTexture;
 }
-void MeshPart::setBumpMap(Bitmap* bitmap)
+void MeshPart::setSpecularTexture(Texture* bitmap)
 {
-	this->material->bumpMap = bitmap;
+	this->material->specularTexture = bitmap;
 }

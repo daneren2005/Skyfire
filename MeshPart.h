@@ -20,7 +20,7 @@
 
 #include "Array.h"
 #include "Triangle.h"
-#include "Bitmap.h"
+#include "Texture.h"
 #include "Vector.h"
 #include "Material.h"
 #include "SharedPointer.h"
@@ -59,12 +59,12 @@ public:
 	void setRefraction(float refraction);
 	float* getTransmissionFilter();
 	void setTransmissionFilter(float r, float g, float b);
-	Bitmap* getTextureMap();
-	void setTextureMap(Bitmap* bitmap);
-	Bitmap* getDiffuseMap();
-	void setDiffuseMap(Bitmap* bitmap);
-	Bitmap* getBumpMap();
-	void setBumpMap(Bitmap* bitmap);
+	Texture* getAmbientTexture();
+	void setAmbientTexture(Texture* bitmap);
+	Texture* getDiffuseTexture();
+	void setDiffuseTexture(Texture* bitmap);
+	Texture* getSpecularTexture();
+	void setSpecularTexture(Texture* bitmap);
 private:
 	MaterialPointer material;
 };

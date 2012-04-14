@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "Timer.h"
+#include "jpeglib.h"
 
 ResourceManager resourceManager = ResourceManager();
 
@@ -251,9 +252,8 @@ MeshPointer ResourceManager::loadObj(File file)
 			{
 				if(cmd == "mtllib")
 				{
-					String libraryFileName;
-					line >> libraryFileName;
-					File libraryFile(file.getParentPath() + libraryFileName);
+					
+					File libraryFile(file.getParentPath() + line);
 
 					try
 					{
@@ -380,27 +380,21 @@ Map<MaterialPointer, String> ResourceManager::loadMtl(File file)
 			line >> material->transmissionFilter[1];
 			line >> material->transmissionFilter[2];
 		}
-		/*else if(cmd == "map_Kd")
+		else if(cmd == "map_Kd")
 		{
-			String filename;
-			line >> filename;
-			File mapFile(file.filePath() + filename);
-			material->diffuseMap = this->loadJpeg(mapFile);
-		}*/
-		/*else if(cmd == "map_bump")
+			File mapFile(file.getParentPath() + line);
+			material->diffuseTexture = this->loadJpeg(mapFile);
+		}
+		else if(cmd == "map_Ka")
 		{
-			String filename;
-			line >> filename;
-			File mapFile(file.filePath() + filename);
-			this->loadJpeg(mapFile);
-		}*/
-		/*else if(cmd == "bump")
+			File mapFile(file.getParentPath() + line);
+			material->ambientTexture = this->loadJpeg(mapFile);
+		}
+		else if(cmd == "map_Ks")
 		{
-			String filename;
-			line >> filename;
-			File mapFile(file.filePath() + filename);
-			this->loadJpeg(mapFile);
-		}*/
+			File mapFile(file.getParentPath() + line);
+			material->specularTexture = this->loadJpeg(mapFile);
+		}
 
 		line = file.getLine();
 	}
@@ -508,38 +502,15 @@ MeshPointer ResourceManager::load3ds(File file)
 	return 0x0;
 }
 
-/*
-// Temporary crap
-struct my_error_mgr {
-  struct jpeg_error_mgr pub;	// "public" fields
-
-  jmp_buf setjmp_buffer;	// for return to caller
-};
-
-typedef struct my_error_mgr * my_error_ptr;
-
-METHODDEF(void)
-my_error_exit (j_common_ptr cinfo)
+Texture* ResourceManager::loadJpeg(File file)
 {
-  //cinfo->err really points to a my_error_mgr struct, so coerce pointer
-  my_error_ptr myerr = (my_error_ptr) cinfo->err;
-
-  // Always display the message.
-  // We could postpone this until after returning, if we chose.
-  (*cinfo->err->output_message) (cinfo);
-  console << "ResourceManager::loadJpeg error: unknown error reading jpeg file" << newline;
-
-  // Return control to the setjmp point
-  longjmp(myerr->setjmp_buffer, 1);
-}*/
-
-Bitmap* ResourceManager::loadJpeg(File file)
-{
-	/*struct jpeg_decompress_struct cinfo;
-	struct my_error_mgr jerr;
+	struct jpeg_decompress_struct cinfo;
+	struct jpeg_error_mgr jerr;
+	
+	cinfo.err = jpeg_std_error(&jerr);
+	jpeg_create_decompress(&cinfo);
 
 	FILE* infile;
-	JSAMPARRAY buffer;
 	int width, height, size;
 
 	if((infile = fopen(file.getFullPath().cStr(), "rb")) == NULL)
@@ -548,18 +519,6 @@ Bitmap* ResourceManager::loadJpeg(File file)
 		return 0x0;
 	}
 
-	cinfo.err = jpeg_std_error(&jerr.pub);
-	jerr.pub.error_exit = my_error_exit;
-	if (setjmp(jerr.setjmp_buffer))
-	{
-		console << "ResourceManager::loadJpeg error: unknown error reading jpeg file " << file.getFullPath() << newline;
-
-		jpeg_destroy_decompress(&cinfo);
-		fclose(infile);
-		return 0x0;
-	}
-
-	jpeg_create_decompress(&cinfo);
 	jpeg_stdio_src(&cinfo, infile);
 	jpeg_read_header(&cinfo, TRUE);
 	jpeg_start_decompress(&cinfo);
@@ -567,21 +526,24 @@ Bitmap* ResourceManager::loadJpeg(File file)
 	width = cinfo.output_width * cinfo.output_components;
 	height = cinfo.output_height;
 	size = width * height;
-	buffer = (*cinfo.mem->alloc_sarray) ((j_common_ptr) &cinfo, JPOOL_IMAGE, size, 1);
-
-	Bitmap* bitmap = new Bitmap(width, height);
-	unsigned char* data = new unsigned char(size);
+	
+	Texture* bitmap = new Texture(width / 3, height);
+	unsigned char* data = bitmap->getPointer();
+	
+	JSAMPARRAY buffer = new JSAMPROW[1];
+	buffer[0] = data;
 
 	while(cinfo.output_scanline < cinfo.output_height)
-	{
+	{		
 		jpeg_read_scanlines(&cinfo, buffer, 1);
-		// memcpy(data, buffer[0], 50);
+		buffer[0] += width;
 	}
+	
+	delete[] buffer;
 
 	jpeg_finish_decompress(&cinfo);
 	jpeg_destroy_decompress(&cinfo);
 	fclose(infile);
 
-	return bitmap;*/
-	return 0x0;
+	return bitmap;
 }

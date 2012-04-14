@@ -31,9 +31,9 @@ Material::Material()
 	this->transparency = 1.0f;
 	this->refraction = 1.0f;
 
-	this->textureMap = 0x0;
-	this->bumpMap = 0x0;
-	this->diffuseMap = 0x0;
+	this->ambientTexture = 0x0;
+	this->diffuseTexture = 0x0;
+	this->specularTexture = 0x0;
 }
 
 Material::Material(const Material& orig)
@@ -50,9 +50,9 @@ Material::Material(const Material& orig)
 	this->transparency = orig.transparency;
 	this->refraction = orig.refraction;
 
-	this->textureMap = orig.textureMap;
-	this->bumpMap = orig.bumpMap;
-	this->diffuseMap = orig.diffuseMap;
+	this->ambientTexture = orig.ambientTexture;
+	this->diffuseTexture = orig.diffuseTexture;
+	this->specularTexture = orig.specularTexture;
 }
 
 Material::~Material()

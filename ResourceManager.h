@@ -23,7 +23,7 @@
 #include "Mesh.h"
 #include "File.h"
 #include "CString.h"
-#include "Bitmap.h"
+#include "Texture.h"
 
 class ResourceManager
 {
@@ -47,7 +47,7 @@ private:
 	MeshPointer loadObj(File file);
 	Map<MaterialPointer, String> loadMtl(File file);
 	MeshPointer load3ds(File file);
-	Bitmap* loadJpeg(File file);
+	Texture* loadJpeg(File file);
 };
 
 extern ResourceManager resourceManager;
