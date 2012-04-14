@@ -17,11 +17,11 @@ RANLIB=ranlib
 CC=gcc.exe
 CCC=g++.exe
 CXX=g++.exe
-FC=gfortran
+FC=gfortran.exe
 AS=as.exe
 
 # Macros
-CND_PLATFORM=GNU-Windows
+CND_PLATFORM=MinGW-Windows
 CND_CONF=Release_Win32
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -34,48 +34,56 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Texture.o \
 	${OBJECTDIR}/ParticleSystem.o \
+	${OBJECTDIR}/EventManager.o \
 	${OBJECTDIR}/Matrix.o \
 	${OBJECTDIR}/BaseObject.o \
 	${OBJECTDIR}/FirstPersonCamera.o \
 	${OBJECTDIR}/Thread.o \
+	${OBJECTDIR}/EventHandler.o \
 	${OBJECTDIR}/Triangle.o \
+	${OBJECTDIR}/FunctionCall.o \
+	${OBJECTDIR}/Label.o \
 	${OBJECTDIR}/Camera.o \
 	${OBJECTDIR}/SearchState.o \
-	${OBJECTDIR}/CameraRenderer.o \
 	${OBJECTDIR}/Renderer.o \
 	${OBJECTDIR}/File.o \
 	${OBJECTDIR}/Console.o \
-	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Universe.o \
+	${OBJECTDIR}/Font2D.o \
+	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Condition.o \
-	${OBJECTDIR}/Region.o \
 	${OBJECTDIR}/Window.o \
+	${OBJECTDIR}/Region.o \
 	${OBJECTDIR}/ObjectOrientedBox.o \
+	${OBJECTDIR}/TextBox.o \
 	${OBJECTDIR}/Matrix4.o \
+	${OBJECTDIR}/Ray.o \
 	${OBJECTDIR}/Folder.o \
 	${OBJECTDIR}/ParticleEmitter.o \
 	${OBJECTDIR}/GenericType.o \
-	${OBJECTDIR}/Ray.o \
-	${OBJECTDIR}/MeshPart.o \
 	${OBJECTDIR}/Model.o \
+	${OBJECTDIR}/MeshPart.o \
 	${OBJECTDIR}/Particle.o \
 	${OBJECTDIR}/ResourceManager.o \
 	${OBJECTDIR}/Vector.o \
+	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/GenericPointer.o \
 	${OBJECTDIR}/CString.o \
 	${OBJECTDIR}/Time.o \
 	${OBJECTDIR}/DataFile.o \
-	${OBJECTDIR}/Bitmap.o \
 	${OBJECTDIR}/Lock.o \
 	${OBJECTDIR}/Sphere.o \
 	${OBJECTDIR}/Mesh.o \
 	${OBJECTDIR}/AxisAlignedBox.o \
 	${OBJECTDIR}/SearchStatePath.o \
+	${OBJECTDIR}/ThreadLoop.o \
 	${OBJECTDIR}/SharedLock.o \
+	${OBJECTDIR}/AxisObject.o \
 	${OBJECTDIR}/Rectangle.o \
 	${OBJECTDIR}/Date.o \
-	${OBJECTDIR}/AxisObject.o \
+	${OBJECTDIR}/GUI.o \
 	${OBJECTDIR}/Timer.o \
 	${OBJECTDIR}/Key.o \
 	${OBJECTDIR}/ThirdPersonCamera.o \
@@ -109,10 +117,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libskyfire.a: ${OBJECTFILES}
 	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libskyfire.a ${OBJECTFILES} 
 	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libskyfire.a
 
+${OBJECTDIR}/Texture.o: Texture.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Texture.o Texture.cpp
+
 ${OBJECTDIR}/ParticleSystem.o: ParticleSystem.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/ParticleSystem.o ParticleSystem.cpp
+
+${OBJECTDIR}/EventManager.o: EventManager.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/EventManager.o EventManager.cpp
 
 ${OBJECTDIR}/Matrix.o: Matrix.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -134,10 +152,25 @@ ${OBJECTDIR}/Thread.o: Thread.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
 
+${OBJECTDIR}/EventHandler.o: EventHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/EventHandler.o EventHandler.cpp
+
 ${OBJECTDIR}/Triangle.o: Triangle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Triangle.o Triangle.cpp
+
+${OBJECTDIR}/FunctionCall.o: FunctionCall.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/FunctionCall.o FunctionCall.cpp
+
+${OBJECTDIR}/Label.o: Label.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Label.o Label.cpp
 
 ${OBJECTDIR}/Camera.o: Camera.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -148,11 +181,6 @@ ${OBJECTDIR}/SearchState.o: SearchState.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/SearchState.o SearchState.cpp
-
-${OBJECTDIR}/CameraRenderer.o: CameraRenderer.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/CameraRenderer.o CameraRenderer.cpp
 
 ${OBJECTDIR}/Renderer.o: Renderer.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -169,40 +197,55 @@ ${OBJECTDIR}/Console.o: Console.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console.o Console.cpp
 
-${OBJECTDIR}/Input.o: Input.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Input.o Input.cpp
-
 ${OBJECTDIR}/Universe.o: Universe.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Universe.o Universe.cpp
+
+${OBJECTDIR}/Font2D.o: Font2D.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Font2D.o Font2D.cpp
+
+${OBJECTDIR}/Input.o: Input.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Input.o Input.cpp
 
 ${OBJECTDIR}/Condition.o: Condition.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Condition.o Condition.cpp
 
-${OBJECTDIR}/Region.o: Region.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Region.o Region.cpp
-
 ${OBJECTDIR}/Window.o: Window.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Window.o Window.cpp
+
+${OBJECTDIR}/Region.o: Region.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Region.o Region.cpp
 
 ${OBJECTDIR}/ObjectOrientedBox.o: ObjectOrientedBox.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/ObjectOrientedBox.o ObjectOrientedBox.cpp
 
+${OBJECTDIR}/TextBox.o: TextBox.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/TextBox.o TextBox.cpp
+
 ${OBJECTDIR}/Matrix4.o: Matrix4.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Matrix4.o Matrix4.cpp
+
+${OBJECTDIR}/Ray.o: Ray.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Ray.o Ray.cpp
 
 ${OBJECTDIR}/Folder.o: Folder.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -219,20 +262,15 @@ ${OBJECTDIR}/GenericType.o: GenericType.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/GenericType.o GenericType.cpp
 
-${OBJECTDIR}/Ray.o: Ray.cpp 
+${OBJECTDIR}/Model.o: Model.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Ray.o Ray.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Model.o Model.cpp
 
 ${OBJECTDIR}/MeshPart.o: MeshPart.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/MeshPart.o MeshPart.cpp
-
-${OBJECTDIR}/Model.o: Model.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Model.o Model.cpp
 
 ${OBJECTDIR}/Particle.o: Particle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -248,6 +286,11 @@ ${OBJECTDIR}/Vector.o: Vector.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Vector.o Vector.cpp
+
+${OBJECTDIR}/Event.o: Event.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Event.o Event.cpp
 
 ${OBJECTDIR}/GenericPointer.o: GenericPointer.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -268,11 +311,6 @@ ${OBJECTDIR}/DataFile.o: DataFile.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/DataFile.o DataFile.cpp
-
-${OBJECTDIR}/Bitmap.o: Bitmap.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Bitmap.o Bitmap.cpp
 
 ${OBJECTDIR}/Lock.o: Lock.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -299,10 +337,20 @@ ${OBJECTDIR}/SearchStatePath.o: SearchStatePath.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/SearchStatePath.o SearchStatePath.cpp
 
+${OBJECTDIR}/ThreadLoop.o: ThreadLoop.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/ThreadLoop.o ThreadLoop.cpp
+
 ${OBJECTDIR}/SharedLock.o: SharedLock.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/SharedLock.o SharedLock.cpp
+
+${OBJECTDIR}/AxisObject.o: AxisObject.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisObject.o AxisObject.cpp
 
 ${OBJECTDIR}/Rectangle.o: Rectangle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -314,10 +362,10 @@ ${OBJECTDIR}/Date.o: Date.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/Date.o Date.cpp
 
-${OBJECTDIR}/AxisObject.o: AxisObject.cpp 
+${OBJECTDIR}/GUI.o: GUI.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/AxisObject.o AxisObject.cpp
+	$(COMPILE.cc) -O3 -w -IInclude -IInclude/jpeg -MMD -MP -MF $@.d -o ${OBJECTDIR}/GUI.o GUI.cpp
 
 ${OBJECTDIR}/Timer.o: Timer.cpp 
 	${MKDIR} -p ${OBJECTDIR}

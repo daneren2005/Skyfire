@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="79">
+<configurationDescriptor version="80">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="f5" displayName="AI" projectFiles="true">
       <itemPath>SearchState.cpp</itemPath>
@@ -26,25 +26,24 @@
       <itemPath>GenericPointer.h</itemPath>
       <itemPath>GenericType.cpp</itemPath>
       <itemPath>GenericType.h</itemPath>
+      <itemPath>Iterator.h</itemPath>
       <itemPath>List.h</itemPath>
       <itemPath>Map.h</itemPath>
       <itemPath>PriorityQueue.h</itemPath>
+      <itemPath>Queue.h</itemPath>
       <itemPath>SharedPointer.h</itemPath>
       <itemPath>Time.cpp</itemPath>
       <itemPath>Time.h</itemPath>
       <itemPath>Timer.cpp</itemPath>
       <itemPath>Timer.h</itemPath>
+      <itemPath>Tuple.h</itemPath>
       <itemPath>Types.h</itemPath>
-      <itemPath>const.h</itemPath>
-      <itemPath>conversion.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f1" displayName="Game" projectFiles="true">
       <itemPath>AxisObject.cpp</itemPath>
       <itemPath>AxisObject.h</itemPath>
       <itemPath>BaseObject.cpp</itemPath>
       <itemPath>BaseObject.h</itemPath>
-      <itemPath>Camera.cpp</itemPath>
-      <itemPath>Camera.h</itemPath>
       <itemPath>DataFile.cpp</itemPath>
       <itemPath>DataFile.h</itemPath>
       <itemPath>FirstPersonCamera.cpp</itemPath>
@@ -63,10 +62,8 @@
       <itemPath>Universe.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f6" displayName="Graphics" projectFiles="true">
-      <itemPath>Bitmap.cpp</itemPath>
-      <itemPath>Bitmap.h</itemPath>
-      <itemPath>CameraRenderer.cpp</itemPath>
-      <itemPath>CameraRenderer.h</itemPath>
+      <itemPath>Camera.cpp</itemPath>
+      <itemPath>Camera.h</itemPath>
       <itemPath>Material.cpp</itemPath>
       <itemPath>Material.h</itemPath>
       <itemPath>Mesh.cpp</itemPath>
@@ -79,12 +76,28 @@
       <itemPath>Renderer.h</itemPath>
       <itemPath>ResourceManager.cpp</itemPath>
       <itemPath>ResourceManager.h</itemPath>
+      <itemPath>Texture.cpp</itemPath>
+      <itemPath>Texture.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f2" displayName="GUI" projectFiles="true">
+      <itemPath>Event.cpp</itemPath>
+      <itemPath>Event.h</itemPath>
+      <itemPath>EventHandler.cpp</itemPath>
+      <itemPath>EventHandler.h</itemPath>
+      <itemPath>EventManager.cpp</itemPath>
+      <itemPath>EventManager.h</itemPath>
+      <itemPath>Font2D.cpp</itemPath>
+      <itemPath>Font2D.h</itemPath>
+      <itemPath>GUI.cpp</itemPath>
+      <itemPath>GUI.h</itemPath>
       <itemPath>Input.cpp</itemPath>
       <itemPath>Input.h</itemPath>
       <itemPath>Key.cpp</itemPath>
       <itemPath>Key.h</itemPath>
+      <itemPath>Label.cpp</itemPath>
+      <itemPath>Label.h</itemPath>
+      <itemPath>TextBox.cpp</itemPath>
+      <itemPath>TextBox.h</itemPath>
       <itemPath>Window.cpp</itemPath>
       <itemPath>Window.h</itemPath>
     </logicalFolder>
@@ -113,12 +126,19 @@
     <logicalFolder name="f4" displayName="Thread" projectFiles="true">
       <itemPath>Condition.cpp</itemPath>
       <itemPath>Condition.h</itemPath>
+      <itemPath>Function.h</itemPath>
+      <itemPath>FunctionCall.cpp</itemPath>
+      <itemPath>FunctionCall.h</itemPath>
       <itemPath>Lock.cpp</itemPath>
       <itemPath>Lock.h</itemPath>
+      <itemPath>MemberFunction.h</itemPath>
       <itemPath>SharedLock.cpp</itemPath>
       <itemPath>SharedLock.h</itemPath>
       <itemPath>Thread.cpp</itemPath>
       <itemPath>Thread.h</itemPath>
+      <itemPath>ThreadLoop.cpp</itemPath>
+      <itemPath>ThreadLoop.h</itemPath>
+      <itemPath>ThreadManager.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -173,13 +193,14 @@
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
+        <rebuildPropChanged>true</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
           <incDir>
             <pElem>Include</pElem>
-            <pElem>Include/jpeg</pElem>
           </incDir>
+          <commandLine>-std=gnu++0x</commandLine>
           <warningLevel>2</warningLevel>
         </ccTool>
         <archiverTool>

@@ -23,21 +23,21 @@ CND_PACKAGE_DIR_Release_Linux=dist/Release_Linux/GNU-Linux-x86/package
 CND_PACKAGE_NAME_Release_Linux=skyfire.tar
 CND_PACKAGE_PATH_Release_Linux=dist/Release_Linux/GNU-Linux-x86/package/skyfire.tar
 # Debug_Win32 configuration
-CND_PLATFORM_Debug_Win32=GNU-Windows
-CND_ARTIFACT_DIR_Debug_Win32=dist/Debug_Win32/GNU-Windows
+CND_PLATFORM_Debug_Win32=MinGW-Windows
+CND_ARTIFACT_DIR_Debug_Win32=dist/Debug_Win32/MinGW-Windows
 CND_ARTIFACT_NAME_Debug_Win32=libskyfire.a
-CND_ARTIFACT_PATH_Debug_Win32=dist/Debug_Win32/GNU-Windows/libskyfire.a
-CND_PACKAGE_DIR_Debug_Win32=dist/Debug_Win32/GNU-Windows/package
-CND_PACKAGE_NAME_Debug_Win32=skyfire.tar
-CND_PACKAGE_PATH_Debug_Win32=dist/Debug_Win32/GNU-Windows/package/skyfire.tar
+CND_ARTIFACT_PATH_Debug_Win32=dist/Debug_Win32/MinGW-Windows/libskyfire.a
+CND_PACKAGE_DIR_Debug_Win32=dist/Debug_Win32/MinGW-Windows/package
+CND_PACKAGE_NAME_Debug_Win32=Skyfire.tar
+CND_PACKAGE_PATH_Debug_Win32=dist/Debug_Win32/MinGW-Windows/package/Skyfire.tar
 # Release_Win32 configuration
-CND_PLATFORM_Release_Win32=GNU-Windows
-CND_ARTIFACT_DIR_Release_Win32=dist/Release_Win32/GNU-Windows
+CND_PLATFORM_Release_Win32=MinGW-Windows
+CND_ARTIFACT_DIR_Release_Win32=dist/Release_Win32/MinGW-Windows
 CND_ARTIFACT_NAME_Release_Win32=libskyfire.a
-CND_ARTIFACT_PATH_Release_Win32=dist/Release_Win32/GNU-Windows/libskyfire.a
-CND_PACKAGE_DIR_Release_Win32=dist/Release_Win32/GNU-Windows/package
-CND_PACKAGE_NAME_Release_Win32=skyfire.tar
-CND_PACKAGE_PATH_Release_Win32=dist/Release_Win32/GNU-Windows/package/skyfire.tar
+CND_ARTIFACT_PATH_Release_Win32=dist/Release_Win32/MinGW-Windows/libskyfire.a
+CND_PACKAGE_DIR_Release_Win32=dist/Release_Win32/MinGW-Windows/package
+CND_PACKAGE_NAME_Release_Win32=Skyfire.tar
+CND_PACKAGE_PATH_Release_Win32=dist/Release_Win32/MinGW-Windows/package/Skyfire.tar
 #
 # include compiler specific variables
 #
