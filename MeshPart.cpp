@@ -51,17 +51,27 @@ void MeshPart::draw()
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, this->material->diffuse);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, this->material->specular);
 		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, this->material->shininess);
+		
+		if(this->material->diffuseTexture != 0x0)
+		{
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, this->material->diffuseTexture->getTexture());
+		}
 	}
 
 	// Draw vertices + normals + textures of mesh
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), this->array->position.getPointer());
 	glNormalPointer(GL_FLOAT, sizeof(Vertex), this->array->normal.getPointer());
+	glTexCoordPointer(3, GL_FLOAT, sizeof(Vertex), this->array->texture.getPointer());
 	glDrawArrays(GL_TRIANGLES, 0, this->used);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
+	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
 }
 
@@ -72,11 +82,8 @@ void MeshPart::drawFrame()
 
 	// Draw vertices + normals + textures of mesh
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), this->array->position.getPointer());
-	glNormalPointer(GL_FLOAT, sizeof(Vertex), this->array->normal.getPointer());
 	glDrawArrays(GL_TRIANGLES, 0, this->used);
-	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 

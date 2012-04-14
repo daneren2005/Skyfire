@@ -18,6 +18,8 @@
 #ifndef _TEXTURE_H
 #define	_TEXTURE_H
 
+#include <GL/gl.h>
+
 class Texture
 {
 public:
@@ -27,10 +29,11 @@ public:
 
 	unsigned char* operator[](unsigned long row);
 	unsigned char* getPointer();
+	GLuint getTexture();
 private:
-	int width;
-	int height;
+	int width, height;
 	unsigned char* array;
+	GLuint texture;
 };
 
 #endif	/* _BITMAP_H */

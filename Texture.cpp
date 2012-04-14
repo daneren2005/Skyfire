@@ -24,6 +24,8 @@ Texture::Texture(int width, int height)
 	this->width = width;
 	this->height = height;
 	this->array = new unsigned char[width * height * 3];
+	
+	this->texture = 0;
 }
 
 Texture::Texture(const Texture& orig)
@@ -32,6 +34,7 @@ Texture::Texture(const Texture& orig)
 	this->height = orig.height;
 	this->array = new unsigned char[this->width * this->height * 3];
 	memcpy(this->array, orig.array, width * height * 3);
+	this->texture = orig.texture;
 }
 
 Texture::~Texture()
@@ -47,4 +50,24 @@ unsigned char* Texture::operator[](unsigned long row)
 unsigned char* Texture::getPointer()
 {
 	return this->array;
+}
+
+GLuint Texture::getTexture()
+{
+	if(this->texture == 0)
+	{
+		// Initialize texture
+		glEnable(GL_TEXTURE_2D);
+		glGenTextures(1, &this->texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		// glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, array);
+	}
+	
+	return this->texture;
 }
