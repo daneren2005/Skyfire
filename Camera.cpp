@@ -53,7 +53,7 @@ void Camera::render()
 	glEnable(GL_LIGHT1);
 
 	// Setup light for scene
-	float lightAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
+	float lightAmbient[] = {0.5f, 0.5f, 0.5f, 1.0f};
 	glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
 	float lightSpec[] = {0.9f, 0.9f, 0.9f, 1.0f};
 	glLightfv(GL_LIGHT1, GL_SPECULAR, lightSpec);
