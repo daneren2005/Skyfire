@@ -531,12 +531,12 @@ Texture* ResourceManager::loadJpeg(File file)
 	unsigned char* data = bitmap->getPointer();
 	
 	JSAMPARRAY buffer = new JSAMPROW[1];
-	buffer[0] = data;
+	buffer[0] = data + width * 3 * (height - 1);
 
 	while(cinfo.output_scanline < cinfo.output_height)
-	{		
+	{
 		jpeg_read_scanlines(&cinfo, buffer, 1);
-		buffer[0] += width;
+		buffer[0] -= width;
 	}
 	
 	delete[] buffer;
